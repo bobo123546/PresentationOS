@@ -1,0 +1,10 @@
+{
+  "feature": "C# PowerPoint Native Worker (dynamic COM: open/slide count/export PDF)",
+  "exit_code": 0,
+  "real_output": "build 0 err; unit 4/4; integration PASS slideCount=4 pdfSize=171693 (matches PowerShell COM); negative PASS (missing file -> WORKER_EXCEPTION \"PPTX not found\")",
+  "artifacts": [
+    "D:/PresentationOSData/projects/vs-demo/qa/deck-csharp.pdf",
+    "D:/PresentationOSData/projects/vs-demo/qa/csharp-worker-out.txt"
+  ],
+  "recorded_at": "2026-09-21T18:49:47.582Z"
+}

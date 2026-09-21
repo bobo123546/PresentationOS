@@ -1,2 +1,2 @@
-# Markdown -> PPTX -> PowerPoint Native QA
-node tools/vertical-slice/markdown-to-deck.mjs tools/vertical-slice/sample.md <out>; powershell -File tools/vertical-slice/qa-powerpoint.ps1
+# Vertical Slice v2 (MD -> DeckSpec -> Mechanical QA -> PPTX -> PowerPoint Native QA)
+node tools/vertical-slice/markdown-to-deck.mjs <md> <pptx> <qa>; qa-powerpoint.ps1

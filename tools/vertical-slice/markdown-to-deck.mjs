@@ -1,13 +1,15 @@
-// Vertical Slice：Markdown → DeckSpec → 可编辑 PPTX
-// 用法：node tools/vertical-slice/markdown-to-deck.mjs <input.md> <output.pptx>
-import { readFileSync, mkdirSync } from 'node:fs';
+// Vertical Slice：Markdown → DeckSpec → Mechanical QA → 可编辑 PPTX
+// 用法：node tools/vertical-slice/markdown-to-deck.mjs <input.md> <output.pptx> [qa-report.json]
+import { readFileSync, mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, basename } from 'node:path';
 import { resolveLayout, renderDeck } from '../../kernel/pptx-engine/dist/index.js';
+import { runMechanicalQa } from '../../kernel/mechanical-qa/dist/index.js';
 
 const input = process.argv[2];
 const output = process.argv[3];
+const qaOut = process.argv[4] ?? output.replace(/\.pptx$/i, '.qa.json');
 if (!input || !output) {
-  console.error('usage: node markdown-to-deck.mjs <input.md> <output.pptx>');
+  console.error('usage: node markdown-to-deck.mjs <input.md> <output.pptx> [qa-report.json]');
   process.exit(2);
 }
 
@@ -107,5 +109,25 @@ const resolveRects = (slide) => {
   return rectsCache.get(key);
 };
 
+// Mechanical QA：每页布局几何 + 内容检查（在生成 PPTX 之前）
+const qaRects = [];
+for (const slide of deck.slides) {
+  const rects = resolveRects(slide);
+  const items = [];
+  for (let i = 0; i < slide.blocks.length; i++) {
+    const r = rects.get(`block-${i}`);
+    if (r) items.push({ id: `block-${i}`, ...r });
+  }
+  const r = runMechanicalQa({ pageWidth: 13.33, pageHeight: 7.5, rects: items, blocks: slide.blocks.map((b, i) => ({ id: `block-${i}`, ...b })) });
+  qaRects.push({ slide: slide.id, ok: r.ok, findings: r.findings, checks: r.checks });
+}
+const qaSummary = { total_slides: deck.slides.length, pass: qaRects.every((q) => q.ok), slides: qaRects };
+writeFileSync(qaOut, JSON.stringify(qaSummary, null, 2), 'utf8');
+if (!qaSummary.pass) {
+  console.error('MECHANICAL_QA_FAILED');
+  for (const q of qaRects) if (!q.ok) console.error(q.slide, JSON.stringify(q.findings));
+  process.exit(1);
+}
+
 const res = await renderDeck(deck, { outPath: output, resolveRects });
-console.log(JSON.stringify({ deck: deck.title, slides: res.slideCount, pptx: output }, null, 2));
+console.log(JSON.stringify({ deck: deck.title, slides: res.slideCount, pptx: output, mechanicalQA: qaOut }, null, 2));

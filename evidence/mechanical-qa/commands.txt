@@ -1,0 +1,2 @@
+# Mechanical QA integrated in vertical slice
+node tools/vertical-slice/markdown-to-deck.mjs (runs mechanical QA before render)

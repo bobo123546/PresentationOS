@@ -1,0 +1,9 @@
+{
+  "feature": "Mechanical QA integrated in vertical slice",
+  "exit_code": 0,
+  "real_output": "4/4 slides no findings; pass=true",
+  "artifacts": [
+    "D:/PresentationOSData/projects/vs-demo/qa/mechanical.json"
+  ],
+  "recorded_at": "2026-09-21T18:49:47.582Z"
+}

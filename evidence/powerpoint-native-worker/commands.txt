@@ -1,0 +1,2 @@
+# C# PowerPoint Native Worker (dynamic COM: open/slide count/export PDF)
+dotnet build -c Release; dotnet test PresentationOS.PowerPoint.sln; qa-csharp-worker.ps1; negative test
