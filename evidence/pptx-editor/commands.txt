@@ -1,0 +1,2 @@
+# Existing PPT Editing (OOXML minimal edit, only target slide)
+pnpm -C kernel/pptx-editor test; node tools/pptx-editor/edit-demo.mjs; PowerPoint worker QA

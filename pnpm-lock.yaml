@@ -211,6 +211,19 @@ importers:
         specifier: ^5.6.0
         version: 5.9.3
 
+  kernel/pptx-editor:
+    dependencies:
+      jszip:
+        specifier: ^3.10.1
+        version: 3.10.2
+    devDependencies:
+      '@types/node':
+        specifier: ^22.0.0
+        version: 22.20.4
+      typescript:
+        specifier: ^5.6.0
+        version: 5.9.3
+
   kernel/pptx-engine:
     dependencies:
       pptxgenjs:
@@ -241,6 +254,19 @@ importers:
         version: 5.9.3
 
   kernel/telemetry:
+    devDependencies:
+      '@types/node':
+        specifier: ^22.0.0
+        version: 22.20.4
+      typescript:
+        specifier: ^5.6.0
+        version: 5.9.3
+
+  kernel/template-dna:
+    dependencies:
+      jszip:
+        specifier: ^3.10.1
+        version: 3.10.2
     devDependencies:
       '@types/node':
         specifier: ^22.0.0

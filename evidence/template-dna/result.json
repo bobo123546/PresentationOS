@@ -1,0 +1,9 @@
+{
+  "feature": "Template DNA extraction (colors/fonts/title position/masters/layouts from real PPTX)",
+  "exit_code": 0,
+  "real_output": "2/2 unit PASS; real deck.pptx: 4 slides, colors D1D5DB/111827/F9FAFB/FFFFFF/2563EB, font Segoe UI x13, title pos (0.6,0.35,12.1,0.8)",
+  "artifacts": [
+    "D:/PresentationOSData/projects/vs-demo/qa/template-dna.json"
+  ],
+  "recorded_at": "2026-09-21T18:51:59.221Z"
+}

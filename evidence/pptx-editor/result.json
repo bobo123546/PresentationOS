@@ -1,0 +1,10 @@
+{
+  "feature": "Existing PPT Editing (OOXML minimal edit, only target slide)",
+  "exit_code": 0,
+  "real_output": "4/4 unit PASS; real edit slide3 title -> PowerPoint Native QA PASS slideCount=4 pdfSize=175443 (content changed)",
+  "artifacts": [
+    "D:/PresentationOSData/projects/vs-demo/deck-edited.pptx",
+    "D:/PresentationOSData/projects/vs-demo/qa/deck-edited.pdf"
+  ],
+  "recorded_at": "2026-09-21T18:53:36.507Z"
+}

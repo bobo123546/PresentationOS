@@ -1,0 +1,2 @@
+# Template DNA
+pnpm -C kernel/template-dna test; node tools/template-dna/extract-dna.mjs
