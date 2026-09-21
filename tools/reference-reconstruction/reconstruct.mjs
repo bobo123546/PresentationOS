@@ -49,7 +49,7 @@ writeFileSync(qaOut, JSON.stringify(qaSummary, null, 2), 'utf8');
 if (!qaSummary.pass) { console.error('MECHANICAL_QA_FAILED'); process.exit(1); }
 
 // 4) DNA 驱动渲染
-const res = await renderDeck(deck, { outPath: output, resolveRects, dna: { accent, font } });
+const res = await renderDeck(deck, { outPath: output, resolveRects, dna: { accent, fontFamily: font } });
 console.log(JSON.stringify({
   reference: refPptx,
   dna: { accent, font, topColors: dna.colors.slice(0, 6), slideCount: dna.slideCount },

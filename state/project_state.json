@@ -1,10 +1,10 @@
 {
-  "project_version": "0.1.0",
-  "current_phase": "PHASE_7",
-  "active_task": "PHASE 8-12: Layout Engine / Renderer / Vertical Slice 已打通；下一任务: Mechanical QA + Visual QA 框架",
-  "last_completed_task": "PHASE 7/8/12: Markdown -> PPTX -> PowerPoint Native QA Vertical Slice（slideCount=4 PASS）",
-  "last_successful_build": "2026-09-21T18:35:00-07:00",
-  "last_successful_test": "2026-09-21T18:35:00-07:00",
+  "project_version": "0.2.0",
+  "current_phase": "PHASE_15",
+  "active_task": "TASK-0014 skill-runtime/compiler (DONE)",
+  "last_completed_task": "TASK-0014 skill-runtime/compiler + PHASE 9/10/11/12/13-P0",
+  "last_successful_build": "2026-09-21T19:02:50.097Z",
+  "last_successful_test": "2026-09-21T19:02:50.097Z",
   "completed_phases": {
     "PHASE_0": "环境基线/目录/五文档/state/最小build&test",
     "PHASE_1": "106/106 upstream manifests + SBOM + Grype（13355 包，crit=103 high=1056）",
@@ -19,5 +19,5 @@
   },
   "release_status": "NOT_READY",
   "known_blockers": [],
-  "updated_at": "2026-09-21T18:40:00-07:00"
+  "updated_at": "2026-09-21T19:02:50.097Z"
 }

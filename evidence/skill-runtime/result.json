@@ -1,0 +1,9 @@
+{
+  "feature": "Skill DSL + Runtime (skill.yaml -> validate -> deck.render capability)",
+  "exit_code": 0,
+  "real_output": "7/7 PASS; compiled md-to-pptx.skill.mjs ran ok=true, output PPTX; PowerPoint Native QA PASS slideCount=4 pdfSize=162905",
+  "artifacts": [
+    "D:/PresentationOSData/projects/vs-demo/skill-out.pptx"
+  ],
+  "recorded_at": "2026-09-21T19:02:50.021Z"
+}

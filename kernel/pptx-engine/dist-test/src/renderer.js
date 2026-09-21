@@ -4,20 +4,20 @@ import * as pptxgenNS from 'pptxgenjs';
 // pptxgenjs 为 CJS：NodeNext 下 default 指向类本身
 const PptxGenJS = pptxgenNS.default ?? pptxgenNS;
 const KIND_THEME = {
-    cover: { fill: '1F2937', accent: '60A5FA', font: 'FFFFFF' },
-    toc: { fill: 'FFFFFF', accent: '1F2937', font: '111827' },
-    section: { fill: '111827', accent: 'F59E0B', font: 'FFFFFF' },
-    content: { fill: 'FFFFFF', accent: '2563EB', font: '111827' },
-    data: { fill: 'FFFFFF', accent: '0EA5E9', font: '111827' },
-    quote: { fill: 'F3F4F6', accent: '6B7280', font: '111827' },
-    summary: { fill: 'F8FAFC', accent: '10B981', font: '111827' },
-    ending: { fill: '1F2937', accent: 'F59E0B', font: 'FFFFFF' },
+    cover: { fill: '1F2937', accent: '60A5FA', font: 'FFFFFF', fontFamily: 'Segoe UI' },
+    toc: { fill: 'FFFFFF', accent: '1F2937', font: '111827', fontFamily: 'Segoe UI' },
+    section: { fill: '111827', accent: 'F59E0B', font: 'FFFFFF', fontFamily: 'Segoe UI' },
+    content: { fill: 'FFFFFF', accent: '2563EB', font: '111827', fontFamily: 'Segoe UI' },
+    data: { fill: 'FFFFFF', accent: '0EA5E9', font: '111827', fontFamily: 'Segoe UI' },
+    quote: { fill: 'F3F4F6', accent: '6B7280', font: '111827', fontFamily: 'Segoe UI' },
+    summary: { fill: 'F8FAFC', accent: '10B981', font: '111827', fontFamily: 'Segoe UI' },
+    ending: { fill: '1F2937', accent: 'F59E0B', font: 'FFFFFF', fontFamily: 'Segoe UI' },
 };
 function themeFor(kind, dna) {
     const t = KIND_THEME[kind] ?? KIND_THEME.content;
     if (!dna)
         return t;
-    return { ...t, accent: dna.accent, font: dna.font };
+    return { ...t, accent: dna.accent, fontFamily: dna.fontFamily ?? t.fontFamily };
 }
 export async function renderDeck(deck, opts) {
     const p = new PptxGenJS();
@@ -33,7 +33,7 @@ export async function renderDeck(deck, opts) {
         // 顶部标题条
         s.addText(slide.title, {
             x: 0.6, y: 0.35, w: 12.1, h: 0.8,
-            fontSize: 28, bold: true, color: theme.font, fontFace: 'Segoe UI',
+            fontSize: 28, bold: true, color: theme.font, fontFace: theme.fontFamily,
         });
         s.addShape('rect', { x: 0.6, y: 1.15, w: 1.2, h: 0.06, fill: { color: theme.accent }, line: { color: theme.accent } });
         const rects = opts.resolveRects(slide);
@@ -60,7 +60,7 @@ async function placeBlock(s, block, rect, theme) {
             s.addText(block.text ?? '', {
                 ...base,
                 fontSize: fontSizeFor(block.style), color: theme.font,
-                valign: 'top', fontFace: 'Segoe UI', wrap: true, fit: 'shrink',
+                valign: 'top', fontFace: theme.fontFamily, wrap: true, fit: 'shrink',
             });
             break;
         }

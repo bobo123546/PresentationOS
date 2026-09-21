@@ -1,0 +1,21 @@
+name: md-to-pptx
+version: 0.1.0
+description: 从 Markdown 生成可编辑 PPTX（可选参考模板，自动提取视觉 DNA）
+capability: deck.render
+inputs:
+  - name: markdownPath
+    type: string
+    required: true
+    description: Markdown 输入文件路径
+  - name: output
+    type: string
+    required: false
+    description: 输出 PPTX 路径（默认当前目录）
+  - name: reference
+    type: string
+    required: false
+    description: 参考 PPTX 模板路径（提取配色/字体）
+  - name: title
+    type: string
+    required: false
+    description: Deck 标题（默认取 Markdown 一级标题）

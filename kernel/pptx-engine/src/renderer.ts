@@ -60,25 +60,25 @@ export interface RenderOptions {
   outPath: string;
   /** layout 解析器：slide → Map<blockId, Rect> */
   resolveRects: (slide: DeckSlide) => Map<string, Rect>;
-  /** Template DNA 注入：用参考模板 accent/font 覆盖默认视觉（PHASE 13 P0） */
-  dna?: { accent: string; font: string };
+  /** Template DNA 注入：用参考模板 accent/fontFamily 覆盖默认视觉（PHASE 13 P0） */
+  dna?: { accent: string; fontFamily?: string };
 }
 
-const KIND_THEME: Record<string, { fill: string; accent: string; font: string }> = {
-  cover: { fill: '1F2937', accent: '60A5FA', font: 'FFFFFF' },
-  toc: { fill: 'FFFFFF', accent: '1F2937', font: '111827' },
-  section: { fill: '111827', accent: 'F59E0B', font: 'FFFFFF' },
-  content: { fill: 'FFFFFF', accent: '2563EB', font: '111827' },
-  data: { fill: 'FFFFFF', accent: '0EA5E9', font: '111827' },
-  quote: { fill: 'F3F4F6', accent: '6B7280', font: '111827' },
-  summary: { fill: 'F8FAFC', accent: '10B981', font: '111827' },
-  ending: { fill: '1F2937', accent: 'F59E0B', font: 'FFFFFF' },
+const KIND_THEME: Record<string, { fill: string; accent: string; font: string; fontFamily: string }> = {
+  cover: { fill: '1F2937', accent: '60A5FA', font: 'FFFFFF', fontFamily: 'Segoe UI' },
+  toc: { fill: 'FFFFFF', accent: '1F2937', font: '111827', fontFamily: 'Segoe UI' },
+  section: { fill: '111827', accent: 'F59E0B', font: 'FFFFFF', fontFamily: 'Segoe UI' },
+  content: { fill: 'FFFFFF', accent: '2563EB', font: '111827', fontFamily: 'Segoe UI' },
+  data: { fill: 'FFFFFF', accent: '0EA5E9', font: '111827', fontFamily: 'Segoe UI' },
+  quote: { fill: 'F3F4F6', accent: '6B7280', font: '111827', fontFamily: 'Segoe UI' },
+  summary: { fill: 'F8FAFC', accent: '10B981', font: '111827', fontFamily: 'Segoe UI' },
+  ending: { fill: '1F2937', accent: 'F59E0B', font: 'FFFFFF', fontFamily: 'Segoe UI' },
 };
 
-function themeFor(kind: string, dna?: RenderOptions['dna']): { fill: string; accent: string; font: string } {
+function themeFor(kind: string, dna?: RenderOptions['dna']): { fill: string; accent: string; font: string; fontFamily: string } {
   const t = KIND_THEME[kind] ?? KIND_THEME.content;
   if (!dna) return t;
-  return { ...t, accent: dna.accent, font: dna.font };
+  return { ...t, accent: dna.accent, fontFamily: dna.fontFamily ?? t.fontFamily };
 }
 
 export async function renderDeck(deck: DeckSpec, opts: RenderOptions): Promise<{ path: string; slideCount: number }> {
@@ -95,7 +95,7 @@ export async function renderDeck(deck: DeckSpec, opts: RenderOptions): Promise<{
     // 顶部标题条
     s.addText(slide.title, {
       x: 0.6, y: 0.35, w: 12.1, h: 0.8,
-      fontSize: 28, bold: true, color: theme.font, fontFace: 'Segoe UI',
+      fontSize: 28, bold: true, color: theme.font, fontFace: theme.fontFamily,
     });
     s.addShape('rect', { x: 0.6, y: 1.15, w: 1.2, h: 0.06, fill: { color: theme.accent }, line: { color: theme.accent } });
     const rects = opts.resolveRects(slide);
@@ -118,14 +118,14 @@ function fallbackRect(i: number): Rect {
   return { x: 0.6, y: 1.6 + i * 1.0, w: 12.1, h: 0.8 };
 }
 
-async function placeBlock(s: SlideLike, block: SlideBlock, rect: Rect, theme: { accent: string; font: string }): Promise<void> {
+async function placeBlock(s: SlideLike, block: SlideBlock, rect: Rect, theme: { accent: string; font: string; fontFamily: string }): Promise<void> {
   const base = { x: rect.x, y: rect.y, w: rect.w, h: rect.h } as const;
   switch (block.type) {
     case 'text': {
       s.addText(block.text ?? '', {
         ...base,
         fontSize: fontSizeFor(block.style), color: theme.font,
-        valign: 'top', fontFace: 'Segoe UI', wrap: true, fit: 'shrink',
+        valign: 'top', fontFace: theme.fontFamily, wrap: true, fit: 'shrink',
       });
       break;
     }

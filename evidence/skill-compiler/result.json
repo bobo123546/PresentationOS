@@ -1,0 +1,9 @@
+{
+  "feature": "Skill Compiler (skill.yaml + SKILL.md -> self-contained .skill.mjs)",
+  "exit_code": 0,
+  "real_output": "compiled & executed successfully; fixed REPO_ROOT resolution (package.json name lookup)",
+  "artifacts": [
+    "D:/PresentationOS/skills/md-to-pptx/md-to-pptx.skill.mjs"
+  ],
+  "recorded_at": "2026-09-21T19:02:50.021Z"
+}
