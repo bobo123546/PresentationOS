@@ -60,6 +60,8 @@ export interface RenderOptions {
   outPath: string;
   /** layout 解析器：slide → Map<blockId, Rect> */
   resolveRects: (slide: DeckSlide) => Map<string, Rect>;
+  /** Template DNA 注入：用参考模板 accent/font 覆盖默认视觉（PHASE 13 P0） */
+  dna?: { accent: string; font: string };
 }
 
 const KIND_THEME: Record<string, { fill: string; accent: string; font: string }> = {
@@ -73,6 +75,12 @@ const KIND_THEME: Record<string, { fill: string; accent: string; font: string }>
   ending: { fill: '1F2937', accent: 'F59E0B', font: 'FFFFFF' },
 };
 
+function themeFor(kind: string, dna?: RenderOptions['dna']): { fill: string; accent: string; font: string } {
+  const t = KIND_THEME[kind] ?? KIND_THEME.content;
+  if (!dna) return t;
+  return { ...t, accent: dna.accent, font: dna.font };
+}
+
 export async function renderDeck(deck: DeckSpec, opts: RenderOptions): Promise<{ path: string; slideCount: number }> {
   const p = new PptxGenJS();
   p.defineLayout({ name: 'PRES_16x9', width: 13.33, height: 7.5 });
@@ -81,7 +89,7 @@ export async function renderDeck(deck: DeckSpec, opts: RenderOptions): Promise<{
   p.title = deck.title;
 
   for (const slide of deck.slides) {
-    const theme = KIND_THEME[slide.kind] ?? KIND_THEME.content;
+    const theme = themeFor(slide.kind, opts.dna);
     const s = p.addSlide();
     s.background = { color: theme.fill };
     // 顶部标题条

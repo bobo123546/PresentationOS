@@ -1,0 +1,10 @@
+{
+  "feature": "Reference Reconstruction P0 (template PPTX -> Template DNA -> DNA-driven deck -> PPTX)",
+  "exit_code": 0,
+  "real_output": "accent=2563EB font=Segoe UI from reference; 4 slides; mechanical QA clean; PowerPoint Native QA PASS slideCount=4 pdfSize=162903",
+  "artifacts": [
+    "D:/PresentationOSData/projects/vs-demo/reconstructed.pptx",
+    "D:/PresentationOSData/projects/vs-demo/qa/reconstructed.pdf"
+  ],
+  "recorded_at": "2026-09-21T18:55:54.993Z"
+}

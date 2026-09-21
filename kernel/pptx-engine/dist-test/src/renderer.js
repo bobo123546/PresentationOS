@@ -13,6 +13,12 @@ const KIND_THEME = {
     summary: { fill: 'F8FAFC', accent: '10B981', font: '111827' },
     ending: { fill: '1F2937', accent: 'F59E0B', font: 'FFFFFF' },
 };
+function themeFor(kind, dna) {
+    const t = KIND_THEME[kind] ?? KIND_THEME.content;
+    if (!dna)
+        return t;
+    return { ...t, accent: dna.accent, font: dna.font };
+}
 export async function renderDeck(deck, opts) {
     const p = new PptxGenJS();
     p.defineLayout({ name: 'PRES_16x9', width: 13.33, height: 7.5 });
@@ -21,7 +27,7 @@ export async function renderDeck(deck, opts) {
         p.author = deck.author;
     p.title = deck.title;
     for (const slide of deck.slides) {
-        const theme = KIND_THEME[slide.kind] ?? KIND_THEME.content;
+        const theme = themeFor(slide.kind, opts.dna);
         const s = p.addSlide();
         s.background = { color: theme.fill };
         // 顶部标题条

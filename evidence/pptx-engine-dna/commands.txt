@@ -1,0 +1,2 @@
+# pptx-engine DNA theme injection
+node tools/reference-reconstruction/reconstruct.mjs; PowerPoint worker QA

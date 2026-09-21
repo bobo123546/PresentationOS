@@ -37,6 +37,11 @@ export interface RenderOptions {
     outPath: string;
     /** layout 解析器：slide → Map<blockId, Rect> */
     resolveRects: (slide: DeckSlide) => Map<string, Rect>;
+    /** Template DNA 注入：用参考模板 accent/font 覆盖默认视觉（PHASE 13 P0） */
+    dna?: {
+        accent: string;
+        font: string;
+    };
 }
 export declare function renderDeck(deck: DeckSpec, opts: RenderOptions): Promise<{
     path: string;
