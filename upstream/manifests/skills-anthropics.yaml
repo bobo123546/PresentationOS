@@ -1,0 +1,24 @@
+name: skills-anthropics
+path: "H:\\ppt\\skills-anthropics"
+repository: "https://github.com/anthropics/skills.git"
+commit: "34040c9c568585f6929bedeaad110ad08f079624"
+branch: main
+languages: [unknown]
+runtime: unknown
+license: missing
+entrypoints: []
+build: false
+tests: present
+skill_files: []
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 419
+bytes: 11096155
+size_mb: 10.6
+audited_at: 2026-09-21T17:56:09.054Z

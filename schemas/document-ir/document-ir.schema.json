@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://presentationos.local/schemas/document-ir/1",
+  "title": "DocumentIR",
+  "description": "输入文档解析后的规范化表示（总方案 PHASE 2）",
+  "type": "object",
+  "required": ["schema", "version", "source", "sourceType", "blocks"],
+  "properties": {
+    "schema": { "const": "document-ir" },
+    "version": { "const": "1" },
+    "source": { "type": "string", "minLength": 1 },
+    "sourceType": { "enum": ["markdown", "plaintext", "pdf", "docx", "pptx", "url"] },
+    "blocks": { "type": "array", "items": { "$ref": "#/$defs/block" } }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "block": {
+      "oneOf": [
+        { "$ref": "#/$defs/heading" },
+        { "$ref": "#/$defs/paragraph" },
+        { "$ref": "#/$defs/list" },
+        { "$ref": "#/$defs/table" },
+        { "$ref": "#/$defs/code" },
+        { "$ref": "#/$defs/image" }
+      ]
+    },
+    "heading": {
+      "type": "object",
+      "required": ["type", "level", "text"],
+      "properties": {
+        "type": { "const": "heading" },
+        "level": { "type": "integer", "minimum": 1, "maximum": 6 },
+        "text": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "paragraph": {
+      "type": "object",
+      "required": ["type", "text"],
+      "properties": {
+        "type": { "const": "paragraph" },
+        "text": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "list": {
+      "type": "object",
+      "required": ["type", "ordered", "items"],
+      "properties": {
+        "type": { "const": "list" },
+        "ordered": { "type": "boolean" },
+        "items": { "type": "array", "items": { "type": "string" } }
+      },
+      "additionalProperties": false
+    },
+    "table": {
+      "type": "object",
+      "required": ["type", "headers", "rows"],
+      "properties": {
+        "type": { "const": "table" },
+        "headers": { "type": "array", "items": { "type": "string" } },
+        "rows": { "type": "array", "items": { "type": "array", "items": { "type": "string" } } }
+      },
+      "additionalProperties": false
+    },
+    "code": {
+      "type": "object",
+      "required": ["type", "language", "code"],
+      "properties": {
+        "type": { "const": "code" },
+        "language": { "type": "string" },
+        "code": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "image": {
+      "type": "object",
+      "required": ["type", "src", "caption"],
+      "properties": {
+        "type": { "const": "image" },
+        "src": { "type": "string" },
+        "caption": { "type": "string" }
+      },
+      "additionalProperties": false
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "feature": "106/106 upstream SBOM + Grype scan",
+  "test_command": "powershell -File tools/upstream-auditor/sbom-batch.ps1; node tools/upstream-auditor/aggregate-audit.mjs",
+  "exit_code": 0,
+  "real_output": "106/106 SBOM, 106/106 Grype, 13355 packages, crit=103 high=1056 med=998 low=219",
+  "negative_test": "see module tests (invalid input/unknown capability/timeout cases)",
+  "integration_test": "workspace module chain",
+  "regression_test": "re-run after fixes; all module tests green at record time",
+  "artifacts": [
+    "D:/PresentationOS/upstream/manifests/_registry.json",
+    "D:/PresentationOS/upstream/audits/_audit_summary.json",
+    "D:/PresentationOS/upstream/audits/_vuln_by_project.json"
+  ],
+  "files_changed": [
+    "tools/upstream-auditor/audit.mjs",
+    "tools/upstream-auditor/sbom-batch.ps1",
+    "tools/upstream-auditor/aggregate-audit.mjs",
+    "tools/upstream-auditor/vuln-report.mjs"
+  ],
+  "recorded_at": "2026-09-21T18:40:46.407Z"
+}

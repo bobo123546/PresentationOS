@@ -1,0 +1,24 @@
+name: gpt-image2-ppt-skills
+path: "H:\\ppt\\gpt-image2-ppt-skills"
+repository: "https://github.com/JuneYaooo/gpt-image2-ppt-skills.git"
+commit: "2d57ef8127b83e8232a1be4e9515f0b3cc9fc91e"
+branch: main
+languages: [python]
+runtime: python
+license: present
+entrypoints: []
+build: false
+tests: missing
+skill_files: [SKILL.md]
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 629
+bytes: 28317032
+size_mb: 27.0
+audited_at: 2026-09-21T17:55:41.654Z

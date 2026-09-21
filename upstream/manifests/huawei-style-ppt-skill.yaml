@@ -1,0 +1,24 @@
+name: huawei-style-ppt-skill
+path: "H:\\ppt\\huawei-style-ppt-skill"
+repository: "https://github.com/zuiho-kai/huawei-style-ppt-skill.git"
+commit: "12877ae9357beba06471994366ed7ca69cc947e2"
+branch: master
+languages: [unknown]
+runtime: unknown
+license: present
+entrypoints: []
+build: false
+tests: missing
+skill_files: []
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 25
+bytes: 486082
+size_mb: 0.5
+audited_at: 2026-09-21T17:55:45.084Z

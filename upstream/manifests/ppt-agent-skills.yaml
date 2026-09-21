@@ -1,0 +1,24 @@
+name: ppt-agent-skills
+path: "H:\\ppt\\ppt-agent-skills"
+repository: "https://github.com/sunbigfly/ppt-agent-skills.git"
+commit: "13e353776d0ba774eff7c423cc3e529cfe0adbeb"
+branch: main
+languages: [unknown]
+runtime: unknown
+license: present
+entrypoints: []
+build: false
+tests: missing
+skill_files: [SKILL.md]
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 127
+bytes: 15935801
+size_mb: 15.2
+audited_at: 2026-09-21T17:56:00.061Z

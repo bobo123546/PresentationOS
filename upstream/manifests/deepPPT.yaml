@@ -1,0 +1,24 @@
+name: deepPPT
+path: "H:\\ppt\\deepPPT"
+repository: "https://github.com/jiadizhunine/deepPPT.git"
+commit: "1e4640620ba7b105961eb033aa7528fcd2d38188"
+branch: main
+languages: [typescript/javascript, python]
+runtime: node
+license: present
+entrypoints: []
+build: false
+tests: present
+skill_files: [SKILL.md]
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 67
+bytes: 1720604
+size_mb: 1.6
+audited_at: 2026-09-21T17:55:33.443Z

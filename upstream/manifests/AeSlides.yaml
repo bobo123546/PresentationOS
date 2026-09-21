@@ -1,0 +1,24 @@
+name: AeSlides
+path: "H:\\ppt\\AeSlides"
+repository: "https://github.com/ympan0508/AeSlides"
+commit: "9bfea23dce517127ae271d51cb714d40f87408d3"
+branch: main
+languages: [unknown]
+runtime: unknown
+license: missing
+entrypoints: []
+build: false
+tests: missing
+skill_files: []
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 342
+bytes: 45236214
+size_mb: 43.1
+audited_at: 2026-09-21T17:55:27.949Z

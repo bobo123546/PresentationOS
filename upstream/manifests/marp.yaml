@@ -1,0 +1,24 @@
+name: marp
+path: "H:\\ppt\\marp"
+repository: "https://github.com/marp-team/marp.git"
+commit: aaac2347ec65cd835c0ccd90ba3d866c9a75cb07
+branch: main
+languages: [typescript/javascript, web]
+runtime: node
+license: present
+entrypoints: []
+build: false
+tests: missing
+skill_files: []
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 116
+bytes: 2862609
+size_mb: 2.7
+audited_at: 2026-09-21T17:55:59.428Z

@@ -1,0 +1,24 @@
+name: hunkim-slide-skill
+path: "H:\\ppt\\hunkim-slide-skill"
+repository: "https://github.com/hunkim/slide-skill"
+commit: beae7c4c8ec21241076411a49f7968f862154969
+branch: main
+languages: [unknown]
+runtime: unknown
+license: present
+entrypoints: []
+build: false
+tests: missing
+skill_files: [SKILL.md]
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 6
+bytes: 23267
+size_mb: 0.0
+audited_at: 2026-09-21T17:55:45.179Z

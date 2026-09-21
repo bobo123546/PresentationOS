@@ -1,0 +1,19 @@
+{
+  "feature": "Markdown -> PPTX -> PowerPoint Native QA",
+  "test_command": "node tools/vertical-slice/markdown-to-deck.mjs tools/vertical-slice/sample.md <out>; powershell -File tools/vertical-slice/qa-powerpoint.ps1",
+  "exit_code": 0,
+  "real_output": "PASS: slideCount=4, pdfSize=171693, PowerPoint COM opened OK",
+  "negative_test": "chart column + negative height bugs fixed (see bugs/)",
+  "integration_test": "PowerPoint COM opens generated pptx and exports PDF",
+  "regression_test": "re-run after fixes; all module tests green at record time",
+  "artifacts": [
+    "D:/PresentationOSData/projects/vs-demo/deck.pptx",
+    "D:/PresentationOSData/projects/vs-demo/qa/deck.pdf"
+  ],
+  "files_changed": [
+    "tools/vertical-slice/markdown-to-deck.mjs",
+    "tools/vertical-slice/qa-powerpoint.ps1",
+    "tools/vertical-slice/sample.md"
+  ],
+  "recorded_at": "2026-09-21T18:40:46.407Z"
+}

@@ -1,0 +1,24 @@
+name: PracticalSwan-agent-skills
+path: "H:\\ppt\\PracticalSwan-agent-skills"
+repository: "https://github.com/PracticalSwan/agent-skills"
+commit: ff6d12f61e8250dd1b988e101a482f6adc05c451
+branch: main
+languages: [unknown]
+runtime: unknown
+license: present
+entrypoints: []
+build: false
+tests: present
+skill_files: []
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 2246
+bytes: 20454555
+size_mb: 19.5
+audited_at: 2026-09-21T17:55:30.792Z

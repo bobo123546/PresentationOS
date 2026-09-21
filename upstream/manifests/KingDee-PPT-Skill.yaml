@@ -1,0 +1,24 @@
+name: KingDee-PPT-Skill
+path: "H:\\ppt\\KingDee-PPT-Skill"
+repository: "https://github.com/WayneZhon/KingDee-PPT-Skill"
+commit: "28ca93aadeefc91fcc64152714ddeece15f13e1d"
+branch: main
+languages: [typescript/javascript, web]
+runtime: node
+license: present
+entrypoints: []
+build: false
+tests: missing
+skill_files: [SKILL.md]
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 48
+bytes: 1571180
+size_mb: 1.5
+audited_at: 2026-09-21T17:55:29.884Z

@@ -1,0 +1,24 @@
+name: GenSlide
+path: "H:\\ppt\\GenSlide"
+repository: "https://github.com/mehdimo/GenSlide"
+commit: "3b847fc7432cd6ac3b6652d801768cb36e3bad8d"
+branch: main
+languages: [python]
+runtime: python
+license: present
+entrypoints: []
+build: false
+tests: missing
+skill_files: []
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 26
+bytes: 2044227
+size_mb: 1.9
+audited_at: 2026-09-21T17:55:29.803Z

@@ -1,0 +1,2 @@
+# Environment baseline (Node/pnpm/Rust/.NET/Python/uv/Git/FFmpeg/Chrome)
+n/a (baseline snapshot)

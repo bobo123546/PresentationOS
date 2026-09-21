@@ -1,0 +1,24 @@
+name: PptxGenJS
+path: "H:\\ppt\\PptxGenJS"
+repository: "https://github.com/gitbrent/PptxGenJS.git"
+commit: "3c9ec1b687c174952166f6a34b5e87ebf69fa469"
+branch: master
+languages: [typescript/javascript, web]
+runtime: node
+license: present
+entrypoints: []
+build: false
+tests: present
+skill_files: []
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 163
+bytes: 51008510
+size_mb: 48.6
+audited_at: 2026-09-21T17:55:30.484Z

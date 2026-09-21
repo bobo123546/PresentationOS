@@ -1,0 +1,24 @@
+name: skills-jetbrains
+path: "H:\\ppt\\skills-jetbrains"
+repository: "https://github.com/JetBrains/skills.git"
+commit: e0f258b5cfed145015cb3e48da9a97947f7c4ed7
+branch: main
+languages: [unknown]
+runtime: unknown
+license: missing
+entrypoints: []
+build: false
+tests: present
+skill_files: []
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 1840
+bytes: 13519866
+size_mb: 12.9
+audited_at: 2026-09-21T17:56:09.371Z

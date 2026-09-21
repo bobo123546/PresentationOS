@@ -1,0 +1,24 @@
+name: frontend-slides-editable
+path: "H:\\ppt\\frontend-slides-editable"
+repository: "https://github.com/archlizheng/frontend-slides-editable.git"
+commit: e5663e6a0bdc2c2a673198bab3fb61036a7f20ee
+branch: main
+languages: [typescript/javascript, web]
+runtime: node
+license: present
+entrypoints: []
+build: false
+tests: missing
+skill_files: [SKILL.md]
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 274
+bytes: 33240526
+size_mb: 31.7
+audited_at: 2026-09-21T17:55:41.205Z

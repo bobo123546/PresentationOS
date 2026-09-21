@@ -1,0 +1,2 @@
+# Durable Workflow (SQLite, checkpoint, resume, cancel, pause)
+pnpm -C kernel/durable-workflow test

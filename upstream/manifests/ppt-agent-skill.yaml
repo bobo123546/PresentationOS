@@ -1,0 +1,24 @@
+name: ppt-agent-skill
+path: "H:\\ppt\\ppt-agent-skill"
+repository: "https://github.com/Akxan/ppt-agent-skill"
+commit: "01825dee2ad40a8c719824252605396b9a570d57"
+branch: main
+languages: [unknown]
+runtime: unknown
+license: present
+entrypoints: []
+build: false
+tests: present
+skill_files: [SKILL.md]
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 185
+bytes: 8700930
+size_mb: 8.3
+audited_at: 2026-09-21T17:55:59.968Z

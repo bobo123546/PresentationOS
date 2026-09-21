@@ -1,0 +1,24 @@
+name: icgma-slide-skill
+path: "H:\\ppt\\icgma-slide-skill"
+repository: "https://github.com/icgma/slide-skill.git"
+commit: bf5c64265f4a9c6bc18f2274cf5520d7c8a6169d
+branch: master
+languages: [python]
+runtime: python
+license: present
+entrypoints: []
+build: false
+tests: present
+skill_files: [SKILL.md]
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 534
+bytes: 13496645
+size_mb: 12.9
+audited_at: 2026-09-21T17:55:45.365Z

@@ -1,0 +1,18 @@
+{
+  "feature": "Worker Protocol + Node Worker E2E",
+  "test_command": "node --test tests/e2e/worker-protocol.e2e.mjs",
+  "exit_code": 0,
+  "real_output": "4/4 PASS",
+  "negative_test": "see module tests (invalid input/unknown capability/timeout cases)",
+  "integration_test": "spawn real node worker process",
+  "regression_test": "re-run after fixes; all module tests green at record time",
+  "artifacts": [],
+  "files_changed": [
+    "kernel/worker-protocol/src/protocol.ts",
+    "kernel/worker-protocol/src/spawner.ts",
+    "workers/node-worker/src/worker.ts",
+    "workers/node-worker/src/capabilities/core.ts",
+    "tests/e2e/worker-protocol.e2e.mjs"
+  ],
+  "recorded_at": "2026-09-21T18:40:46.407Z"
+}

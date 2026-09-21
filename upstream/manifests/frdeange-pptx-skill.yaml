@@ -1,0 +1,24 @@
+name: frdeange-pptx-skill
+path: "H:\\ppt\\frdeange-pptx-skill"
+repository: "https://github.com/frdeange/pptx-skill"
+commit: "8d9e60a3545ac8ead8b6aace2c1b73ba368cf80f"
+branch: main
+languages: [typescript/javascript]
+runtime: node
+license: present
+entrypoints: []
+build: false
+tests: missing
+skill_files: [SKILL.md]
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 181
+bytes: 533862
+size_mb: 0.5
+audited_at: 2026-09-21T17:55:40.989Z

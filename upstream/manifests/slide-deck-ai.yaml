@@ -1,0 +1,24 @@
+name: slide-deck-ai
+path: "H:\\ppt\\slide-deck-ai"
+repository: "https://github.com/barun-saha/slide-deck-ai"
+commit: "2e64c64fe19071a9022d70196f9ad191a87f858f"
+branch: main
+languages: [python]
+runtime: python
+license: present
+entrypoints: []
+build: false
+tests: present
+skill_files: []
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 441
+bytes: 3501834
+size_mb: 3.3
+audited_at: 2026-09-21T17:56:10.672Z

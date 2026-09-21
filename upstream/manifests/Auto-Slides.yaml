@@ -1,0 +1,24 @@
+name: Auto-Slides
+path: "H:\\ppt\\Auto-Slides"
+repository: "https://github.com/Westlake-AGI-Lab/Auto-Slides.git"
+commit: d07d547553d91322215f9ee2de24e8346aef2345
+branch: main
+languages: [python]
+runtime: python
+license: present
+entrypoints: []
+build: false
+tests: present
+skill_files: []
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 95
+bytes: 156452264
+size_mb: 149.2
+audited_at: 2026-09-21T17:55:28.131Z

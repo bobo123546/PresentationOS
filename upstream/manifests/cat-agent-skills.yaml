@@ -1,0 +1,24 @@
+name: cat-agent-skills
+path: "H:\\ppt\\cat-agent-skills"
+repository: "https://github.com/microsoft/cat-agent-skills.git"
+commit: "24729fe2228ef92d5fcacf7a96e274dd793b73e2"
+branch: main
+languages: [typescript/javascript]
+runtime: node
+license: present
+entrypoints: []
+build: false
+tests: missing
+skill_files: []
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 920
+bytes: 14599206
+size_mb: 13.9
+audited_at: 2026-09-21T17:55:32.127Z

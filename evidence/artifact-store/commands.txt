@@ -1,0 +1,2 @@
+# Artifact Store (content-addressed, dedupe, index reload)
+pnpm -C kernel/artifact-store test

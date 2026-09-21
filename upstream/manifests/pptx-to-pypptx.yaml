@@ -1,0 +1,24 @@
+name: pptx-to-pypptx
+path: "H:\\ppt\\pptx-to-pypptx"
+repository: "https://github.com/hiyuantang/pptx-to-pypptx"
+commit: "0abb7cad2c7ec769b562335d0b0086e7bbe45ea4"
+branch: main
+languages: [unknown]
+runtime: unknown
+license: present
+entrypoints: []
+build: false
+tests: present
+skill_files: [SKILL.md]
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 44
+bytes: 680234
+size_mb: 0.6
+audited_at: 2026-09-21T17:56:08.302Z

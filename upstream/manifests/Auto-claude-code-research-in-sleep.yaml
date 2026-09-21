@@ -1,0 +1,24 @@
+name: Auto-claude-code-research-in-sleep
+path: "H:\\ppt\\Auto-claude-code-research-in-sleep"
+repository: "https://github.com/wanshuiyin/Auto-claude-code-research-in-sleep.git"
+commit: "341f914024d270dc5c8fa51337d1ad38829273aa"
+branch: main
+languages: [unknown]
+runtime: unknown
+license: present
+entrypoints: []
+build: false
+tests: present
+skill_files: []
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 712
+bytes: 38143992
+size_mb: 36.4
+audited_at: 2026-09-21T17:55:28.295Z

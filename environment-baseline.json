@@ -1,0 +1,45 @@
+{
+    "generated_at":  "2026-09-22T01:43:21+08:00",
+    "host":  {
+                 "gpu_vram_gb":  4,
+                 "cores":  6,
+                 "build":  "26200",
+                 "os":  "Microsoft Windows 11 Home China 10.0.26200",
+                 "install_date":  "\/Date(1786943149000)\/",
+                 "gpu":  "NVIDIA GeForce RTX 3050 Laptop GPU",
+                 "ram_gb":  15.8,
+                 "threads":  12,
+                 "cpu":  "11th Gen Intel(R) Core(TM) i5-11400H @ 2.70GHz"
+             },
+    "disks":  [
+                  {
+                      "device":  "C:",
+                      "total_gb":  237.4,
+                      "free_gb":  36.8
+                  },
+                  {
+                      "device":  "D:",
+                      "total_gb":  237.9,
+                      "free_gb":  63.9
+                  },
+                  {
+                      "device":  "H:",
+                      "total_gb":  230.5,
+                      "free_gb":  34.6
+                  }
+              ],
+    "runtimes":  {
+                     "uv":  "uv 0.12.17 (635500036 2026-09-18 x86_64-pc-windows-msvc)",
+                     "go":  "go version go1.27.0 windows/amd64",
+                     "cargo":  "cargo 1.98.1 (797e8a9bc 2026-08-05)",
+                     "ffmpeg":  "ffmpeg version 9.0.1-full_build-www.gyan.dev Copyright (c) 2000-2026 the FFmpeg developers",
+                     "pnpm":  "12.5.1",
+                     "python":  "Python 3.14.7",
+                     "git":  "git version 2.55.0.windows.5",
+                     "rustc":  "rustc 1.98.1 (48a229cea 2026-09-01)",
+                     "dotnet":  "8.0.425",
+                     "py":  "Python 3.13.15",
+                     "npm":  "10.9.8",
+                     "node":  "v22.23.2"
+                 }
+}

@@ -1,0 +1,24 @@
+name: visual-explainer
+path: "H:\\ppt\\visual-explainer"
+repository: null
+commit: null
+branch: null
+languages: [typescript/javascript]
+runtime: node
+license: present
+entrypoints: []
+build: false
+tests: missing
+skill_files: []
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 44
+bytes: 1603865
+size_mb: 1.5
+audited_at: 2026-09-21T17:56:11.845Z

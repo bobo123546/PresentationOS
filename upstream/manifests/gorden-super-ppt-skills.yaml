@@ -1,0 +1,24 @@
+name: gorden-super-ppt-skills
+path: "H:\\ppt\\gorden-super-ppt-skills"
+repository: "https://github.com/GordenSun/GordenSuperPPTSkills.git"
+commit: "8c05583dab8334182b71738e8dfbbec5c56a1951"
+branch: main
+languages: [unknown]
+runtime: unknown
+license: missing
+entrypoints: []
+build: false
+tests: missing
+skill_files: []
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 62
+bytes: 20576930
+size_mb: 19.6
+audited_at: 2026-09-21T17:55:41.467Z

@@ -1,0 +1,2 @@
+# Schema/IR v1 (DocumentIR/NarrativeIR/DeckSpec/LayoutIR/QA/DesignTokens) + validator
+pnpm -C kernel/schema-validator test

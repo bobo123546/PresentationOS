@@ -1,0 +1,24 @@
+name: visual-cognition-slides
+path: "H:\\ppt\\visual-cognition-slides"
+repository: "https://github.com/edu-ai-builders/visual-cognition-slides.git"
+commit: "83fc4b55f409b6564c9c1b8aee93d3015af2da9c"
+branch: main
+languages: [unknown]
+runtime: unknown
+license: present
+entrypoints: []
+build: false
+tests: missing
+skill_files: [SKILL.md]
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 19
+bytes: 372398
+size_mb: 0.4
+audited_at: 2026-09-21T17:56:11.837Z

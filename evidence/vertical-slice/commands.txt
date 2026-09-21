@@ -1,0 +1,2 @@
+# Markdown -> PPTX -> PowerPoint Native QA
+node tools/vertical-slice/markdown-to-deck.mjs tools/vertical-slice/sample.md <out>; powershell -File tools/vertical-slice/qa-powerpoint.ps1

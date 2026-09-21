@@ -1,0 +1,24 @@
+name: td-skills
+path: "H:\\ppt\\td-skills"
+repository: "https://github.com/treasure-data/td-skills.git"
+commit: "43e66a8f1574644df4cac045872f94bec0502113"
+branch: main
+languages: [unknown]
+runtime: unknown
+license: missing
+entrypoints: []
+build: false
+tests: present
+skill_files: []
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 264
+bytes: 2223183
+size_mb: 2.1
+audited_at: 2026-09-21T17:56:11.561Z

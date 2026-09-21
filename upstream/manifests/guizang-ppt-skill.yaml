@@ -1,0 +1,24 @@
+name: guizang-ppt-skill
+path: "H:\\ppt\\guizang-ppt-skill"
+repository: "https://github.com/op7418/guizang-ppt-skill"
+commit: c91369c449d34755d320a8b81d0734000d99d1ab
+branch: main
+languages: [unknown]
+runtime: unknown
+license: present
+entrypoints: []
+build: false
+tests: missing
+skill_files: [SKILL.md]
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 41
+bytes: 6105988
+size_mb: 5.8
+audited_at: 2026-09-21T17:55:41.750Z

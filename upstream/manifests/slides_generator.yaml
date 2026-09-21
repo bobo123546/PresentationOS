@@ -1,0 +1,24 @@
+name: slides_generator
+path: "H:\\ppt\\slides_generator"
+repository: "https://github.com/ai-forever/slides_generator"
+commit: "5c614a03b014a233270256dac937e216cdff3977"
+branch: main
+languages: [python]
+runtime: python
+license: present
+entrypoints: []
+build: false
+tests: missing
+skill_files: []
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 55
+bytes: 5836983
+size_mb: 5.6
+audited_at: 2026-09-21T17:56:11.175Z

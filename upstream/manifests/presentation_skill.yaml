@@ -1,0 +1,24 @@
+name: presentation_skill
+path: "H:\\ppt\\presentation_skill"
+repository: "https://github.com/grapeot/presentation_skill"
+commit: "8715ae6e7f50b930595668c455f3fad51f70d1db"
+branch: master
+languages: [python]
+runtime: python
+license: present
+entrypoints: []
+build: false
+tests: present
+skill_files: []
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 59
+bytes: 2458019
+size_mb: 2.3
+audited_at: 2026-09-21T17:56:08.470Z

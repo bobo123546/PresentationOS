@@ -1,0 +1,24 @@
+name: jameshemson-slides
+path: "H:\\ppt\\jameshemson-slides"
+repository: "https://github.com/jameshemson/slides.git"
+commit: "245c0e6858df9afe6a3381e36244812f3d2e4452"
+branch: main
+languages: [typescript/javascript]
+runtime: node
+license: present
+entrypoints: []
+build: false
+tests: present
+skill_files: []
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 596
+bytes: 4770457
+size_mb: 4.5
+audited_at: 2026-09-21T17:55:45.617Z

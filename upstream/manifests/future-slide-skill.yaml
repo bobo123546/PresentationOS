@@ -1,0 +1,24 @@
+name: future-slide-skill
+path: "H:\\ppt\\future-slide-skill"
+repository: "https://github.com/bytonylee/future-slide-skill.git"
+commit: "26914e8ee2b874e4bdd07843948b0ca841542c59"
+branch: main
+languages: [unknown]
+runtime: unknown
+license: present
+entrypoints: []
+build: false
+tests: missing
+skill_files: []
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 58
+bytes: 3658057
+size_mb: 3.5
+audited_at: 2026-09-21T17:55:41.290Z

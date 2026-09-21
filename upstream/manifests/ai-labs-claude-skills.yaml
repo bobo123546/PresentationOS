@@ -1,0 +1,24 @@
+name: ai-labs-claude-skills
+path: "H:\\ppt\\ai-labs-claude-skills"
+repository: "https://github.com/ailabs-393/ai-labs-claude-skills.git"
+commit: "1a12bc7aadcc7b211f77a7455db454b77a71f827"
+branch: main
+languages: [typescript/javascript, web]
+runtime: node
+license: present
+entrypoints: []
+build: false
+tests: missing
+skill_files: []
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 631
+bytes: 8136841
+size_mb: 7.8
+audited_at: 2026-09-21T17:55:31.384Z

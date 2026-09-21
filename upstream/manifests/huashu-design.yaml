@@ -1,0 +1,24 @@
+name: huashu-design
+path: "H:\\ppt\\huashu-design"
+repository: "https://github.com/alchaincyf/huashu-design.git"
+commit: "0e842afc1fa4f008071e34ae1df16c66d3f5d18a"
+branch: master
+languages: [typescript/javascript]
+runtime: node
+license: present
+entrypoints: []
+build: false
+tests: present
+skill_files: [SKILL.md]
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 191
+bytes: 33286059
+size_mb: 31.7
+audited_at: 2026-09-21T17:55:44.991Z

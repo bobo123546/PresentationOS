@@ -1,0 +1,24 @@
+name: AutoPresent
+path: "H:\\ppt\\AutoPresent"
+repository: "https://github.com/para-lost/AutoPresent"
+commit: "98e0c012e89469863d9c3c8bc87eac967d82b2e6"
+branch: main
+languages: [python]
+runtime: python
+license: present
+entrypoints: []
+build: false
+tests: missing
+skill_files: []
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 654
+bytes: 40458703
+size_mb: 38.6
+audited_at: 2026-09-21T17:55:28.446Z

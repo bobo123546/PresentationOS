@@ -1,0 +1,24 @@
+name: remotion-video-skill
+path: "H:\\ppt\\remotion-video-skill"
+repository: "https://github.com/wshuyi/remotion-video-skill.git"
+commit: d16ebd9ca330d636cf82bfd33d48ae12df74fadd
+branch: main
+languages: [unknown]
+runtime: unknown
+license: missing
+entrypoints: []
+build: false
+tests: missing
+skill_files: [SKILL.md]
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 6
+bytes: 58299
+size_mb: 0.1
+audited_at: 2026-09-21T17:56:08.716Z

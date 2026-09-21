@@ -1,0 +1,24 @@
+name: easyslides
+path: "H:\\ppt\\easyslides"
+repository: "https://github.com/Rimagination/easyslides.git"
+commit: fe4882b9857712400a4fd4e912174a7504204f28
+branch: main
+languages: [python]
+runtime: python
+license: present
+entrypoints: []
+build: false
+tests: present
+skill_files: [SKILL.md]
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 14282
+bytes: 464206324
+size_mb: 442.7
+audited_at: 2026-09-21T17:55:40.492Z

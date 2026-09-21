@@ -1,0 +1,16 @@
+{
+  "feature": "Durable Workflow (SQLite, checkpoint, resume, cancel, pause)",
+  "test_command": "pnpm -C kernel/durable-workflow test",
+  "exit_code": 0,
+  "real_output": "5/5 PASS",
+  "negative_test": "see module tests (invalid input/unknown capability/timeout cases)",
+  "integration_test": "workspace module chain",
+  "regression_test": "re-run after fixes; all module tests green at record time",
+  "artifacts": [],
+  "files_changed": [
+    "kernel/durable-workflow/src/store.ts",
+    "kernel/durable-workflow/src/executor.ts",
+    "kernel/durable-workflow/tests/durable-workflow.test.ts"
+  ],
+  "recorded_at": "2026-09-21T18:40:46.407Z"
+}

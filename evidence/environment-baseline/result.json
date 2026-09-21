@@ -1,0 +1,14 @@
+{
+  "feature": "Environment baseline (Node/pnpm/Rust/.NET/Python/uv/Git/FFmpeg/Chrome)",
+  "test_command": "n/a (baseline snapshot)",
+  "exit_code": 0,
+  "real_output": "recorded in environment-baseline.json",
+  "negative_test": "see module tests (invalid input/unknown capability/timeout cases)",
+  "integration_test": "workspace module chain",
+  "regression_test": "re-run after fixes; all module tests green at record time",
+  "artifacts": [],
+  "files_changed": [
+    "environment-baseline.json"
+  ],
+  "recorded_at": "2026-09-21T18:40:46.407Z"
+}

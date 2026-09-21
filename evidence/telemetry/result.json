@@ -1,0 +1,18 @@
+{
+  "feature": "Unified Logging (Canonical Event + Redaction + JSONL)",
+  "test_command": "pnpm -C kernel/telemetry test",
+  "exit_code": 0,
+  "real_output": "5/5 PASS",
+  "negative_test": "see module tests (invalid input/unknown capability/timeout cases)",
+  "integration_test": "workspace module chain",
+  "regression_test": "re-run after fixes; all module tests green at record time",
+  "artifacts": [],
+  "files_changed": [
+    "kernel/telemetry/src/events.ts",
+    "kernel/telemetry/src/redact.ts",
+    "kernel/telemetry/src/jsonl.ts",
+    "kernel/telemetry/src/index.ts",
+    "kernel/telemetry/tests/telemetry.test.ts"
+  ],
+  "recorded_at": "2026-09-21T18:40:46.407Z"
+}

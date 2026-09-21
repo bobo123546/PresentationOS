@@ -1,0 +1,24 @@
+name: codex-ppt-skill
+path: "H:\\ppt\\codex-ppt-skill"
+repository: "https://github.com/ningzimu/codex-ppt-skill.git"
+commit: "32221ef8654c87505c846c9a48bb5dbe2a744a67"
+branch: main
+languages: [unknown]
+runtime: unknown
+license: present
+entrypoints: []
+build: false
+tests: present
+skill_files: []
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 104
+bytes: 44870774
+size_mb: 42.8
+audited_at: 2026-09-21T17:55:32.949Z

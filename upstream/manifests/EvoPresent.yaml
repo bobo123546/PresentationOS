@@ -1,0 +1,24 @@
+name: EvoPresent
+path: "H:\\ppt\\EvoPresent"
+repository: "https://github.com/UCSB-AI/EvoPresent.git"
+commit: "971e37ba073abf7124785334bd44661b42145f56"
+branch: main
+languages: [unknown]
+runtime: unknown
+license: present
+entrypoints: []
+build: false
+tests: missing
+skill_files: []
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 582
+bytes: 51667487
+size_mb: 49.3
+audited_at: 2026-09-21T17:55:29.725Z

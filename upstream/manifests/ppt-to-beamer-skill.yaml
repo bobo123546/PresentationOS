@@ -1,0 +1,24 @@
+name: ppt-to-beamer-skill
+path: "H:\\ppt\\ppt-to-beamer-skill"
+repository: "https://github.com/wenlzhang/ppt-to-beamer-skill"
+commit: "63e7134cbc2d3467627e947da152649d6d75bdc0"
+branch: main
+languages: [unknown]
+runtime: unknown
+license: present
+entrypoints: []
+build: false
+tests: missing
+skill_files: [SKILL.md]
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 9
+bytes: 62916
+size_mb: 0.1
+audited_at: 2026-09-21T17:56:07.202Z

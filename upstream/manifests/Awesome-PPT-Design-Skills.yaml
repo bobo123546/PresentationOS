@@ -1,0 +1,24 @@
+name: Awesome-PPT-Design-Skills
+path: "H:\\ppt\\Awesome-PPT-Design-Skills"
+repository: "https://github.com/software-ai-life/Awesome-PPT-Design-Skills"
+commit: "75273f06172d1b174ee4a19cec6a875377924559"
+branch: main
+languages: [unknown]
+runtime: unknown
+license: missing
+entrypoints: []
+build: false
+tests: missing
+skill_files: []
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 59
+bytes: 539248
+size_mb: 0.5
+audited_at: 2026-09-21T17:55:28.529Z

@@ -1,0 +1,24 @@
+name: PPTAgent
+path: "H:\\ppt\\PPTAgent"
+repository: "https://github.com/icip-cas/PPTAgent"
+commit: "833cda553b343be0e486a93b0b57cac962cdd566"
+branch: main
+languages: [unknown]
+runtime: unknown
+license: present
+entrypoints: []
+build: false
+tests: missing
+skill_files: []
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 36
+bytes: 8551037
+size_mb: 8.2
+audited_at: 2026-09-21T17:55:30.308Z

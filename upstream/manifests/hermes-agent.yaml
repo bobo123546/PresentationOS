@@ -1,0 +1,24 @@
+name: hermes-agent
+path: "H:\\ppt\\hermes-agent"
+repository: "https://github.com/nousresearch/hermes-agent.git"
+commit: "274bc7b8f613c299b4f59160bacf8a19010f7003"
+branch: main
+languages: [typescript/javascript, python]
+runtime: node
+license: present
+entrypoints: []
+build: false
+tests: present
+skill_files: []
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 14692
+bytes: 183776780
+size_mb: 175.3
+audited_at: 2026-09-21T17:55:44.515Z

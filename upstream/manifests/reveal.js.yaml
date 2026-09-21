@@ -1,0 +1,24 @@
+name: reveal.js
+path: "H:\\ppt\\reveal.js"
+repository: "https://github.com/hakimel/reveal.js.git"
+commit: f8c9ec3bb3b288e061b166fba5e4975920dd5cd4
+branch: master
+languages: [typescript/javascript, web]
+runtime: node
+license: present
+entrypoints: []
+build: false
+tests: present
+skill_files: []
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 230
+bytes: 11825166
+size_mb: 11.3
+audited_at: 2026-09-21T17:56:08.831Z

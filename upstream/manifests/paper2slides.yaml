@@ -1,0 +1,24 @@
+name: paper2slides
+path: "H:\\ppt\\paper2slides"
+repository: "https://github.com/HKUDS/Paper2Slides"
+commit: "0785051d1f52814097e94c44751e3f12b83f7c8a"
+branch: main
+languages: [python]
+runtime: python
+license: present
+entrypoints: []
+build: false
+tests: missing
+skill_files: []
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 102
+bytes: 20716745
+size_mb: 19.8
+audited_at: 2026-09-21T17:55:59.868Z

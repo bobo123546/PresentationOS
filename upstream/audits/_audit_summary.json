@@ -1,0 +1,885 @@
+{
+  "generated_at": "2026-09-21T18:39:46.221Z",
+  "total": 106,
+  "with_sbom": 0,
+  "packages_total": 13355,
+  "vulnerabilities": {
+    "critical": 103,
+    "high": 1056,
+    "medium": 998,
+    "low": 219,
+    "negligible": 0,
+    "unknown": 3
+  },
+  "projects": [
+    {
+      "name": "AeSlides",
+      "packages": 0,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    },
+    {
+      "name": "agent-skills",
+      "packages": 117,
+      "vulnerabilities": 16,
+      "by_severity": {
+        "high": 13,
+        "medium": 3
+      },
+      "grype_status": "ok"
+    },
+    {
+      "name": "ai-labs-claude-skills",
+      "packages": 0,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    },
+    {
+      "name": "ArcDeck",
+      "packages": 0,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    },
+    {
+      "name": "Auto-claude-code-research-in-sleep",
+      "packages": 7,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    },
+    {
+      "name": "Auto-Slides",
+      "packages": 25,
+      "vulnerabilities": 56,
+      "by_severity": {
+        "critical": 1,
+        "high": 28,
+        "medium": 20,
+        "low": 7
+      },
+      "grype_status": "ok"
+    },
+    {
+      "name": "autoppt",
+      "packages": 5,
+      "vulnerabilities": 2,
+      "by_severity": {
+        "high": 1,
+        "low": 1
+      },
+      "grype_status": "ok"
+    },
+    {
+      "name": "AutoPresent",
+      "packages": 1,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    },
+    {
+      "name": "Awesome-PPT-Design-Skills",
+      "packages": 0,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    },
+    {
+      "name": "banana-slides",
+      "packages": 400,
+      "vulnerabilities": 121,
+      "by_severity": {
+        "medium": 54,
+        "high": 56,
+        "low": 10,
+        "critical": 1
+      },
+      "grype_status": "ok"
+    },
+    {
+      "name": "baoyu-skills",
+      "packages": 1144,
+      "vulnerabilities": 134,
+      "by_severity": {
+        "high": 65,
+        "medium": 55,
+        "low": 14
+      },
+      "grype_status": "ok"
+    },
+    {
+      "name": "beautiful-html-templates",
+      "packages": 0,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    },
+    {
+      "name": "blcaptain-ppt-skill",
+      "packages": 0,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    },
+    {
+      "name": "Brusdeylins-ppt-skill",
+      "packages": 129,
+      "vulnerabilities": 17,
+      "by_severity": {
+        "high": 15,
+        "medium": 2
+      },
+      "grype_status": "ok"
+    },
+    {
+      "name": "cat-agent-skills",
+      "packages": 299,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    },
+    {
+      "name": "cerase-ai-pptx-skill",
+      "packages": 0,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    },
+    {
+      "name": "claude-code",
+      "packages": 0,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    },
+    {
+      "name": "claude-codex-settings",
+      "packages": 303,
+      "vulnerabilities": 10,
+      "by_severity": {
+        "high": 5,
+        "medium": 4,
+        "critical": 1
+      },
+      "grype_status": "ok"
+    },
+    {
+      "name": "claude-office-skills",
+      "packages": 398,
+      "vulnerabilities": 125,
+      "by_severity": {
+        "high": 69,
+        "medium": 49,
+        "low": 7
+      },
+      "grype_status": "ok"
+    },
+    {
+      "name": "claude-pptx-skill",
+      "packages": 0,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    },
+    {
+      "name": "claude-skill-pptx",
+      "packages": 0,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    },
+    {
+      "name": "codex-ppt",
+      "packages": 20,
+      "vulnerabilities": 2,
+      "by_severity": {
+        "high": 2
+      },
+      "grype_status": "ok"
+    },
+    {
+      "name": "codex-ppt-skill",
+      "packages": 4,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    },
+    {
+      "name": "dash-persona",
+      "packages": 267,
+      "vulnerabilities": 53,
+      "by_severity": {
+        "high": 31,
+        "critical": 2,
+        "medium": 17,
+        "low": 3
+      },
+      "grype_status": "ok"
+    },
+    {
+      "name": "dashi-ppt",
+      "packages": 27,
+      "vulnerabilities": 2,
+      "by_severity": {
+        "high": 2
+      },
+      "grype_status": "ok"
+    },
+    {
+      "name": "deepPPT",
+      "packages": 23,
+      "vulnerabilities": 2,
+      "by_severity": {
+        "high": 2
+      },
+      "grype_status": "ok"
+    },
+    {
+      "name": "DeepSlides",
+      "packages": 0,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    },
+    {
+      "name": "easyslides",
+      "packages": 4,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    },
+    {
+      "name": "elephant.ai",
+      "packages": 1857,
+      "vulnerabilities": 314,
+      "by_severity": {
+        "high": 123,
+        "critical": 18,
+        "medium": 143,
+        "low": 27,
+        "unknown": 3
+      },
+      "grype_status": "ok"
+    },
+    {
+      "name": "EvoPresent",
+      "packages": 578,
+      "vulnerabilities": 508,
+      "by_severity": {
+        "critical": 36,
+        "high": 192,
+        "medium": 219,
+        "low": 61
+      },
+      "grype_status": "ok"
+    },
+    {
+      "name": "frdeange-pptx-skill",
+      "packages": 51,
+      "vulnerabilities": 4,
+      "by_severity": {
+        "high": 4
+      },
+      "grype_status": "ok"
+    },
+    {
+      "name": "frontend-slides-editable",
+      "packages": 26,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    },
+    {
+      "name": "frontend-slides",
+      "packages": 0,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    },
+    {
+      "name": "future-slide-skill",
+      "packages": 16,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    },
+    {
+      "name": "GenSlide",
+      "packages": 14,
+      "vulnerabilities": 56,
+      "by_severity": {
+        "medium": 36,
+        "high": 17,
+        "low": 3
+      },
+      "grype_status": "ok"
+    },
+    {
+      "name": "gorden-ppt-skill",
+      "packages": 0,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    },
+    {
+      "name": "gorden-super-ppt-skills",
+      "packages": 0,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    },
+    {
+      "name": "gpt-image2-ppt-skills",
+      "packages": 0,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    },
+    {
+      "name": "guizang-ppt-skill",
+      "packages": 2,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    },
+    {
+      "name": "hermes-agent",
+      "packages": 2782,
+      "vulnerabilities": 27,
+      "by_severity": {
+        "high": 14,
+        "medium": 10,
+        "low": 2,
+        "critical": 1
+      },
+      "grype_status": "ok"
+    },
+    {
+      "name": "high-quality-slides",
+      "packages": 0,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    },
+    {
+      "name": "html-ppt-skill",
+      "packages": 0,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    },
+    {
+      "name": "html-to-editable-pptx",
+      "packages": 0,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    },
+    {
+      "name": "huashu-design",
+      "packages": 56,
+      "vulnerabilities": 4,
+      "by_severity": {
+        "high": 4
+      },
+      "grype_status": "ok"
+    },
+    {
+      "name": "huawei-style-ppt-skill",
+      "packages": 0,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    },
+    {
+      "name": "hunkim-slide-skill",
+      "packages": 0,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    },
+    {
+      "name": "icgma-slide-skill",
+      "packages": 0,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    },
+    {
+      "name": "image-ppt-king",
+      "packages": 40,
+      "vulnerabilities": 4,
+      "by_severity": {
+        "high": 4
+      },
+      "grype_status": "ok"
+    },
+    {
+      "name": "jameshemson-slides",
+      "packages": 3,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    },
+    {
+      "name": "KingDee-PPT-Skill",
+      "packages": 0,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    },
+    {
+      "name": "knowledge-cat-ppt-skill",
+      "packages": 2,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    },
+    {
+      "name": "lgwanai-ppt-skill",
+      "packages": 0,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    },
+    {
+      "name": "marketplace",
+      "packages": 1435,
+      "vulnerabilities": 96,
+      "by_severity": {
+        "medium": 35,
+        "critical": 4,
+        "high": 49,
+        "low": 8
+      },
+      "grype_status": "ok"
+    },
+    {
+      "name": "marp",
+      "packages": 906,
+      "vulnerabilities": 140,
+      "by_severity": {
+        "critical": 5,
+        "medium": 57,
+        "high": 71,
+        "low": 7
+      },
+      "grype_status": "ok"
+    },
+    {
+      "name": "Mck-ppt-design-skill",
+      "packages": 0,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    },
+    {
+      "name": "next-slide",
+      "packages": 0,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    },
+    {
+      "name": "open-slide",
+      "packages": 947,
+      "vulnerabilities": 36,
+      "by_severity": {
+        "high": 18,
+        "medium": 16,
+        "low": 2
+      },
+      "grype_status": "ok"
+    },
+    {
+      "name": "paper-collage-ppt",
+      "packages": 4,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    },
+    {
+      "name": "paper2slides",
+      "packages": 35,
+      "vulnerabilities": 38,
+      "by_severity": {
+        "high": 15,
+        "medium": 19,
+        "low": 4
+      },
+      "grype_status": "ok"
+    },
+    {
+      "name": "Powerpoint-fancy-design",
+      "packages": 23,
+      "vulnerabilities": 2,
+      "by_severity": {
+        "high": 2
+      },
+      "grype_status": "ok"
+    },
+    {
+      "name": "ppt-agent-skill",
+      "packages": 0,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    },
+    {
+      "name": "ppt-agent-skills",
+      "packages": 0,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    },
+    {
+      "name": "ppt-agent-workflow-san",
+      "packages": 43,
+      "vulnerabilities": 14,
+      "by_severity": {
+        "high": 6,
+        "medium": 6,
+        "low": 2
+      },
+      "grype_status": "ok"
+    },
+    {
+      "name": "ppt-master",
+      "packages": 0,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    },
+    {
+      "name": "PPT-sense-deck-skill",
+      "packages": 0,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    },
+    {
+      "name": "PPT-Skill",
+      "packages": 0,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    },
+    {
+      "name": "ppt-skills",
+      "packages": 0,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    },
+    {
+      "name": "ppt-svg-generator",
+      "packages": 0,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    },
+    {
+      "name": "ppt-to-beamer-skill",
+      "packages": 0,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    },
+    {
+      "name": "PPT-Translator-Formatting-Intact-with-LLMs",
+      "packages": 0,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    },
+    {
+      "name": "PPTAgent",
+      "packages": 76,
+      "vulnerabilities": 4,
+      "by_severity": {
+        "high": 4
+      },
+      "grype_status": "ok"
+    },
+    {
+      "name": "pptskill",
+      "packages": 0,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    },
+    {
+      "name": "pptx-gen",
+      "packages": 46,
+      "vulnerabilities": 3,
+      "by_severity": {
+        "high": 3
+      },
+      "grype_status": "ok"
+    },
+    {
+      "name": "pptx-to-pypptx",
+      "packages": 0,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    },
+    {
+      "name": "pptx.skill",
+      "packages": 0,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    },
+    {
+      "name": "PptxGenJS",
+      "packages": 64,
+      "vulnerabilities": 6,
+      "by_severity": {
+        "high": 6
+      },
+      "grype_status": "ok"
+    },
+    {
+      "name": "PracticalSwan-agent-skills",
+      "packages": 145,
+      "vulnerabilities": 14,
+      "by_severity": {
+        "critical": 1,
+        "high": 7,
+        "medium": 6
+      },
+      "grype_status": "ok"
+    },
+    {
+      "name": "presentation_skill",
+      "packages": 5,
+      "vulnerabilities": 12,
+      "by_severity": {
+        "high": 7,
+        "medium": 4,
+        "low": 1
+      },
+      "grype_status": "ok"
+    },
+    {
+      "name": "python-pptx",
+      "packages": 5,
+      "vulnerabilities": 4,
+      "by_severity": {
+        "medium": 4
+      },
+      "grype_status": "ok"
+    },
+    {
+      "name": "remotion-video-skill",
+      "packages": 0,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    },
+    {
+      "name": "reveal.js",
+      "packages": 10,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    },
+    {
+      "name": "revealjs-skill",
+      "packages": 0,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    },
+    {
+      "name": "skills-anthropics",
+      "packages": 0,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    },
+    {
+      "name": "skills-jetbrains",
+      "packages": 13,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    },
+    {
+      "name": "skills-minimax",
+      "packages": 0,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    },
+    {
+      "name": "skills-openai",
+      "packages": 0,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    },
+    {
+      "name": "skills-slides",
+      "packages": 4,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    },
+    {
+      "name": "skills-slidespeak",
+      "packages": 0,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    },
+    {
+      "name": "skills-terminalskills",
+      "packages": 0,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    },
+    {
+      "name": "slide-creator",
+      "packages": 0,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    },
+    {
+      "name": "slide-deck-ai",
+      "packages": 16,
+      "vulnerabilities": 1,
+      "by_severity": {
+        "low": 1
+      },
+      "grype_status": "ok"
+    },
+    {
+      "name": "slide-writer",
+      "packages": 0,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    },
+    {
+      "name": "SlideCoder",
+      "packages": 4,
+      "vulnerabilities": 35,
+      "by_severity": {
+        "critical": 1,
+        "high": 8,
+        "medium": 19,
+        "low": 7
+      },
+      "grype_status": "ok"
+    },
+    {
+      "name": "slidedown",
+      "packages": 0,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    },
+    {
+      "name": "SlideGen",
+      "packages": 565,
+      "vulnerabilities": 466,
+      "by_severity": {
+        "critical": 32,
+        "high": 185,
+        "medium": 198,
+        "low": 51
+      },
+      "grype_status": "ok"
+    },
+    {
+      "name": "slidemd",
+      "packages": 0,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    },
+    {
+      "name": "slides-skill",
+      "packages": 6,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    },
+    {
+      "name": "slides-skills",
+      "packages": 4,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    },
+    {
+      "name": "slides_generator",
+      "packages": 1,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    },
+    {
+      "name": "slides_maker",
+      "packages": 3,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    },
+    {
+      "name": "SlideTailor",
+      "packages": 2,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    },
+    {
+      "name": "slidev",
+      "packages": 35,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    },
+    {
+      "name": "td-skills",
+      "packages": 98,
+      "vulnerabilities": 40,
+      "by_severity": {
+        "high": 19,
+        "medium": 20,
+        "low": 1
+      },
+      "grype_status": "ok"
+    },
+    {
+      "name": "video-shotcraft",
+      "packages": 260,
+      "vulnerabilities": 11,
+      "by_severity": {
+        "high": 9,
+        "medium": 2
+      },
+      "grype_status": "ok"
+    },
+    {
+      "name": "visual-cognition-slides",
+      "packages": 0,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    },
+    {
+      "name": "visual-explainer",
+      "packages": 0,
+      "vulnerabilities": 0,
+      "by_severity": {},
+      "grype_status": "ok"
+    }
+  ]
+}

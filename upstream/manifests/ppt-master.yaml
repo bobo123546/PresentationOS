@@ -1,0 +1,24 @@
+name: ppt-master
+path: "H:\\ppt\\ppt-master"
+repository: "https://github.com/hugohe3/ppt-master.git"
+commit: "2a05498f4303229abf52d8fbded8c2d66dde544f"
+branch: main
+languages: [python, web]
+runtime: python
+license: present
+entrypoints: []
+build: false
+tests: missing
+skill_files: []
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 13077
+bytes: 120721916
+size_mb: 115.1
+audited_at: 2026-09-21T17:56:07.029Z

@@ -1,0 +1,24 @@
+name: revealjs-skill
+path: "H:\\ppt\\revealjs-skill"
+repository: "https://github.com/ryanbbrown/revealjs-skill.git"
+commit: d0ccd344c4aaf9f045e5a15be6a2ab67b595796f
+branch: main
+languages: [typescript/javascript]
+runtime: node
+license: present
+entrypoints: []
+build: false
+tests: missing
+skill_files: []
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 34
+bytes: 2162213
+size_mb: 2.1
+audited_at: 2026-09-21T17:56:08.920Z

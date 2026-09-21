@@ -1,0 +1,24 @@
+name: codex-ppt
+path: "H:\\ppt\\codex-ppt"
+repository: "https://github.com/qybaihe/codex-ppt.git"
+commit: d743a07482a8ad3a1453d3e67f2bc678d171d1c2
+branch: main
+languages: [typescript/javascript, python]
+runtime: node
+license: present
+entrypoints: []
+build: false
+tests: missing
+skill_files: [SKILL.md]
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 31
+bytes: 37282391
+size_mb: 35.6
+audited_at: 2026-09-21T17:55:32.859Z

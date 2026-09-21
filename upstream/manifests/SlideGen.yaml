@@ -1,0 +1,24 @@
+name: SlideGen
+path: "H:\\ppt\\SlideGen"
+repository: "https://github.com/Y-Research-SBU/SlideGen"
+commit: f9416e4c99e83dfe368d26bb8c74e02889da8b3a
+branch: main
+languages: [python]
+runtime: python
+license: present
+entrypoints: []
+build: false
+tests: missing
+skill_files: []
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 476
+bytes: 205900619
+size_mb: 196.4
+audited_at: 2026-09-21T17:55:31.033Z

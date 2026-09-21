@@ -1,0 +1,24 @@
+name: blcaptain-ppt-skill
+path: "H:\\ppt\\blcaptain-ppt-skill"
+repository: "https://github.com/dososo/blcaptain-ppt-skill.git"
+commit: "0689d19ccf0d94a3f04fcb2f7945b2ee15cb2bb8"
+branch: main
+languages: [typescript/javascript]
+runtime: node
+license: present
+entrypoints: []
+build: false
+tests: missing
+skill_files: [SKILL.md]
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 85
+bytes: 15304046
+size_mb: 14.6
+audited_at: 2026-09-21T17:55:31.930Z

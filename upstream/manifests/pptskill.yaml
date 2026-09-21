@@ -1,0 +1,24 @@
+name: pptskill
+path: "H:\\ppt\\pptskill"
+repository: "https://github.com/DmcforSpc/pptskill"
+commit: "07eeaadcb04c32c9adb107eb5c8608e6be4e1008"
+branch: main
+languages: [typescript/javascript]
+runtime: node
+license: present
+entrypoints: []
+build: false
+tests: present
+skill_files: []
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 459
+bytes: 151599315
+size_mb: 144.6
+audited_at: 2026-09-21T17:56:07.342Z

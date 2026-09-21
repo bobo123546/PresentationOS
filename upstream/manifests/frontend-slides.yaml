@@ -1,0 +1,24 @@
+name: frontend-slides
+path: "H:\\ppt\\frontend-slides"
+repository: "https://github.com/zarazhangrui/frontend-slides.git"
+commit: "9906a34d640d2111f724544cbc50f7f130569ae1"
+branch: main
+languages: [web]
+runtime: unknown
+license: present
+entrypoints: []
+build: false
+tests: missing
+skill_files: [SKILL.md]
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 163
+bytes: 3583124
+size_mb: 3.4
+audited_at: 2026-09-21T17:55:41.091Z

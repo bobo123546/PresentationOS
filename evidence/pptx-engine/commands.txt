@@ -1,0 +1,2 @@
+# PPTX Engine (Layout Engine + PptxGenJS renderer)
+pnpm -C kernel/pptx-engine test

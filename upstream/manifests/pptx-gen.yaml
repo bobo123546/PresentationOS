@@ -1,0 +1,24 @@
+name: pptx-gen
+path: "H:\\ppt\\pptx-gen"
+repository: "https://github.com/alfonsograziano/pptx-gen.git"
+commit: "71b1f5d4c27aa130407ce0d4b30cccc642a03afe"
+branch: master
+languages: [typescript/javascript]
+runtime: node
+license: present
+entrypoints: []
+build: false
+tests: present
+skill_files: []
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 2330
+bytes: 4081780
+size_mb: 3.9
+audited_at: 2026-09-21T17:56:08.214Z

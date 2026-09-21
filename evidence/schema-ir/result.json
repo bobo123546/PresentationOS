@@ -1,0 +1,20 @@
+{
+  "feature": "Schema/IR v1 (DocumentIR/NarrativeIR/DeckSpec/LayoutIR/QA/DesignTokens) + validator",
+  "test_command": "pnpm -C kernel/schema-validator test",
+  "exit_code": 0,
+  "real_output": "7/7 PASS",
+  "negative_test": "see module tests (invalid input/unknown capability/timeout cases)",
+  "integration_test": "workspace module chain",
+  "regression_test": "re-run after fixes; all module tests green at record time",
+  "artifacts": [],
+  "files_changed": [
+    "schemas/document-ir/document-ir.schema.json",
+    "schemas/narrative-ir/narrative-ir.schema.json",
+    "schemas/presentation-ir/deck-spec.schema.json",
+    "schemas/layout-ir/layout-ir.schema.json",
+    "schemas/qa/qa-report.schema.json",
+    "schemas/design-token/design-token.schema.json",
+    "kernel/schema-validator/src/index.ts"
+  ],
+  "recorded_at": "2026-09-21T18:40:46.407Z"
+}

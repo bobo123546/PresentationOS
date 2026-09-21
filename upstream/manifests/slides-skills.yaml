@@ -1,0 +1,24 @@
+name: slides-skills
+path: "H:\\ppt\\slides-skills"
+repository: "https://github.com/yugasun/slides-skills.git"
+commit: "5c0db58508469f7973e212e7d261ed2d1c0ceb03"
+branch: main
+languages: [unknown]
+runtime: unknown
+license: present
+entrypoints: []
+build: false
+tests: missing
+skill_files: []
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 134
+bytes: 3812872
+size_mb: 3.6
+audited_at: 2026-09-21T17:56:11.093Z

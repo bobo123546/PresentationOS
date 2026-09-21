@@ -1,0 +1,17 @@
+﻿# PresentationOS .gitignore
+node_modules/
+dist/
+build/
+target/
+bin/
+obj/
+__pycache__/
+*.pyc
+.venv/
+venv/
+.env
+*.log
+.DS_Store
+Thumbs.db
+state/*.tmp
+D:/PresentationOSData/

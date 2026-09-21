@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://presentationos.local/schemas/narrative-ir/1",
+  "title": "NarrativeIR",
+  "description": "叙事计划：主题→受众→核心信息→故事线→章节（总方案 PHASE 2）",
+  "type": "object",
+  "required": ["schema", "version", "topic", "audience", "coreMessage", "storyArc"],
+  "properties": {
+    "schema": { "const": "narrative-ir" },
+    "version": { "const": "1" },
+    "topic": { "type": "string", "minLength": 1 },
+    "audience": { "type": "string" },
+    "coreMessage": { "type": "string", "minLength": 1 },
+    "storyArc": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/section" }
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "section": {
+      "type": "object",
+      "required": ["id", "title", "intent", "points"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^sec-[0-9]+$" },
+        "title": { "type": "string" },
+        "intent": { "enum": ["hook", "context", "problem", "solution", "evidence", "action", "summary"] },
+        "points": { "type": "array", "items": { "type": "string" }, "minItems": 1 }
+      },
+      "additionalProperties": false
+    }
+  }
+}

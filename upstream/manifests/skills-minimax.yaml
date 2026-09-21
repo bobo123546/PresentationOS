@@ -1,0 +1,24 @@
+name: skills-minimax
+path: "H:\\ppt\\skills-minimax"
+repository: "https://github.com/MiniMax-AI/skills.git"
+commit: "60aaae52bb2af8162732751a4332f62a5fef518b"
+branch: main
+languages: [unknown]
+runtime: unknown
+license: present
+entrypoints: []
+build: false
+tests: missing
+skill_files: []
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 393
+bytes: 14262598
+size_mb: 13.6
+audited_at: 2026-09-21T17:56:09.496Z

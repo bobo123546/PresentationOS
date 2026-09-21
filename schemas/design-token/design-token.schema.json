@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://presentationos.local/schemas/design-token/1",
+  "title": "DesignTokens",
+  "description": "设计令牌：颜色/字体/间距/圆角等（总方案 PHASE 2）",
+  "type": "object",
+  "required": ["schema", "version", "colors", "fonts"],
+  "properties": {
+    "schema": { "const": "design-token" },
+    "version": { "const": "1" },
+    "colors": {
+      "type": "object",
+      "required": ["primary", "secondary", "background", "text"],
+      "properties": {
+        "primary": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" },
+        "secondary": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" },
+        "accent": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" },
+        "background": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" },
+        "surface": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" },
+        "text": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" },
+        "muted": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" }
+      },
+      "additionalProperties": true
+    },
+    "fonts": {
+      "type": "object",
+      "required": ["heading", "body"],
+      "properties": {
+        "heading": { "type": "string", "minLength": 1 },
+        "body": { "type": "string", "minLength": 1 },
+        "mono": { "type": "string" }
+      },
+      "additionalProperties": true
+    },
+    "spacing": {
+      "type": "object",
+      "properties": {
+        "xs": { "type": "number", "minimum": 0 },
+        "sm": { "type": "number", "minimum": 0 },
+        "md": { "type": "number", "minimum": 0 },
+        "lg": { "type": "number", "minimum": 0 },
+        "xl": { "type": "number", "minimum": 0 }
+      },
+      "additionalProperties": false
+    },
+    "radius": {
+      "type": "object",
+      "properties": {
+        "sm": { "type": "number", "minimum": 0 },
+        "md": { "type": "number", "minimum": 0 },
+        "lg": { "type": "number", "minimum": 0 }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,24 @@
+name: baoyu-skills
+path: "H:\\ppt\\baoyu-skills"
+repository: "https://github.com/JimLiu/baoyu-skills.git"
+commit: "1567581c26ec29f4216c6e6835415bf30343b0e3"
+branch: main
+languages: [typescript/javascript]
+runtime: node
+license: present
+entrypoints: []
+build: false
+tests: missing
+skill_files: []
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 921
+bytes: 32953885
+size_mb: 31.4
+audited_at: 2026-09-21T17:55:31.810Z

@@ -1,0 +1,24 @@
+name: html-to-editable-pptx
+path: "H:\\ppt\\html-to-editable-pptx"
+repository: "https://github.com/Hasasasa/html-to-editable-pptx"
+commit: "17c1dbb76e958543dc2741a7d50ca374354f33b7"
+branch: main
+languages: [python]
+runtime: python
+license: present
+entrypoints: []
+build: false
+tests: present
+skill_files: [SKILL.md]
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 45
+bytes: 8429864
+size_mb: 8.0
+audited_at: 2026-09-21T17:55:44.829Z

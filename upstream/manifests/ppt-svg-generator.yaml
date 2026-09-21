@@ -1,0 +1,24 @@
+name: ppt-svg-generator
+path: "H:\\ppt\\ppt-svg-generator"
+repository: null
+commit: null
+branch: null
+languages: [web]
+runtime: unknown
+license: present
+entrypoints: []
+build: false
+tests: present
+skill_files: [SKILL.md]
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 23
+bytes: 193384
+size_mb: 0.2
+audited_at: 2026-09-21T17:56:07.123Z

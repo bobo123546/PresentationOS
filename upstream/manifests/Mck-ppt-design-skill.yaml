@@ -1,0 +1,24 @@
+name: Mck-ppt-design-skill
+path: "H:\\ppt\\Mck-ppt-design-skill"
+repository: "https://github.com/likaku/Mck-ppt-design-skill.git"
+commit: e190e083b715b63172e1c4fea01bc5f9bb21a021
+branch: main
+languages: [unknown]
+runtime: unknown
+license: present
+entrypoints: []
+build: false
+tests: missing
+skill_files: [SKILL.md]
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 53
+bytes: 548053
+size_mb: 0.5
+audited_at: 2026-09-21T17:55:29.964Z

@@ -1,0 +1,24 @@
+name: claude-pptx-skill
+path: "H:\\ppt\\claude-pptx-skill"
+repository: "https://github.com/fbdeme/claude-pptx-skill"
+commit: f963690cf79a678d9e9696513757687c15ed68d0
+branch: main
+languages: [unknown]
+runtime: unknown
+license: present
+entrypoints: []
+build: false
+tests: missing
+skill_files: []
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 4
+bytes: 26144
+size_mb: 0.0
+audited_at: 2026-09-21T17:55:32.689Z

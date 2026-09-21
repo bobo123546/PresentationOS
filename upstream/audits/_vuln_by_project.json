@@ -1,0 +1,956 @@
+[
+  {
+    "name": "EvoPresent",
+    "packages": 578,
+    "vulns": 508,
+    "critical": 36,
+    "high": 192,
+    "medium": 219,
+    "low": 61
+  },
+  {
+    "name": "SlideGen",
+    "packages": 565,
+    "vulns": 466,
+    "critical": 32,
+    "high": 185,
+    "medium": 198,
+    "low": 51
+  },
+  {
+    "name": "elephant.ai",
+    "packages": 1857,
+    "vulns": 314,
+    "critical": 18,
+    "high": 123,
+    "medium": 143,
+    "low": 27
+  },
+  {
+    "name": "marp",
+    "packages": 906,
+    "vulns": 140,
+    "critical": 5,
+    "high": 71,
+    "medium": 57,
+    "low": 7
+  },
+  {
+    "name": "claude-office-skills",
+    "packages": 398,
+    "vulns": 125,
+    "critical": 0,
+    "high": 69,
+    "medium": 49,
+    "low": 7
+  },
+  {
+    "name": "baoyu-skills",
+    "packages": 1144,
+    "vulns": 134,
+    "critical": 0,
+    "high": 65,
+    "medium": 55,
+    "low": 14
+  },
+  {
+    "name": "banana-slides",
+    "packages": 400,
+    "vulns": 121,
+    "critical": 1,
+    "high": 56,
+    "medium": 54,
+    "low": 10
+  },
+  {
+    "name": "marketplace",
+    "packages": 1435,
+    "vulns": 96,
+    "critical": 4,
+    "high": 49,
+    "medium": 35,
+    "low": 8
+  },
+  {
+    "name": "dash-persona",
+    "packages": 267,
+    "vulns": 53,
+    "critical": 2,
+    "high": 31,
+    "medium": 17,
+    "low": 3
+  },
+  {
+    "name": "Auto-Slides",
+    "packages": 25,
+    "vulns": 56,
+    "critical": 1,
+    "high": 28,
+    "medium": 20,
+    "low": 7
+  },
+  {
+    "name": "td-skills",
+    "packages": 98,
+    "vulns": 40,
+    "critical": 0,
+    "high": 19,
+    "medium": 20,
+    "low": 1
+  },
+  {
+    "name": "open-slide",
+    "packages": 947,
+    "vulns": 36,
+    "critical": 0,
+    "high": 18,
+    "medium": 16,
+    "low": 2
+  },
+  {
+    "name": "GenSlide",
+    "packages": 14,
+    "vulns": 56,
+    "critical": 0,
+    "high": 17,
+    "medium": 36,
+    "low": 3
+  },
+  {
+    "name": "Brusdeylins-ppt-skill",
+    "packages": 129,
+    "vulns": 17,
+    "critical": 0,
+    "high": 15,
+    "medium": 2,
+    "low": 0
+  },
+  {
+    "name": "hermes-agent",
+    "packages": 2782,
+    "vulns": 27,
+    "critical": 1,
+    "high": 14,
+    "medium": 10,
+    "low": 2
+  },
+  {
+    "name": "paper2slides",
+    "packages": 35,
+    "vulns": 38,
+    "critical": 0,
+    "high": 15,
+    "medium": 19,
+    "low": 4
+  },
+  {
+    "name": "agent-skills",
+    "packages": 117,
+    "vulns": 16,
+    "critical": 0,
+    "high": 13,
+    "medium": 3,
+    "low": 0
+  },
+  {
+    "name": "SlideCoder",
+    "packages": 4,
+    "vulns": 35,
+    "critical": 1,
+    "high": 8,
+    "medium": 19,
+    "low": 7
+  },
+  {
+    "name": "video-shotcraft",
+    "packages": 260,
+    "vulns": 11,
+    "critical": 0,
+    "high": 9,
+    "medium": 2,
+    "low": 0
+  },
+  {
+    "name": "PracticalSwan-agent-skills",
+    "packages": 145,
+    "vulns": 14,
+    "critical": 1,
+    "high": 7,
+    "medium": 6,
+    "low": 0
+  },
+  {
+    "name": "presentation_skill",
+    "packages": 5,
+    "vulns": 12,
+    "critical": 0,
+    "high": 7,
+    "medium": 4,
+    "low": 1
+  },
+  {
+    "name": "claude-codex-settings",
+    "packages": 303,
+    "vulns": 10,
+    "critical": 1,
+    "high": 5,
+    "medium": 4,
+    "low": 0
+  },
+  {
+    "name": "ppt-agent-workflow-san",
+    "packages": 43,
+    "vulns": 14,
+    "critical": 0,
+    "high": 6,
+    "medium": 6,
+    "low": 2
+  },
+  {
+    "name": "PptxGenJS",
+    "packages": 64,
+    "vulns": 6,
+    "critical": 0,
+    "high": 6,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "frdeange-pptx-skill",
+    "packages": 51,
+    "vulns": 4,
+    "critical": 0,
+    "high": 4,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "huashu-design",
+    "packages": 56,
+    "vulns": 4,
+    "critical": 0,
+    "high": 4,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "image-ppt-king",
+    "packages": 40,
+    "vulns": 4,
+    "critical": 0,
+    "high": 4,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "PPTAgent",
+    "packages": 76,
+    "vulns": 4,
+    "critical": 0,
+    "high": 4,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "pptx-gen",
+    "packages": 46,
+    "vulns": 3,
+    "critical": 0,
+    "high": 3,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "codex-ppt",
+    "packages": 20,
+    "vulns": 2,
+    "critical": 0,
+    "high": 2,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "dashi-ppt",
+    "packages": 27,
+    "vulns": 2,
+    "critical": 0,
+    "high": 2,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "deepPPT",
+    "packages": 23,
+    "vulns": 2,
+    "critical": 0,
+    "high": 2,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "Powerpoint-fancy-design",
+    "packages": 23,
+    "vulns": 2,
+    "critical": 0,
+    "high": 2,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "autoppt",
+    "packages": 5,
+    "vulns": 2,
+    "critical": 0,
+    "high": 1,
+    "medium": 0,
+    "low": 1
+  },
+  {
+    "name": "AeSlides",
+    "packages": 0,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "ai-labs-claude-skills",
+    "packages": 0,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "ArcDeck",
+    "packages": 0,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "Auto-claude-code-research-in-sleep",
+    "packages": 7,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "AutoPresent",
+    "packages": 1,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "Awesome-PPT-Design-Skills",
+    "packages": 0,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "beautiful-html-templates",
+    "packages": 0,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "blcaptain-ppt-skill",
+    "packages": 0,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "cat-agent-skills",
+    "packages": 299,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "cerase-ai-pptx-skill",
+    "packages": 0,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "claude-code",
+    "packages": 0,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "claude-pptx-skill",
+    "packages": 0,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "claude-skill-pptx",
+    "packages": 0,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "codex-ppt-skill",
+    "packages": 4,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "DeepSlides",
+    "packages": 0,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "easyslides",
+    "packages": 4,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "frontend-slides-editable",
+    "packages": 26,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "frontend-slides",
+    "packages": 0,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "future-slide-skill",
+    "packages": 16,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "gorden-ppt-skill",
+    "packages": 0,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "gorden-super-ppt-skills",
+    "packages": 0,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "gpt-image2-ppt-skills",
+    "packages": 0,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "guizang-ppt-skill",
+    "packages": 2,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "high-quality-slides",
+    "packages": 0,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "html-ppt-skill",
+    "packages": 0,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "html-to-editable-pptx",
+    "packages": 0,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "huawei-style-ppt-skill",
+    "packages": 0,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "hunkim-slide-skill",
+    "packages": 0,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "icgma-slide-skill",
+    "packages": 0,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "jameshemson-slides",
+    "packages": 3,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "KingDee-PPT-Skill",
+    "packages": 0,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "knowledge-cat-ppt-skill",
+    "packages": 2,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "lgwanai-ppt-skill",
+    "packages": 0,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "Mck-ppt-design-skill",
+    "packages": 0,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "next-slide",
+    "packages": 0,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "paper-collage-ppt",
+    "packages": 4,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "ppt-agent-skill",
+    "packages": 0,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "ppt-agent-skills",
+    "packages": 0,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "ppt-master",
+    "packages": 0,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "PPT-sense-deck-skill",
+    "packages": 0,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "PPT-Skill",
+    "packages": 0,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "ppt-skills",
+    "packages": 0,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "ppt-svg-generator",
+    "packages": 0,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "ppt-to-beamer-skill",
+    "packages": 0,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "PPT-Translator-Formatting-Intact-with-LLMs",
+    "packages": 0,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "pptskill",
+    "packages": 0,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "pptx-to-pypptx",
+    "packages": 0,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "pptx.skill",
+    "packages": 0,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "python-pptx",
+    "packages": 5,
+    "vulns": 4,
+    "critical": 0,
+    "high": 0,
+    "medium": 4,
+    "low": 0
+  },
+  {
+    "name": "remotion-video-skill",
+    "packages": 0,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "reveal.js",
+    "packages": 10,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "revealjs-skill",
+    "packages": 0,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "skills-anthropics",
+    "packages": 0,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "skills-jetbrains",
+    "packages": 13,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "skills-minimax",
+    "packages": 0,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "skills-openai",
+    "packages": 0,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "skills-slides",
+    "packages": 4,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "skills-slidespeak",
+    "packages": 0,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "skills-terminalskills",
+    "packages": 0,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "slide-creator",
+    "packages": 0,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "slide-deck-ai",
+    "packages": 16,
+    "vulns": 1,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 1
+  },
+  {
+    "name": "slide-writer",
+    "packages": 0,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "slidedown",
+    "packages": 0,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "slidemd",
+    "packages": 0,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "slides-skill",
+    "packages": 6,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "slides-skills",
+    "packages": 4,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "slides_generator",
+    "packages": 1,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "slides_maker",
+    "packages": 3,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "SlideTailor",
+    "packages": 2,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "slidev",
+    "packages": 35,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "visual-cognition-slides",
+    "packages": 0,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  {
+    "name": "visual-explainer",
+    "packages": 0,
+    "vulns": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  }
+]

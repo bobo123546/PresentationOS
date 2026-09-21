@@ -1,0 +1,8 @@
+packages:
+  - "apps/*"
+  - "kernel/*"
+  - "workers/*"
+  - "capabilities/*"
+  - "providers/*"
+  - "adapters/*"
+  - "tools/*"

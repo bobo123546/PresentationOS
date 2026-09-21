@@ -1,0 +1,2 @@
+# Unified Logging (Canonical Event + Redaction + JSONL)
+pnpm -C kernel/telemetry test

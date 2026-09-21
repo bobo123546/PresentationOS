@@ -1,0 +1,24 @@
+name: slides_maker
+path: "H:\\ppt\\slides_maker"
+repository: "https://github.com/addsumtech/slides_maker"
+commit: "150473e84295d76b4bde359433ffa7d21e26f8f2"
+branch: main
+languages: [unknown]
+runtime: unknown
+license: present
+entrypoints: []
+build: false
+tests: missing
+skill_files: []
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 250
+bytes: 6310235
+size_mb: 6.0
+audited_at: 2026-09-21T17:56:11.279Z

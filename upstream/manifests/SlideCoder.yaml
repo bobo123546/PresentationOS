@@ -1,0 +1,24 @@
+name: SlideCoder
+path: "H:\\ppt\\SlideCoder"
+repository: "https://github.com/vinsontang1/SlideCoder"
+commit: c71faa5b76caaa09e407e17c845bbabc0ed8a3fa
+branch: main
+languages: [unknown]
+runtime: unknown
+license: missing
+entrypoints: []
+build: false
+tests: missing
+skill_files: []
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 214
+bytes: 12403515
+size_mb: 11.8
+audited_at: 2026-09-21T17:55:30.902Z

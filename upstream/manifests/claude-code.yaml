@@ -1,0 +1,24 @@
+name: claude-code
+path: "H:\\ppt\\claude-code"
+repository: "https://github.com/AI-Business-Tools/claude-code"
+commit: e93d46629e728dc414d315d859544b485de27316
+branch: main
+languages: [unknown]
+runtime: unknown
+license: present
+entrypoints: []
+build: false
+tests: missing
+skill_files: []
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 79
+bytes: 1450891
+size_mb: 1.4
+audited_at: 2026-09-21T17:55:32.299Z

@@ -1,0 +1,24 @@
+name: open-slide
+path: "H:\\ppt\\open-slide"
+repository: "https://github.com/1weiho/open-slide.git"
+commit: "2713e38df2d6d7c560c6c3ba42b9b9dbbc13781e"
+branch: main
+languages: [typescript/javascript]
+runtime: node
+license: present
+entrypoints: []
+build: false
+tests: missing
+skill_files: []
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 629
+bytes: 5521874
+size_mb: 5.3
+audited_at: 2026-09-21T17:55:59.683Z

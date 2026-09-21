@@ -1,0 +1,15 @@
+{
+  "feature": "Artifact Store (content-addressed, dedupe, index reload)",
+  "test_command": "pnpm -C kernel/artifact-store test",
+  "exit_code": 0,
+  "real_output": "5/5 PASS",
+  "negative_test": "see module tests (invalid input/unknown capability/timeout cases)",
+  "integration_test": "workspace module chain",
+  "regression_test": "re-run after fixes; all module tests green at record time",
+  "artifacts": [],
+  "files_changed": [
+    "kernel/artifact-store/src/index.ts",
+    "kernel/artifact-store/tests/artifact-store.test.ts"
+  ],
+  "recorded_at": "2026-09-21T18:40:46.407Z"
+}

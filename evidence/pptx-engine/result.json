@@ -1,0 +1,16 @@
+{
+  "feature": "PPTX Engine (Layout Engine + PptxGenJS renderer)",
+  "test_command": "pnpm -C kernel/pptx-engine test",
+  "exit_code": 0,
+  "real_output": "4/4 PASS",
+  "negative_test": "see module tests (invalid input/unknown capability/timeout cases)",
+  "integration_test": "workspace module chain",
+  "regression_test": "re-run after fixes; all module tests green at record time",
+  "artifacts": [],
+  "files_changed": [
+    "kernel/pptx-engine/src/layout-engine.ts",
+    "kernel/pptx-engine/src/renderer.ts",
+    "kernel/pptx-engine/tests/pptx-engine.test.ts"
+  ],
+  "recorded_at": "2026-09-21T18:40:46.407Z"
+}

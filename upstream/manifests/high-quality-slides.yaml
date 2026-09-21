@@ -1,0 +1,24 @@
+name: high-quality-slides
+path: "H:\\ppt\\high-quality-slides"
+repository: "https://github.com/andyqiu847-ai/high-quality-slides"
+commit: "30a90be3561e61580cd52800a43f867513a8b144"
+branch: main
+languages: [unknown]
+runtime: unknown
+license: present
+entrypoints: []
+build: false
+tests: missing
+skill_files: []
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 8
+bytes: 34050
+size_mb: 0.0
+audited_at: 2026-09-21T17:55:44.594Z

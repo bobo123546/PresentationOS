@@ -1,0 +1,24 @@
+name: next-slide
+path: "H:\\ppt\\next-slide"
+repository: "https://github.com/codesstar/next-slide.git"
+commit: e92c1b2506e6cf5acff7d2b92339ba0c0ce2af22
+branch: main
+languages: [typescript/javascript, web]
+runtime: node
+license: present
+entrypoints: []
+build: false
+tests: missing
+skill_files: [SKILL.md]
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 296
+bytes: 22296727
+size_mb: 21.3
+audited_at: 2026-09-21T17:55:59.536Z

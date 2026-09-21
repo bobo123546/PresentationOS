@@ -1,0 +1,24 @@
+name: image-ppt-king
+path: "H:\\ppt\\image-ppt-king"
+repository: "https://github.com/TateZhouSiu/image-ppt-king.git"
+commit: c319f48ee9f25fee4a7a413476e1c97c34c29acd
+branch: main
+languages: [typescript/javascript, python]
+runtime: node
+license: present
+entrypoints: []
+build: false
+tests: missing
+skill_files: []
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 46
+bytes: 210436
+size_mb: 0.2
+audited_at: 2026-09-21T17:55:45.451Z

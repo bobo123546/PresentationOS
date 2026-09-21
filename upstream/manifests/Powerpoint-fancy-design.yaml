@@ -1,0 +1,24 @@
+name: Powerpoint-fancy-design
+path: "H:\\ppt\\Powerpoint-fancy-design"
+repository: "https://github.com/Phlegonlabs/Powerpoint-fancy-design.git"
+commit: d6167dbc5d1ee9a0f3b2b90b399156322e9178ae
+branch: main
+languages: [typescript/javascript]
+runtime: node
+license: missing
+entrypoints: []
+build: false
+tests: missing
+skill_files: [SKILL.md]
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 136
+bytes: 4028697
+size_mb: 3.8
+audited_at: 2026-09-21T17:55:30.395Z

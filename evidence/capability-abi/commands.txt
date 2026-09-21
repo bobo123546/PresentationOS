@@ -1,0 +1,2 @@
+# Capability ABI/Registry/Graph
+pnpm -C kernel/capability-registry test

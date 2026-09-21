@@ -1,0 +1,17 @@
+{
+  "feature": "Capability ABI/Registry/Graph",
+  "test_command": "pnpm -C kernel/capability-registry test",
+  "exit_code": 0,
+  "real_output": "8/8 PASS",
+  "negative_test": "see module tests (invalid input/unknown capability/timeout cases)",
+  "integration_test": "workspace module chain",
+  "regression_test": "re-run after fixes; all module tests green at record time",
+  "artifacts": [],
+  "files_changed": [
+    "kernel/capability-registry/src/capability.ts",
+    "kernel/capability-registry/src/registry.ts",
+    "kernel/capability-registry/src/graph.ts",
+    "kernel/capability-registry/tests/capability-registry.test.ts"
+  ],
+  "recorded_at": "2026-09-21T18:40:46.407Z"
+}

@@ -1,0 +1,24 @@
+name: Brusdeylins-ppt-skill
+path: "H:\\ppt\\Brusdeylins-ppt-skill"
+repository: "https://github.com/Brusdeylins/ppt-skill.git"
+commit: e4eec67bf7f508ad6b916610be6eb7857459a8a6
+branch: main
+languages: [typescript/javascript]
+runtime: node
+license: present
+entrypoints: []
+build: false
+tests: present
+skill_files: []
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 92
+bytes: 19431575
+size_mb: 18.5
+audited_at: 2026-09-21T17:55:28.614Z

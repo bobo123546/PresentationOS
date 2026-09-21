@@ -1,0 +1,24 @@
+name: html-ppt-skill
+path: "H:\\ppt\\html-ppt-skill"
+repository: "https://github.com/lewislulu/html-ppt-skill.git"
+commit: fd1629067909ff55b36b905476de4e5f26062a1f
+branch: main
+languages: [unknown]
+runtime: unknown
+license: present
+entrypoints: []
+build: false
+tests: missing
+skill_files: [SKILL.md]
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 239
+bytes: 10937947
+size_mb: 10.4
+audited_at: 2026-09-21T17:55:44.696Z

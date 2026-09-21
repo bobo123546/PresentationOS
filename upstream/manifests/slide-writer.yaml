@@ -1,0 +1,24 @@
+name: slide-writer
+path: "H:\\ppt\\slide-writer"
+repository: "https://github.com/FeeiCN/slide-writer.git"
+commit: "3c4524c4abb3310fdee106282d0a64f156fd4ff6"
+branch: main
+languages: [web]
+runtime: unknown
+license: present
+entrypoints: []
+build: false
+tests: present
+skill_files: [SKILL.md]
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 69
+bytes: 8602644
+size_mb: 8.2
+audited_at: 2026-09-21T17:56:10.754Z

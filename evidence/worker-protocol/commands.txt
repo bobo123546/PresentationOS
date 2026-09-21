@@ -1,0 +1,2 @@
+# Worker Protocol + Node Worker E2E
+node --test tests/e2e/worker-protocol.e2e.mjs

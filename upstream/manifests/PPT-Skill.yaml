@@ -1,0 +1,24 @@
+name: PPT-Skill
+path: "H:\\ppt\\PPT-Skill"
+repository: "https://github.com/ken861222/PPT-Skill.git"
+commit: dffb31139df251ef147624177c42ef10f435c0d8
+branch: main
+languages: [unknown]
+runtime: unknown
+license: present
+entrypoints: []
+build: false
+tests: missing
+skill_files: [SKILL.md]
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 9
+bytes: 42452
+size_mb: 0.0
+audited_at: 2026-09-21T17:55:30.051Z

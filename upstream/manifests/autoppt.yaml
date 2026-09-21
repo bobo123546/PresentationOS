@@ -1,0 +1,24 @@
+name: autoppt
+path: "H:\\ppt\\autoppt"
+repository: "https://github.com/yeasy/autoppt"
+commit: "68bae829d78f1f42eb121fbb15db935fec4c8e2f"
+branch: main
+languages: [python]
+runtime: python
+license: present
+entrypoints: []
+build: false
+tests: present
+skill_files: []
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 74
+bytes: 5180069
+size_mb: 4.9
+audited_at: 2026-09-21T17:55:31.470Z

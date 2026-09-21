@@ -1,0 +1,24 @@
+name: claude-skill-pptx
+path: "H:\\ppt\\claude-skill-pptx"
+repository: "https://github.com/KUMAKIRI1228/claude-skill-pptx"
+commit: "254436724ab2e2993cc84a3180cb29106d717c1b"
+branch: main
+languages: [unknown]
+runtime: unknown
+license: present
+entrypoints: []
+build: false
+tests: missing
+skill_files: [SKILL.md]
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 3
+bytes: 19449
+size_mb: 0.0
+audited_at: 2026-09-21T17:55:32.769Z

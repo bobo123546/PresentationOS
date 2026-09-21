@@ -1,0 +1,24 @@
+name: elephant.ai
+path: "H:\\ppt\\elephant.ai"
+repository: "https://github.com/cklxx/elephant.ai"
+commit: bc94628f41b7daba20825b86069ae8e0fa83dc5e
+branch: main
+languages: [go]
+runtime: go
+license: present
+entrypoints: []
+build: false
+tests: present
+skill_files: []
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 2766
+bytes: 29358547
+size_mb: 28.0
+audited_at: 2026-09-21T17:55:40.892Z

@@ -1,0 +1,24 @@
+name: video-shotcraft
+path: "H:\\ppt\\video-shotcraft"
+repository: "https://github.com/Vincentwei1021/video-shotcraft.git"
+commit: "5e71af35a2daee492dd3ea93e5e8903f32dcd13c"
+branch: main
+languages: [typescript/javascript]
+runtime: node
+license: present
+entrypoints: []
+build: false
+tests: missing
+skill_files: [SKILL.md]
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 970
+bytes: 54560566
+size_mb: 52.0
+audited_at: 2026-09-21T17:56:11.759Z

@@ -1,0 +1,24 @@
+name: DeepSlides
+path: "H:\\ppt\\DeepSlides"
+repository: "https://github.com/sxswz213/DeepSlides"
+commit: "40240e5847f18c61ea893200597deb0b6f3a41c1"
+branch: main
+languages: [python]
+runtime: python
+license: present
+entrypoints: []
+build: false
+tests: present
+skill_files: []
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 9926
+bytes: 643931312
+size_mb: 614.1
+audited_at: 2026-09-21T17:55:29.596Z

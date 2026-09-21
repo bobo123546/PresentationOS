@@ -1,0 +1,24 @@
+name: dashi-ppt
+path: "H:\\ppt\\dashi-ppt"
+repository: null
+commit: null
+branch: null
+languages: [unknown]
+runtime: unknown
+license: missing
+entrypoints: []
+build: false
+tests: missing
+skill_files: [SKILL.md]
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 371
+bytes: 60422169
+size_mb: 57.6
+audited_at: 2026-09-21T17:55:33.275Z

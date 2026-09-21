@@ -1,0 +1,24 @@
+name: dash-persona
+path: "H:\\ppt\\dash-persona"
+repository: "https://github.com/Fearvox/dash-persona.git"
+commit: d200b783cccf3c9cd1cafb7527c940cdff2c0f97
+branch: main
+languages: [typescript/javascript, web]
+runtime: node
+license: present
+entrypoints: []
+build: false
+tests: missing
+skill_files: []
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 522
+bytes: 6355094
+size_mb: 6.1
+audited_at: 2026-09-21T17:55:33.093Z

@@ -1,0 +1,24 @@
+name: cerase-ai-pptx-skill
+path: "H:\\ppt\\cerase-ai-pptx-skill"
+repository: "https://github.com/cerase-ai/pptx-skill"
+commit: "37bb07f8710a797507d8c562ab2d9217aa9e793b"
+branch: main
+languages: [unknown]
+runtime: unknown
+license: present
+entrypoints: []
+build: false
+tests: missing
+skill_files: [SKILL.md]
+capabilities: []
+unique_capabilities: []
+duplicate_capabilities: []
+security: { sbom: false, grype: false, critical: null, high: null }
+integration_cost: 0
+classification: UNKNOWN
+decision_candidate: UNKNOWN
+deep_audit_required: true
+files: 5
+bytes: 5307
+size_mb: 0.0
+audited_at: 2026-09-21T17:55:32.213Z

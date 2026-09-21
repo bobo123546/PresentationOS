@@ -1,0 +1,2 @@
+# 106/106 upstream SBOM + Grype scan
+powershell -File tools/upstream-auditor/sbom-batch.ps1; node tools/upstream-auditor/aggregate-audit.mjs

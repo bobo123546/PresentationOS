@@ -1,0 +1,960 @@
+{
+  "total": 106,
+  "generated_at": "2026-09-21T17:56:11.845Z",
+  "projects": [
+    {
+      "name": "AeSlides",
+      "files": 342,
+      "size_mb": 43.1,
+      "runtime": "unknown",
+      "license": "missing",
+      "commit": "9bfea23dce517127ae271d51cb714d40f87408d3",
+      "repo": "https://github.com/ympan0508/AeSlides"
+    },
+    {
+      "name": "ArcDeck",
+      "files": 163,
+      "size_mb": 11.7,
+      "runtime": "python",
+      "license": "present",
+      "commit": "048e1d262112c712940c478c74142fedf807b74c",
+      "repo": "https://github.com/RehgLab/ArcDeck"
+    },
+    {
+      "name": "Auto-Slides",
+      "files": 95,
+      "size_mb": 149.2,
+      "runtime": "python",
+      "license": "present",
+      "commit": "d07d547553d91322215f9ee2de24e8346aef2345",
+      "repo": "https://github.com/Westlake-AGI-Lab/Auto-Slides.git"
+    },
+    {
+      "name": "Auto-claude-code-research-in-sleep",
+      "files": 712,
+      "size_mb": 36.4,
+      "runtime": "unknown",
+      "license": "present",
+      "commit": "341f914024d270dc5c8fa51337d1ad38829273aa",
+      "repo": "https://github.com/wanshuiyin/Auto-claude-code-research-in-sleep.git"
+    },
+    {
+      "name": "AutoPresent",
+      "files": 654,
+      "size_mb": 38.6,
+      "runtime": "python",
+      "license": "present",
+      "commit": "98e0c012e89469863d9c3c8bc87eac967d82b2e6",
+      "repo": "https://github.com/para-lost/AutoPresent"
+    },
+    {
+      "name": "Awesome-PPT-Design-Skills",
+      "files": 59,
+      "size_mb": 0.5,
+      "runtime": "unknown",
+      "license": "missing",
+      "commit": "75273f06172d1b174ee4a19cec6a875377924559",
+      "repo": "https://github.com/software-ai-life/Awesome-PPT-Design-Skills"
+    },
+    {
+      "name": "Brusdeylins-ppt-skill",
+      "files": 92,
+      "size_mb": 18.5,
+      "runtime": "node",
+      "license": "present",
+      "commit": "e4eec67bf7f508ad6b916610be6eb7857459a8a6",
+      "repo": "https://github.com/Brusdeylins/ppt-skill.git"
+    },
+    {
+      "name": "DeepSlides",
+      "files": 9926,
+      "size_mb": 614.1,
+      "runtime": "python",
+      "license": "present",
+      "commit": "40240e5847f18c61ea893200597deb0b6f3a41c1",
+      "repo": "https://github.com/sxswz213/DeepSlides"
+    },
+    {
+      "name": "EvoPresent",
+      "files": 582,
+      "size_mb": 49.3,
+      "runtime": "unknown",
+      "license": "present",
+      "commit": "971e37ba073abf7124785334bd44661b42145f56",
+      "repo": "https://github.com/UCSB-AI/EvoPresent.git"
+    },
+    {
+      "name": "GenSlide",
+      "files": 26,
+      "size_mb": 1.9,
+      "runtime": "python",
+      "license": "present",
+      "commit": "3b847fc7432cd6ac3b6652d801768cb36e3bad8d",
+      "repo": "https://github.com/mehdimo/GenSlide"
+    },
+    {
+      "name": "KingDee-PPT-Skill",
+      "files": 48,
+      "size_mb": 1.5,
+      "runtime": "node",
+      "license": "present",
+      "commit": "28ca93aadeefc91fcc64152714ddeece15f13e1d",
+      "repo": "https://github.com/WayneZhon/KingDee-PPT-Skill"
+    },
+    {
+      "name": "Mck-ppt-design-skill",
+      "files": 53,
+      "size_mb": 0.5,
+      "runtime": "unknown",
+      "license": "present",
+      "commit": "e190e083b715b63172e1c4fea01bc5f9bb21a021",
+      "repo": "https://github.com/likaku/Mck-ppt-design-skill.git"
+    },
+    {
+      "name": "PPT-Skill",
+      "files": 9,
+      "size_mb": 0,
+      "runtime": "unknown",
+      "license": "present",
+      "commit": "dffb31139df251ef147624177c42ef10f435c0d8",
+      "repo": "https://github.com/ken861222/PPT-Skill.git"
+    },
+    {
+      "name": "PPT-Translator-Formatting-Intact-with-LLMs",
+      "files": 43,
+      "size_mb": 0.1,
+      "runtime": "python",
+      "license": "missing",
+      "commit": "9800d4890b38b9165c1d51b2b913718085c5685c",
+      "repo": "https://github.com/tristan-mcinnis/PPT-Translator-Formatting-Intact-with-LLMs.git"
+    },
+    {
+      "name": "PPT-sense-deck-skill",
+      "files": 162,
+      "size_mb": 81.4,
+      "runtime": "unknown",
+      "license": "missing",
+      "commit": "e59d03faec2fbebb83a6d795e98498736f3db38f",
+      "repo": "https://github.com/xhshow2025/-PPT-sense-deck-skill-.git"
+    },
+    {
+      "name": "PPTAgent",
+      "files": 36,
+      "size_mb": 8.2,
+      "runtime": "unknown",
+      "license": "present",
+      "commit": "833cda553b343be0e486a93b0b57cac962cdd566",
+      "repo": "https://github.com/icip-cas/PPTAgent"
+    },
+    {
+      "name": "Powerpoint-fancy-design",
+      "files": 136,
+      "size_mb": 3.8,
+      "runtime": "node",
+      "license": "missing",
+      "commit": "d6167dbc5d1ee9a0f3b2b90b399156322e9178ae",
+      "repo": "https://github.com/Phlegonlabs/Powerpoint-fancy-design.git"
+    },
+    {
+      "name": "PptxGenJS",
+      "files": 163,
+      "size_mb": 48.6,
+      "runtime": "node",
+      "license": "present",
+      "commit": "3c9ec1b687c174952166f6a34b5e87ebf69fa469",
+      "repo": "https://github.com/gitbrent/PptxGenJS.git"
+    },
+    {
+      "name": "PracticalSwan-agent-skills",
+      "files": 2246,
+      "size_mb": 19.5,
+      "runtime": "unknown",
+      "license": "present",
+      "commit": "ff6d12f61e8250dd1b988e101a482f6adc05c451",
+      "repo": "https://github.com/PracticalSwan/agent-skills"
+    },
+    {
+      "name": "SlideCoder",
+      "files": 214,
+      "size_mb": 11.8,
+      "runtime": "unknown",
+      "license": "missing",
+      "commit": "c71faa5b76caaa09e407e17c845bbabc0ed8a3fa",
+      "repo": "https://github.com/vinsontang1/SlideCoder"
+    },
+    {
+      "name": "SlideGen",
+      "files": 476,
+      "size_mb": 196.4,
+      "runtime": "python",
+      "license": "present",
+      "commit": "f9416e4c99e83dfe368d26bb8c74e02889da8b3a",
+      "repo": "https://github.com/Y-Research-SBU/SlideGen"
+    },
+    {
+      "name": "SlideTailor",
+      "files": 48,
+      "size_mb": 1.3,
+      "runtime": "python",
+      "license": "present",
+      "commit": "6c636089129c32828de69cb8ffd01a45c921b8de",
+      "repo": "https://github.com/nusnlp/SlideTailor.git"
+    },
+    {
+      "name": "agent-skills",
+      "files": 48,
+      "size_mb": 2.9,
+      "runtime": "unknown",
+      "license": "missing",
+      "commit": "8e6ea763ae19aa39c93bdfe3886971abab79b97e",
+      "repo": "https://github.com/iuiaoin/agent-skills.git"
+    },
+    {
+      "name": "ai-labs-claude-skills",
+      "files": 631,
+      "size_mb": 7.8,
+      "runtime": "node",
+      "license": "present",
+      "commit": "1a12bc7aadcc7b211f77a7455db454b77a71f827",
+      "repo": "https://github.com/ailabs-393/ai-labs-claude-skills.git"
+    },
+    {
+      "name": "autoppt",
+      "files": 74,
+      "size_mb": 4.9,
+      "runtime": "python",
+      "license": "present",
+      "commit": "68bae829d78f1f42eb121fbb15db935fec4c8e2f",
+      "repo": "https://github.com/yeasy/autoppt"
+    },
+    {
+      "name": "banana-slides",
+      "files": 713,
+      "size_mb": 51.4,
+      "runtime": "node",
+      "license": "present",
+      "commit": "bfed2c84ac15db13668b2643cd3cf3831d963ccc",
+      "repo": "https://github.com/Anionex/banana-slides.git"
+    },
+    {
+      "name": "baoyu-skills",
+      "files": 921,
+      "size_mb": 31.4,
+      "runtime": "node",
+      "license": "present",
+      "commit": "1567581c26ec29f4216c6e6835415bf30343b0e3",
+      "repo": "https://github.com/JimLiu/baoyu-skills.git"
+    },
+    {
+      "name": "beautiful-html-templates",
+      "files": 222,
+      "size_mb": 34.4,
+      "runtime": "unknown",
+      "license": "present",
+      "commit": null,
+      "repo": null
+    },
+    {
+      "name": "blcaptain-ppt-skill",
+      "files": 85,
+      "size_mb": 14.6,
+      "runtime": "node",
+      "license": "present",
+      "commit": "0689d19ccf0d94a3f04fcb2f7945b2ee15cb2bb8",
+      "repo": "https://github.com/dososo/blcaptain-ppt-skill.git"
+    },
+    {
+      "name": "cat-agent-skills",
+      "files": 920,
+      "size_mb": 13.9,
+      "runtime": "node",
+      "license": "present",
+      "commit": "24729fe2228ef92d5fcacf7a96e274dd793b73e2",
+      "repo": "https://github.com/microsoft/cat-agent-skills.git"
+    },
+    {
+      "name": "cerase-ai-pptx-skill",
+      "files": 5,
+      "size_mb": 0,
+      "runtime": "unknown",
+      "license": "present",
+      "commit": "37bb07f8710a797507d8c562ab2d9217aa9e793b",
+      "repo": "https://github.com/cerase-ai/pptx-skill"
+    },
+    {
+      "name": "claude-code",
+      "files": 79,
+      "size_mb": 1.4,
+      "runtime": "unknown",
+      "license": "present",
+      "commit": "e93d46629e728dc414d315d859544b485de27316",
+      "repo": "https://github.com/AI-Business-Tools/claude-code"
+    },
+    {
+      "name": "claude-codex-settings",
+      "files": 1314,
+      "size_mb": 8.2,
+      "runtime": "unknown",
+      "license": "present",
+      "commit": null,
+      "repo": null
+    },
+    {
+      "name": "claude-office-skills",
+      "files": 218,
+      "size_mb": 2.6,
+      "runtime": "unknown",
+      "license": "present",
+      "commit": "9c4c7d5cd2813a8936bf2c9fdb174ea883b85a11",
+      "repo": "https://github.com/claude-office-skills/skills"
+    },
+    {
+      "name": "claude-pptx-skill",
+      "files": 4,
+      "size_mb": 0,
+      "runtime": "unknown",
+      "license": "present",
+      "commit": "f963690cf79a678d9e9696513757687c15ed68d0",
+      "repo": "https://github.com/fbdeme/claude-pptx-skill"
+    },
+    {
+      "name": "claude-skill-pptx",
+      "files": 3,
+      "size_mb": 0,
+      "runtime": "unknown",
+      "license": "present",
+      "commit": "254436724ab2e2993cc84a3180cb29106d717c1b",
+      "repo": "https://github.com/KUMAKIRI1228/claude-skill-pptx"
+    },
+    {
+      "name": "codex-ppt",
+      "files": 31,
+      "size_mb": 35.6,
+      "runtime": "node",
+      "license": "present",
+      "commit": "d743a07482a8ad3a1453d3e67f2bc678d171d1c2",
+      "repo": "https://github.com/qybaihe/codex-ppt.git"
+    },
+    {
+      "name": "codex-ppt-skill",
+      "files": 104,
+      "size_mb": 42.8,
+      "runtime": "unknown",
+      "license": "present",
+      "commit": "32221ef8654c87505c846c9a48bb5dbe2a744a67",
+      "repo": "https://github.com/ningzimu/codex-ppt-skill.git"
+    },
+    {
+      "name": "dash-persona",
+      "files": 522,
+      "size_mb": 6.1,
+      "runtime": "node",
+      "license": "present",
+      "commit": "d200b783cccf3c9cd1cafb7527c940cdff2c0f97",
+      "repo": "https://github.com/Fearvox/dash-persona.git"
+    },
+    {
+      "name": "dashi-ppt",
+      "files": 371,
+      "size_mb": 57.6,
+      "runtime": "unknown",
+      "license": "missing",
+      "commit": null,
+      "repo": null
+    },
+    {
+      "name": "deepPPT",
+      "files": 67,
+      "size_mb": 1.6,
+      "runtime": "node",
+      "license": "present",
+      "commit": "1e4640620ba7b105961eb033aa7528fcd2d38188",
+      "repo": "https://github.com/jiadizhunine/deepPPT.git"
+    },
+    {
+      "name": "easyslides",
+      "files": 14282,
+      "size_mb": 442.7,
+      "runtime": "python",
+      "license": "present",
+      "commit": "fe4882b9857712400a4fd4e912174a7504204f28",
+      "repo": "https://github.com/Rimagination/easyslides.git"
+    },
+    {
+      "name": "elephant.ai",
+      "files": 2766,
+      "size_mb": 28,
+      "runtime": "go",
+      "license": "present",
+      "commit": "bc94628f41b7daba20825b86069ae8e0fa83dc5e",
+      "repo": "https://github.com/cklxx/elephant.ai"
+    },
+    {
+      "name": "frdeange-pptx-skill",
+      "files": 181,
+      "size_mb": 0.5,
+      "runtime": "node",
+      "license": "present",
+      "commit": "8d9e60a3545ac8ead8b6aace2c1b73ba368cf80f",
+      "repo": "https://github.com/frdeange/pptx-skill"
+    },
+    {
+      "name": "frontend-slides",
+      "files": 163,
+      "size_mb": 3.4,
+      "runtime": "unknown",
+      "license": "present",
+      "commit": "9906a34d640d2111f724544cbc50f7f130569ae1",
+      "repo": "https://github.com/zarazhangrui/frontend-slides.git"
+    },
+    {
+      "name": "frontend-slides-editable",
+      "files": 274,
+      "size_mb": 31.7,
+      "runtime": "node",
+      "license": "present",
+      "commit": "e5663e6a0bdc2c2a673198bab3fb61036a7f20ee",
+      "repo": "https://github.com/archlizheng/frontend-slides-editable.git"
+    },
+    {
+      "name": "future-slide-skill",
+      "files": 58,
+      "size_mb": 3.5,
+      "runtime": "unknown",
+      "license": "present",
+      "commit": "26914e8ee2b874e4bdd07843948b0ca841542c59",
+      "repo": "https://github.com/bytonylee/future-slide-skill.git"
+    },
+    {
+      "name": "gorden-ppt-skill",
+      "files": 110,
+      "size_mb": 102.3,
+      "runtime": "unknown",
+      "license": "present",
+      "commit": "7d4a61cbd8363b92e4a30784f8ca460a0a2b0a33",
+      "repo": "https://github.com/GordenSun/GordenPPTSkill"
+    },
+    {
+      "name": "gorden-super-ppt-skills",
+      "files": 62,
+      "size_mb": 19.6,
+      "runtime": "unknown",
+      "license": "missing",
+      "commit": "8c05583dab8334182b71738e8dfbbec5c56a1951",
+      "repo": "https://github.com/GordenSun/GordenSuperPPTSkills.git"
+    },
+    {
+      "name": "gpt-image2-ppt-skills",
+      "files": 629,
+      "size_mb": 27,
+      "runtime": "python",
+      "license": "present",
+      "commit": "2d57ef8127b83e8232a1be4e9515f0b3cc9fc91e",
+      "repo": "https://github.com/JuneYaooo/gpt-image2-ppt-skills.git"
+    },
+    {
+      "name": "guizang-ppt-skill",
+      "files": 41,
+      "size_mb": 5.8,
+      "runtime": "unknown",
+      "license": "present",
+      "commit": "c91369c449d34755d320a8b81d0734000d99d1ab",
+      "repo": "https://github.com/op7418/guizang-ppt-skill"
+    },
+    {
+      "name": "hermes-agent",
+      "files": 14692,
+      "size_mb": 175.3,
+      "runtime": "node",
+      "license": "present",
+      "commit": "274bc7b8f613c299b4f59160bacf8a19010f7003",
+      "repo": "https://github.com/nousresearch/hermes-agent.git"
+    },
+    {
+      "name": "high-quality-slides",
+      "files": 8,
+      "size_mb": 0,
+      "runtime": "unknown",
+      "license": "present",
+      "commit": "30a90be3561e61580cd52800a43f867513a8b144",
+      "repo": "https://github.com/andyqiu847-ai/high-quality-slides"
+    },
+    {
+      "name": "html-ppt-skill",
+      "files": 239,
+      "size_mb": 10.4,
+      "runtime": "unknown",
+      "license": "present",
+      "commit": "fd1629067909ff55b36b905476de4e5f26062a1f",
+      "repo": "https://github.com/lewislulu/html-ppt-skill.git"
+    },
+    {
+      "name": "html-to-editable-pptx",
+      "files": 45,
+      "size_mb": 8,
+      "runtime": "python",
+      "license": "present",
+      "commit": "17c1dbb76e958543dc2741a7d50ca374354f33b7",
+      "repo": "https://github.com/Hasasasa/html-to-editable-pptx"
+    },
+    {
+      "name": "huashu-design",
+      "files": 191,
+      "size_mb": 31.7,
+      "runtime": "node",
+      "license": "present",
+      "commit": "0e842afc1fa4f008071e34ae1df16c66d3f5d18a",
+      "repo": "https://github.com/alchaincyf/huashu-design.git"
+    },
+    {
+      "name": "huawei-style-ppt-skill",
+      "files": 25,
+      "size_mb": 0.5,
+      "runtime": "unknown",
+      "license": "present",
+      "commit": "12877ae9357beba06471994366ed7ca69cc947e2",
+      "repo": "https://github.com/zuiho-kai/huawei-style-ppt-skill.git"
+    },
+    {
+      "name": "hunkim-slide-skill",
+      "files": 6,
+      "size_mb": 0,
+      "runtime": "unknown",
+      "license": "present",
+      "commit": "beae7c4c8ec21241076411a49f7968f862154969",
+      "repo": "https://github.com/hunkim/slide-skill"
+    },
+    {
+      "name": "icgma-slide-skill",
+      "files": 534,
+      "size_mb": 12.9,
+      "runtime": "python",
+      "license": "present",
+      "commit": "bf5c64265f4a9c6bc18f2274cf5520d7c8a6169d",
+      "repo": "https://github.com/icgma/slide-skill.git"
+    },
+    {
+      "name": "image-ppt-king",
+      "files": 46,
+      "size_mb": 0.2,
+      "runtime": "node",
+      "license": "present",
+      "commit": "c319f48ee9f25fee4a7a413476e1c97c34c29acd",
+      "repo": "https://github.com/TateZhouSiu/image-ppt-king.git"
+    },
+    {
+      "name": "jameshemson-slides",
+      "files": 596,
+      "size_mb": 4.5,
+      "runtime": "node",
+      "license": "present",
+      "commit": "245c0e6858df9afe6a3381e36244812f3d2e4452",
+      "repo": "https://github.com/jameshemson/slides.git"
+    },
+    {
+      "name": "knowledge-cat-ppt-skill",
+      "files": 115,
+      "size_mb": 2.3,
+      "runtime": "unknown",
+      "license": "present",
+      "commit": "889c3dc00b356607fa9af935eb807056c3394886",
+      "repo": "https://github.com/gnipbao/knowledge-cat-ppt-skill.git"
+    },
+    {
+      "name": "lgwanai-ppt-skill",
+      "files": 14323,
+      "size_mb": 18.1,
+      "runtime": "python",
+      "license": "missing",
+      "commit": "efc578087e71915af6409c62553ba55ff644a4b6",
+      "repo": "https://github.com/lgwanai/ppt-skill.git"
+    },
+    {
+      "name": "marketplace",
+      "files": 44369,
+      "size_mb": 933.9,
+      "runtime": "node",
+      "license": "missing",
+      "commit": "739b21338bb0010b61dd498f5e1ac4b61b30ba97",
+      "repo": "https://github.com/aiskillstore/marketplace.git"
+    },
+    {
+      "name": "marp",
+      "files": 116,
+      "size_mb": 2.7,
+      "runtime": "node",
+      "license": "present",
+      "commit": "aaac2347ec65cd835c0ccd90ba3d866c9a75cb07",
+      "repo": "https://github.com/marp-team/marp.git"
+    },
+    {
+      "name": "next-slide",
+      "files": 296,
+      "size_mb": 21.3,
+      "runtime": "node",
+      "license": "present",
+      "commit": "e92c1b2506e6cf5acff7d2b92339ba0c0ce2af22",
+      "repo": "https://github.com/codesstar/next-slide.git"
+    },
+    {
+      "name": "open-slide",
+      "files": 629,
+      "size_mb": 5.3,
+      "runtime": "node",
+      "license": "present",
+      "commit": "2713e38df2d6d7c560c6c3ba42b9b9dbbc13781e",
+      "repo": "https://github.com/1weiho/open-slide.git"
+    },
+    {
+      "name": "paper-collage-ppt",
+      "files": 161,
+      "size_mb": 45.8,
+      "runtime": "unknown",
+      "license": "present",
+      "commit": "a35a7549196ae41ff586eb95496804abdeca5826",
+      "repo": "https://github.com/Jane-xiaoer/paper-collage-ppt"
+    },
+    {
+      "name": "paper2slides",
+      "files": 102,
+      "size_mb": 19.8,
+      "runtime": "python",
+      "license": "present",
+      "commit": "0785051d1f52814097e94c44751e3f12b83f7c8a",
+      "repo": "https://github.com/HKUDS/Paper2Slides"
+    },
+    {
+      "name": "ppt-agent-skill",
+      "files": 185,
+      "size_mb": 8.3,
+      "runtime": "unknown",
+      "license": "present",
+      "commit": "01825dee2ad40a8c719824252605396b9a570d57",
+      "repo": "https://github.com/Akxan/ppt-agent-skill"
+    },
+    {
+      "name": "ppt-agent-skills",
+      "files": 127,
+      "size_mb": 15.2,
+      "runtime": "unknown",
+      "license": "present",
+      "commit": "13e353776d0ba774eff7c423cc3e529cfe0adbeb",
+      "repo": "https://github.com/sunbigfly/ppt-agent-skills.git"
+    },
+    {
+      "name": "ppt-agent-workflow-san",
+      "files": 42,
+      "size_mb": 5.6,
+      "runtime": "unknown",
+      "license": "missing",
+      "commit": null,
+      "repo": null
+    },
+    {
+      "name": "ppt-master",
+      "files": 13077,
+      "size_mb": 115.1,
+      "runtime": "python",
+      "license": "present",
+      "commit": "2a05498f4303229abf52d8fbded8c2d66dde544f",
+      "repo": "https://github.com/hugohe3/ppt-master.git"
+    },
+    {
+      "name": "ppt-skills",
+      "files": 94,
+      "size_mb": 1.5,
+      "runtime": "unknown",
+      "license": "missing",
+      "commit": "2e60eed836472b61e013f34b2a74de183e345bc8",
+      "repo": "https://github.com/huyansheng3/ppt-skills.git"
+    },
+    {
+      "name": "ppt-svg-generator",
+      "files": 23,
+      "size_mb": 0.2,
+      "runtime": "unknown",
+      "license": "present",
+      "commit": null,
+      "repo": null
+    },
+    {
+      "name": "ppt-to-beamer-skill",
+      "files": 9,
+      "size_mb": 0.1,
+      "runtime": "unknown",
+      "license": "present",
+      "commit": "63e7134cbc2d3467627e947da152649d6d75bdc0",
+      "repo": "https://github.com/wenlzhang/ppt-to-beamer-skill"
+    },
+    {
+      "name": "pptskill",
+      "files": 459,
+      "size_mb": 144.6,
+      "runtime": "node",
+      "license": "present",
+      "commit": "07eeaadcb04c32c9adb107eb5c8608e6be4e1008",
+      "repo": "https://github.com/DmcforSpc/pptskill"
+    },
+    {
+      "name": "pptx-gen",
+      "files": 2330,
+      "size_mb": 3.9,
+      "runtime": "node",
+      "license": "present",
+      "commit": "71b1f5d4c27aa130407ce0d4b30cccc642a03afe",
+      "repo": "https://github.com/alfonsograziano/pptx-gen.git"
+    },
+    {
+      "name": "pptx-to-pypptx",
+      "files": 44,
+      "size_mb": 0.6,
+      "runtime": "unknown",
+      "license": "present",
+      "commit": "0abb7cad2c7ec769b562335d0b0086e7bbe45ea4",
+      "repo": "https://github.com/hiyuantang/pptx-to-pypptx"
+    },
+    {
+      "name": "pptx.skill",
+      "files": 28,
+      "size_mb": 0.2,
+      "runtime": "python",
+      "license": "missing",
+      "commit": "93efbabf84b1f268cead22d9bedfd78afd8beb6e",
+      "repo": "https://github.com/grapeot/pptx.skill.git"
+    },
+    {
+      "name": "presentation_skill",
+      "files": 59,
+      "size_mb": 2.3,
+      "runtime": "python",
+      "license": "present",
+      "commit": "8715ae6e7f50b930595668c455f3fad51f70d1db",
+      "repo": "https://github.com/grapeot/presentation_skill"
+    },
+    {
+      "name": "python-pptx",
+      "files": 798,
+      "size_mb": 60.4,
+      "runtime": "python",
+      "license": "present",
+      "commit": "278b47b1dedd5b46ee84c286e77cdfb0bf4594be",
+      "repo": "https://github.com/scanny/python-pptx.git"
+    },
+    {
+      "name": "remotion-video-skill",
+      "files": 6,
+      "size_mb": 0.1,
+      "runtime": "unknown",
+      "license": "missing",
+      "commit": "d16ebd9ca330d636cf82bfd33d48ae12df74fadd",
+      "repo": "https://github.com/wshuyi/remotion-video-skill.git"
+    },
+    {
+      "name": "reveal.js",
+      "files": 230,
+      "size_mb": 11.3,
+      "runtime": "node",
+      "license": "present",
+      "commit": "f8c9ec3bb3b288e061b166fba5e4975920dd5cd4",
+      "repo": "https://github.com/hakimel/reveal.js.git"
+    },
+    {
+      "name": "revealjs-skill",
+      "files": 34,
+      "size_mb": 2.1,
+      "runtime": "node",
+      "license": "present",
+      "commit": "d0ccd344c4aaf9f045e5a15be6a2ab67b595796f",
+      "repo": "https://github.com/ryanbbrown/revealjs-skill.git"
+    },
+    {
+      "name": "skills-anthropics",
+      "files": 419,
+      "size_mb": 10.6,
+      "runtime": "unknown",
+      "license": "missing",
+      "commit": "34040c9c568585f6929bedeaad110ad08f079624",
+      "repo": "https://github.com/anthropics/skills.git"
+    },
+    {
+      "name": "skills-jetbrains",
+      "files": 1840,
+      "size_mb": 12.9,
+      "runtime": "unknown",
+      "license": "missing",
+      "commit": "e0f258b5cfed145015cb3e48da9a97947f7c4ed7",
+      "repo": "https://github.com/JetBrains/skills.git"
+    },
+    {
+      "name": "skills-minimax",
+      "files": 393,
+      "size_mb": 13.6,
+      "runtime": "unknown",
+      "license": "present",
+      "commit": "60aaae52bb2af8162732751a4332f62a5fef518b",
+      "repo": "https://github.com/MiniMax-AI/skills.git"
+    },
+    {
+      "name": "skills-openai",
+      "files": 783,
+      "size_mb": 4.5,
+      "runtime": "unknown",
+      "license": "missing",
+      "commit": "49f948faa9258a0c61caceaf225e179651397431",
+      "repo": "https://github.com/openai/skills.git"
+    },
+    {
+      "name": "skills-slides",
+      "files": 21,
+      "size_mb": 3,
+      "runtime": "unknown",
+      "license": "missing",
+      "commit": "c271d3cda03bf79733cc91ba28e25716196638b7",
+      "repo": "https://github.com/nghiahsgs/skills-slides.git"
+    },
+    {
+      "name": "skills-slidespeak",
+      "files": 5,
+      "size_mb": 0,
+      "runtime": "unknown",
+      "license": "missing",
+      "commit": "fc4dfbf9273a9b96054f015eeb393748b0901363",
+      "repo": "https://github.com/SlideSpeak/skills"
+    },
+    {
+      "name": "skills-terminalskills",
+      "files": 3095,
+      "size_mb": 17.9,
+      "runtime": "unknown",
+      "license": "present",
+      "commit": null,
+      "repo": null
+    },
+    {
+      "name": "slide-creator",
+      "files": 427,
+      "size_mb": 8.7,
+      "runtime": "unknown",
+      "license": "missing",
+      "commit": "9e999874b2107c3a8a727962151c61d275f74bf3",
+      "repo": "https://github.com/kaisersong/slide-creator.git"
+    },
+    {
+      "name": "slide-deck-ai",
+      "files": 441,
+      "size_mb": 3.3,
+      "runtime": "python",
+      "license": "present",
+      "commit": "2e64c64fe19071a9022d70196f9ad191a87f858f",
+      "repo": "https://github.com/barun-saha/slide-deck-ai"
+    },
+    {
+      "name": "slide-writer",
+      "files": 69,
+      "size_mb": 8.2,
+      "runtime": "unknown",
+      "license": "present",
+      "commit": "3c4524c4abb3310fdee106282d0a64f156fd4ff6",
+      "repo": "https://github.com/FeeiCN/slide-writer.git"
+    },
+    {
+      "name": "slidedown",
+      "files": 45,
+      "size_mb": 1.6,
+      "runtime": "node",
+      "license": "present",
+      "commit": "58fd640fe15138b175471b683833ed26280002c1",
+      "repo": "https://github.com/Viniciuscarvalho/slidedown.git"
+    },
+    {
+      "name": "slidemd",
+      "files": 6,
+      "size_mb": 1.6,
+      "runtime": "unknown",
+      "license": "missing",
+      "commit": "79fcd96d16a238be8ecaa5becc2b273c7c2ddb55",
+      "repo": "https://github.com/GreenKeewi/slidemd.git"
+    },
+    {
+      "name": "slides-skill",
+      "files": 84,
+      "size_mb": 2.1,
+      "runtime": "unknown",
+      "license": "present",
+      "commit": "94a7035886b83ec414dbfbc2b442f9234da9b9f9",
+      "repo": "https://github.com/korbinjoe/slides-skill"
+    },
+    {
+      "name": "slides-skills",
+      "files": 134,
+      "size_mb": 3.6,
+      "runtime": "unknown",
+      "license": "present",
+      "commit": "5c0db58508469f7973e212e7d261ed2d1c0ceb03",
+      "repo": "https://github.com/yugasun/slides-skills.git"
+    },
+    {
+      "name": "slides_generator",
+      "files": 55,
+      "size_mb": 5.6,
+      "runtime": "python",
+      "license": "present",
+      "commit": "5c614a03b014a233270256dac937e216cdff3977",
+      "repo": "https://github.com/ai-forever/slides_generator"
+    },
+    {
+      "name": "slides_maker",
+      "files": 250,
+      "size_mb": 6,
+      "runtime": "unknown",
+      "license": "present",
+      "commit": "150473e84295d76b4bde359433ffa7d21e26f8f2",
+      "repo": "https://github.com/addsumtech/slides_maker"
+    },
+    {
+      "name": "slidev",
+      "files": 790,
+      "size_mb": 17.8,
+      "runtime": "node",
+      "license": "present",
+      "commit": "30a0a54c8739b4b395d9b336a6304cc8ebcc3947",
+      "repo": "https://github.com/slidevjs/slidev.git"
+    },
+    {
+      "name": "td-skills",
+      "files": 264,
+      "size_mb": 2.1,
+      "runtime": "unknown",
+      "license": "missing",
+      "commit": "43e66a8f1574644df4cac045872f94bec0502113",
+      "repo": "https://github.com/treasure-data/td-skills.git"
+    },
+    {
+      "name": "video-shotcraft",
+      "files": 970,
+      "size_mb": 52,
+      "runtime": "node",
+      "license": "present",
+      "commit": "5e71af35a2daee492dd3ea93e5e8903f32dcd13c",
+      "repo": "https://github.com/Vincentwei1021/video-shotcraft.git"
+    },
+    {
+      "name": "visual-cognition-slides",
+      "files": 19,
+      "size_mb": 0.4,
+      "runtime": "unknown",
+      "license": "present",
+      "commit": "83fc4b55f409b6564c9c1b8aee93d3015af2da9c",
+      "repo": "https://github.com/edu-ai-builders/visual-cognition-slides.git"
+    },
+    {
+      "name": "visual-explainer",
+      "files": 44,
+      "size_mb": 1.5,
+      "runtime": "node",
+      "license": "present",
+      "commit": null,
+      "repo": null
+    }
+  ]
+}

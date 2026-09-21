@@ -1,0 +1,12 @@
+{
+  "name": "presentationos",
+  "version": "0.0.0",
+  "private": true,
+  "description": "PresentationOS - AI Presentation Development Platform",
+  "packageManager": "pnpm@12.5.1",
+  "scripts": {
+    "test:node": "node --test \"tests/unit/*.test.mjs\"",
+    "build:cli": "pnpm -C apps/cli build",
+    "smoke": "node tests/unit/node-smoke.test.mjs"
+  }
+}
