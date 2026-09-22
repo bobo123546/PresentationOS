@@ -57,9 +57,11 @@ async function placeBlock(s, block, rect, theme) {
     const base = { x: rect.x, y: rect.y, w: rect.w, h: rect.h };
     switch (block.type) {
         case 'text': {
+            const color = block.color ?? theme.font;
+            const fontSize = Math.round((fontSizeFor(block.style) * (block.fontScale ?? 1)) * 10) / 10;
             s.addText(block.text ?? '', {
                 ...base,
-                fontSize: fontSizeFor(block.style), color: theme.font,
+                fontSize, color,
                 valign: 'top', fontFace: theme.fontFamily, wrap: true, fit: 'shrink',
             });
             break;

@@ -3,6 +3,8 @@ export interface SlideBlock {
     type: string;
     text?: string;
     style?: string;
+    fontScale?: number;
+    color?: string;
     src?: string;
     alt?: string;
     chartType?: string;
