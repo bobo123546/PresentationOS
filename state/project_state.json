@@ -1,8 +1,8 @@
 {
-  "project_version": "0.2.4",
-  "current_phase": "PHASE_9_REVISION_LOOP",
-  "active_task": "TASK-0018 revision-loop (DONE)",
-  "last_completed_task": "TASK-0018 PHASE 9 Revision Loop: 核心垂直链路全通",
+  "project_version": "0.2.5",
+  "current_phase": "PHASE_9_COMPLETE",
+  "active_task": "TASK-0019 docs-auditor (DONE)",
+  "last_completed_task": "TASK-0019 docs-auditor: 五文档审计全 PASS",
   "last_successful_build": "2026-09-22T01:16:31.106Z",
   "last_successful_test": "2026-09-22T01:16:31.106Z",
   "completed_phases": {
@@ -21,5 +21,5 @@
   "known_blockers": [
     "BLOCKED-MODEL-001: 真实模型推理需 API key 或本地模型（协议层已验证）"
   ],
-  "updated_at": "2026-09-22T02:14:42.530Z"
+  "updated_at": "2026-09-22T02:16:44.605Z"
 }
