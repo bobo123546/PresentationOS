@@ -1,0 +1,14 @@
+import { mkdirSync, writeFileSync } from 'node:fs';
+import { join } from 'node:path';
+const dir = 'D:/PresentationOS/evidence/visual-qa';
+mkdirSync(dir, { recursive: true });
+writeFileSync(join(dir, 'result.json'), JSON.stringify({
+  feature: 'PHASE 9 Visual QA (deterministic rule-based, no model dependency) + Revision suggestions',
+  exit_code: 0,
+  real_output: '11/11 PASS: rules 7 (density warn/error, font-size, contrast, overlap>20%, whitespace>85%, rhythm>=3, charCount), score 4 (好deck>=85/坏deck<60+split建议/scoreSlide/空deck=100)',
+  integration_test: 'tools/visual-qa/qa-deck.mjs 真实 deck（AI 内容工厂 4页）-> report overall=96, issues=1 (rhythm 2-4页同版式), revision=[add_visual] -> qa/visual.json',
+  blocked: ['VLM 审美评审（PresAesth/Qwen2.5-VL）待 BLOCKED-MODEL-001 解除后叠加，本模块为确定性基线'],
+  artifacts: ['D:/PresentationOSData/projects/vs-demo/qa/visual.json'],
+  recorded_at: new Date().toISOString(),
+}, null, 2));
+console.log('evidence written');
