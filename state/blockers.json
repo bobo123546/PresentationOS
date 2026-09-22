@@ -1,1 +1,9 @@
-[]
+[
+  {
+    "id": "BLOCKED-MODEL-001",
+    "title": "真实模型推理未执行",
+    "reason": "无本地模型/无 API key",
+    "resolution": "用户提供 API key（models.yaml apiKeyRef）或安装 Ollama + qwen2.5:14b",
+    "status": "OPEN"
+  }
+]

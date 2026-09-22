@@ -1,8 +1,8 @@
 {
-  "project_version": "0.2.1",
-  "current_phase": "PHASE_16",
-  "active_task": "TASK-0015 plugin-sdk (DONE)",
-  "last_completed_task": "TASK-0015 PHASE 16 Plugin System",
+  "project_version": "0.2.2",
+  "current_phase": "PHASE_14",
+  "active_task": "TASK-0016 model-router (DONE)",
+  "last_completed_task": "TASK-0016 PHASE 14 Model Router",
   "last_successful_build": "2026-09-22T01:16:31.106Z",
   "last_successful_test": "2026-09-22T01:16:31.106Z",
   "completed_phases": {
@@ -18,6 +18,8 @@
     "PHASE_19": "Unified Logging (telemetry) 5/5"
   },
   "release_status": "NOT_READY",
-  "known_blockers": [],
-  "updated_at": "2026-09-22T01:16:31.106Z"
+  "known_blockers": [
+    "BLOCKED-MODEL-001: 真实模型推理需 API key 或本地模型（协议层已验证）"
+  ],
+  "updated_at": "2026-09-22T01:20:35.923Z"
 }

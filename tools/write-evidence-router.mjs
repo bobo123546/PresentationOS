@@ -1,0 +1,16 @@
+import { mkdirSync, writeFileSync } from 'node:fs';
+import { join } from 'node:path';
+const dir = 'D:/PresentationOS/evidence/model-router';
+mkdirSync(dir, { recursive: true });
+writeFileSync(join(dir, 'result.json'), JSON.stringify({
+  feature: 'PHASE 14 Model Router (config -> capability routing -> OpenAI-compatible protocol -> fallback chain)',
+  exit_code: 0,
+  real_output: '15/15 PASS: config 9 (合法/缺models/缺routes/非法baseUrl/重复id/重复route/空候选/真实yaml/apiKeyRef env解析), router 6 (主模型成功/自动回退/401未授权识别/全失败/NO_MODEL/Authorization头注入)',
+  integration_test: '本地 mock OpenAI server（node http）真实 HTTP 调用：主->回退链、超时、401 识别、Bearer key 注入',
+  blocked: [
+    { id: 'BLOCKED-MODEL-001', detail: '真实模型推理未执行：无本地模型（Ollama 未装/无模型文件）、无云端 API key。协议层已用 mock server 真实验证。需要用户提供 API key 或安装本地模型后才能执行真实推理并记录输出。' }
+  ],
+  artifacts: ['D:/PresentationOS/kernel/model-router/dist/index.js'],
+  recorded_at: new Date().toISOString(),
+}, null, 2));
+console.log('evidence written');

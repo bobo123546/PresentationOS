@@ -1,0 +1,36 @@
+# Model Router 配置示例（PHASE 14）
+# apiKeyRef 一律用 env:NAME 引用环境变量，禁止明文落盘
+models:
+  - id: local.qwen
+    provider: ollama
+    model: qwen2.5:14b
+    baseUrl: http://localhost:11434
+    capabilities: [deck.design, narrative, vision.qa]
+    local: true
+    timeoutMs: 60000
+  - id: cloud.gpt4o
+    provider: openai
+    model: gpt-4o
+    baseUrl: https://api.openai.com
+    apiKeyRef: env:OPENAI_API_KEY
+    capabilities: [narrative, research, vision.qa]
+    local: false
+    timeoutMs: 30000
+  - id: cloud.claude
+    provider: anthropic
+    model: claude-sonnet-4-5
+    baseUrl: https://api.anthropic.com
+    apiKeyRef: env:ANTHROPIC_API_KEY
+    capabilities: [narrative, deck.design, vision.qa]
+    local: false
+    timeoutMs: 30000
+
+routes:
+  - capability: deck.design
+    models: [cloud.claude, local.qwen]
+  - capability: narrative
+    models: [cloud.gpt4o, cloud.claude, local.qwen]
+  - capability: vision.qa
+    models: [cloud.gpt4o, cloud.claude, local.qwen]
+  - capability: research
+    models: [cloud.gpt4o]
