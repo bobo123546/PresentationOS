@@ -1,0 +1,9 @@
+name: echo-worker
+version: 0.1.0
+description: 回显 Worker（privileged）：独立进程，验证 stdio JSON Lines 协议
+type: privileged
+permissions:
+  - process
+capability: plugin.demo.echo
+entry: worker.mjs
+author: PresentationOS

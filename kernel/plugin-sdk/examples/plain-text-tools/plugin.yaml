@@ -1,0 +1,8 @@
+name: plain-text-tools
+version: 0.1.0
+description: 纯文本工具（safe）：提取 Markdown 标题、统计词数，可读取插件目录内文件
+type: safe
+permissions:
+  - filesystem.read
+entry: index.mjs
+author: PresentationOS
