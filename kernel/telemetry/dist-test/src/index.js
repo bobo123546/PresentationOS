@@ -2,6 +2,7 @@
 // Broker 失败时允许 local spool（本版本：写盘失败时降级到临时目录并标记）
 import { createEvent } from './events.js';
 import { JsonlLogWriter } from './jsonl.js';
+import { sanitizeForLog } from './redact.js';
 export class Logger {
     writer;
     component;
@@ -34,7 +35,8 @@ export class Logger {
             // Log Broker 失败 → local spool（写到系统临时目录，恢复后合并）
             const spoolPath = process.env.PRES_LOG_SPOOL ?? (process.env.TEMP ?? 'C:\\Windows\\Temp') + '\\pres-spool.jsonl';
             const { appendFile } = await import('node:fs/promises');
-            await appendFile(spoolPath, JSON.stringify({ ...ev, spooled: true, spool_error: String(err) }) + '\n', 'utf8').catch(() => undefined);
+            const safe = sanitizeForLog({ ...ev, spooled: true, spool_error: String(err) });
+            await appendFile(spoolPath, JSON.stringify(safe) + '\n', 'utf8').catch(() => undefined);
         }
     }
     debug(partial) { return this.emit('debug', partial); }

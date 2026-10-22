@@ -52,7 +52,9 @@
       "properties": {
         "type": { "const": "text" },
         "text": { "type": "string" },
-        "style": { "type": "string" }
+        "style": { "type": "string" },
+        "fontScale": { "type": "number", "minimum": 0.75, "maximum": 3 },
+        "color": { "type": "string", "pattern": "^[0-9A-Fa-f]{6}$" }
       },
       "additionalProperties": false
     },

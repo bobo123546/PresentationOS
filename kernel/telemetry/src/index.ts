@@ -4,6 +4,7 @@
 import type { CanonicalEvent, LogLevel } from './events.js';
 import { createEvent } from './events.js';
 import { JsonlLogWriter } from './jsonl.js';
+import { sanitizeForLog } from './redact.js';
 
 export interface LoggerOptions {
   component: string;
@@ -47,7 +48,8 @@ export class Logger {
       // Log Broker 失败 → local spool（写到系统临时目录，恢复后合并）
       const spoolPath = process.env.PRES_LOG_SPOOL ?? (process.env.TEMP ?? 'C:\\Windows\\Temp') + '\\pres-spool.jsonl';
       const { appendFile } = await import('node:fs/promises');
-      await appendFile(spoolPath, JSON.stringify({ ...ev, spooled: true, spool_error: String(err) }) + '\n', 'utf8').catch(() => undefined);
+      const safe = sanitizeForLog({ ...ev, spooled: true, spool_error: String(err) });
+      await appendFile(spoolPath, JSON.stringify(safe) + '\n', 'utf8').catch(() => undefined);
     }
   }
 

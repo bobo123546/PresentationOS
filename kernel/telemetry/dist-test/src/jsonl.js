@@ -38,7 +38,7 @@ export class JsonlLogWriter {
         const safe = sanitizeForLog(event);
         const line = JSON.stringify({ ...safe, app_version: safe.app_version ?? this.appVersion, git_commit: safe.git_commit ?? this.gitCommit });
         // 串行化写盘（单写者保证，避免交错/半行）
-        this.writeChain = this.writeChain.then(async () => {
+        this.writeChain = this.writeChain.catch(() => undefined).then(async () => {
             await this.ensureDir();
             await appendFile(this.currentPath, line + '\n', 'utf8');
         });

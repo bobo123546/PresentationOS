@@ -10,6 +10,9 @@
     "test": "tsc -p tsconfig.test.json && node --test \"dist-test/tests/**/*.test.js\""
   },
   "dependencies": {
+    "@pres/template-dna": "workspace:*",
+    "@pres/pptx-engine": "workspace:*",
+    "@pres/mechanical-qa": "workspace:*",
     "yaml": "^2.5.0"
   },
   "devDependencies": {

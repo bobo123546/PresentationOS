@@ -3,6 +3,7 @@
 import { readFileSync, mkdirSync, existsSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import type { DeckSlide, DeckSpec, LayoutIR } from '@pres/pptx-engine';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = findRepoRoot(__dirname);
@@ -31,10 +32,10 @@ export interface RenderMarkdownResult {
 }
 
 const DYNAMIC_IMPORTS = {
-  templateDna: () => import(pathToFileURL(join(REPO_ROOT, 'kernel/template-dna/dist/index.js')).href) as Promise<typeof import('../../template-dna/dist/index.js')>,
-  pptxEngine: () => import(pathToFileURL(join(REPO_ROOT, 'kernel/pptx-engine/dist/index.js')).href) as Promise<typeof import('../../pptx-engine/dist/index.js')>,
-  mechanicalQa: () => import(pathToFileURL(join(REPO_ROOT, 'kernel/mechanical-qa/dist/index.js')).href) as Promise<typeof import('../../mechanical-qa/dist/index.js')>,
-  md2deck: () => import(pathToFileURL(join(REPO_ROOT, 'tools/vertical-slice/md2deck.mjs')).href) as Promise<{ mdToDeck: (md: string, name: string) => import('../../pptx-engine/dist/index.js').DeckSpec; layoutFor: (s: import('../../pptx-engine/dist/index.js').DeckSlide) => import('../../pptx-engine/dist/index.js').LayoutIR }>,
+  templateDna: () => import('@pres/template-dna'),
+  pptxEngine: () => import('@pres/pptx-engine'),
+  mechanicalQa: () => import('@pres/mechanical-qa'),
+  md2deck: () => import(pathToFileURL(join(REPO_ROOT, 'tools/vertical-slice/md2deck.mjs')).href) as Promise<{ mdToDeck: (md: string, name: string) => DeckSpec; layoutFor: (s: DeckSlide) => LayoutIR }>,
 };
 
 export async function renderMarkdownDeck(
@@ -52,7 +53,7 @@ export async function renderMarkdownDeck(
     const deck = mdToDeck(markdown, title ?? 'deck');
 
     const rectsCache = new Map<string, Map<string, { x: number; y: number; w: number; h: number }>>();
-    const resolveRects = (slide: import('../../pptx-engine/dist/index.js').DeckSlide) => {
+    const resolveRects = (slide: DeckSlide) => {
       if (!rectsCache.has(slide.id)) rectsCache.set(slide.id, resolveLayout(layoutFor(slide)));
       return rectsCache.get(slide.id)!;
     };
@@ -65,7 +66,7 @@ export async function renderMarkdownDeck(
         const r = rects.get(`block-${i}`);
         if (r) items.push({ id: `block-${i}`, ...r });
       }
-      const qa = runMechanicalQa({ pageWidth: 13.33, pageHeight: 7.5, rects: items, blocks: slide.blocks.map((b, i) => ({ id: `block-${i}`, ...b })) });
+      const qa = runMechanicalQa({ pageWidth: 13.33, pageHeight: 7.5, rects: items, blocks: slide.blocks.map((b: any, i: number) => ({ id: `block-${i}`, ...b })) });
       if (!qa.ok) {
         return { ok: false, error: `mechanical QA failed on ${slide.id}: ${JSON.stringify(qa.findings)}`, qaArtifacts: [] };
       }

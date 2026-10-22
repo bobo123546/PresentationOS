@@ -290,6 +290,15 @@ importers:
 
   kernel/skill-runtime:
     dependencies:
+      '@pres/mechanical-qa':
+        specifier: workspace:*
+        version: link:../mechanical-qa
+      '@pres/pptx-engine':
+        specifier: workspace:*
+        version: link:../pptx-engine
+      '@pres/template-dna':
+        specifier: workspace:*
+        version: link:../template-dna
       yaml:
         specifier: ^2.5.0
         version: 2.9.1

@@ -25,9 +25,9 @@ function findRepoRoot(start) {
     throw new Error('repo root not found');
 }
 const DYNAMIC_IMPORTS = {
-    templateDna: () => import(pathToFileURL(join(REPO_ROOT, 'kernel/template-dna/dist/index.js')).href),
-    pptxEngine: () => import(pathToFileURL(join(REPO_ROOT, 'kernel/pptx-engine/dist/index.js')).href),
-    mechanicalQa: () => import(pathToFileURL(join(REPO_ROOT, 'kernel/mechanical-qa/dist/index.js')).href),
+    templateDna: () => import('@pres/template-dna'),
+    pptxEngine: () => import('@pres/pptx-engine'),
+    mechanicalQa: () => import('@pres/mechanical-qa'),
     md2deck: () => import(pathToFileURL(join(REPO_ROOT, 'tools/vertical-slice/md2deck.mjs')).href),
 };
 export async function renderMarkdownDeck(markdown, outPath, reference, title) {
