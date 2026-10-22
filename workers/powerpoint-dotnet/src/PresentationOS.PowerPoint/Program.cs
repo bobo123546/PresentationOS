@@ -12,11 +12,21 @@ namespace PresentationOS.PowerPoint;
 /// </summary>
 public static class Program
 {
+    [STAThread]
     public static int Main(string[] args)
+    {
+        if (args.Length == 2 && args[0] == "--native-probe") {
+            if (!OperatingSystem.IsWindows()) return 1;
+            return NativeProbe.Run(args[1]);
+        }
+        return Run(Console.In, Console.Out);
+    }
+
+    public static int Run(TextReader reader, TextWriter writer)
     {
         var workerId = Environment.GetEnvironmentVariable("PRES_WORKER_ID") ?? $"pptx-worker-{Environment.ProcessId}";
         // handshake
-        Console.Out.WriteLine(JsonSerializer.Serialize(new
+        writer.WriteLine(JsonSerializer.Serialize(new
         {
             type = "handshake",
             workerId,
@@ -27,7 +37,7 @@ public static class Program
         }));
 
         string? line;
-        while ((line = Console.In.ReadLine()) != null)
+        while ((line = reader.ReadLine()) != null)
         {
             if (string.IsNullOrWhiteSpace(line)) continue;
             // 兼容 PowerShell 管道等来源可能附加的 UTF-8 BOM
@@ -37,12 +47,12 @@ public static class Program
                 using var doc = JsonDocument.Parse(line);
                 if (doc.RootElement.TryGetProperty("type", out var t) && t.GetString() == "job_request")
                 {
-                    HandleJob(workerId, doc.RootElement);
+                    HandleJob(writer, doc.RootElement);
                 }
             }
             catch (Exception ex)
             {
-                Console.Out.WriteLine(JsonSerializer.Serialize(new
+                writer.WriteLine(JsonSerializer.Serialize(new
                 {
                     type = "job_response",
                     jobId = "unknown",
@@ -58,7 +68,7 @@ public static class Program
         return 0;
     }
 
-    private static void HandleJob(string workerId, JsonElement root)
+    private static void HandleJob(TextWriter writer, JsonElement root)
     {
         var started = Environment.TickCount64;
         var jobId = root.TryGetProperty("jobId", out var j) ? j.GetString() ?? "unknown" : "unknown";
@@ -75,11 +85,14 @@ public static class Program
                     if (string.IsNullOrWhiteSpace(pptx) || string.IsNullOrWhiteSpace(pdf))
                         throw new ArgumentException("input requires pptxPath and pdfPath");
 
+                    if (!OperatingSystem.IsWindows()) throw new PlatformNotSupportedException("PowerPoint COM requires Windows");
+
                     var native = new PowerPointNative();
-                    try
+                    PowerPointNative.QaResult r;
+                    try { r = native.OpenAndExportPdf(pptx, pdf); }
+                    finally { native.Quit(); }
                     {
-                        var r = native.OpenAndExportPdf(pptx, pdf);
-                        Console.Out.WriteLine(JsonSerializer.Serialize(new
+                        writer.WriteLine(JsonSerializer.Serialize(new
                         {
                             type = "job_response",
                             jobId,
@@ -91,14 +104,11 @@ public static class Program
                             artifactRefs = new[] { pdf },
                         }));
                     }
-                    finally
-                    {
-                        native.Quit();
-                    }
+
                     break;
                 }
                 default:
-                    Console.Out.WriteLine(JsonSerializer.Serialize(new
+                    writer.WriteLine(JsonSerializer.Serialize(new
                     {
                         type = "job_response",
                         jobId,
@@ -114,7 +124,7 @@ public static class Program
         }
         catch (Exception ex)
         {
-            Console.Out.WriteLine(JsonSerializer.Serialize(new
+            writer.WriteLine(JsonSerializer.Serialize(new
             {
                 type = "job_response",
                 jobId,
