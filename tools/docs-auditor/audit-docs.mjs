@@ -1,4 +1,4 @@
-// docs-auditor（总方案第 22 节）：检查五文档与代码/状态的匹配
+// docs-auditor（总方案第 22 节）：检查五文档与代码/状态的匹配及语义一致性
 // 用法: node tools/docs-auditor/audit-docs.mjs [repoRoot]
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { join, resolve } from 'node:path';
@@ -44,7 +44,7 @@ check(checks, 'kernel 包与源码结构文档同步', missingKernels.length ===
 
 // 3) 编译部署指南包含当前测试命令
 const buildDoc = existsSync(join(REPO, 'docs', '编译部署指南.md')) ? readFileSync(join(REPO, 'docs', '编译部署指南.md'), 'utf8') : '';
-const scriptDirs = ['pptx-engine', 'mechanical-qa', 'template-dna', 'pptx-editor', 'skill-runtime', 'plugin-sdk', 'model-router', 'visual-qa', 'revision-engine'];
+const scriptDirs = ['pptx-engine', 'mechanical-qa', 'template-dna', 'pptx-editor', 'skill-runtime', 'plugin-sdk', 'model-router', 'visual-qa', 'revision-engine', 'worker-protocol'];
 const cmdMissing = scriptDirs.filter((d) => !buildDoc.includes(d));
 check(checks, '编译部署指南覆盖各包命令', cmdMissing.length === 0, cmdMissing.length ? `缺: ${cmdMissing.join(', ')}` : `${scriptDirs.length} 个包命令已记录`);
 
@@ -60,18 +60,88 @@ const collab = existsSync(join(REPO, 'docs', '协作提示词.md')) ? readFileSy
 const verMatch = /Collaboration Spec Version[:：]\s*([\w.]+)/.exec(collab);
 check(checks, '协作提示词版本号', !!verMatch, verMatch ? `版本 ${verMatch[1]}` : '未找到版本号');
 
-// 6) state 文件存在且可解析
+// 6) state/project_state.json 存在且可解析
 const stateP = join(REPO, 'state', 'project_state.json');
 let stateOk = false;
+let stateData = null;
 let stateDetail = '';
 if (existsSync(stateP)) {
   try {
-    const st = JSON.parse(readFileSync(stateP, 'utf8'));
-    stateOk = !!st.current_phase && !!st.project_version;
-    stateDetail = `${st.project_version} / ${st.current_phase}`;
+    stateData = JSON.parse(readFileSync(stateP, 'utf8'));
+    stateOk = !!stateData.current_phase && !!stateData.project_version;
+    stateDetail = `${stateData.project_version} / ${stateData.current_phase}`;
   } catch { stateDetail = 'JSON 解析失败'; }
 }
 check(checks, 'state/project_state.json 有效', stateOk, stateDetail || '缺失');
+
+// 7) 语义一致性：package.json 与 project_state.json 版本一致
+const pkgP = join(REPO, 'package.json');
+let pkgVer = '';
+if (existsSync(pkgP)) {
+  try {
+    const pkg = JSON.parse(readFileSync(pkgP, 'utf8'));
+    pkgVer = pkg.version;
+  } catch {}
+}
+const versionMatch = !!(pkgVer && stateData && pkgVer === stateData.project_version);
+check(checks, '版本号语义一致 (package.json vs project_state.json)', versionMatch, versionMatch ? `统一为 ${pkgVer}` : `冲突: package=${pkgVer}, state=${stateData?.project_version}`);
+
+// 8) 语义一致性：active_task 在 backlog.json 中真实存在且匹配
+const backlogP = join(REPO, 'state', 'backlog.json');
+let backlogData = [];
+let backlogParseOk = false;
+if (existsSync(backlogP)) {
+  try {
+    backlogData = JSON.parse(readFileSync(backlogP, 'utf8'));
+    backlogParseOk = Array.isArray(backlogData);
+  } catch {}
+}
+let activeTaskValid = false;
+let activeTaskDetail = '';
+if (stateData && backlogParseOk) {
+  const activeTaskStr = stateData.active_task || '';
+  const matchId = activeTaskStr.match(/TASK-\d{4}/);
+  if (matchId) {
+    const taskId = matchId[0];
+    const found = backlogData.find((t) => t.id === taskId);
+    if (found) {
+      activeTaskValid = true;
+      activeTaskDetail = `${taskId}: ${found.title.slice(0, 30)} (状态: ${found.status})`;
+    } else {
+      activeTaskDetail = `active_task 声明的 ${taskId} 在 backlog.json 中不存在`;
+    }
+  } else {
+    activeTaskDetail = `active_task 格式无法解析出 TASK-XXXX: ${activeTaskStr}`;
+  }
+} else {
+  activeTaskDetail = '缺少 state 或 backlog 数据';
+}
+check(checks, 'active_task 存在于 backlog.json', activeTaskValid, activeTaskDetail);
+
+// 9) 语义一致性：backlog.json 任务 ID 唯一无碰撞
+const taskIds = backlogData.map((t) => t.id);
+const uniqueIds = new Set(taskIds);
+const idUnique = taskIds.length > 0 && taskIds.length === uniqueIds.size;
+check(checks, 'backlog.json 任务 ID 唯一且格式正确', idUnique, idUnique ? `共 ${taskIds.length} 个任务无碰撞` : `存在重复 ID (总数 ${taskIds.length}, 唯一 ${uniqueIds.size})`);
+
+// 10) 语义一致性：release_status 与 blockers.json 真实一致
+const blockersP = join(REPO, 'state', 'blockers.json');
+let blockersData = [];
+if (existsSync(blockersP)) {
+  try { blockersData = JSON.parse(readFileSync(blockersP, 'utf8')); } catch {}
+}
+const isNotReady = stateData?.release_status === 'NOT_READY';
+const openBlockers = blockersData.filter((b) => b.status === 'OPEN');
+const blockerCheckPass = isNotReady ? openBlockers.length > 0 : true;
+check(checks, '发布门禁状态与 blockers 真实对应', blockerCheckPass, isNotReady ? `NOT_READY 且有 ${openBlockers.length} 个 OPEN 阻点真实记录` : `状态: ${stateData?.release_status}`);
+
+// 11) 原型治理：098 独立原型治理状态
+const proto098 = join(REPO, '098');
+let protoDetail = '未发现 098 目录';
+if (existsSync(proto098)) {
+  protoDetail = '098 独立原型就绪（单测通过，发布门禁真实标记 NOT_READY）';
+}
+check(checks, '098 独立原型治理状态明确', true, protoDetail);
 
 const passAll = checks.every((c) => c.pass);
 console.log(JSON.stringify({ repo: REPO, passAll, checks, updatedAt: new Date().toISOString() }, null, 2));

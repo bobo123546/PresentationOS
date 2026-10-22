@@ -5,5 +5,19 @@
     "reason": "无本地模型/无 API key",
     "resolution": "用户提供 API key（models.yaml apiKeyRef）或安装 Ollama + qwen2.5:14b",
     "status": "OPEN"
+  },
+  {
+    "id": "BLOCKED-RELEASE-001",
+    "title": "原生桌面客户端与独立安装包尚未开发",
+    "reason": "PHASE 17 (Tauri 2 + React) 与 PHASE 22 (Installer / Release) 处于未启动状态",
+    "resolution": "实现 Tauri 桌面宿主工程，集成打包管道，完成干净机安装与卸载验证",
+    "status": "OPEN"
+  },
+  {
+    "id": "BLOCKED-GATE-001",
+    "title": "PowerPoint 完整 Native QA DoD 门禁待全面闭环",
+    "reason": "现有 COM 验证主要测试打开和 PDF 导出，全页 PNG 像素对比、字体回退检测及无修复对话框断言需深化",
+    "resolution": "完善 C# 与 Python Worker 的 9 步严格原生验证，将 Native QA 输出纳入发布强制门禁",
+    "status": "OPEN"
   }
 ]

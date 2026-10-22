@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PresentationOS ResolvedScene Specification",
+  "description": "Unified geometric, typographic, and stylistic single-source-of-truth consumed by Layout, Renderer, Mechanical QA, and Visual QA.",
+  "type": "object",
+  "required": ["deck_id", "slide_width", "slide_height", "safe_margin", "slides"],
+  "properties": {
+    "deck_id": {
+      "type": "string",
+      "description": "Unique identifier of the generated presentation deck."
+    },
+    "slide_width": {
+      "type": "number",
+      "minimum": 100.0,
+      "description": "Total width of slide canvas in points."
+    },
+    "slide_height": {
+      "type": "number",
+      "minimum": 100.0,
+      "description": "Total height of slide canvas in points."
+    },
+    "safe_margin": {
+      "type": "object",
+      "required": ["top", "bottom", "left", "right"],
+      "properties": {
+        "top": { "type": "number", "minimum": 0 },
+        "bottom": { "type": "number", "minimum": 0 },
+        "left": { "type": "number", "minimum": 0 },
+        "right": { "type": "number", "minimum": 0 }
+      }
+    },
+    "slides": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["slide_id", "slide_index", "elements"],
+        "properties": {
+          "slide_id": { "type": "string" },
+          "slide_index": { "type": "integer", "minimum": 1 },
+          "background_color": { "type": "string" },
+          "speaker_notes": { "type": "string" },
+          "elements": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["element_id", "kind", "box", "render_status"],
+              "properties": {
+                "element_id": { "type": "string" },
+                "source_id": { "type": ["string", "null"] },
+                "kind": {
+                  "type": "string",
+                  "enum": ["text", "image", "shape", "table", "chart", "svg", "container"]
+                },
+                "z_index": { "type": "integer", "default": 0 },
+                "box": {
+                  "type": "object",
+                  "required": ["x", "y", "w", "h"],
+                  "properties": {
+                    "x": { "type": "number" },
+                    "y": { "type": "number" },
+                    "w": { "type": "number" },
+                    "h": { "type": "number" }
+                  }
+                },
+                "style": {
+                  "type": "object",
+                  "properties": {
+                    "font_family": { "type": "string" },
+                    "font_size": { "type": "number", "minimum": 1 },
+                    "color": { "type": "string" },
+                    "line_height": { "type": "number", "minimum": 0.5 },
+                    "align": { "type": "string", "enum": ["left", "center", "right", "justify"] },
+                    "bold": { "type": "boolean" },
+                    "italic": { "type": "boolean" }
+                  }
+                },
+                "content": {},
+                "render_status": {
+                  "type": "string",
+                  "enum": ["SUPPORTED", "DEGRADED", "UNSUPPORTED"]
+                },
+                "degrade_reason": { "type": ["string", "null"] }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

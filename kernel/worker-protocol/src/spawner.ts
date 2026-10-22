@@ -39,8 +39,23 @@ export class WorkerProcess {
       this.lines.push(`[stderr] ${d.toString().trimEnd()}`);
     });
     this.proc.on('exit', (code) => {
-      for (const [, p] of this.pending) clearTimeout(p.timer);
+      const pendingJobs = Array.from(this.pending.entries());
       this.pending.clear();
+      for (const [jobId, p] of pendingJobs) {
+        clearTimeout(p.timer);
+        p.resolve({
+          type: 'job_response',
+          jobId,
+          ok: false,
+          output: null,
+          errorType: 'WORKER_EXITED',
+          errorMessage: `Worker process exited with code ${code}`,
+          durationMs: 0,
+          artifactRefs: [],
+        });
+      }
+      const resolvers = this.handshakeResolvers.splice(0);
+      for (const r of resolvers) r(null);
     });
   }
 

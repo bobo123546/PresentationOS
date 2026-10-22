@@ -1,8 +1,11 @@
 {
   "name": "@pres/cli",
-  "version": "0.0.0",
+  "version": "0.1.0-alpha",
   "private": true,
   "type": "module",
+  "bin": {
+    "pres": "./dist/index.js"
+  },
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "start": "node dist/index.js"

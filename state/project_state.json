@@ -1,10 +1,10 @@
 {
-  "project_version": "0.2.5",
-  "current_phase": "PHASE_9_COMPLETE",
-  "active_task": "TASK-0019 docs-auditor (DONE)",
-  "last_completed_task": "TASK-0019 docs-auditor: 五文档审计全 PASS",
-  "last_successful_build": "2026-09-22T01:16:31.106Z",
-  "last_successful_test": "2026-09-22T01:16:31.106Z",
+  "project_version": "0.1.0-alpha",
+  "current_phase": "PHASE_9_IN_PROGRESS",
+  "active_task": "TASK-0024 tools/docs-auditor (DONE)",
+  "last_completed_task": "TASK-0024 docs-auditor: 五文档与状态语义审计通过",
+  "last_successful_build": "2026-10-22T10:45:00.000Z",
+  "last_successful_test": "2026-10-22T10:45:00.000Z",
   "completed_phases": {
     "PHASE_0": "环境基线/目录/五文档/state/最小build&test",
     "PHASE_1": "106/106 upstream manifests + SBOM + Grype（13355 包，crit=103 high=1056）",
@@ -19,7 +19,9 @@
   },
   "release_status": "NOT_READY",
   "known_blockers": [
-    "BLOCKED-MODEL-001: 真实模型推理需 API key 或本地模型（协议层已验证）"
+    "BLOCKED-MODEL-001: 真实模型推理需 API key 或本地模型（协议层已验证）",
+    "BLOCKED-RELEASE-001: 原生桌面 GUI (Tauri) 与独立安装包尚未开发",
+    "BLOCKED-GATE-001: PowerPoint 完整 Native QA DoD 门禁（全页 PNG/字体/修复对话框检测）待全面闭环"
   ],
-  "updated_at": "2026-09-22T02:16:44.605Z"
+  "updated_at": "2026-10-22T10:50:00.000Z"
 }

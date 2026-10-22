@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://presentationos.org/schemas/design_token.schema.json",
+  "title": "DesignTokenIR",
+  "description": "Design system tokens including colors, typography, spacing and theme parameters",
+  "type": "object",
+  "required": ["theme_name", "colors", "typography", "canvas"],
+  "properties": {
+    "theme_name": { "type": "string" },
+    "colors": {
+      "type": "object",
+      "required": ["background", "surface", "text_primary", "text_secondary", "accent"],
+      "properties": {
+        "background": { "type": "string" },
+        "surface": { "type": "string" },
+        "text_primary": { "type": "string" },
+        "text_secondary": { "type": "string" },
+        "accent": { "type": "string" },
+        "card_border": { "type": "string" }
+      }
+    },
+    "typography": {
+      "type": "object",
+      "required": ["heading_font", "body_font", "font_sizes"],
+      "properties": {
+        "heading_font": { "type": "string" },
+        "body_font": { "type": "string" },
+        "font_sizes": {
+          "type": "object",
+          "required": ["title", "subtitle", "section", "body", "caption"],
+          "properties": {
+            "title": { "type": "number" },
+            "subtitle": { "type": "number" },
+            "section": { "type": "number" },
+            "body": { "type": "number" },
+            "caption": { "type": "number" }
+          }
+        }
+      }
+    },
+    "canvas": {
+      "type": "object",
+      "required": ["width", "height", "aspect_ratio", "margin_x", "margin_y"],
+      "properties": {
+        "width": { "type": "number" },
+        "height": { "type": "number" },
+        "aspect_ratio": { "type": "string", "enum": ["16:9", "4:3"] },
+        "margin_x": { "type": "number" },
+        "margin_y": { "type": "number" }
+      }
+    }
+  }
+}

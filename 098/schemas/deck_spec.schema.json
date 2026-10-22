@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://presentationos.org/schemas/deck_spec.schema.json",
+  "title": "DeckSpec",
+  "description": "Complete specification binding NarrativeIR with DesignTokens before geometric resolution",
+  "type": "object",
+  "required": ["deck_id", "title", "design_tokens", "slides"],
+  "properties": {
+    "deck_id": { "type": "string" },
+    "title": { "type": "string" },
+    "design_tokens": { "$ref": "design_token.schema.json" },
+    "slides": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["slide_id", "layout_type", "title"],
+        "properties": {
+          "slide_id": { "type": "string" },
+          "layout_type": { "type": "string" },
+          "title": { "type": "string" },
+          "subtitle": { "type": "string" },
+          "content_payload": { "type": "object" },
+          "speaker_notes": { "type": "string" }
+        }
+      }
+    }
+  }
+}

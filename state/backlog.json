@@ -93,11 +93,11 @@
     "id": "TASK-0010",
     "priority": "P1",
     "title": "PHASE 9: QA 系统（Mechanical QA + Visual QA 调度 + Revision Loop）",
-    "status": "NOT_STARTED",
+    "status": "IN_PROGRESS",
     "dependencies": ["TASK-0008"],
     "acceptance": ["机械检查清单全过", "人为损坏案例可检出", "Revision 定位到 slide/object"],
-    "evidence": [],
-    "blocked_reason": null
+    "evidence": ["D:/PresentationOS/kernel/mechanical-qa", "D:/PresentationOS/kernel/visual-qa", "D:/PresentationOS/kernel/revision-engine"],
+    "blocked_reason": "规则级单测已存在；视觉渲染对比与完整 Revision 闭环需接真实模型与原生截图"
   },
   {
     "id": "TASK-0011",
@@ -113,21 +113,21 @@
     "id": "TASK-0012",
     "priority": "P1",
     "title": "PHASE 11: Template DNA 提取",
-    "status": "NOT_STARTED",
+    "status": "PARTIAL",
     "dependencies": ["TASK-0008"],
     "acceptance": ["真实 PPTX 提取 fonts/colors/grid/layout 等 → TemplateDNA", "新 PPT 继承视觉系统"],
-    "evidence": [],
-    "blocked_reason": null
+    "evidence": ["D:/PresentationOS/kernel/template-dna"],
+    "blocked_reason": "提取原型与单测已就绪，精确复刻与复杂版式映射仍需深化"
   },
   {
     "id": "TASK-0013",
     "priority": "P1",
     "title": "PHASE 12: Existing PPT Editing（只改第 5 页标题与布局）",
-    "status": "NOT_STARTED",
+    "status": "PARTIAL",
     "dependencies": ["TASK-0008", "TASK-0011"],
     "acceptance": ["只改目标页", "其它页无变化", "PowerPoint 正常打开", "对象保持可编辑"],
-    "evidence": [],
-    "blocked_reason": null
+    "evidence": ["D:/PresentationOS/kernel/pptx-editor"],
+    "blocked_reason": "文本 Run 级编辑验证通过，多形状复杂 PPT 保真编辑待扩展"
   },
   {
     "id": "TASK-0014",
@@ -143,31 +143,31 @@
     "id": "TASK-0015",
     "priority": "P1",
     "title": "PHASE 14: Model Router（统一 ModelProvider + fallback）",
-    "status": "NOT_STARTED",
+    "status": "PARTIAL",
     "dependencies": ["TASK-0004"],
     "acceptance": ["任务声明/模型声明", "Provider A 不可用自动 fallback B"],
-    "evidence": [],
-    "blocked_reason": null
+    "evidence": ["D:/PresentationOS/kernel/model-router"],
+    "blocked_reason": "Mock HTTP 集成测试通过，真实模型 API key/本地推理接入待配置"
   },
   {
     "id": "TASK-0016",
     "priority": "P1",
     "title": "PHASE 15: Skill Runtime / Skill Compiler",
-    "status": "NOT_STARTED",
+    "status": "PARTIAL",
     "dependencies": ["TASK-0007", "TASK-0008"],
     "acceptance": ["skill.yaml/workflow.yaml/schemas/prompts/resources/provenance", "编译目标多端", "Desktop 与 Skill 同一 Capability Core"],
-    "evidence": [],
-    "blocked_reason": null
+    "evidence": ["D:/PresentationOS/kernel/skill-runtime"],
+    "blocked_reason": "deck.plan/deck.render 运行时通过，QA 工件全生命周期链待闭合"
   },
   {
     "id": "TASK-0017",
     "priority": "P2",
     "title": "PHASE 16: Plugin System（Safe WASM + Privileged Worker + Permission Manifest）",
-    "status": "NOT_STARTED",
+    "status": "PARTIAL",
     "dependencies": ["TASK-0007"],
     "acceptance": ["两类插件", "权限声明"],
-    "evidence": [],
-    "blocked_reason": null
+    "evidence": ["D:/PresentationOS/kernel/plugin-sdk"],
+    "blocked_reason": "Plugin SDK 原型与单测已就绪，安全沙箱与进程隔离边界待补强"
   },
   {
     "id": "TASK-0018",
@@ -233,10 +233,10 @@
     "id": "TASK-0024",
     "priority": "P1",
     "title": "tools/docs-auditor（五文档一致性检查）",
-    "status": "NOT_STARTED",
+    "status": "COMPLETED",
     "dependencies": ["TASK-0001"],
     "acceptance": ["五文档存在", "Current Status 最新", "源码结构匹配", "命令真实", "规则版本正确"],
-    "evidence": [],
+    "evidence": ["D:/PresentationOS/tools/docs-auditor/audit-docs.mjs"],
     "blocked_reason": null
   },
   {

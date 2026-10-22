@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://presentationos.org/schemas/narrative_ir.schema.json",
+  "title": "NarrativeIR",
+  "description": "Presentation narrative planning and slide story arc specification",
+  "type": "object",
+  "required": ["narrative_id", "source_file_id", "objective", "target_audience", "slides"],
+  "properties": {
+    "narrative_id": { "type": "string" },
+    "source_file_id": { "type": "string" },
+    "title": { "type": "string" },
+    "objective": { "type": "string" },
+    "target_audience": { "type": "string" },
+    "slides": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/NarrativeSlide"
+      }
+    }
+  },
+  "$defs": {
+    "NarrativeSlide": {
+      "type": "object",
+      "required": ["slide_index", "layout_type", "title"],
+      "properties": {
+        "slide_index": { "type": "integer", "minimum": 0 },
+        "layout_type": {
+          "type": "string",
+          "enum": ["title_slide", "agenda", "big_metric", "cards_grid", "split_column", "data_table", "conclusion"]
+        },
+        "title": { "type": "string" },
+        "subtitle": { "type": "string" },
+        "bullets": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "metrics": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["value", "label"],
+            "properties": {
+              "value": { "type": "string" },
+              "label": { "type": "string" }
+            }
+          }
+        },
+        "cards": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["title", "description"],
+            "properties": {
+              "title": { "type": "string" },
+              "description": { "type": "string" }
+            }
+          }
+        },
+        "table_data": {
+          "type": "object",
+          "properties": {
+            "headers": { "type": "array", "items": { "type": "string" } },
+            "rows": { "type": "array", "items": { "type": "array", "items": { "type": "string" } } }
+          }
+        },
+        "speaker_notes": { "type": "string" },
+        "source_chunk_ids": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    }
+  }
+}

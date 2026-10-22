@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PresentationOS QAReport Specification",
+  "description": "Composite Mechanical, Visual, Content, and Native quality audit report schema.",
+  "type": "object",
+  "required": [
+    "report_id",
+    "deck_id",
+    "overall_score",
+    "blocking_issues_count",
+    "warning_issues_count",
+    "issues"
+  ],
+  "properties": {
+    "report_id": { "type": "string" },
+    "deck_id": { "type": "string" },
+    "overall_score": { "type": "number", "minimum": 0, "maximum": 100 },
+    "blocking_issues_count": { "type": "integer", "minimum": 0 },
+    "warning_issues_count": { "type": "integer", "minimum": 0 },
+    "issues": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["category", "code", "severity", "slide_id", "description"],
+        "properties": {
+          "category": {
+            "type": "string",
+            "enum": ["MECHANICAL", "VISUAL", "CONTENT", "POWERPOINT"]
+          },
+          "code": { "type": "string" },
+          "severity": { "type": "string", "enum": ["S0", "S1", "S2", "S3"] },
+          "slide_id": { "type": "string" },
+          "element_id": { "type": ["string", "null"] },
+          "description": { "type": "string" },
+          "metrics": { "type": "object" }
+        }
+      }
+    }
+  }
+}

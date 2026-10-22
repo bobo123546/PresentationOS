@@ -1,6 +1,6 @@
 {
   "name": "presentationos",
-  "version": "0.0.0",
+  "version": "0.1.0-alpha",
   "private": true,
   "description": "PresentationOS - AI Presentation Development Platform",
   "packageManager": "pnpm@12.5.1",

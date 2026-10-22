@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  test:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 12.5.1
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build packages
+        run: pnpm -r build
+
+      - name: Run root unit tests
+        run: pnpm test:node
+
+      - name: Run kernel package tests
+        run: pnpm -r --if-present test
+
+      - name: Run worker protocol E2E
+        run: node tests/e2e/worker-protocol.e2e.mjs
+
+      - name: Run docs and state audit
+        run: node tools/docs-auditor/audit-docs.mjs

@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PresentationOS EvidenceIR Specification",
+  "description": "Cryptographically verifiable audit evidence record associating commits, runs, inputs, and outputs.",
+  "type": "object",
+  "required": [
+    "evidence_id",
+    "task_id",
+    "commit_hash",
+    "command",
+    "exit_code",
+    "timestamp",
+    "inputs_hash",
+    "outputs_hash",
+    "status"
+  ],
+  "properties": {
+    "evidence_id": { "type": "string" },
+    "task_id": { "type": "string" },
+    "commit_hash": { "type": "string", "pattern": "^[a-f0-9]{7,40}$" },
+    "command": { "type": "string" },
+    "exit_code": { "type": "integer" },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "inputs_hash": { "type": "string" },
+    "outputs_hash": { "type": "string" },
+    "environment": {
+      "type": "object",
+      "properties": {
+        "os": { "type": "string" },
+        "node_version": { "type": "string" },
+        "python_version": { "type": "string" },
+        "office_version": { "type": ["string", "null"] }
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": ["PASS", "FAIL", "LIMITED_TRIAL", "REVALIDATION_REQUIRED", "BLOCKED"]
+    },
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["path", "checksum", "size_bytes"],
+        "properties": {
+          "path": { "type": "string" },
+          "checksum": { "type": "string" },
+          "size_bytes": { "type": "integer", "minimum": 0 }
+        }
+      }
+    }
+  }
+}

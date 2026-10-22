@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PresentationOS SourceIR Specification",
+  "description": "Standardized intermediate representation for raw multimodal input extraction and provenance tracking.",
+  "type": "object",
+  "required": ["file_id", "file_hash", "file_type", "extractor_version", "sections"],
+  "properties": {
+    "file_id": {
+      "type": "string",
+      "description": "Unique identifier for the source document asset."
+    },
+    "file_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{32,64}$",
+      "description": "Cryptographic hash (MD5/SHA256) of raw input."
+    },
+    "file_type": {
+      "type": "string",
+      "enum": ["markdown", "pdf", "docx", "pptx", "xlsx", "csv", "image", "html", "plain_text"]
+    },
+    "extractor_version": {
+      "type": "string",
+      "description": "Semantic version of the parser/extractor used."
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "author": { "type": "string" },
+        "created_at": { "type": "string", "format": "date-time" },
+        "page_count": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "sections": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["section_id", "raw_text"],
+        "properties": {
+          "section_id": { "type": "string" },
+          "heading": { "type": "string" },
+          "level": { "type": "integer", "minimum": 1, "maximum": 6 },
+          "raw_text": { "type": "string" },
+          "confidence": { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+          "page_number": { "type": "integer", "minimum": 1 },
+          "facts": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["fact_type", "value"],
+              "properties": {
+                "fact_type": { "type": "string", "enum": ["number", "unit", "date", "condition", "quote", "citation"] },
+                "value": { "type": "string" },
+                "original_span": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

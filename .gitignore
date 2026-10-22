@@ -1,12 +1,14 @@
-﻿# PresentationOS .gitignore
+# PresentationOS .gitignore
 node_modules/
 dist/
+dist-test/
 build/
 target/
 bin/
 obj/
 __pycache__/
 *.pyc
+.pytest_cache/
 .venv/
 venv/
 .env

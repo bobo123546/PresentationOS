@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PresentationOS RevisionPlan Specification",
+  "description": "Safe change transaction plan distinguishing lossless layout adjustments from lossy semantic modifications.",
+  "type": "object",
+  "required": [
+    "plan_id",
+    "deck_hash",
+    "is_lossy",
+    "requires_human_approval",
+    "actions"
+  ],
+  "properties": {
+    "plan_id": { "type": "string" },
+    "deck_hash": { "type": "string" },
+    "is_lossy": { "type": "boolean" },
+    "lossy_reasons": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "requires_human_approval": { "type": "boolean" },
+    "actions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["action_type", "target_slide_id", "params", "revert_patch"],
+        "properties": {
+          "action_type": {
+            "type": "string",
+            "enum": [
+              "SPLIT_SLIDE",
+              "REFLOW",
+              "RESIZE_REGION",
+              "ADJUST_FONT",
+              "CHANGE_LAYOUT",
+              "REDUCE_CONTRAST",
+              "TRUNCATE_TEXT",
+              "SUMMARIZE",
+              "DELETE_ELEMENT"
+            ]
+          },
+          "target_slide_id": { "type": "string" },
+          "target_element_id": { "type": ["string", "null"] },
+          "params": { "type": "object" },
+          "revert_patch": { "type": "object" }
+        }
+      }
+    }
+  }
+}
