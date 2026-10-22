@@ -4,6 +4,8 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+import uuid
+import os
 from pathlib import Path
 
 # Ensure UTF-8 stdout on Windows console if supported
@@ -77,10 +79,10 @@ def main() -> int:
     elif args.command == "qa":
         pptx_path = Path(args.pptx)
         print(f"\n[QA] Running Native PowerPoint QA on: {pptx_path}...")
-        verifier = NativePowerPointVerifier()
+        verifier = NativePowerPointVerifier(data_root=Path(os.environ.get("PRES_DATA_DIR", r"D:\PresentationOSData")))
         result = verifier.verify_presentation(
             pptx_path=pptx_path,
-            run_id="manual_qa_check",
+            run_id="manual_" + uuid.uuid4().hex,
             expected_slides=args.slides,
         )
         print(f"Status: {result.status.value}")
@@ -101,7 +103,7 @@ def main() -> int:
         print(f" Theme:  {args.theme}")
         print(f"=======================================================\n")
 
-        orchestrator = PresentationOrchestrator()
+        orchestrator = PresentationOrchestrator(data_root=Path(os.environ.get("PRES_DATA_DIR", r"D:\PresentationOSData")))
         out_dir = Path(args.out) if args.out else None
         res = orchestrator.compile(
             input_path=input_path,
@@ -126,7 +128,7 @@ def main() -> int:
                 print(f"  • {b}")
 
         if res.success:
-            print("\n[SUCCESS] Document compiled, rendered and native Office verified cleanly!\n")
+            print("\n[SUCCESS] Document compiled. Native status: " + res.native_status + "; release remains NOT_READY.\n")
             return 0
         else:
             print("\n[FAILED] Compilation failed QA or validation constraints.\n")

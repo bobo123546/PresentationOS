@@ -8,6 +8,10 @@ import os
 import json
 import time
 import hashlib
+import platform
+import sys
+import subprocess
+from datetime import datetime, timezone
 from typing import Dict, Any, List, Optional, Union, Tuple
 from pathlib import Path
 from dataclasses import dataclass, field, asdict
@@ -64,7 +68,7 @@ class EvidenceManifestBuilder:
     def add_evidence(self, path: Union[str, Path], label: str = "evidence") -> None:
         self.evidence_files.append((Path(path), label))
 
-    def build(self) -> Dict[str, Any]:
+    def build(self, status: str = "LIMITED_TRIAL", command: str | None = None, exit_code: int = 0) -> Dict[str, Any]:
         artifacts_manifest = []
         out_hasher = hashlib.sha256()
 
@@ -101,11 +105,14 @@ class EvidenceManifestBuilder:
             "evidence_id": f"ev_{self.task_id}_{int(time.time())}",
             "task_id": self.task_id,
             "commit_hash": self.commit_hash,
-            "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ"),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "inputs_hash": in_hasher.hexdigest(),
             "outputs_hash": out_hasher.hexdigest(),
-            "status": "PASS",
-            "environment": {"os": "windows", "python": "3.13"},
+            "status": status,
+            "command": command or subprocess.list2cmdline([sys.executable, *sys.argv]),
+            "exit_code": exit_code,
+            "source_snapshot": source_snapshot(),
+            "environment": {"os": platform.platform(), "python_version": platform.python_version()},
             "artifacts": artifacts_manifest,
         }
 
@@ -162,6 +169,17 @@ class EvidenceManifestBuilder:
             inputs_hash=in_hash,
             outputs_hash=out_hash,
             status=status,
-            environment=env_meta or {"os": "windows", "python": "3.13"},
+            environment=env_meta or {"os": platform.platform(), "python_version": platform.python_version()},
             artifacts=artifacts
         )
+
+
+def source_snapshot():
+    root = Path(__file__).resolve().parents[2]
+    files = {}
+    for directory in (root/"098", root/"state", root/"workers/powerpoint-dotnet/src"):
+        for path in sorted(directory.rglob("*")):
+            if path.is_file() and path.suffix in {".py", ".json", ".txt", ".cs", ".csproj"} and not any(part in {"__pycache__", ".venv", ".pytest_cache", "bin", "obj"} for part in path.parts):
+                files[str(path.relative_to(root))] = hashlib.sha256(path.read_bytes()).hexdigest()
+    result = subprocess.run(["git", "-C", str(root), "status", "--porcelain"],capture_output=True,text=True)
+    return {"dirty": bool(result.stdout) or result.returncode != 0,"git_status":result.stdout,"files":files}

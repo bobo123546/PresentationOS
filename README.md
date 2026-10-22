@@ -1,153 +1,85 @@
 # PresentationOS
 
-<p align="center">
-  <strong>The Open-Source Deterministic AI Presentation Engine & Infrastructure</strong>
-</p>
+An experimental presentation compiler and a set of TypeScript/.NET components for editable PowerPoint workflows.
 
-<p align="center">
-  <a href="#license"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License: MIT"></a>
-  <a href="#architecture"><img src="https://img.shields.io/badge/version-0.1.0--alpha-green.svg" alt="Version: 0.1.0-alpha"></a>
-  <a href="#testing"><img src="https://img.shields.io/badge/tests-116%20kernel%20tests%20passing-brightgreen.svg" alt="Tests"></a>
-  <a href="#native-office-qa"><img src="https://img.shields.io/badge/Native%20QA-MS%20PowerPoint%20COM%20Verified-blueviolet.svg" alt="Native QA"></a>
-  <a href="#intermediate-representations"><img src="https://img.shields.io/badge/Schema-JSON%20Schema%202020--12-orange.svg" alt="Schema"></a>
-</p>
+[![CI](https://github.com/bobo123546/PresentationOS/actions/workflows/ci.yml/badge.svg)](https://github.com/bobo123546/PresentationOS/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
----
+**0.1.1-alpha · Developer preview · Full platform release status: NOT_READY**
 
-## Overview
+The supported CLI turns a documented Markdown subset into PPTX, validates its DeckSpec, and runs deterministic geometry and visual rules. Automatic revisions retain source text. QA failures return a nonzero exit code. Reports describe the checks actually attempted; they are not a guarantee of appearance or correctness for arbitrary documents.
 
-**PresentationOS** is an open-source development platform and rendering infrastructure that transforms raw markdown and tabular data into enterprise-grade, editable PowerPoint presentations (`.pptx`) with mathematical determinism, **100% factual preservation**, and native Microsoft Office COM verification.
+## Quick start
 
-Most AI slide generation tools are brittle wrappers that suffer from hallucination, overlapping text, and unreadable layouts. PresentationOS establishes an extensible operating-system-grade pipeline featuring **multi-tier intermediate representations (IR)**, **constraint-based geometry solving**, and an **automated closed-loop revision cycle**.
+Use Node.js 22.13 or newer and pnpm 12.5.1. The Markdown CLI does not require PowerPoint, an API key, Python, or .NET.
 
-```mermaid
-flowchart TD
-    A["Raw Document (Markdown / Data)"] --> B["Content Ingestion & Provenance"]
-    B --> C["Narrative Planner (NarrativeIR)"]
-    C --> D["Layout Solver & Design Tokens (DeckSpec / LayoutIR)"]
-    D --> E["PPTX Rendering Engine (PptxGenJS + .NET Worker)"]
-    E --> F["Dual QA Layer (Mechanical QA + Visual QA)"]
-    F -->|Issues Detected| G["Revision Loop (Lossless Healing)"]
-    G --> D
-    F -->|Quality Verified| H["Native PowerPoint COM Verification"]
-    H --> I["Deliverable PPTX / PDF + Evidence Manifest"]
-```
-
----
-
-## Key Highlights
-
-- **Multi-Tier Intermediate Representation (IR)**: Decoupled schemas (`DocumentIR` &rarr; `NarrativeIR` &rarr; `DeckSpec` &rarr; `LayoutIR` &rarr; `RenderIR`) validated against JSON Schema 2020-12.
-- **100% Strict Fact Preservation**: Mathematical provenance tracking guarantees zero dropped metrics, dates, or bullet items during layout formatting.
-- **Dual QA Architecture**:
-  - *Mechanical QA*: 18-point geometric check enforcing canvas bounds, overlap prevention, minimum dimensions, and XML safety.
-  - *Visual QA*: Metric-based contrast (WCAG), text density scoring, and rhythm evaluation with automatic revision planning.
-- **Native Microsoft PowerPoint COM Verification**: Out-of-process 9-step COM verification pipeline executing real file opening, slide count readback, lossless copy verification, PDF rendering (SaveAs 32), and interactive shape tree inspection.
-- **Extensible Worker Protocol (`pres-worker/1`)**: Language-agnostic JSON Lines over stdio protocol supporting TypeScript, Python, and C# (.NET 8) workers with non-blocking exit safety and lifecycle management.
-
----
-
-## Repository Structure
-
-```text
-D:/PresentationOS/
-├── apps/
-│   └── cli/                      # PresentationOS Unified CLI ('pres')
-├── kernel/                       # 15 Core TypeScript Kernel Packages
-│   ├── artifact-store/           # SHA-256 CAS content-addressable storage
-│   ├── capability-registry/      # Provider resolution graph & fallback ABI
-│   ├── durable-workflow/         # SQLite-backed checkpointed workflow runtime
-│   ├── mechanical-qa/            # 18-point geometric bounding box audit
-│   ├── model-router/             # Multi-provider LLM abstraction & fallback
-│   ├── plugin-sdk/               # Isolated plugin runtime & permission guards
-│   ├── pptx-editor/              # In-place XML run-level slide modifier
-│   ├── pptx-engine/              # Constraint layout solver & PptxGenJS renderer
-│   ├── revision-engine/          # Non-destructive slide split & auto-revisions
-│   ├── schema-validator/         # JSON Schema 2020-12 validator suite
-│   ├── skill-runtime/            # Reusable slide skill compiler & executor
-│   ├── telemetry/                # Structured JSONL event telemetry & redact
-│   ├── template-dna/             # Visual style, palette, & layout extraction
-│   ├── visual-qa/                # Aesthetic density, contrast, & rhythm scorer
-│   └── worker-protocol/          # Pres-worker/1 IPC spawner & protocol engine
-├── workers/
-│   ├── node-worker/              # Node.js capability worker
-│   └── powerpoint-dotnet/        # C# .NET 8 PowerPoint Native COM worker
-├── tools/                        # Pipeline tools & docs auditor
-├── docs/                         # Specifications, DoD, & architectural guide
-└── state/                        # Audited project state & backlog governance
-```
-
----
-
-## Quick Start
-
-### Prerequisites
-
-- **Node.js**: v22.0.0 or higher
-- **pnpm**: v12.0.0 or higher
-- **.NET SDK**: 8.0 (for PowerPoint COM Worker)
-- **Microsoft PowerPoint**: (Optional, required for native COM QA verification)
-
-### 1. Installation & Build
-
-```bash
-# Clone the repository
+```sh
 git clone https://github.com/bobo123546/PresentationOS.git
 cd PresentationOS
-
-# Build all workspace packages
-pnpm -r build
-pnpm run build:cli
-```
-
-### 2. Compile a Presentation with Revision Loop
-
-```bash
-# Run compiler with integrated QA and automatic healing
-node apps/cli/dist/index.js compile tools/vertical-slice/sample.md
-```
-
-### 3. Run Verification & State Audit
-
-```bash
-# Run full semantic governance audit across specifications and code
+pnpm install --frozen-lockfile
+pnpm -r --if-present build
+node apps/cli/dist/index.js compile tools/vertical-slice/sample.md ./sample.pptx
+node apps/cli/dist/index.js qa tools/vertical-slice/sample.md ./sample.qa.json
 node apps/cli/dist/index.js audit
 ```
 
----
+Use new output paths: existing files, links and input aliases are rejected. Without an explicit output, each invocation creates a separate run directory. Set `PRES_DATA_DIR` to choose its data root; the Windows default is `D:\PresentationOSData`. Source files are never used as default report paths.
 
-## Verification & Testing
+Supported input includes headings, paragraphs, bullets, quotes and pipe tables. Long content and tables are paginated. Unsupported renderer blocks fail explicitly. Markdown extensions, complex table layouts and unsupported SVG rendering require further development.
 
-Every single component in PresentationOS is rigorously tested. Fake passes and simulated assertions are strictly forbidden by our engineering baseline.
+## Architecture
 
-```bash
-# 1. Run full TypeScript Kernel test suite (116 passing tests)
-pnpm -r --if-present test
-
-# 2. Run Worker Protocol E2E verification
-node tests/e2e/worker-protocol.e2e.mjs
-
-# 3. Run C# PowerPoint COM Worker unit tests
-dotnet test workers/powerpoint-dotnet/PresentationOS.PowerPoint.sln -c Release
-
-# 4. Run Python Prototype Suite (22 passing tests)
-python -B -m pytest 098/tests -v -p no:faulthandler
+```mermaid
+flowchart LR
+  A[Markdown] --> B[DeckSpec and layout]
+  B --> C[JSON Schema validation]
+  C --> D[Shared geometry and font model]
+  D --> E[Deterministic QA and lossless revisions]
+  E --> F[Editable PPTX and report]
+  F -. separate optional Windows verification .-> G[PowerPoint COM probe]
 ```
 
----
+- `apps/cli`: compile, qa and audit commands.
+- `kernel`: capability registry, workflow, CAS store, renderer, rules, revisions, templates, model routing, skills, logging and plugin prototypes.
+- `workers`: Node process worker and a Windows .NET PowerPoint worker.
+- `098`: an independent Python prototype with its own experimental contracts. It is not a second production runtime or a Worker Protocol integration.
+- `state`: task status and unresolved platform release blockers.
 
-## Roadmap
+Model Router tests use a local mock server. Template DNA and existing-PPT editing are limited prototypes. Plugin runtime helpers are for trusted code; Node `vm` is not an operating-system security boundary for hostile plugins.
 
-- [x] **Phase 1: Foundation**: Schema/IR v1, Capability Registry, CAS Artifact Store, Durable Workflow SQLite.
-- [x] **Phase 2: Vertical Slice**: Markdown &rarr; DeckSpec &rarr; PptxGenJS &rarr; Native PowerPoint COM QA.
-- [x] **Phase 3: Automated QA**: Mechanical QA, Visual QA Scorer, Closed-loop Revision Engine.
-- [x] **Phase 4: Unified CLI**: Developer commands (`pres compile`, `pres audit`, `pres qa`).
-- [ ] **Phase 5: Multimodal VLM QA**: Integrating vision models for subjective aesthetic scoring.
-- [ ] **Phase 6: Desktop Host**: Tauri 2.0 + React canvas workspace for interactive editing.
-- [ ] **Phase 7: Media Pipeline**: Speaker notes to neural TTS & MP4 synchronized export.
+## Native Office verification
 
----
+Native verification is separate from the Markdown compile command. On Windows with PowerPoint and the built .NET 8 Worker, the Python launcher can open a generated file, save a copy, close and reopen it, exercise a text edit/save/reopen, read back text, export PDF and all slide PNGs, sample task-owned modal dialogs, and record process cleanup. COM runs in an isolated .NET child process with a timeout; Python does not load COM proxies. Existing PowerPoint sessions are preserved by refusing to start the probe while they are open.
 
-## License
+These operations do **not** establish complete OpenXML schema compliance, font substitution correctness or visual fidelity. Those checks remain unverified and prevent full Native/release certification. Portable tests do not launch Office or stand in for COM tests. A single sample with all numeric literals retained does not prove general semantic preservation.
 
-This project is licensed under the [MIT License](LICENSE).
+The Python `qa` command exits nonzero while full Native criteria remain unverified, even when individual Office operations succeed. Inspect the report's passed tiers and diagnostic details rather than treating the highest tier as full certification.
+
+```sh
+python -m pip install -r 098/requirements.txt
+python -B -m pytest 098/tests -q -p no:cacheprovider
+dotnet build workers/powerpoint-dotnet/PresentationOS.PowerPoint.sln -c Release -warnaserror
+# Optional real Office probe; output belongs in a new PRES_DATA_DIR:
+python -B 098/cli.py qa path/to/deck.pptx --slides 4
+```
+
+## Verification
+
+```sh
+pnpm test:node
+pnpm -r --if-present test
+node tests/e2e/worker-protocol.e2e.mjs
+node --test tools/docs-auditor/audit-docs.test.mjs
+node tools/docs-auditor/audit-docs.mjs
+dotnet test workers/powerpoint-dotnet/PresentationOS.PowerPoint.sln -c Release -warnaserror
+```
+
+See [validation notes](docs/验证记录.md) for actual commands, results and limitations. Historical `evidence/result.json` summaries written by `tools/write-evidence*.mjs` are not independently captured test logs for the current revision.
+
+## Roadmap and contribution
+
+The current focus is reproducible CLI behavior, source preservation, schema boundaries and trustworthy failure reporting. Full PowerPoint Native QA, precise existing-PPT editing, a Tauri desktop, Windows UI Automation, real model inference, TTS/MP4, an installer, clean-machine validation and release security review remain open.
+
+Bug reports should include the version, command, a minimal non-sensitive input, expected behavior and actual output. Contributions should include a focused regression and pass the checks above. Do not submit confidential documents or credentials in issues or logs.
+
+Licensed under the [MIT License](LICENSE).

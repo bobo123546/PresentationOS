@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { mkdtempSync, rmSync, existsSync, readFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { resolveLayout, renderDeck } from '../src/index.js';
+import { resolveLayout, renderDeck, resolveSlideScene } from '../src/index.js';
 
 test('column layout produces sequential y positions', () => {
   const rects = resolveLayout({
@@ -20,6 +20,29 @@ test('column layout produces sequential y positions', () => {
   assert.ok(b.y > a.y);
   assert.equal(a.w, 12.13); // 13.33 - 0.6 - 0.6
   assert.ok(Math.abs(b.y - (a.y + a.h + 0.3)) < 0.001);
+});
+
+test('shared scene uses the renderer font scale and exact geometry', () => {
+  const slide = {id:'slide-1',kind:'content',title:'Title',blocks:[{type:'text',text:'Metric 987654321',fontScale:1.25}]};
+  const rect = {x:1,y:2,w:8,h:3};
+  const scene = resolveSlideScene(slide,()=>new Map([['block-0',rect]]));
+  assert.deepEqual(scene.blocks[0].rect,rect);
+  assert.equal(scene.blocks[0].fontSize,20);
+});
+
+test('unsupported content and existing output files fail without losing user bytes', async () => {
+  const dir = mkdtempSync(join(tmpdir(),'pres-render-safe-'));
+  const output = join(dir,'existing.pptx');
+  const deck = {title:'Test',slides:[{id:'slide-1',kind:'content',title:'Test',blocks:[{type:'svg',svg:'<svg></svg>'}]}]};
+  try {
+    await assert.rejects(()=>renderDeck(deck,{outPath:output,resolveRects:()=>new Map()}),/SVG/);
+    assert.equal(existsSync(output),false);
+    const {writeFileSync} = await import('node:fs');
+    writeFileSync(output,'user bytes');
+    deck.slides[0].blocks=[{type:'text',svg:'unused'}];
+    await assert.rejects(()=>renderDeck(deck,{outPath:output,resolveRects:()=>new Map()}),/exist/i);
+    assert.equal(readFileSync(output,'utf8'),'user bytes');
+  }finally{rmSync(dir,{recursive:true,force:true});}
 });
 
 test('rightOf places node to the right of reference', () => {

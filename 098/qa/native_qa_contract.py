@@ -86,8 +86,12 @@ class NativeQAContract:
         pdf_generated: bool,
         readback_match: bool,
         editability_intact: bool,
-        package_valid: bool = True,
-        schema_valid: bool = True
+        package_valid: bool = False,
+        schema_valid: bool = False,
+        visual_verified: bool = False,
+        font_verified: bool = False,
+        repair_dialog_checked: bool = False,
+        process_cleanup_verified: bool = False
     ) -> NativeVerificationResult:
         passed = []
         failed = []
@@ -105,7 +109,7 @@ class NativeQAContract:
         if not has_office:
             failed.append(NativeVerificationTier.OFFICE_UNAVAILABLE)
             return NativeVerificationResult(
-                highest_tier=NativeVerificationTier.SCHEMA_PASS if schema_valid else NativeVerificationTier.PACKAGE_PASS,
+                highest_tier=passed[-1] if passed else NativeVerificationTier.OFFICE_UNAVAILABLE,
                 passed_tiers=passed,
                 failed_tiers=[NativeVerificationTier.OFFICE_UNAVAILABLE],
                 is_release_ready=False,
@@ -137,7 +141,7 @@ class NativeQAContract:
         else:
             failed.append(NativeVerificationTier.EDITABILITY_PASS)
 
-        all_required_met = all(tier in passed for tier in cls.REQUIRED_PRODUCTION_TIERS)
+        all_required_met = all(tier in passed for tier in cls.REQUIRED_PRODUCTION_TIERS) and all((visual_verified, font_verified, repair_dialog_checked, process_cleanup_verified))
         highest = passed[-1] if passed else NativeVerificationTier.OFFICE_UNAVAILABLE
 
         return NativeVerificationResult(
@@ -148,5 +152,9 @@ class NativeQAContract:
             diagnostic_details={
                 "total_passed": len(passed),
                 "total_failed": len(failed)
+                ,"visual_verified": visual_verified
+                ,"font_verified": font_verified
+                ,"repair_dialog_checked": repair_dialog_checked
+                ,"process_cleanup_verified": process_cleanup_verified
             }
         )

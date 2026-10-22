@@ -47,14 +47,15 @@ test('overlap detected between two rects', () => {
   assert.ok(r.findings.some((f) => f.check === 'overlap'));
 });
 
-test('unescaped xml in text is an error', () => {
+test('XML control characters are rejected while literal punctuation is allowed', () => {
   const r = runMechanicalQa({
     pageWidth: 10, pageHeight: 5,
     rects: [{ id: 't', x: 0, y: 0, w: 5, h: 1 }],
-    blocks: [{ id: 't', type: 'text', text: 'a < b & c > d' }],
+    blocks: [{ id: 't', type: 'text', text: 'a\u0001b' }],
   });
   assert.equal(r.ok, false);
-  assert.ok(r.findings.some((f) => f.check === 'unescaped-xml'));
+  assert.ok(r.findings.some((f) => f.check === 'invalid-xml-character'));
+  assert.equal(runMechanicalQa({pageWidth:10,pageHeight:5,rects:[],blocks:[{type:'text',text:'a < b & c > d'}]}).ok,true);
 });
 
 test('chart length mismatch is an error', () => {

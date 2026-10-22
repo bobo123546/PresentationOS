@@ -7,7 +7,7 @@ test('presentationos root smoke', async () => {
     await import('node:fs/promises').then(fs => fs.readFile(new URL('../../package.json', import.meta.url), 'utf8'))
   );
   assert.equal(pkg.name, 'presentationos');
-  assert.equal(pkg.version, '0.1.0-alpha');
+  assert.match(pkg.version, /^\d+\.\d+\.\d+-alpha$/);
 });
 
 test('node runtime is v22+', () => {

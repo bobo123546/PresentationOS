@@ -1,9 +1,15 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "PresentationOS ResolvedScene Specification",
-  "description": "Unified geometric, typographic, and stylistic single-source-of-truth consumed by Layout, Renderer, Mechanical QA, and Visual QA.",
+  "description": "Experimental canvas units, converted proportionally to slide inches by the renderer; not physical points.",
   "type": "object",
-  "required": ["deck_id", "slide_width", "slide_height", "safe_margin", "slides"],
+  "required": [
+    "deck_id",
+    "slide_width",
+    "slide_height",
+    "safe_margin",
+    "slides"
+  ],
   "properties": {
     "deck_id": {
       "type": "string",
@@ -21,66 +27,185 @@
     },
     "safe_margin": {
       "type": "object",
-      "required": ["top", "bottom", "left", "right"],
+      "required": [
+        "top",
+        "bottom",
+        "left",
+        "right"
+      ],
       "properties": {
-        "top": { "type": "number", "minimum": 0 },
-        "bottom": { "type": "number", "minimum": 0 },
-        "left": { "type": "number", "minimum": 0 },
-        "right": { "type": "number", "minimum": 0 }
+        "top": {
+          "type": "number",
+          "minimum": 0
+        },
+        "bottom": {
+          "type": "number",
+          "minimum": 0
+        },
+        "left": {
+          "type": "number",
+          "minimum": 0
+        },
+        "right": {
+          "type": "number",
+          "minimum": 0
+        }
       }
     },
     "slides": {
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["slide_id", "slide_index", "elements"],
+        "required": [
+          "slide_id",
+          "slide_index",
+          "elements"
+        ],
         "properties": {
-          "slide_id": { "type": "string" },
-          "slide_index": { "type": "integer", "minimum": 1 },
-          "background_color": { "type": "string" },
-          "speaker_notes": { "type": "string" },
+          "slide_id": {
+            "type": "string"
+          },
+          "slide_index": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "background_color": {
+            "type": "string"
+          },
+          "speaker_notes": {
+            "type": "string"
+          },
           "elements": {
             "type": "array",
             "items": {
               "type": "object",
-              "required": ["element_id", "kind", "box", "render_status"],
+              "required": [
+                "element_id",
+                "kind",
+                "box",
+                "render_status"
+              ],
               "properties": {
-                "element_id": { "type": "string" },
-                "source_id": { "type": ["string", "null"] },
+                "element_id": {
+                  "type": "string"
+                },
+                "source_id": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
                 "kind": {
                   "type": "string",
-                  "enum": ["text", "image", "shape", "table", "chart", "svg", "container"]
+                  "enum": [
+                    "text",
+                    "image",
+                    "shape",
+                    "table",
+                    "chart",
+                    "svg",
+                    "container"
+                  ]
                 },
-                "z_index": { "type": "integer", "default": 0 },
+                "z_index": {
+                  "type": "integer",
+                  "default": 0
+                },
                 "box": {
                   "type": "object",
-                  "required": ["x", "y", "w", "h"],
+                  "required": [
+                    "x",
+                    "y",
+                    "w",
+                    "h"
+                  ],
                   "properties": {
-                    "x": { "type": "number" },
-                    "y": { "type": "number" },
-                    "w": { "type": "number" },
-                    "h": { "type": "number" }
+                    "x": {
+                      "type": "number"
+                    },
+                    "y": {
+                      "type": "number"
+                    },
+                    "w": {
+                      "type": "number"
+                    },
+                    "h": {
+                      "type": "number"
+                    }
                   }
                 },
                 "style": {
                   "type": "object",
                   "properties": {
-                    "font_family": { "type": "string" },
-                    "font_size": { "type": "number", "minimum": 1 },
-                    "color": { "type": "string" },
-                    "line_height": { "type": "number", "minimum": 0.5 },
-                    "align": { "type": "string", "enum": ["left", "center", "right", "justify"] },
-                    "bold": { "type": "boolean" },
-                    "italic": { "type": "boolean" }
+                    "font_family": {
+                      "type": "string"
+                    },
+                    "font_size": {
+                      "type": "number",
+                      "minimum": 0
+                    },
+                    "color": {
+                      "type": "string"
+                    },
+                    "line_height": {
+                      "type": "number",
+                      "minimum": 0.5
+                    },
+                    "align": {
+                      "type": "string",
+                      "enum": [
+                        "left",
+                        "center",
+                        "right",
+                        "justify"
+                      ]
+                    },
+                    "bold": {
+                      "type": "boolean"
+                    },
+                    "italic": {
+                      "type": "boolean"
+                    }
                   }
                 },
                 "content": {},
                 "render_status": {
                   "type": "string",
-                  "enum": ["SUPPORTED", "DEGRADED", "UNSUPPORTED"]
+                  "enum": [
+                    "SUPPORTED",
+                    "DEGRADED",
+                    "UNSUPPORTED"
+                  ]
                 },
-                "degrade_reason": { "type": ["string", "null"] }
-              }
+                "degrade_reason": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "allOf": [
+                {
+                  "if": {
+                    "properties": {
+                      "kind": {
+                        "const": "text"
+                      }
+                    }
+                  },
+                  "then": {
+                    "properties": {
+                      "style": {
+                        "properties": {
+                          "font_size": {
+                            "exclusiveMinimum": 0
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
             }
           }
         }

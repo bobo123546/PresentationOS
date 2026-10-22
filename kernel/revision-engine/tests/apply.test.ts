@@ -25,12 +25,11 @@ test('split：三块拆成 2+1，新页插在原页后', () => {
   assert.equal(r.changes.length, 1);
 });
 
-test('reduce_text：超长块截断到 300 + …', () => {
+test('reduce_text retains all source text without editorial approval', () => {
   const d = deck();
   const r = applyRevisions(d, [{ slide: 1, action: 'reduce_text', reason: 'r' }]);
   const b0 = r.deck.slides[0].blocks[0];
-  assert.ok(b0.text!.length <= 301);
-  assert.ok(b0.text!.endsWith('…'));
+  assert.equal(b0.text, d.slides[0].blocks[0].text);
   // 短块不受影响
   assert.equal(r.deck.slides[0].blocks[1].text, 'b');
 });
@@ -61,11 +60,11 @@ test('add_visual：连续 content 打断为 section', () => {
   assert.equal(r.deck.slides[1].kind, 'section');
 });
 
-test('increase_margin 映射为精简文本', () => {
+test('increase_margin does not discard source text', () => {
   const d = deck();
   const r = applyRevisions(d, [{ slide: 1, action: 'increase_margin', reason: 'm' }]);
   assert.equal(r.changes[0].action, 'increase_margin');
-  assert.ok(r.deck.slides[0].blocks[0].text!.length <= 301);
+  assert.equal(r.deck.slides[0].blocks[0].text, d.slides[0].blocks[0].text);
 });
 
 test('同页同 action 去重', () => {
@@ -92,4 +91,13 @@ test('truncate 边界', () => {
 test('contrast 计算', () => {
   assert.ok(contrast('111111', 'FFFFFF') > 10);
   assert.ok(contrast('AAAAAA', 'FFFFFF') < 4);
+});
+
+test('a split cannot redirect later suggestions to the wrong original slide',()=>{
+  const source=deck();
+  const result=applyRevisions(source,[{slide:1,action:'split',reason:'density'},{slide:2,action:'increase_font',reason:'readability'}]);
+  assert.equal(result.deck.slides.find(s=>s.id==='s2')!.blocks[0].fontScale,1.25);
+  assert.equal(result.deck.slides[1].blocks[0].fontScale,undefined);
+  assert.equal(new Set(result.deck.slides.map(s=>s.id)).size,result.deck.slides.length);
+  assert.equal(source.slides[0].blocks.length,3);
 });

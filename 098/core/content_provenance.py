@@ -1,7 +1,7 @@
 """
 Content Provenance and Fact Preservation Tracker.
-Ensures that key numbers, units, dates, conditions, and quotes
-from SourceIR are accurately preserved in the generated slides without hallucination.
+Audits extracted literals and source text fragments in generated slide content.
+String-level checks do not establish general semantic correctness.
 """
 from __future__ import annotations
 import re
@@ -85,7 +85,7 @@ class ContentProvenanceTracker:
         return preserved, missing
 
     @classmethod
-    def audit_deck(cls, source_ir: Dict[str, Any], rendered_deck_text: str) -> Dict[str, Any]:
+    def audit_deck(cls, source_ir: Dict[str, Any], rendered_deck_text: str, chunk_texts=None) -> Dict[str, Any]:
         """Convenience method auditing facts from SourceIR against full rendered deck text."""
         source_facts = source_ir.get("facts", [])
         total = len(source_facts)
@@ -99,13 +99,38 @@ class ContentProvenanceTracker:
             else:
                 missing.append(val)
 
+        # A numeric-only sample can pass while prose is lost. Check every source
+        # chunk too, ignoring presentation whitespace and Markdown table separators.
+        normalized = re.sub(r"\s+", "", rendered_deck_text)
+        missing_chunks=[]
+        for chunk in source_ir.get("chunks", []):
+            if chunk.get("content_type") == "speaker_note":
+                continue
+            raw=chunk.get("raw_text", "")
+            candidates = chunk_texts.get(chunk.get('chunk_id'), []) if chunk_texts is not None else [rendered_deck_text]
+            candidate_text = re.sub(r"\s+", "", "".join(candidates))
+            if chunk.get('content_type') == 'heading':
+                candidate_text = normalized
+            if chunk.get("content_type") == "table":
+                values=[cell.strip() for line in raw.splitlines() for cell in line.strip().strip("|").split("|") if cell.strip() and not re.fullmatch(r":?-{3,}:?",cell.strip())]
+                from collections import Counter
+                expected = Counter(values)
+                actual = Counter(candidates)
+                present = all(actual[value] >= count for value, count in expected.items()) if chunk_texts is not None else all(re.sub(r"\s+","",value) in normalized for value in values)
+            else:
+                # Long chunks can span slides; match complete source lines in
+                # small fragments without permitting any missing characters.
+                clean=re.sub(r"\s+","",raw)
+                present=clean in candidate_text
+            if not present: missing_chunks.append(chunk.get("chunk_id"))
         preserved_ratio = preserved_count / max(1, total)
         return {
             "total_facts": total,
             "preserved_facts": preserved_count,
             "missing_facts": missing,
+            "missing_source_chunks": missing_chunks,
             "preservation_ratio": preserved_ratio,
-            "preserved": len(missing) == 0 and (preserved_ratio == 1.0 or total == 0),
+            "preserved": not missing_chunks and len(missing) == 0 and (preserved_ratio == 1.0 or total == 0),
         }
 
 

@@ -9,12 +9,12 @@ if BASE_DIR not in sys.path:
 from governance.state_reconciler import StateReconciler
 
 
-def test_state_reconciler_detects_empty_schema_claims():
-    # Auditing D:\PresentationOS root should catch empty schemas as noted in Section II
-    repo_root = os.path.dirname(BASE_DIR)
-    report = StateReconciler.audit_workspace(repo_root)
-
-    assert report.project_version == "0.1.0-alpha"
+def test_state_reconciler_detects_empty_schema_claims(tmp_path):
+    import json
+    (tmp_path / 'state').mkdir()
+    (tmp_path / 'state' / 'project_state.json').write_text(json.dumps({'project_version':'test-version','current_phase':'PHASE_9_IN_PROGRESS','completed_phases':{'PHASE_2':'claimed'}}),encoding='utf-8')
+    report = StateReconciler.audit_workspace(str(tmp_path))
+    assert report.project_version == "test-version"
     assert report.current_phase == "PHASE_9_IN_PROGRESS"
     # It must detect that schemas/evidence-ir, layout-ir, render-ir are currently empty in parent repo!
     assert report.is_synchronized is False

@@ -1,11 +1,29 @@
 {
-  "project_version": "0.1.0-alpha",
+  "project_version": "0.1.1-alpha",
   "current_phase": "PHASE_9_IN_PROGRESS",
-  "active_task": "TASK-0024 tools/docs-auditor (DONE)",
+  "active_task": "TASK-0010",
   "last_completed_task": "TASK-0024 docs-auditor: 五文档与状态语义审计通过",
-  "last_successful_build": "2026-10-22T10:45:00.000Z",
-  "last_successful_test": "2026-10-22T10:45:00.000Z",
-  "completed_phases": {
+  "last_successful_build": "2026-10-22T15:17:57.695110+00:00",
+  "last_successful_test": "2026-10-22T15:31:24.224822+00:00",
+  "release_status": "NOT_READY",
+  "known_blockers": [
+    "BLOCKED-MODEL-001: 真实模型推理未执行",
+    "BLOCKED-RELEASE-001: 原生桌面客户端与独立安装包尚未开发",
+    "BLOCKED-GATE-001: PowerPoint 完整 Native QA DoD 门禁待全面闭环",
+    "BLOCKED-SECURITY-001: 发行包安全与插件隔离尚未验收"
+  ],
+  "updated_at": "2026-10-22T15:31:24.224822+00:00",
+  "active_task_title": "PHASE 9: QA 系统（Mechanical QA + Visual QA 调度 + Revision Loop）",
+  "active_task_status": "IN_PROGRESS",
+  "prototypes": {
+    "098": {
+      "status": "EXPERIMENTAL",
+      "release_status": "NOT_READY",
+      "native_qa": "PARTIAL",
+      "contract": "098/schemas/source_ir.schema.json"
+    }
+  },
+  "historical_phase_records": {
     "PHASE_0": "环境基线/目录/五文档/state/最小build&test",
     "PHASE_1": "106/106 upstream manifests + SBOM + Grype（13355 包，crit=103 high=1056）",
     "PHASE_2": "Schema/IR v1（document/narrative/deck/layout/qa/design-token）+ validator 7/7",
@@ -17,11 +35,6 @@
     "PHASE_12": "Vertical Slice: MD -> DeckSpec -> PPTX -> PowerPoint Native QA PASS",
     "PHASE_19": "Unified Logging (telemetry) 5/5"
   },
-  "release_status": "NOT_READY",
-  "known_blockers": [
-    "BLOCKED-MODEL-001: 真实模型推理需 API key 或本地模型（协议层已验证）",
-    "BLOCKED-RELEASE-001: 原生桌面 GUI (Tauri) 与独立安装包尚未开发",
-    "BLOCKED-GATE-001: PowerPoint 完整 Native QA DoD 门禁（全页 PNG/字体/修复对话框检测）待全面闭环"
-  ],
-  "updated_at": "2026-10-22T10:50:00.000Z"
+  "completed_phases": {},
+  "validation_note": "See docs/验证记录.md for commands, exit codes, scope and limitations. Historical summaries are not current release proofs."
 }

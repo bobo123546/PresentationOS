@@ -21,6 +21,7 @@ from qa.native_verifier import NativePowerPointVerifier
 from renderers.pptx_renderer import PPTXRenderer
 from tools.evidence_manifest import EvidenceManifestBuilder
 from tools.release_gate import ReleaseGate
+from tools.validate_ir import validate_ir
 
 
 @dataclass
@@ -95,6 +96,8 @@ class PresentationOrchestrator:
             json.dumps(source_ir, indent=2, ensure_ascii=False), encoding="utf-8"
         )
 
+        validate_ir("source_ir", source_ir)
+
         # 2. Plan Narrative -> NarrativeDeck
         narrative_deck = self.narrative_planner.plan(source_ir)
         (run_evidence_dir / "narrative_deck.json").write_text(
@@ -106,6 +109,9 @@ class PresentationOrchestrator:
         theme = get_theme(theme_name)
         layout_solver = LayoutSolver(theme=theme)
         resolved_scene = layout_solver.solve_deck(narrative_deck)
+
+        validate_ir("narrative_ir", narrative_deck.to_dict())
+        validate_ir("resolved_scene", resolved_scene.to_dict())
 
         # 4. Mechanical QA Audit (18 points)
         from qa.mechanical_qa import MechanicalQA
@@ -133,6 +139,19 @@ class PresentationOrchestrator:
         pptx_output = run_artifacts_dir / f"{input_file.stem}.pptx"
         self.pptx_renderer.render(resolved_scene, pptx_output)
 
+        # Validate the bytes that were actually written, not only the in-memory scene.
+        from pptx import Presentation
+        actual = Presentation(str(pptx_output))
+        actual_text = "\n".join(shape.text for slide in actual.slides for shape in slide.shapes if shape.has_text_frame)
+        actual_chunks = {}
+        for slide in actual.slides:
+            for shape in slide.shapes:
+                if shape.has_text_frame and shape.name.startswith('pres-source:'):
+                    actual_chunks.setdefault(shape.name.split(':', 2)[1], []).append(shape.text)
+        prov_result = ContentProvenance.audit_deck(source_ir, actual_text, actual_chunks)
+        prov_result["scope"] = "numeric literals plus all source chunk text, read back from PPTX"
+        (run_evidence_dir / "provenance_audit.json").write_text(json.dumps(prov_result, indent=2, ensure_ascii=False), encoding="utf-8")
+
         # 7. Native PowerPoint COM Verification (Genuine 9-step check)
         native_result = None
         if run_native_qa:
@@ -143,14 +162,8 @@ class PresentationOrchestrator:
                 export_thumbnails=True,
             )
         else:
-            native_result = NativeQAContract.evaluate_run(
-                has_office=False,
-                com_open_success=False,
-                com_save_reopen_success=False,
-                pdf_generated=False,
-                readback_match=False,
-                editability_intact=False,
-            )
+            from qa.native_qa_contract import NativeVerificationResult
+            native_result = NativeVerificationResult(NativeVerificationTier.NOT_ATTEMPTED, [], [], False, {"reason":"Native verification explicitly skipped"})
 
         (run_evidence_dir / "native_qa_result.json").write_text(
             json.dumps(native_result.to_dict(), indent=2, ensure_ascii=False), encoding="utf-8"
@@ -167,6 +180,8 @@ class PresentationOrchestrator:
         manifest_builder.add_evidence(run_evidence_dir / "qa_report_initial.json", "qa_report")
         manifest_builder.add_evidence(run_evidence_dir / "provenance_audit.json", "provenance_audit")
         manifest_builder.add_evidence(run_evidence_dir / "native_qa_result.json", "native_qa")
+        for path in (run_evidence_dir / 'native').glob('*'):
+            if path.is_file(): manifest_builder.add_evidence(path, 'native_operation_evidence')
 
         thumb_file = run_evidence_dir / "slide_1.png"
         if thumb_file.exists():
@@ -176,7 +191,9 @@ class PresentationOrchestrator:
         if pdf_file.exists():
             manifest_builder.add_evidence(pdf_file, "exported_pdf")
 
-        manifest = manifest_builder.build()
+        compilation_passed = qa_passed and prov_result.get('preserved', False) and (native_result.is_release_ready if run_native_qa else True)
+        manifest = manifest_builder.build(status="LIMITED_TRIAL" if compilation_passed else "FAIL", exit_code=0 if compilation_passed else 1)
+        validate_ir("evidence_ir", manifest)
         manifest_path = run_evidence_dir / "evidence_manifest.json"
         manifest_path.write_text(json.dumps(manifest, indent=2, ensure_ascii=False), encoding="utf-8")
 
@@ -187,8 +204,8 @@ class PresentationOrchestrator:
             2: (real_commit != "untracked_local_build"),  # Evidence corresponds to current git commit
             3: bool(source_ir.get("chunks")),  # Input sources traceable via SourceIR
             4: prov_result.get("preserved", False),  # Numbers, dates, and units 100% verified
-            5: True,  # No silent schema drops in renderer
-            6: True,  # Revision causes no unapproved fact loss
+            5: all(el.kind in {"text", "shape", "container"} for s in resolved_scene.slides for el in s.elements),  # No silent schema drops in renderer
+            6: prov_result.get("preserved", False),  # Revision causes no unapproved fact loss
             7: qa_passed,  # Zero S0/S1 blocking mechanical issues
             8: pptx_output.exists() and pptx_output.stat().st_size > 0,  # Real rendering complete
             9: native_result.is_release_ready,  # PowerPoint native save, reopen, and readback verified
@@ -197,7 +214,7 @@ class PresentationOrchestrator:
             12: False,  # Plugin sandbox path boundaries enforced (pending production phase)
             13: False,  # Logs and spool desensitized (pending production phase)
             14: False,  # Local mode strictly fail-closed against cloud leak (pending production phase)
-            15: True,   # Artifacts maintain run provenance
+            15: all(el.kind in {"text", "shape", "container"} for s in resolved_scene.slides for el in s.elements),   # Artifacts maintain run provenance
             16: False,  # Critical and High vulnerabilities triaged (pending CORE triage)
             17: False,  # Licenses and asset sources audited (pending full SBOM sign-off)
             18: False,  # Clean environment installation validated (pending installer)

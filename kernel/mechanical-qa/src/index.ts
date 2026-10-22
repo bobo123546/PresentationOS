@@ -67,9 +67,9 @@ export function runMechanicalQa(input: MechanicalQaInput): QAResult {
       if (b.text === undefined || b.text.trim() === '') {
         findings.push({ check: 'empty-text', severity: 'error', message: `block ${id} has empty text`, itemId: id });
         count('empty-text');
-      } else if (/[<>&]/.test(b.text) && !/&(lt|gt|amp);/.test(b.text)) {
-        findings.push({ check: 'unescaped-xml', severity: 'error', message: `block ${id} text contains unescaped < > &`, itemId: id });
-        count('unescaped-xml');
+      } else if (/[\x00-\x08\x0b\x0c\x0e-\x1f\ufffe\uffff]/.test(b.text)) {
+        findings.push({ check: 'invalid-xml-character', severity: 'error', message: `block ${id} contains an XML 1.0 forbidden character`, itemId: id });
+        count('invalid-xml-character');
       }
     }
     // 5) 图表数据一致性

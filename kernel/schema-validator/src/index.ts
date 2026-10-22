@@ -1,6 +1,7 @@
 // Schema 验证器：加载 schemas/ 下的 JSON Schema 2020-12，提供 validate()。
 // 所有 IR / 协议必须经本验证器校验后才可进入正式 Runtime。
 import { readFile, readdir } from 'node:fs/promises';
+import { existsSync, readFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
@@ -15,7 +16,18 @@ const Ajv2020: new (opts?: Record<string, unknown>) => {
 const addFormats: (ajv: unknown) => void = require('ajv-formats');
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const SCHEMA_ROOT = process.env.PRES_SCHEMA_DIR ?? join(__dirname, '../../../../schemas');
+function schemaRoot(start: string): string {
+  let directory = start;
+  for (let i = 0; i < 12; i++) {
+    const file = join(directory, 'package.json');
+    if (existsSync(file) && JSON.parse(readFileSync(file, 'utf8')).name === 'presentationos') return join(directory, 'schemas');
+    const parent = dirname(directory);
+    if (parent === directory) break;
+    directory = parent;
+  }
+  throw new Error('PresentationOS schema directory not found; set PRES_SCHEMA_DIR');
+}
+const SCHEMA_ROOT = process.env.PRES_SCHEMA_DIR ?? schemaRoot(__dirname);
 
 export interface ValidationResult {
   valid: boolean;

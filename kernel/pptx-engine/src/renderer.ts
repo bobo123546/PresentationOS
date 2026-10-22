@@ -1,7 +1,10 @@
 // PPTX Renderer（总方案 PHASE 7）：DeckSpec + 几何 → PptxGenJS → 可编辑 PPTX
 // 约定：slide.blocks[i] 对应 slide.layout.children[i]（id=block-<i>）
 import * as pptxgenNS from 'pptxgenjs';
-import type { Rect } from './layout-engine.js';
+import type { Rect, LayoutIR } from './layout-engine.js';
+import { copyFile, unlink } from 'node:fs/promises';
+import { constants } from 'node:fs';
+import { randomUUID } from 'node:crypto';
 
 // pptxgenjs 为 CJS：NodeNext 下 default 指向类本身
 const PptxGenJS = (pptxgenNS as unknown as { default?: new () => PptxGenJSLike }).default ?? (pptxgenNS as unknown as new () => PptxGenJSLike);
@@ -48,9 +51,12 @@ export interface DeckSlide {
   title: string;
   blocks: SlideBlock[];
   notes?: string;
+  layout?: LayoutIR;
 }
 
 export interface DeckSpec {
+  schema?: 'deck-spec';
+  version?: '1';
   title: string;
   subtitle?: string;
   author?: string;
@@ -77,10 +83,19 @@ const KIND_THEME: Record<string, { fill: string; accent: string; font: string; f
   ending: { fill: '1F2937', accent: 'F59E0B', font: 'FFFFFF', fontFamily: 'Segoe UI' },
 };
 
-function themeFor(kind: string, dna?: RenderOptions['dna']): { fill: string; accent: string; font: string; fontFamily: string } {
+export function themeFor(kind: string, dna?: RenderOptions['dna']): { fill: string; accent: string; font: string; fontFamily: string } {
   const t = KIND_THEME[kind] ?? KIND_THEME.content;
   if (!dna) return t;
   return { ...t, accent: dna.accent, fontFamily: dna.fontFamily ?? t.fontFamily };
+}
+
+export function resolveSlideScene(slide: DeckSlide, resolveRects: RenderOptions['resolveRects'], dna?: RenderOptions['dna']) {
+  const rects = resolveRects(slide);
+  return {
+    theme: themeFor(slide.kind, dna),
+    title: { rect: { x: 0.6, y: 0.35, w: 12.1, h: 0.8 }, fontSize: 28 },
+    blocks: slide.blocks.map((block, i) => ({ id: `block-${i}`, block, rect: rects.get(`block-${i}`) ?? fallbackRect(i), fontSize: block.type === 'text' ? Math.round(fontSizeFor(block.style) * (block.fontScale ?? 1) * 10) / 10 : 12 })),
+  };
 }
 
 export async function renderDeck(deck: DeckSpec, opts: RenderOptions): Promise<{ path: string; slideCount: number }> {
@@ -91,20 +106,17 @@ export async function renderDeck(deck: DeckSpec, opts: RenderOptions): Promise<{
   p.title = deck.title;
 
   for (const slide of deck.slides) {
-    const theme = themeFor(slide.kind, opts.dna);
+    const scene = resolveSlideScene(slide, opts.resolveRects, opts.dna);
+    const theme = scene.theme;
     const s = p.addSlide();
     s.background = { color: theme.fill };
     // 顶部标题条
     s.addText(slide.title, {
-      x: 0.6, y: 0.35, w: 12.1, h: 0.8,
-      fontSize: 28, bold: true, color: theme.font, fontFace: theme.fontFamily,
+      ...scene.title.rect,
+      fontSize: scene.title.fontSize, bold: true, color: theme.font, fontFace: theme.fontFamily,
     });
     s.addShape('rect', { x: 0.6, y: 1.15, w: 1.2, h: 0.06, fill: { color: theme.accent }, line: { color: theme.accent } });
-    const rects = opts.resolveRects(slide);
-    const blocks = slide.blocks ?? [];
-    for (let i = 0; i < blocks.length; i++) {
-      const block = blocks[i];
-      const rect = rects.get(`block-${i}`) ?? fallbackRect(i);
+    for (const { block, rect } of scene.blocks) {
       await placeBlock(s, block, rect, theme);
     }
     if (slide.notes) {
@@ -112,7 +124,11 @@ export async function renderDeck(deck: DeckSpec, opts: RenderOptions): Promise<{
     }
   }
 
-  await p.writeFile({ fileName: opts.outPath });
+  const temporary = `${opts.outPath}.${randomUUID()}.tmp.pptx`;
+  try {
+    await p.writeFile({ fileName: temporary });
+    await copyFile(temporary, opts.outPath, constants.COPYFILE_EXCL);
+  } finally { await unlink(temporary).catch(() => undefined); }
   return { path: opts.outPath, slideCount: deck.slides.length };
 }
 
@@ -140,13 +156,13 @@ async function placeBlock(s: SlideLike, block: SlideBlock, rect: Rect, theme: { 
         ...base,
         border: { pt: 0.5, color: 'D1D5DB' },
         fill: { color: 'F9FAFB' },
-        fontSize: 12, color: theme.font,
+        fontSize: 12, color: '111827',
       });
       break;
     }
     case 'chart': {
       const d = block.data;
-      if (!d) break;
+      if (!d) throw new Error('chart block requires data');
       // PptxGenJS 无 'column' 类型；'column'（垂直柱状）映射为 'bar'
       const rawType = block.chartType ?? 'bar';
       const type = (rawType === 'column' ? 'bar' : rawType) as 'bar' | 'line' | 'pie' | 'scatter';
@@ -185,22 +201,18 @@ async function placeBlock(s: SlideLike, block: SlideBlock, rect: Rect, theme: { 
         s.addImage({ ...base, path: block.src });
       } else if (block.src) {
         s.addImage({ ...base, path: block.src });
-      }
+      } else throw new Error('image block requires src');
       break;
     }
     case 'svg': {
-      // v1：SVG 以 rawHTML 形式嵌入（PowerPoint 原生支持有限）；文本型 SVG 内容兜底为文字
-      if (block.svg) {
-        s.addText('', { ...base });
-      }
-      break;
+      throw new Error('SVG rendering is not verified; refusing to silently drop content');
     }
     default:
-      s.addText(`[unsupported block: ${block.type}]`, { ...base, fontSize: 10, color: '9CA3AF' });
+      throw new Error(`unsupported block: ${block.type}`);
   }
 }
 
-function fontSizeFor(style: string | undefined): number {
+export function fontSizeFor(style: string | undefined): number {
   switch (style) {
     case 'h1': return 36;
     case 'h2': return 28;

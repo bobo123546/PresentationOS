@@ -38,7 +38,11 @@ def test_native_qa_contract_complete_success():
         readback_match=True,
         editability_intact=True,
         package_valid=True,
-        schema_valid=True
+        schema_valid=True,
+        visual_verified=True,
+        font_verified=True,
+        repair_dialog_checked=True,
+        process_cleanup_verified=True,
     )
     assert res.is_release_ready is True
     assert len(res.failed_tiers) == 0

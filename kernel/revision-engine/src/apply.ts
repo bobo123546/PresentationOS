@@ -27,8 +27,10 @@ function applySplit(deck: DeckLike, slide: DeckSlideAt, idx: number, changes: Ap
   }
   const mid = Math.ceil(blocks.length / 2);
   const secondHalf = blocks.splice(mid);
+  const nextId = 1 + Math.max(0, ...deck.slides.map((s) => Number(/^slide-(\d+)$/.exec(s.id)?.[1] ?? 0)));
   const newSlide: DeckSlideAt = {
-    id: `${slide.id}-part2`,
+    ...slide,
+    id: `slide-${nextId}`,
     kind: slide.kind,
     title: `${slide.title}（续）`,
     blocks: secondHalf,
@@ -38,14 +40,7 @@ function applySplit(deck: DeckLike, slide: DeckSlideAt, idx: number, changes: Ap
 }
 
 function applyReduceText(deck: DeckLike, slide: DeckSlideAt, changes: AppliedChange[]): void {
-  let n = 0;
-  for (const b of slide.blocks) {
-    if (b.type === 'text' && b.text && b.text.length > REDUCE_TEXT_MAX_CHARS) {
-      b.text = truncate(b.text);
-      n++;
-    }
-  }
-  changes.push({ slide: slide.id, action: 'reduce_text', detail: n > 0 ? `截断 ${n} 个超长块` : '无需截断' });
+  changes.push({ slide: slide.id, action: 'reduce_text', detail: 'Skipped: content reduction requires explicit editorial approval; all source text retained' });
 }
 
 function applyIncreaseFont(deck: DeckLike, slide: DeckSlideAt, changes: AppliedChange[]): void {
@@ -134,11 +129,13 @@ export function applyRevisions(deck: DeckLike, suggestions: RevisionSuggestionLi
   const out = cloneDeck(deck);
   const changes: AppliedChange[] = [];
   const seen = new Set<string>();
-  for (const s of suggestions) {
+  const targets = suggestions.map((suggestion) => ({ suggestion, id: deck.slides[suggestion.slide - 1]?.id }));
+  for (const { suggestion: s, id } of targets) {
     const key = `${s.slide}:${s.action}`;
     if (seen.has(key)) continue;
     seen.add(key);
-    applySuggestion(out, s, changes);
+    const currentIndex = out.slides.findIndex((slide) => slide.id === id);
+    applySuggestion(out, currentIndex >= 0 ? { ...s, slide: currentIndex + 1 } : s, changes);
   }
   return { ok: true, deck: out, changes };
 }

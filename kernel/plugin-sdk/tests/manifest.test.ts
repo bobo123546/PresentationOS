@@ -74,3 +74,9 @@ test('loadManifest 缺文件报错', () => {
   const r = loadManifest('examples/__not_exists__');
   assert.equal(r.ok, false);
 });
+
+test('entry rejects absolute paths, parent traversal and Windows drive aliases', () => {
+  for (const entry of ['../outside.mjs', 'C:\\outside.mjs', '/outside.mjs', 'file:entry']) {
+    assert.equal(validateManifest({ ...base, entry }).ok, false, entry);
+  }
+});

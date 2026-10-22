@@ -1,6 +1,7 @@
 // Plugin Manifest 解析与校验（Permission Manifest 必须显式声明）
 import { readFileSync } from 'node:fs';
 import { parse } from 'yaml';
+import { win32, posix } from 'node:path';
 import { PERMISSIONS, type ManifestResult, type Permission, type PluginManifest, type PluginType } from './types.js';
 
 const NAME_RE = /^[a-z0-9][a-z0-9-_.]*$/;
@@ -52,7 +53,7 @@ export function validateManifest(raw: unknown): ManifestResult {
   }
 
   const entry = m.entry;
-  if (typeof entry !== 'string' || entry.length === 0) {
+  if (typeof entry !== 'string' || entry.length === 0 || win32.isAbsolute(entry) || posix.isAbsolute(entry) || entry.split(/[\\/]/).some((part) => part === '..') || /[:\x00]/.test(entry)) {
     errors.push('entry 必填（相对插件目录的入口文件）');
   }
 

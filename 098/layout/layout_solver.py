@@ -78,6 +78,10 @@ class LayoutSolver:
             # Default to cards_grid / general content
             nodes.extend(self._layout_cards_slide(slide))
 
+        if slide.source_chunk_ids:
+            for node in nodes:
+                if node.node_id.startswith(('card_desc_', 'm_bullets_txt_', 'tbl_td_txt_', 'tbl_th_txt_')):
+                    node.source_id = slide.source_chunk_ids[0]
         return ResolvedSlide(
             slide_id=f"slide_{slide.slide_index:03d}",
             slide_index=slide.slide_index,
@@ -148,7 +152,7 @@ class LayoutSolver:
                 node_id=f"badge_txt_{slide.slide_index}",
                 node_type="text",
                 bounds=BoundingBox(self.margin_x + 20, self.canvas_h - self.margin_y - 70, 380, 30),
-                text="PRESENTATIONOS VERIFIED BUILD",
+                text="PRESENTATIONOS DEVELOPER PREVIEW",
                 font_family=self.theme.typography.code_font,
                 font_size=12,
                 font_color=self.theme.colors.text_secondary,
@@ -428,6 +432,8 @@ class LayoutSolver:
 
         num_cols = max(len(headers), 1)
         col_w = self.content_w / num_cols
+        if len(rows) > 6 or any(len(row) > len(headers) for row in rows):
+            raise ValueError("Table must be paginated before layout; refusing to drop cells")
         row_h = 56.0
 
         # Header row
@@ -457,10 +463,10 @@ class LayoutSolver:
             )
 
         # Data rows
-        for r_idx, row in enumerate(rows[:6]):
+        for r_idx, row in enumerate(rows):
             r_y = start_y + (r_idx + 1) * row_h
             bg_col = self.theme.colors.surface if r_idx % 2 == 0 else self.theme.colors.surface_alt
-            for c_idx, val in enumerate(row[:num_cols]):
+            for c_idx, val in enumerate(row):
                 c_x = self.margin_x + c_idx * col_w
                 nodes.append(
                     ResolvedNode(

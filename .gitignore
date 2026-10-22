@@ -9,6 +9,7 @@ obj/
 __pycache__/
 *.pyc
 .pytest_cache/
+python-test-results.xml
 .venv/
 venv/
 .env

@@ -1,148 +1,46 @@
-// docs-auditor（总方案第 22 节）：检查五文档与代码/状态的匹配及语义一致性
-// 用法: node tools/docs-auditor/audit-docs.mjs [repoRoot]
-import { readFileSync, readdirSync, existsSync } from 'node:fs';
-import { join, resolve } from 'node:path';
+import {readFileSync,existsSync} from 'node:fs';
+import {join,resolve} from 'node:path';
+import {pathToFileURL} from 'node:url';
 
-const REPO = resolve(process.argv[2] ?? '.');
-
-const DOCS = {
-  '交接文档.md': { mustHave: ['【AI恢复执行】', '当前唯一任务', '阶段日志', '变更记录'] },
-  '源码结构文档.md': { mustHave: ['kernel/', 'tools/', 'workers/'] },
-  '编译部署指南.md': { mustHave: ['pnpm', 'node', 'dotnet'] },
-  '训练数据.md': { mustHave: ['case_id', 'golden'] },
-  '协作提示词.md': { mustHave: ['Collaboration Spec Version', 'Definition of Done', 'Evidence'] },
-};
-
-function check(checks, name, pass, detail) {
-  checks.push({ name, pass, detail });
-  return pass;
-}
-
-const checks = [];
-
-// 1) 五文档存在 + 关键段落
-let allExist = true;
-for (const [file, reqs] of Object.entries(DOCS)) {
-  const p = join(REPO, 'docs', file);
-  if (!existsSync(p)) { check(checks, `docs/${file}`, false, '文件不存在'); allExist = false; continue; }
-  const text = readFileSync(p, 'utf8');
-  const compact = text.replace(/\s+/g, '');
-  const missing = reqs.mustHave.filter((k) => !compact.includes(k.replace(/\s+/g, '')));
-  check(checks, `docs/${file}`, missing.length === 0, missing.length ? `缺关键段落: ${missing.join(', ')}` : `存在，${reqs.mustHave.length} 段齐全`);
-}
-check(checks, '五文档齐全', allExist, allExist ? 'PASS' : 'FAIL');
-
-// 2) kernel 包与源码结构文档匹配
-const kernelDir = join(REPO, 'kernel');
-const srcDocPath = join(REPO, 'docs', '源码结构文档.md');
-const srcDoc = existsSync(srcDocPath) ? readFileSync(srcDocPath, 'utf8') : '';
-const kernels = existsSync(kernelDir)
-  ? readdirSync(kernelDir, { withFileTypes: true }).filter((d) => d.isDirectory() && existsSync(join(kernelDir, d.name, 'package.json'))).map((d) => d.name)
-  : [];
-const missingKernels = kernels.filter((k) => !srcDoc.includes(k));
-check(checks, 'kernel 包与源码结构文档同步', missingKernels.length === 0, missingKernels.length ? `文档缺: ${missingKernels.join(', ')}` : `${kernels.length} 个 kernel 包全部覆盖`);
-
-// 3) 编译部署指南包含当前测试命令
-const buildDoc = existsSync(join(REPO, 'docs', '编译部署指南.md')) ? readFileSync(join(REPO, 'docs', '编译部署指南.md'), 'utf8') : '';
-const scriptDirs = ['pptx-engine', 'mechanical-qa', 'template-dna', 'pptx-editor', 'skill-runtime', 'plugin-sdk', 'model-router', 'visual-qa', 'revision-engine', 'worker-protocol'];
-const cmdMissing = scriptDirs.filter((d) => !buildDoc.includes(d));
-check(checks, '编译部署指南覆盖各包命令', cmdMissing.length === 0, cmdMissing.length ? `缺: ${cmdMissing.join(', ')}` : `${scriptDirs.length} 个包命令已记录`);
-
-// 4) 训练数据 Golden Case 递增
-const trainDoc = existsSync(join(REPO, 'docs', '训练数据.md')) ? readFileSync(join(REPO, 'docs', '训练数据.md'), 'utf8') : '';
-const gIds = [...trainDoc.matchAll(/\|?\s*(G-\d{3})/g)].map((m) => m[1]);
-const nums = gIds.map((g) => parseInt(g.slice(2), 10)).sort((a, b) => a - b);
-const continuous = nums.every((n, i) => i === 0 || n === nums[i - 1] + 1);
-check(checks, '训练数据 Golden Case 连续递增', continuous && nums.length >= 1, `共 ${nums.length} 个 G-${String(nums[nums.length - 1] ?? 0).padStart(3, '0')}（连续=${continuous}）`);
-
-// 5) 协作提示词版本
-const collab = existsSync(join(REPO, 'docs', '协作提示词.md')) ? readFileSync(join(REPO, 'docs', '协作提示词.md'), 'utf8') : '';
-const verMatch = /Collaboration Spec Version[:：]\s*([\w.]+)/.exec(collab);
-check(checks, '协作提示词版本号', !!verMatch, verMatch ? `版本 ${verMatch[1]}` : '未找到版本号');
-
-// 6) state/project_state.json 存在且可解析
-const stateP = join(REPO, 'state', 'project_state.json');
-let stateOk = false;
-let stateData = null;
-let stateDetail = '';
-if (existsSync(stateP)) {
-  try {
-    stateData = JSON.parse(readFileSync(stateP, 'utf8'));
-    stateOk = !!stateData.current_phase && !!stateData.project_version;
-    stateDetail = `${stateData.project_version} / ${stateData.current_phase}`;
-  } catch { stateDetail = 'JSON 解析失败'; }
-}
-check(checks, 'state/project_state.json 有效', stateOk, stateDetail || '缺失');
-
-// 7) 语义一致性：package.json 与 project_state.json 版本一致
-const pkgP = join(REPO, 'package.json');
-let pkgVer = '';
-if (existsSync(pkgP)) {
-  try {
-    const pkg = JSON.parse(readFileSync(pkgP, 'utf8'));
-    pkgVer = pkg.version;
-  } catch {}
-}
-const versionMatch = !!(pkgVer && stateData && pkgVer === stateData.project_version);
-check(checks, '版本号语义一致 (package.json vs project_state.json)', versionMatch, versionMatch ? `统一为 ${pkgVer}` : `冲突: package=${pkgVer}, state=${stateData?.project_version}`);
-
-// 8) 语义一致性：active_task 在 backlog.json 中真实存在且匹配
-const backlogP = join(REPO, 'state', 'backlog.json');
-let backlogData = [];
-let backlogParseOk = false;
-if (existsSync(backlogP)) {
-  try {
-    backlogData = JSON.parse(readFileSync(backlogP, 'utf8'));
-    backlogParseOk = Array.isArray(backlogData);
-  } catch {}
-}
-let activeTaskValid = false;
-let activeTaskDetail = '';
-if (stateData && backlogParseOk) {
-  const activeTaskStr = stateData.active_task || '';
-  const matchId = activeTaskStr.match(/TASK-\d{4}/);
-  if (matchId) {
-    const taskId = matchId[0];
-    const found = backlogData.find((t) => t.id === taskId);
-    if (found) {
-      activeTaskValid = true;
-      activeTaskDetail = `${taskId}: ${found.title.slice(0, 30)} (状态: ${found.status})`;
-    } else {
-      activeTaskDetail = `active_task 声明的 ${taskId} 在 backlog.json 中不存在`;
-    }
-  } else {
-    activeTaskDetail = `active_task 格式无法解析出 TASK-XXXX: ${activeTaskStr}`;
+export function auditRepo(root){
+  const checks=[];
+  const check=(name,pass,detail='')=>checks.push({name,pass:Boolean(pass),detail});
+  function json(file){try{return JSON.parse(readFileSync(join(root,file),'utf8'));}catch(error){check(`${file} parses`,false,error.message);return null;}}
+  const pkg=json('package.json');
+  const state=json('state/project_state.json');
+  const backlog=json('state/backlog.json');
+  const blockers=json('state/blockers.json');
+  if(!pkg||!state||!Array.isArray(backlog)||!Array.isArray(blockers))return{passAll:false,checks};
+  check('product version agrees with state',pkg.version===state.project_version,`${pkg.version} / ${state.project_version}`);
+  const ids=backlog.map(t=>t.id);
+  check('25 unique well-formed task IDs',ids.length===25&&new Set(ids).size===ids.length&&ids.every(id=>/^TASK-\d{4}$/.test(id)));
+  const statuses=new Set(['NOT_STARTED','PARTIAL','IN_PROGRESS','BLOCKED','COMPLETED']);
+  check('task states and dependencies are valid',backlog.every(t=>statuses.has(t.status)&&Array.isArray(t.dependencies)&&t.dependencies.every(id=>ids.includes(id))));
+  const active=backlog.find(t=>t.id===state.active_task);
+  check('active task ID, title and status agree',active&&active.title===state.active_task_title&&active.status===state.active_task_status);
+  check('completed tasks have evidence references',backlog.filter(t=>t.status==='COMPLETED').every(t=>Array.isArray(t.evidence)&&t.evidence.length>0));
+  check('blocker IDs are unique and statuses valid',new Set(blockers.map(b=>b.id)).size===blockers.length&&blockers.every(b=>/^BLOCKED-[A-Z]+-\d{3}$/.test(b.id)&&['OPEN','RESOLVED'].includes(b.status)));
+  const open=blockers.filter(b=>b.status==='OPEN');
+  check('release state is recognized',['NOT_READY','RELEASE_READY'].includes(state.release_status));
+  check('ready release has no open blockers',state.release_status!=='RELEASE_READY'||open.length===0);
+  check('not-ready release records its blockers',state.release_status!=='NOT_READY'||open.length>0);
+  check('ready release has explicit validation evidence',state.release_status!=='RELEASE_READY'||['native','uia','installer','clean_machine','security'].every(key=>{
+    const file=state.release_evidence?.[key];if(!file)return false;
+    try{const record=JSON.parse(readFileSync(join(root,file),'utf8'));return record.status==='PASS'&&record.command&&record.exit_code===0&&/^[a-f0-9]{40}$/.test(record.commit_hash);}catch{return false;}
+  }));
+  for(const name of ['交接文档.md','源码结构文档.md','编译部署指南.md','协作提示词.md','训练数据.md']){
+    const file=join(root,'docs',name);
+    try{
+      const text=readFileSync(file,'utf8');
+      const match=/<!-- presentationos-current (\{[^\n]+\}) -->/.exec(text);
+      const current=match?JSON.parse(match[1]):null;
+      check(`${name} current status agrees`,current&&current.version===pkg.version&&current.phase===state.current_phase&&current.release_status===state.release_status&&current.active_task===state.active_task);
+      check(`${name} historical content is delimited`,text.includes('<!-- presentationos-history -->'));
+    }catch(error){check(`${name} current status agrees`,false,error.message);}
   }
-} else {
-  activeTaskDetail = '缺少 state 或 backlog 数据';
+  const prototype=state.prototypes?.['098'];
+  check('098 has explicit experimental ownership and verification limits',!existsSync(join(root,'098'))||(prototype?.status==='EXPERIMENTAL'&&prototype.release_status==='NOT_READY'&&prototype.native_qa==='PARTIAL'&&Boolean(prototype.contract)));
+  check('phase remains in progress while QA task is incomplete',state.current_phase!=='PHASE_9_COMPLETE'||backlog.find(t=>t.id==='TASK-0010')?.status==='COMPLETED');
+  return{repo:root,passAll:checks.every(c=>c.pass),checks};
 }
-check(checks, 'active_task 存在于 backlog.json', activeTaskValid, activeTaskDetail);
-
-// 9) 语义一致性：backlog.json 任务 ID 唯一无碰撞
-const taskIds = backlogData.map((t) => t.id);
-const uniqueIds = new Set(taskIds);
-const idUnique = taskIds.length > 0 && taskIds.length === uniqueIds.size;
-check(checks, 'backlog.json 任务 ID 唯一且格式正确', idUnique, idUnique ? `共 ${taskIds.length} 个任务无碰撞` : `存在重复 ID (总数 ${taskIds.length}, 唯一 ${uniqueIds.size})`);
-
-// 10) 语义一致性：release_status 与 blockers.json 真实一致
-const blockersP = join(REPO, 'state', 'blockers.json');
-let blockersData = [];
-if (existsSync(blockersP)) {
-  try { blockersData = JSON.parse(readFileSync(blockersP, 'utf8')); } catch {}
-}
-const isNotReady = stateData?.release_status === 'NOT_READY';
-const openBlockers = blockersData.filter((b) => b.status === 'OPEN');
-const blockerCheckPass = isNotReady ? openBlockers.length > 0 : true;
-check(checks, '发布门禁状态与 blockers 真实对应', blockerCheckPass, isNotReady ? `NOT_READY 且有 ${openBlockers.length} 个 OPEN 阻点真实记录` : `状态: ${stateData?.release_status}`);
-
-// 11) 原型治理：098 独立原型治理状态
-const proto098 = join(REPO, '098');
-let protoDetail = '未发现 098 目录';
-if (existsSync(proto098)) {
-  protoDetail = '098 独立原型就绪（单测通过，发布门禁真实标记 NOT_READY）';
-}
-check(checks, '098 独立原型治理状态明确', true, protoDetail);
-
-const passAll = checks.every((c) => c.pass);
-console.log(JSON.stringify({ repo: REPO, passAll, checks, updatedAt: new Date().toISOString() }, null, 2));
-process.exit(passAll ? 0 : 1);
+if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).href){const report=auditRepo(resolve(process.argv[2]??'.'));console.log(JSON.stringify(report,null,2));process.exitCode=report.passAll?0:1;}

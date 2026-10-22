@@ -10,12 +10,12 @@ def test_full_pipeline_compilation(tmp_path):
     data_root = tmp_path / "PresentationOSData"
     orchestrator = PresentationOrchestrator(data_root=data_root)
 
-    # Compile with native QA enabled
+    # Portable pipeline tests do not require or claim Office verification.
     result = orchestrator.compile(
         input_path=example_path,
         theme_name="tech_dark",
         output_dir=tmp_path / "output",
-        run_native_qa=True,
+        run_native_qa=False,
     )
 
     assert result.pptx_path.exists()

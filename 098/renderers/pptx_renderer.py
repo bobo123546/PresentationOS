@@ -25,6 +25,8 @@ class PPTXRenderer:
 
     def render(self, scene: ResolvedScene, output_path: Path) -> Path:
         """Renders scene to .pptx presentation at output_path."""
+        if output_path.exists():
+            raise FileExistsError(f"Refusing to overwrite {output_path}")
         prs = pptx.Presentation()
         prs.slide_width = Inches(self.SLIDE_WIDTH_IN)
         prs.slide_height = Inches(self.SLIDE_HEIGHT_IN)
@@ -51,7 +53,8 @@ class PPTXRenderer:
                 text_frame.text = r_slide.speaker_notes
 
         output_path.parent.mkdir(parents=True, exist_ok=True)
-        prs.save(str(output_path))
+        with output_path.open("xb") as stream:
+            prs.save(stream)
         return output_path
 
     def _render_node(
@@ -89,6 +92,8 @@ class PPTXRenderer:
 
         elif node.node_type == "text":
             tx_box = slide.shapes.add_textbox(left_in, top_in, width_in, height_in)
+            if node.source_id:
+                tx_box.name = f"pres-source:{node.source_id}:{node.node_id}"
             tf = tx_box.text_frame
             tf.word_wrap = True
             tf.margin_left = Inches(0.05)
@@ -111,6 +116,9 @@ class PPTXRenderer:
             # Title or Section text bolding
             if node.font_size >= 24:
                 p.font.bold = True
+
+        else:
+            raise ValueError(f"Unsupported render element: {node.node_type}")
 
     def _parse_hex_color(self, hex_code: str) -> RGBColor:
         """Parses #RRGGBB into RGBColor object."""

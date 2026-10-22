@@ -66,7 +66,7 @@ export async function renderMarkdownDeck(
         const r = rects.get(`block-${i}`);
         if (r) items.push({ id: `block-${i}`, ...r });
       }
-      const qa = runMechanicalQa({ pageWidth: 13.33, pageHeight: 7.5, rects: items, blocks: slide.blocks.map((b: any, i: number) => ({ id: `block-${i}`, ...b })) });
+      const qa = runMechanicalQa({ pageWidth: 13.33, pageHeight: 7.5, rects: items, blocks: slide.blocks.map((b, i) => ({ id: `block-${i}`, ...b })) });
       if (!qa.ok) {
         return { ok: false, error: `mechanical QA failed on ${slide.id}: ${JSON.stringify(qa.findings)}`, qaArtifacts: [] };
       }

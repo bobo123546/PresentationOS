@@ -16,8 +16,15 @@
   {
     "id": "BLOCKED-GATE-001",
     "title": "PowerPoint 完整 Native QA DoD 门禁待全面闭环",
-    "reason": "现有 COM 验证主要测试打开和 PDF 导出，全页 PNG 像素对比、字体回退检测及无修复对话框断言需深化",
+    "reason": "Native save/reopen, text edit/readback, PDF and all-page PNG operations have isolated evidence. Full OpenXML schema validation, font substitution and visual fidelity remain unverified.",
     "resolution": "完善 C# 与 Python Worker 的 9 步严格原生验证，将 Native QA 输出纳入发布强制门禁",
+    "status": "OPEN"
+  },
+  {
+    "id": "BLOCKED-SECURITY-001",
+    "title": "发行包安全与插件隔离尚未验收",
+    "reason": "Trusted-code plugin helpers are not an OS security boundary; dependency scope, license and security release review remain open.",
+    "resolution": "Complete release-specific threat review and dependency triage before production certification.",
     "status": "OPEN"
   }
 ]

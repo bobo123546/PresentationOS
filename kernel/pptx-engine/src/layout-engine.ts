@@ -20,6 +20,8 @@ export interface LayoutNode {
 }
 
 export interface LayoutIR {
+  schema?: 'layout-ir';
+  version?: '1';
   width: number;
   height: number;
   direction?: 'row' | 'column';
