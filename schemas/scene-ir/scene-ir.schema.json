@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://presentationos.local/schemas/scene-ir/1",
+  "title": "SceneIR",
+  "description": "Visual scene representation extracted from screenshots or reference slide layouts for layered reconstruction into editable native presentations.",
+  "type": "object",
+  "required": ["version", "sourceType", "dimensions", "elements", "metrics"],
+  "properties": {
+    "version": { "type": "string", "const": "1.0.0" },
+    "sourceType": {
+      "type": "string",
+      "enum": ["screenshot", "pptx_slide", "pdf_page"]
+    },
+    "sourcePath": { "type": "string" },
+    "dimensions": {
+      "type": "object",
+      "required": ["width", "height"],
+      "properties": {
+        "width": { "type": "number", "minimum": 1 },
+        "height": { "type": "number", "minimum": 1 }
+      }
+    },
+    "palette": {
+      "type": "object",
+      "properties": {
+        "dominantHex": { "type": "string" },
+        "backgroundHex": { "type": "string" },
+        "accentHex": { "type": "string" },
+        "textHex": { "type": "string" }
+      }
+    },
+    "elements": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "type", "bounds", "confidence", "isEditable"],
+        "properties": {
+          "id": { "type": "string" },
+          "type": {
+            "type": "string",
+            "enum": ["heading", "subheading", "paragraph", "card", "table", "metric", "raster_graphic", "container"]
+          },
+          "bounds": {
+            "type": "object",
+            "required": ["x", "y", "w", "h"],
+            "properties": {
+              "x": { "type": "number" },
+              "y": { "type": "number" },
+              "w": { "type": "number", "minimum": 0 },
+              "h": { "type": "number", "minimum": 0 }
+            }
+          },
+          "text": { "type": "string" },
+          "tableData": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          },
+          "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+          "isEditable": { "type": "boolean" },
+          "style": {
+            "type": "object",
+            "properties": {
+              "color": { "type": "string" },
+              "backgroundColor": { "type": "string" },
+              "fontSize": { "type": "number" },
+              "fontWeight": { "type": "string" },
+              "align": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "metrics": {
+      "type": "object",
+      "required": ["totalElements", "editableCount", "editableCoverageRatio", "averageConfidence", "uncertainCount"],
+      "properties": {
+        "totalElements": { "type": "integer", "minimum": 0 },
+        "editableCount": { "type": "integer", "minimum": 0 },
+        "editableCoverageRatio": { "type": "number", "minimum": 0, "maximum": 1 },
+        "averageConfidence": { "type": "number", "minimum": 0, "maximum": 1 },
+        "uncertainCount": { "type": "integer", "minimum": 0 }
+      }
+    }
+  }
+}

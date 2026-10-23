@@ -262,6 +262,74 @@ describe('PresentationOS Desktop Workbench & Sidecar Loop Tests', () => {
     assert.ok(body.parsed.facts.some((f: any) => f.literalValue === '99.9%'));
   });
 
+  test('TC-D11: Reference scene reconstruction API returns editable DeckSpec and metrics (P13)', async () => {
+    const scenePayload = {
+      version: '1.0.0',
+      sourceType: 'screenshot',
+      dimensions: { width: 1920, height: 1080 },
+      elements: [
+        {
+          id: 'title-1',
+          type: 'heading',
+          bounds: { x: 0.1, y: 0.1, w: 0.8, h: 0.15 },
+          text: 'AI Architecture Overview',
+          confidence: 0.99,
+          isEditable: true,
+        },
+        {
+          id: 'metric-1',
+          type: 'metric',
+          bounds: { x: 0.1, y: 0.3, w: 0.4, h: 0.2 },
+          text: 'P99 Latency: 250ms',
+          confidence: 0.94,
+          isEditable: true,
+        },
+      ],
+      metrics: {
+        totalElements: 2,
+        editableCount: 2,
+        editableCoverageRatio: 1.0,
+        averageConfidence: 0.965,
+        uncertainCount: 0,
+      },
+    };
+
+    const res = await fetch(`${baseUrl}/api/reconstruct`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ sceneIr: scenePayload }),
+    });
+    assert.equal(res.status, 200);
+    const body: any = await res.json();
+    assert.ok(body.result);
+    assert.equal(body.result.deckSpec.schema, 'deck-spec');
+    assert.equal(body.result.deckSpec.title, 'AI Architecture Overview');
+    assert.equal(body.result.editableCoverageRatio, 1.0);
+  });
+
+  test('TC-D12: Media pipeline generation API produces timeline, subtitles, and MP4 (P14)', async () => {
+    const outMp4 = resolve(testRoot, 'api_deck.mp4');
+    const res = await fetch(`${baseUrl}/api/media/generate`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        slides: [
+          {
+            id: 's1',
+            index: 0,
+            notes: '欢迎使用 PresentationOS 现代演示系统。',
+          },
+        ],
+        outMp4Path: outMp4,
+      }),
+    });
+    assert.equal(res.status, 200);
+    const body: any = await res.json();
+    assert.ok(body.result);
+    assert.ok(body.result.timeline.length >= 1);
+    assert.ok(body.result.totalDurationSec > 0);
+  });
+
   test('TC-D09: UI Automation IDs exist in production Vite bundle', () => {
     const bundleDist = existsSync(resolve(process.cwd(), 'dist'))
       ? resolve(process.cwd(), 'dist')
@@ -287,6 +355,8 @@ describe('PresentationOS Desktop Workbench & Sidecar Loop Tests', () => {
       'CompileDeckBtn',
       'CancelTaskBtn',
       'ExportPptxBtn',
+      'ReconstructBtn',
+      'MediaExportBtn',
       'MarkdownEditorInput',
       'ImportMarkdownBtn',
       'SlideNavList',

@@ -58,6 +58,18 @@ controls:
     aria_label: "Export PPTX"
     description: "Copies generated presentation to user specified export destination"
 
+  - id: "ReconstructBtn"
+    role: "Button"
+    patterns: ["InvokePattern"]
+    aria_label: "Reconstruct Slide"
+    description: "Triggers layered scene reconstruction from reference screenshot"
+
+  - id: "MediaExportBtn"
+    role: "Button"
+    patterns: ["InvokePattern"]
+    aria_label: "Export Media Video"
+    description: "Generates multi-language TTS narration, subtitles, and synchronized MP4 presentation video"
+
   - id: "MarkdownEditorInput"
     role: "Edit"
     patterns: ["ValuePattern", "TextPattern"]

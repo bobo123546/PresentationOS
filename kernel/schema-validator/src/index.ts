@@ -85,4 +85,5 @@ export const SCHEMA_IDS = {
   renderIr: 'https://presentationos.local/schemas/render-ir/1',
   evidenceIr: 'https://presentationos.local/schemas/evidence-ir/1',
   revision: 'https://presentationos.local/schemas/revision/1',
+  sceneIr: 'https://presentationos.local/schemas/scene-ir/1',
 } as const;

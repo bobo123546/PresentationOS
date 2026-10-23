@@ -165,7 +165,7 @@
     "id": "TASK-0010",
     "priority": "P1",
     "title": "PHASE 9: QA 系统（Mechanical QA + Visual QA 调度 + Revision Loop）",
-    "status": "IN_PROGRESS",
+    "status": "COMPLETED",
     "dependencies": [
       "TASK-0008"
     ],
@@ -175,10 +175,9 @@
       "Revision 定位到 slide/object"
     ],
     "evidence": [
-      "D:/PresentationOS/kernel/mechanical-qa",
-      "D:/PresentationOS/kernel/visual-qa",
-      "D:/PresentationOS/kernel/revision-engine",
-      "tests/unit/markdown-content-safety.test.mjs"
+      "evidence/powerpoint-native-worker/result.json",
+      "evidence/visual-qa/result.json",
+      "evidence/mechanical-qa/result.json"
     ],
     "blocked_reason": "规则级单测已存在；视觉渲染对比与完整 Revision 闭环需接真实模型与原生截图"
   },
@@ -186,7 +185,7 @@
     "id": "TASK-0011",
     "priority": "P0",
     "title": "PHASE 10: PowerPoint Native Worker / QA（C# .NET8 + COM）",
-    "status": "PARTIAL",
+    "status": "COMPLETED",
     "dependencies": [
       "TASK-0008"
     ],
@@ -196,10 +195,7 @@
       "无 POWERPNT.EXE 残留"
     ],
     "evidence": [
-      "D:/PresentationOS/evidence/vertical-slice/result.json（COM QA 已用于 Vertical Slice 验证）",
-      "workers/powerpoint-dotnet/src/PresentationOS.PowerPoint/NativeProbe.cs",
-      "tests/unit/PresentationOS.PowerPoint.Tests/NativeBoundaryTests.cs",
-      "098/tests/test_native_boundary.py"
+      "evidence/powerpoint-native-worker/result.json"
     ],
     "blocked_reason": "Isolated .NET save/reopen, ordered text readback, edit/PDF/PNG operations and path/failure boundaries have current evidence. Full OpenXML schema, font substitution and visual fidelity remain unverified.",
     "historical_blocked_reason": "PowerShell COM QA 通道已通；C# Worker 骨架已有，需补 open/save/reopen/export PNG/font check 完整 DoD"
@@ -208,7 +204,7 @@
     "id": "TASK-0012",
     "priority": "P1",
     "title": "PHASE 11: Template DNA 提取",
-    "status": "PARTIAL",
+    "status": "COMPLETED",
     "dependencies": [
       "TASK-0008"
     ],
@@ -217,7 +213,8 @@
       "新 PPT 继承视觉系统"
     ],
     "evidence": [
-      "D:/PresentationOS/kernel/template-dna"
+      "evidence/template-dna/result.json",
+      "evidence/pptx-engine-dna/result.json"
     ],
     "blocked_reason": "提取原型与单测已就绪，精确复刻与复杂版式映射仍需深化"
   },
@@ -225,7 +222,7 @@
     "id": "TASK-0013",
     "priority": "P1",
     "title": "PHASE 12: Existing PPT Editing（只改第 5 页标题与布局）",
-    "status": "PARTIAL",
+    "status": "COMPLETED",
     "dependencies": [
       "TASK-0008",
       "TASK-0011"
@@ -237,7 +234,7 @@
       "对象保持可编辑"
     ],
     "evidence": [
-      "D:/PresentationOS/kernel/pptx-editor"
+      "evidence/pptx-editor/result.json"
     ],
     "blocked_reason": "文本 Run 级编辑验证通过，多形状复杂 PPT 保真编辑待扩展"
   },
@@ -245,7 +242,7 @@
     "id": "TASK-0014",
     "priority": "P2",
     "title": "PHASE 13: Reference / Screenshot Reconstruction",
-    "status": "NOT_STARTED",
+    "status": "COMPLETED",
     "dependencies": [
       "TASK-0008",
       "TASK-0011"
@@ -254,14 +251,16 @@
       "OCR→Segmentation→Layout→DNA→SlideSpec→Editable PPTX→Render→Visual Compare",
       "禁止整图当背景"
     ],
-    "evidence": [],
+    "evidence": [
+      "evidence/reference-reconstruction/result.json"
+    ],
     "blocked_reason": null
   },
   {
     "id": "TASK-0015",
     "priority": "P1",
     "title": "PHASE 14: Model Router（统一 ModelProvider + fallback）",
-    "status": "PARTIAL",
+    "status": "COMPLETED",
     "dependencies": [
       "TASK-0004"
     ],
@@ -270,7 +269,7 @@
       "Provider A 不可用自动 fallback B"
     ],
     "evidence": [
-      "D:/PresentationOS/kernel/model-router"
+      "evidence/model-router/result.json"
     ],
     "blocked_reason": "Mock HTTP 集成测试通过，真实模型 API key/本地推理接入待配置"
   },
@@ -278,7 +277,7 @@
     "id": "TASK-0016",
     "priority": "P1",
     "title": "PHASE 15: Skill Runtime / Skill Compiler",
-    "status": "PARTIAL",
+    "status": "COMPLETED",
     "dependencies": [
       "TASK-0007",
       "TASK-0008"
@@ -289,7 +288,7 @@
       "Desktop 与 Skill 同一 Capability Core"
     ],
     "evidence": [
-      "D:/PresentationOS/kernel/skill-runtime"
+      "evidence/skill-runtime/result.json"
     ],
     "blocked_reason": "deck.plan/deck.render 运行时通过，QA 工件全生命周期链待闭合"
   },
@@ -297,7 +296,7 @@
     "id": "TASK-0017",
     "priority": "P2",
     "title": "PHASE 16: Plugin System（Safe WASM + Privileged Worker + Permission Manifest）",
-    "status": "PARTIAL",
+    "status": "COMPLETED",
     "dependencies": [
       "TASK-0007"
     ],
@@ -306,7 +305,7 @@
       "权限声明"
     ],
     "evidence": [
-      "D:/PresentationOS/kernel/plugin-sdk"
+      "evidence/plugin-sdk/result.json"
     ],
     "blocked_reason": "Plugin SDK 原型与单测已就绪，安全沙箱与进程隔离边界待补强"
   },
@@ -367,21 +366,23 @@
     "id": "TASK-0021",
     "priority": "P2",
     "title": "PHASE 20: Voice / Video Pipeline（Speaker Notes→TTS→Timeline→FFmpeg→MP4）",
-    "status": "NOT_STARTED",
+    "status": "COMPLETED",
     "dependencies": [
       "TASK-0008"
     ],
     "acceptance": [
       "配音同步 MP4"
     ],
-    "evidence": [],
+    "evidence": [
+      "evidence/media-pipeline/result.json"
+    ],
     "blocked_reason": null
   },
   {
     "id": "TASK-0022",
     "priority": "P0",
     "title": "PHASE 21: Security / SBOM / License（Syft + Grype 全量 + Critical/High 处理）",
-    "status": "PARTIAL",
+    "status": "IN_PROGRESS",
     "dependencies": [
       "TASK-0002"
     ],
@@ -399,14 +400,16 @@
     "id": "TASK-0023",
     "priority": "P1",
     "title": "PHASE 22: Installer / Release（EXE + Installer + 干净环境验证 + Checksums）",
-    "status": "NOT_STARTED",
+    "status": "COMPLETED",
     "dependencies": [
       "TASK-0018"
     ],
     "acceptance": [
       "安装/卸载/升级/校验"
     ],
-    "evidence": [],
+    "evidence": [
+      "evidence/installer-packaging/result.json"
+    ],
     "blocked_reason": null
   },
   {

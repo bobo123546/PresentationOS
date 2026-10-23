@@ -1,0 +1,19 @@
+{
+  "feature": "Release Packaging, Single-File EXE & Clean Machine Distribution",
+  "status": "PASS",
+  "command": "node tools/packager/verify-release.mjs",
+  "exit_code": 0,
+  "commit_hash": "f8f5c2dbdef57bdd2c7934d6d2e4e234b8063ccd",
+  "recorded_at": "2026-10-23T07:55:03.250Z",
+  "artifacts": [
+    "D:\\PresentationOS\\release\\PresentationOS\\SHA256SUMS.txt",
+    "D:\\PresentationOS\\release\\PresentationOS\\RELEASE_MANIFEST.json",
+    "D:\\PresentationOS\\release\\PresentationOS\\PresentationOS.exe"
+  ],
+  "metrics": {
+    "binarySizeMb": 147.02,
+    "sha256": "abe747fed630bda8402a436e2d9cd2235270b19cc324b70c4a8c20afc16b0eae",
+    "selfContained": true,
+    "cleanMachineReady": true
+  }
+}

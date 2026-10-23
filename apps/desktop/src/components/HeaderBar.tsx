@@ -12,6 +12,8 @@ interface HeaderBarProps {
   onCompile: () => void;
   onCancel: () => void;
   onExport: () => void;
+  onReconstruct?: () => void;
+  onMediaExport?: () => void;
 }
 
 export const HeaderBar: React.FC<HeaderBarProps> = ({
@@ -25,6 +27,8 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({
   onCompile,
   onCancel,
   onExport,
+  onReconstruct,
+  onMediaExport,
 }) => {
   const isRunning = status === 'RUNNING';
 
@@ -117,6 +121,30 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({
           onClick={onExport}
         >
           导出文稿
+        </button>
+
+        <button
+          id="ReconstructBtn"
+          data-testid="ReconstructBtn"
+          data-automation-id="ReconstructBtn"
+          aria-label="Reconstruct Slide"
+          className="btn"
+          disabled={isRunning}
+          onClick={onReconstruct}
+        >
+          参考图重建
+        </button>
+
+        <button
+          id="MediaExportBtn"
+          data-testid="MediaExportBtn"
+          data-automation-id="MediaExportBtn"
+          aria-label="Export Media Video"
+          className="btn"
+          disabled={isRunning}
+          onClick={onMediaExport}
+        >
+          配音与视频
         </button>
       </div>
     </header>

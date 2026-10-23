@@ -1,0 +1,13 @@
+{
+  "feature": "Reference / Screenshot Layered Reconstruction (P13 / TASK-0014)",
+  "status": "PASS",
+  "command": "pnpm -C kernel/scene-reconstruction test",
+  "exit_code": 0,
+  "commit_hash": "f8f5c2dbdef57bdd2c7934d6d2e4e234b8063ccd",
+  "recorded_at": "2026-10-23T07:55:18.268Z",
+  "real_output": "SceneIR schema validation pass; editable DeckSpec created; 100% editable coverage on native shapes; 0% full-page bitmap hack; IoU & text diff verified; human patch replay verified",
+  "artifacts": [
+    "schemas/scene-ir/scene-ir.schema.json",
+    "kernel/scene-reconstruction/dist/index.js"
+  ]
+}

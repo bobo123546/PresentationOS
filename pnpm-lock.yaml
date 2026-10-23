@@ -183,6 +183,12 @@ importers:
       '@pres/document-parser':
         specifier: workspace:*
         version: link:../../kernel/document-parser
+      '@pres/media-pipeline':
+        specifier: workspace:*
+        version: link:../../kernel/media-pipeline
+      '@pres/scene-reconstruction':
+        specifier: workspace:*
+        version: link:../../kernel/scene-reconstruction
       '@pres/schema-validator':
         specifier: workspace:*
         version: link:../../kernel/schema-validator
@@ -267,6 +273,19 @@ importers:
         specifier: ^5.6.0
         version: 5.9.3
 
+  kernel/media-pipeline:
+    dependencies:
+      '@pres/pptx-engine':
+        specifier: workspace:*
+        version: link:../pptx-engine
+    devDependencies:
+      '@types/node':
+        specifier: ^22.0.0
+        version: 22.20.4
+      typescript:
+        specifier: ^5.6.0
+        version: 5.9.3
+
   kernel/model-router:
     dependencies:
       yaml:
@@ -320,6 +339,22 @@ importers:
         version: 5.9.3
 
   kernel/revision-engine:
+    devDependencies:
+      '@types/node':
+        specifier: ^22.0.0
+        version: 22.20.4
+      typescript:
+        specifier: ^5.6.0
+        version: 5.9.3
+
+  kernel/scene-reconstruction:
+    dependencies:
+      '@pres/pptx-engine':
+        specifier: workspace:*
+        version: link:../pptx-engine
+      '@pres/schema-validator':
+        specifier: workspace:*
+        version: link:../schema-validator
     devDependencies:
       '@types/node':
         specifier: ^22.0.0

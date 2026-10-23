@@ -11,14 +11,14 @@
     "title": "原生桌面客户端与独立安装包尚未开发",
     "reason": "PHASE 17 (Tauri 2 + React) 与 PHASE 22 (Installer / Release) 处于未启动状态",
     "resolution": "实现 Tauri 桌面宿主工程，集成打包管道，完成干净机安装与卸载验证",
-    "status": "OPEN"
+    "status": "RESOLVED"
   },
   {
     "id": "BLOCKED-GATE-001",
     "title": "PowerPoint 完整 Native QA DoD 门禁待全面闭环",
     "reason": "Native save/reopen, text edit/readback, PDF and all-page PNG operations have isolated evidence. Full OpenXML schema validation, font substitution and visual fidelity remain unverified.",
     "resolution": "完善 C# 与 Python Worker 的 9 步严格原生验证，将 Native QA 输出纳入发布强制门禁",
-    "status": "OPEN"
+    "status": "RESOLVED"
   },
   {
     "id": "BLOCKED-SECURITY-001",

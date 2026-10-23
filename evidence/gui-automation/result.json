@@ -1,8 +1,8 @@
 {
-  "timestamp": "2026-10-23T06:19:22.315Z",
+  "timestamp": "2026-10-23T07:53:46.131Z",
   "contract": "presentationos-ui-contract/1",
   "contract_file": "D:\\PresentationOS\\tools\\gui-automation\\ui_contract.yaml",
-  "controls_total": 25,
+  "controls_total": 27,
   "controls": [
     "ProjectTitleInput",
     "NewProjectBtn",
@@ -11,6 +11,8 @@
     "CompileDeckBtn",
     "CancelTaskBtn",
     "ExportPptxBtn",
+    "ReconstructBtn",
+    "MediaExportBtn",
     "MarkdownEditorInput",
     "ImportMarkdownBtn",
     "SlideNavList",

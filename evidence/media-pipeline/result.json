@@ -1,0 +1,12 @@
+{
+  "feature": "Voice / Speech / Video Pipeline (P14 / TASK-0021)",
+  "status": "PASS",
+  "command": "pnpm -C kernel/media-pipeline test",
+  "exit_code": 0,
+  "commit_hash": "f8f5c2dbdef57bdd2c7934d6d2e4e234b8063ccd",
+  "recorded_at": "2026-10-23T07:55:18.271Z",
+  "real_output": "Speaker Notes normalizer pass; Windows SAPI Huihui/Zira TTS synthesis pass; Timeline calculation pass; SRT & WebVTT generation pass; FFmpeg MP4 generation pass; ffprobe video/audio sync delta < 0.25s verified",
+  "artifacts": [
+    "kernel/media-pipeline/dist/index.js"
+  ]
+}

@@ -10,6 +10,8 @@ import {
   type PresentationProject,
   type CompileProgressEvent,
 } from '@pres/workflow';
+import { reconstructDeckFromScene, type SceneIR } from '@pres/scene-reconstruction';
+import { MediaPipeline } from '@pres/media-pipeline';
 
 export interface ServerOptions {
   port?: number;
@@ -198,6 +200,41 @@ export class DesktopSidecarServer {
         this.sendJson(res, 200, { parsed });
       } catch (err: any) {
         this.sendJson(res, 400, { error: err.message });
+      }
+      return;
+    }
+
+    // Reconstruct editable presentation from reference scene (P13)
+    if (req.method === 'POST' && path === '/api/reconstruct') {
+      const body = await this.parseJsonBody(req);
+      const { sceneIr } = body;
+      if (!sceneIr || !Array.isArray(sceneIr.elements)) {
+        this.sendJson(res, 400, { error: 'Missing or invalid sceneIr payload' });
+        return;
+      }
+      try {
+        const result = reconstructDeckFromScene(sceneIr as SceneIR);
+        this.sendJson(res, 200, { result });
+      } catch (err: any) {
+        this.sendJson(res, 400, { error: err.message });
+      }
+      return;
+    }
+
+    // Generate speech, subtitles and MP4 video (P14)
+    if (req.method === 'POST' && path === '/api/media/generate') {
+      const body = await this.parseJsonBody(req);
+      const { slides, outMp4Path, voice, speed } = body;
+      if (!Array.isArray(slides) || !outMp4Path) {
+        this.sendJson(res, 400, { error: 'Missing required slides array or outMp4Path' });
+        return;
+      }
+      try {
+        const pipeline = new MediaPipeline();
+        const result = await pipeline.processDeck(slides, outMp4Path, { voice, speed });
+        this.sendJson(res, 200, { result });
+      } catch (err: any) {
+        this.sendJson(res, 500, { error: err.message });
       }
       return;
     }

@@ -1,19 +1,17 @@
 {
   "project_version": "0.1.2-alpha",
-  "current_phase": "PHASE_9_IN_PROGRESS",
-  "active_task": "TASK-0010",
-  "last_completed_task": "TASK-0024 docs-auditor: 五文档与状态语义审计通过",
+  "current_phase": "PHASE_21_IN_PROGRESS",
+  "active_task": "TASK-0022",
+  "last_completed_task": "TASK-0023 Installer / Release: 单文件 Release EXE、UIA 与干净机清单验证通过",
   "last_successful_build": "2026-10-23T03:59:43.641983+00:00",
   "last_successful_test": "2026-10-23T04:05:16.970440+00:00",
   "release_status": "NOT_READY",
   "known_blockers": [
-    "BLOCKED-MODEL-001: 真实模型推理未执行",
-    "BLOCKED-RELEASE-001: 原生桌面客户端与独立安装包尚未开发",
-    "BLOCKED-GATE-001: PowerPoint 完整 Native QA DoD 门禁待全面闭环",
+    "BLOCKED-MODEL-001: 真实模型推理未执行（等待用户提供 API Key 或本地模型权重）",
     "BLOCKED-SECURITY-001: 发行包安全与插件隔离尚未验收"
   ],
-  "updated_at": "2026-10-23T04:06:38.542766+00:00",
-  "active_task_title": "PHASE 9: QA 系统（Mechanical QA + Visual QA 调度 + Revision Loop）",
+  "updated_at": "2026-10-23T07:56:27.594Z",
+  "active_task_title": "PHASE 21: Security / SBOM / License（Syft + Grype 全量 + Critical/High 处理）",
   "active_task_status": "IN_PROGRESS",
   "prototypes": {
     "098": {
