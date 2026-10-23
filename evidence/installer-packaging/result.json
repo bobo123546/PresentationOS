@@ -3,8 +3,8 @@
   "status": "PASS",
   "command": "node tools/packager/verify-release.mjs",
   "exit_code": 0,
-  "commit_hash": "f8f5c2dbdef57bdd2c7934d6d2e4e234b8063ccd",
-  "recorded_at": "2026-10-23T07:55:03.250Z",
+  "commit_hash": "090f5f7be849f4b03a6f1eb30566f1b7c08714de",
+  "recorded_at": "2026-10-23T09:11:11.191Z",
   "artifacts": [
     "D:\\PresentationOS\\release\\PresentationOS\\SHA256SUMS.txt",
     "D:\\PresentationOS\\release\\PresentationOS\\RELEASE_MANIFEST.json",

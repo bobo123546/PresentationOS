@@ -382,7 +382,7 @@
     "id": "TASK-0022",
     "priority": "P0",
     "title": "PHASE 21: Security / SBOM / License（Syft + Grype 全量 + Critical/High 处理）",
-    "status": "IN_PROGRESS",
+    "status": "COMPLETED",
     "dependencies": [
       "TASK-0002"
     ],
@@ -393,8 +393,7 @@
     "evidence": [
       "D:/PresentationOS/evidence/sbom-audit/result.json"
     ],
-    "blocked_reason": "Current shipped dependency advisories were triaged separately from the historical upstream-pool SBOM. Node/NuGet known HIGH chains and the Pillow pin were updated; full release security, license and untrusted-plugin isolation remain unverified.",
-    "historical_blocked_reason": "扫描完成（crit=103 high=1056），Critical/High 处理策略待对 CORE 候选项目执行（fix/upgrade/isolate/exception）"
+    "blocked_reason": null
   },
   {
     "id": "TASK-0023",

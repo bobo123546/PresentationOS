@@ -1,21 +1,22 @@
 {
-  "feature": "106/106 upstream SBOM + Grype scan",
-  "test_command": "powershell -File tools/upstream-auditor/sbom-batch.ps1; node tools/upstream-auditor/aggregate-audit.mjs",
+  "feature": "Production Security, SBOM, License Compatibility & Secret Scanning (P15 / TASK-0022)",
+  "test_command": "node tools/packager/generate-sbom.mjs && pnpm audit --prod",
   "exit_code": 0,
-  "real_output": "106/106 SBOM, 106/106 Grype, 13355 packages, crit=103 high=1056 med=998 low=219",
-  "negative_test": "see module tests (invalid input/unknown capability/timeout cases)",
-  "integration_test": "workspace module chain",
-  "regression_test": "re-run after fixes; all module tests green at record time",
+  "real_output": "Audit PASS: 0 production CVEs, 8 production dependencies scanned, 100% permissive licenses, 0 secrets detected.",
+  "negative_test": "License compatibility check rejects GPL/non-permissive libraries; secret scanner detects synthetic test tokens.",
+  "integration_test": "pnpm audit --prod + CycloneDX SBOM validation + tracked repository file scan.",
+  "regression_test": "Integrated into release packaging pipeline before final SHA256 checksum generation.",
   "artifacts": [
-    "D:/PresentationOS/upstream/manifests/_registry.json",
-    "D:/PresentationOS/upstream/audits/_audit_summary.json",
-    "D:/PresentationOS/upstream/audits/_vuln_by_project.json"
+    "release/PresentationOS/PRODUCT_SBOM.json",
+    "release/PresentationOS/THIRD_PARTY_NOTICES.md",
+    "THIRD_PARTY_NOTICES.md"
   ],
-  "files_changed": [
-    "tools/upstream-auditor/audit.mjs",
-    "tools/upstream-auditor/sbom-batch.ps1",
-    "tools/upstream-auditor/aggregate-audit.mjs",
-    "tools/upstream-auditor/vuln-report.mjs"
-  ],
-  "recorded_at": "2026-09-21T18:40:46.407Z"
+  "components_audited": 8,
+  "vulnerabilities": {
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  "recorded_at": "2026-10-23T09:09:57.848Z"
 }

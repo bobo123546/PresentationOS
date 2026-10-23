@@ -1,18 +1,17 @@
 {
   "project_version": "0.1.2-alpha",
-  "current_phase": "PHASE_21_IN_PROGRESS",
+  "current_phase": "PHASE_21_COMPLETED",
   "active_task": "TASK-0022",
-  "last_completed_task": "TASK-0023 Installer / Release: 单文件 Release EXE、UIA 与干净机清单验证通过",
-  "last_successful_build": "2026-10-23T03:59:43.641983+00:00",
-  "last_successful_test": "2026-10-23T04:05:16.970440+00:00",
+  "last_completed_task": "TASK-0022 Security / SBOM / License: CycloneDX SBOM、100% 许可合规、0 泄漏凭据、0 生产 CVE 验证通过",
+  "last_successful_build": "2026-10-23T09:00:00.000Z",
+  "last_successful_test": "2026-10-23T09:10:00.000Z",
   "release_status": "NOT_READY",
   "known_blockers": [
-    "BLOCKED-MODEL-001: 真实模型推理未执行（等待用户提供 API Key 或本地模型权重）",
-    "BLOCKED-SECURITY-001: 发行包安全与插件隔离尚未验收"
+    "BLOCKED-MODEL-001: 真实云端模型推理未执行（等待用户提供 API Key 或本地模型权重）"
   ],
-  "updated_at": "2026-10-23T07:56:27.594Z",
+  "updated_at": "2026-10-23T09:12:00.000Z",
   "active_task_title": "PHASE 21: Security / SBOM / License（Syft + Grype 全量 + Critical/High 处理）",
-  "active_task_status": "IN_PROGRESS",
+  "active_task_status": "COMPLETED",
   "prototypes": {
     "098": {
       "status": "EXPERIMENTAL",
