@@ -46,6 +46,26 @@ public static class NativeProbe
             ["semantic"] = false, ["editability"] = false, ["fonts"] = false,
             ["stages"] = stages, ["dialogs"] = dialogs, ["operation_success"] = false
         };
+        // PowerPoint's COM Open method can hang on otherwise valid source files
+        // whose path contains non-ASCII characters. Keep the user's source
+        // untouched, but hand Office an ASCII staging path and record the mapping.
+        var originalSource = source;
+        var stagedSource = Path.Combine(directory, "native-input.pptx");
+        try
+        {
+            File.Copy(originalSource, stagedSource, overwrite: false);
+            source = stagedSource;
+            result["source_path"] = originalSource;
+            result["staged_source"] = stagedSource;
+            result["source_staged"] = true;
+        }
+        catch (Exception error)
+        {
+            result["source_staged"] = false;
+            result["error"] = "Unable to stage source PPTX for PowerPoint: " + error.Message;
+            File.WriteAllText(Path.Combine(directory, "probe-result.json"), JsonSerializer.Serialize(result, new JsonSerializerOptions { WriteIndented = true }));
+            return 1;
+        }
         void Stage(string name)
         {
             if (ownedPid.HasValue)

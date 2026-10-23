@@ -43,7 +43,7 @@ try {
     cleanup = JSON.parse(cleaned.trim());
   } catch (error) { cleanup = { status: 'CLEANUP_FAILED', cleaned: false, error: error.message }; }
   writeFileSync(resolve(output, 'cleanup-result.json'), JSON.stringify(cleanup, null, 2), { flag: 'wx' });
-  const artifacts = [resolve(output, 'native.pdf'), ...(probe?.pngs ?? []), resolve(output, 'verified-copy.pptx')];
+  const artifacts = [resolve(output, 'native-input.pptx'), resolve(output, 'native.pdf'), ...(probe?.pngs ?? []), resolve(output, 'verified-copy.pptx')];
   const filesPresent = artifacts.every(p => existsSync(p) && statSync(p).size > 100);
   const pass = run.status === 0 && probe?.operation_success === true && probe?.fonts === true && probe?.process_clean === true && probe?.pngs?.length === expected && filesPresent && cleanup.cleaned === true;
   result = { scope: 'PowerPoint open/save/close/reopen/edit/readback/PDF/PNG/font-availability/dialog-polls/process-cleanup',
