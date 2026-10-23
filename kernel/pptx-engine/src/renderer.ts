@@ -159,18 +159,18 @@ function renderCoverSlide(
   // 2. 顶部精致胶囊徽标
   s.addShape('roundRect', {
     x: 1.2,
-    y: 1.8,
-    w: 3.5,
-    h: 0.38,
+    y: 1.5,
+    w: 3.6,
+    h: 0.4,
     fill: { color: '1E293B' },
     line: { color: '38BDF8', width: 1.5 },
-    rectRadius: 0.19,
+    rectRadius: 0.2,
   });
   s.addText('[ 2026 战略发布 · 商业汇报 ]', {
     x: 1.2,
-    y: 1.8,
-    w: 3.5,
-    h: 0.38,
+    y: 1.5,
+    w: 3.6,
+    h: 0.4,
     fontSize: 11,
     bold: true,
     color: '38BDF8',
@@ -179,24 +179,23 @@ function renderCoverSlide(
     valign: 'middle',
   });
 
-  // 3. 核心大标题（42pt 超粗体，大字号呼吸感）
+  // 3. 核心大标题（38pt 超粗体，大字号呼吸感）
   s.addText(slide.title, {
     x: 1.2,
-    y: 2.35,
+    y: 2.15,
     w: 10.9,
-    h: 1.8,
-    fontSize: 42,
+    h: 1.5,
+    fontSize: 38,
     bold: true,
     color: 'FFFFFF',
     fontFace: theme.fontFamily,
     valign: 'top',
-    lineSpacing: 1.2,
   });
 
   // 4. 现代强调装饰条
   s.addShape('roundRect', {
     x: 1.2,
-    y: 4.25,
+    y: 3.9,
     w: 2.8,
     h: 0.08,
     fill: { color: theme.accent || '38BDF8' },
@@ -208,20 +207,19 @@ function renderCoverSlide(
   const subtitle = deck.subtitle || (slide.blocks[0]?.type === 'text' && slide.blocks[0].text ? slide.blocks[0].text : '') || '新一代智能化商业战略规划与核心业务成果落地实践';
   s.addText(subtitle, {
     x: 1.2,
-    y: 4.5,
+    y: 4.2,
     w: 10.9,
-    h: 0.9,
-    fontSize: 20,
+    h: 1.2,
+    fontSize: 18,
     color: '94A3B8',
     fontFace: theme.fontFamily,
     valign: 'top',
-    lineSpacing: 1.2,
   });
 
   // 6. 底部权威元信息
   s.addText(`PresentationOS AI Engine · ${deck.author ?? '企业战略'} · 商业机密 · 100% 事实保真`, {
     x: 1.2,
-    y: 6.2,
+    y: 6.3,
     w: 10.9,
     h: 0.4,
     fontSize: 12,
@@ -404,7 +402,7 @@ function renderCardGrid(
     if (parsed.metric) {
       s.addText(parsed.metric, {
         x: x + 0.35,
-        y: cardY + 0.95,
+        y: cardY + 0.85,
         w: cardW - 0.7,
         h: 0.8,
         fontSize: count === 4 ? 26 : 32,
@@ -417,28 +415,26 @@ function renderCardGrid(
       // 正文详述
       s.addText(parsed.desc, {
         x: x + 0.35,
-        y: cardY + 1.85,
+        y: cardY + 1.8,
         w: cardW - 0.7,
         h: 2.6,
-        fontSize: 14,
+        fontSize: 13,
         color: '475569',
         fontFace: theme.fontFamily,
         valign: 'top',
-        lineSpacing: 1.35,
         wrap: true,
       });
     } else {
       // 普通正文要点排版
       s.addText(block.text ?? '', {
         x: x + 0.35,
-        y: cardY + 1.0,
+        y: cardY + 0.9,
         w: cardW - 0.7,
-        h: 3.4,
-        fontSize: 15,
+        h: 3.5,
+        fontSize: 14,
         color: '334155',
         fontFace: theme.fontFamily,
         valign: 'top',
-        lineSpacing: 1.35,
         wrap: true,
       });
     }
@@ -545,7 +541,6 @@ async function renderFlowCards(
         color: '334155',
         fontFace: theme.fontFamily,
         valign: 'top',
-        lineSpacing: 1.35,
         wrap: true,
       });
     } else {
