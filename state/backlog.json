@@ -177,7 +177,8 @@
     "evidence": [
       "D:/PresentationOS/kernel/mechanical-qa",
       "D:/PresentationOS/kernel/visual-qa",
-      "D:/PresentationOS/kernel/revision-engine"
+      "D:/PresentationOS/kernel/revision-engine",
+      "tests/unit/markdown-content-safety.test.mjs"
     ],
     "blocked_reason": "规则级单测已存在；视觉渲染对比与完整 Revision 闭环需接真实模型与原生截图"
   },
@@ -195,9 +196,13 @@
       "无 POWERPNT.EXE 残留"
     ],
     "evidence": [
-      "D:/PresentationOS/evidence/vertical-slice/result.json（COM QA 已用于 Vertical Slice 验证）"
+      "D:/PresentationOS/evidence/vertical-slice/result.json（COM QA 已用于 Vertical Slice 验证）",
+      "workers/powerpoint-dotnet/src/PresentationOS.PowerPoint/NativeProbe.cs",
+      "tests/unit/PresentationOS.PowerPoint.Tests/NativeBoundaryTests.cs",
+      "098/tests/test_native_boundary.py"
     ],
-    "blocked_reason": "PowerShell COM QA 通道已通；C# Worker 骨架已有，需补 open/save/reopen/export PNG/font check 完整 DoD"
+    "blocked_reason": "Isolated .NET save/reopen, ordered text readback, edit/PDF/PNG operations and path/failure boundaries have current evidence. Full OpenXML schema, font substitution and visual fidelity remain unverified.",
+    "historical_blocked_reason": "PowerShell COM QA 通道已通；C# Worker 骨架已有，需补 open/save/reopen/export PNG/font check 完整 DoD"
   },
   {
     "id": "TASK-0012",
@@ -383,7 +388,8 @@
     "evidence": [
       "D:/PresentationOS/evidence/sbom-audit/result.json"
     ],
-    "blocked_reason": "扫描完成（crit=103 high=1056），Critical/High 处理策略待对 CORE 候选项目执行（fix/upgrade/isolate/exception）"
+    "blocked_reason": "Current shipped dependency advisories were triaged separately from the historical upstream-pool SBOM. Node/NuGet known HIGH chains and the Pillow pin were updated; full release security, license and untrusted-plugin isolation remain unverified.",
+    "historical_blocked_reason": "扫描完成（crit=103 high=1056），Critical/High 处理策略待对 CORE 候选项目执行（fix/upgrade/isolate/exception）"
   },
   {
     "id": "TASK-0023",

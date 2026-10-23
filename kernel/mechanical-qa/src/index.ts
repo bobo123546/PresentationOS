@@ -26,7 +26,7 @@ export interface MechanicalQaInput {
   pageWidth: number;
   pageHeight: number;
   rects: QARect[];
-  blocks?: Array<{ id?: string; type: string; text?: string; chartType?: string; data?: { labels?: string[]; series?: Array<{ name?: string; values?: number[] }> } }>;
+  blocks?: Array<{ id?: string; type: string; text?: string; headers?: string[]; rows?: string[][]; label?: string; alt?: string; chartType?: string; data?: { labels?: string[]; series?: Array<{ name?: string; values?: number[] }> } }>;
 }
 
 export function runMechanicalQa(input: MechanicalQaInput): QAResult {
@@ -67,10 +67,14 @@ export function runMechanicalQa(input: MechanicalQaInput): QAResult {
       if (b.text === undefined || b.text.trim() === '') {
         findings.push({ check: 'empty-text', severity: 'error', message: `block ${id} has empty text`, itemId: id });
         count('empty-text');
-      } else if (/[\x00-\x08\x0b\x0c\x0e-\x1f\ufffe\uffff]/.test(b.text)) {
-        findings.push({ check: 'invalid-xml-character', severity: 'error', message: `block ${id} contains an XML 1.0 forbidden character`, itemId: id });
-        count('invalid-xml-character');
       }
+    }
+    // XML 1.0 permits supplementary code points (including emoji), but not
+    // unpaired UTF-16 surrogates. Check every textual field sent to the renderer.
+    const textFields = [b.text, b.label, b.alt, ...(b.headers ?? []), ...(b.rows ?? []).flat(), ...(b.data?.labels ?? []), ...(b.data?.series ?? []).map((series) => series.name)];
+    if (textFields.some((text) => text !== undefined && /[^\u0009\u000A\u000D\u0020-\uD7FF\uE000-\uFFFD\u{10000}-\u{10FFFF}]/u.test(text))) {
+      findings.push({ check: 'invalid-xml-character', severity: 'error', message: `block ${id} contains an XML 1.0 forbidden character`, itemId: id });
+      count('invalid-xml-character');
     }
     // 5) 图表数据一致性
     if (b.type === 'chart') {

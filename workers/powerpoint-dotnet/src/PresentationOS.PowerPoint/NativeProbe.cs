@@ -18,11 +18,23 @@ public static class NativeProbe
 
     public static int Run(string requestPath)
     {
-        using var request = JsonDocument.Parse(File.ReadAllText(requestPath));
-        var root = request.RootElement;
-        var directory = root.GetProperty("directory").GetString()!;
-        var source = root.GetProperty("pptx").GetString()!;
-        var expected = root.GetProperty("expected_slides").GetInt32();
+        string directory, source;
+        int expected;
+        try
+        {
+            var requestFile = NativePaths.InputFile(requestPath, ".json");
+            using var request = JsonDocument.Parse(File.ReadAllText(requestFile));
+            var root = request.RootElement;
+            directory = NativePaths.ProbeDirectory(root.GetProperty("directory").GetString()!, requestFile);
+            source = NativePaths.InputFile(root.GetProperty("pptx").GetString()!, ".pptx");
+            expected = root.GetProperty("expected_slides").GetInt32();
+            if (expected < 1) throw new ArgumentException("expected_slides must be positive");
+        }
+        catch (Exception error)
+        {
+            Console.Error.WriteLine("Native request rejected before Office activation: " + error.Message);
+            return 1;
+        }
         var stages = new List<object>();
         var dialogs = new HashSet<long>();
         int? ownedPid = null;
@@ -82,7 +94,7 @@ public static class NativeProbe
             presentation = presentations.Open(copy, false, false, false);
             var readback = ReadText((object)presentation);
             result["save_reopen"] = true;
-            result["semantic"] = count == expected && Normalize(original.Text) == Normalize(readback.Text);
+            result["semantic"] = count == expected && original.Matches(readback);
             Stage("edit_save_reopen");
             var first = FirstText((object)presentation);
             dynamic firstShape = first.Shape;
@@ -94,8 +106,11 @@ public static class NativeProbe
             Release(range); Release(frame); Release(firstShape);
             presentation.Save(); presentation.Close(); Release(presentation); presentation = null;
             presentation = presentations.Open(copy, false, false, false);
-            dynamic slide = presentation.Slides.Item(first.Slide);
-            dynamic shape = slide.Shapes.Item(first.Index);
+            slides = presentation.Slides;
+            dynamic slide = slides.Item(first.Slide);
+            dynamic shapes = slide.Shapes;
+            dynamic shape = shapes.Item(first.Index);
+            Release(shapes); Release(slides);
             frame = shape.TextFrame; range = frame.TextRange;
             result["editability"] = (string)range.Text == previous + marker;
             range.Text = previous;
@@ -103,8 +118,10 @@ public static class NativeProbe
             presentation.Save(); presentation.Close(); Release(presentation); presentation = null;
             presentation = presentations.Open(copy, true, false, false);
             var final = ReadText((object)presentation);
-            result["semantic"] = (bool)result["semantic"]! && Normalize(original.Text) == Normalize(final.Text);
-            result["readback_text"] = final.Text;
+            result["semantic"] = (bool)result["semantic"]! && original.Matches(final);
+            result["readback_text"] = final.Shapes.Select(shape => shape.Text).ToList();
+            result["readback_shapes"] = final.Shapes;
+            result["semantic_scope"] = "Slide count and ordered text-shape indices/text; only CRLF/CR newlines normalized";
             result["font_names"] = final.Fonts;
             result["font_scope"] = "Names read from all text shapes; substitution remains unverified";
             Stage("export_pdf");
@@ -141,23 +158,27 @@ public static class NativeProbe
         return (bool)result["operation_success"]! ? 0 : 1;
     }
 
-    private static string Normalize(IEnumerable<string> values) => string.Concat(values).Replace("\r", "").Replace("\n", "").Replace(" ", "").Replace("\t", "");
-    private static (List<string> Text, List<string> Fonts) ReadText(dynamic presentation)
+    private static NativeTextSnapshot ReadText(dynamic presentation)
     {
-        var text = new List<string>(); var fonts = new HashSet<string>();
+        var text = new List<NativeTextShape>(); var fonts = new HashSet<string>();
         dynamic slides = presentation.Slides;
-        try { for (int i = 1; i <= slides.Count; i++) {
+        int count = slides.Count;
+        try { for (int i = 1; i <= count; i++) {
             dynamic slide = slides.Item(i); dynamic shapes = slide.Shapes;
             try { for (int j = 1; j <= shapes.Count; j++) {
                 dynamic shape = shapes.Item(j);
                 try { if (shape.HasTextFrame != 0) {
                     dynamic frame = shape.TextFrame;
-                    try { if (frame.HasText != 0) { dynamic range = frame.TextRange; dynamic font = range.Font; text.Add((string)range.Text); fonts.Add((string)font.Name); Release(font); Release(range); } }
+                    try { if (frame.HasText != 0) {
+                        dynamic? range = null, font = null;
+                        try { range = frame.TextRange; font = range.Font; text.Add(new NativeTextShape(i, j, (string)range.Text)); fonts.Add((string)font.Name); }
+                        finally { Release(font); Release(range); }
+                    } }
                     finally { Release(frame); }
                 } } finally { Release(shape); }
             } } finally { Release(shapes); Release(slide); }
         } } finally { Release(slides); }
-        return (text, fonts.Order().ToList());
+        return new NativeTextSnapshot(count, text, fonts.Order().ToList());
     }
     private static (int Slide, int Index, object Shape) FirstText(dynamic presentation)
     {

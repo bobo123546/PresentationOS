@@ -85,11 +85,13 @@ public static class Program
                     if (string.IsNullOrWhiteSpace(pptx) || string.IsNullOrWhiteSpace(pdf))
                         throw new ArgumentException("input requires pptxPath and pdfPath");
 
+                    var paths = NativePaths.ExportPaths(pptx, pdf);
+
                     if (!OperatingSystem.IsWindows()) throw new PlatformNotSupportedException("PowerPoint COM requires Windows");
 
                     var native = new PowerPointNative();
                     PowerPointNative.QaResult r;
-                    try { r = native.OpenAndExportPdf(pptx, pdf); }
+                    try { r = native.OpenAndExportPdf(paths.Pptx, paths.Pdf); }
                     finally { native.Quit(); }
                     {
                         writer.WriteLine(JsonSerializer.Serialize(new

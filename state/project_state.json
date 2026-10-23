@@ -1,10 +1,10 @@
 {
-  "project_version": "0.1.1-alpha",
+  "project_version": "0.1.2-alpha",
   "current_phase": "PHASE_9_IN_PROGRESS",
   "active_task": "TASK-0010",
   "last_completed_task": "TASK-0024 docs-auditor: 五文档与状态语义审计通过",
-  "last_successful_build": "2026-10-22T15:17:57.695110+00:00",
-  "last_successful_test": "2026-10-22T15:31:24.224822+00:00",
+  "last_successful_build": "2026-10-23T03:59:43.641983+00:00",
+  "last_successful_test": "2026-10-23T04:05:16.970440+00:00",
   "release_status": "NOT_READY",
   "known_blockers": [
     "BLOCKED-MODEL-001: 真实模型推理未执行",
@@ -12,7 +12,7 @@
     "BLOCKED-GATE-001: PowerPoint 完整 Native QA DoD 门禁待全面闭环",
     "BLOCKED-SECURITY-001: 发行包安全与插件隔离尚未验收"
   ],
-  "updated_at": "2026-10-22T15:31:24.224822+00:00",
+  "updated_at": "2026-10-23T04:06:38.542766+00:00",
   "active_task_title": "PHASE 9: QA 系统（Mechanical QA + Visual QA 调度 + Revision Loop）",
   "active_task_status": "IN_PROGRESS",
   "prototypes": {
@@ -36,5 +36,5 @@
     "PHASE_19": "Unified Logging (telemetry) 5/5"
   },
   "completed_phases": {},
-  "validation_note": "See docs/验证记录.md for commands, exit codes, scope and limitations. Historical summaries are not current release proofs."
+  "validation_note": "See docs/验证记录.md for actual commands, scope, failures and current checks. Full platform remains NOT_READY."
 }

@@ -7,11 +7,13 @@ export function auditRepo(root){
   const check=(name,pass,detail='')=>checks.push({name,pass:Boolean(pass),detail});
   function json(file){try{return JSON.parse(readFileSync(join(root,file),'utf8'));}catch(error){check(`${file} parses`,false,error.message);return null;}}
   const pkg=json('package.json');
+  const cli=json('apps/cli/package.json');
   const state=json('state/project_state.json');
   const backlog=json('state/backlog.json');
   const blockers=json('state/blockers.json');
   if(!pkg||!state||!Array.isArray(backlog)||!Array.isArray(blockers))return{passAll:false,checks};
   check('product version agrees with state',pkg.version===state.project_version,`${pkg.version} / ${state.project_version}`);
+  check('CLI version agrees with product',cli?.version===pkg.version,`${cli?.version} / ${pkg.version}`);
   const ids=backlog.map(t=>t.id);
   check('25 unique well-formed task IDs',ids.length===25&&new Set(ids).size===ids.length&&ids.every(id=>/^TASK-\d{4}$/.test(id)));
   const statuses=new Set(['NOT_STARTED','PARTIAL','IN_PROGRESS','BLOCKED','COMPLETED']);

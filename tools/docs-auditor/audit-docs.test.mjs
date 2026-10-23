@@ -9,6 +9,8 @@ function fixture(change){
   const dir=mkdtempSync(join(tmpdir(),'pres-audit-'));
   try{
     for(const entry of ['package.json','docs','state']) cpSync(resolve(entry),join(dir,entry),{recursive:true});
+    mkdirSync(join(dir,'apps/cli'),{recursive:true});
+    cpSync(resolve('apps/cli/package.json'),join(dir,'apps/cli/package.json'));
     mkdirSync(join(dir,'098'));
     const mutate=(file,fn)=>{const path=join(dir,file);writeFileSync(path,JSON.stringify(fn(JSON.parse(readFileSync(path,'utf8'))),null,2));};
     change(mutate,dir);
@@ -16,7 +18,9 @@ function fixture(change){
   }finally{rmSync(dir,{recursive:true,force:true});}
 }
 test('current project governance passes',()=>assert.equal(auditRepo(resolve('.')).passAll,true));
+test('unchanged isolated governance fixture passes',()=>assert.equal(fixture(()=>{}).passAll,true));
 test('version mismatch fails',()=>assert.equal(fixture(m=>m('package.json',p=>({...p,version:'9.0.0'}))).passAll,false));
+test('CLI version cannot drift from the product',()=>assert.equal(fixture(m=>m('apps/cli/package.json',p=>({...p,version:'9.0.0'}))).passAll,false));
 test('release-ready with open blockers fails',()=>assert.equal(fixture(m=>m('state/project_state.json',p=>({...p,release_status:'RELEASE_READY'}))).passAll,false));
 test('unknown release state fails',()=>assert.equal(fixture(m=>m('state/project_state.json',p=>({...p,release_status:'READY_ENOUGH'}))).passAll,false));
 test('duplicate and malformed task IDs fail',()=>{

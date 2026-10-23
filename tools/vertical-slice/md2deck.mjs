@@ -4,6 +4,8 @@ export function mdToDeck(md, name = 'deck') {
   const sections = [];
   let current;
   let table;
+  let awaitingTableSeparator = false;
+  let hasDocumentTitle = false;
   const ensure = () => current ??= { title, blocks: [] };
   const flush = () => { if (current) sections.push(current); current = undefined; table = undefined; };
   for (const raw of md.split(/\r?\n/)) {
@@ -11,7 +13,12 @@ export function mdToDeck(md, name = 'deck') {
     const heading = /^(#{1,3})\s+(.*)$/.exec(line);
     if (heading) {
       table = undefined;
-      if (heading[1].length === 1) { title = heading[2].trim(); continue; }
+      if (heading[1].length === 1) {
+        if (!hasDocumentTitle) { title = heading[2].trim(); hasDocumentTitle = true; }
+        flush();
+        current = { title: heading[2].trim(), blocks: [] };
+        continue;
+      }
       if (heading[1].length === 2) { flush(); current = { title: heading[2].trim(), blocks: [] }; }
       else ensure().blocks.push({type:'text', text:heading[2].trim(), style:'h3'});
       continue;
@@ -19,9 +26,12 @@ export function mdToDeck(md, name = 'deck') {
     if (!line.trim()) { table = undefined; continue; }
     if (/^\s*\|.*\|\s*$/.test(line)) {
       const cells = line.trim().slice(1,-1).split(/(?<!\\)\|/).map((cell) => cell.trim().replace(/\\\|/g,'|'));
-      if (cells.every((cell) => /^:?-{3,}:?$/.test(cell))) continue;
+      if (table && awaitingTableSeparator) {
+        awaitingTableSeparator = false;
+        if (cells.length === table.headers.length && cells.every((cell) => /^:?-{3,}:?$/.test(cell))) continue;
+      }
       if (table) table.rows.push(cells);
-      else { table = {type:'table',headers:cells,rows:[]}; ensure().blocks.push(table); }
+      else { table = {type:'table',headers:cells,rows:[]}; awaitingTableSeparator = true; ensure().blocks.push(table); }
       continue;
     }
     table = undefined;

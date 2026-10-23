@@ -29,7 +29,10 @@ public sealed class PowerPointNative
 
     public QaResult OpenAndExportPdf(string pptxPath, string pdfPath)
     {
-        if (!File.Exists(pptxPath)) throw new FileNotFoundException("PPTX not found", pptxPath);
+        var paths = NativePaths.ExportPaths(pptxPath, pdfPath);
+        pptxPath = paths.Pptx;
+        pdfPath = paths.Pdf;
+        var temporaryPdf = Path.Combine(Path.GetDirectoryName(pdfPath)!, $".{Path.GetFileNameWithoutExtension(pdfPath)}.{Guid.NewGuid():N}.pdf");
         dynamic app = _application;
         dynamic? presentation = null;
         dynamic? presentations = null;
@@ -42,11 +45,14 @@ public sealed class PowerPointNative
             slides = presentation.Slides;
             int slideCount = slides.Count;
             // 32 = ppSaveAsPDF
-            presentation.SaveAs(pdfPath, 32);
+            presentation.SaveAs(temporaryPdf, 32);
             presentation.Close();
             Marshal.FinalReleaseComObject(presentation);
             presentation = null;
-            long pdfSize = File.Exists(pdfPath) ? new FileInfo(pdfPath).Length : 0;
+            long pdfSize = File.Exists(temporaryPdf) ? new FileInfo(temporaryPdf).Length : 0;
+            if (pdfSize == 0) throw new IOException("PowerPoint did not produce a nonempty PDF");
+            NativePaths.NewOutput(pdfPath, ".pdf");
+            File.Move(temporaryPdf, pdfPath, overwrite: false);
             return new QaResult(pptxPath, pdfPath, slideCount, pdfSize);
         }
         catch (Exception ex)
@@ -55,9 +61,13 @@ public sealed class PowerPointNative
         }
         finally
         {
-            if (slides != null) Marshal.FinalReleaseComObject(slides);
-            if (presentation != null) { try { presentation.Close(); } finally { Marshal.FinalReleaseComObject(presentation); } }
-            if (presentations != null) Marshal.FinalReleaseComObject(presentations);
+            try
+            {
+                if (slides != null) Marshal.FinalReleaseComObject(slides);
+                if (presentation != null) { try { presentation.Close(); } finally { Marshal.FinalReleaseComObject(presentation); } }
+                if (presentations != null) Marshal.FinalReleaseComObject(presentations);
+            }
+            finally { if (File.Exists(temporaryPdf)) File.Delete(temporaryPdf); }
         }
     }
 
