@@ -63,12 +63,141 @@ export interface DeckSpec {
   slides: DeckSlide[];
 }
 
+export type ThemePresetName = 'executive-navy' | 'mckinsey-light' | 'tech-dark' | 'academic-editorial' | 'healthcare-mint';
+
+export interface ThemeTokens {
+  name: ThemePresetName;
+  coverBg: string;
+  coverTitle: string;
+  coverAccent: string;
+  coverPillBg: string;
+  coverPillBorder: string;
+  coverPillText: string;
+  contentBg: string;
+  cardBg: string;
+  cardBorder: string;
+  accent: string;
+  accentLight: string;
+  accentText: string;
+  titleColor: string;
+  textColor: string;
+  tableHeaderBg: string;
+  tableHeaderText: string;
+  fontFamily: string;
+}
+
+export const THEME_PRESETS: Record<ThemePresetName, ThemeTokens> = {
+  'executive-navy': {
+    name: 'executive-navy',
+    coverBg: '0B132B',
+    coverTitle: 'FFFFFF',
+    coverAccent: '38BDF8',
+    coverPillBg: '1E293B',
+    coverPillBorder: '38BDF8',
+    coverPillText: '38BDF8',
+    contentBg: 'F8FAFC',
+    cardBg: 'FFFFFF',
+    cardBorder: 'E2E8F0',
+    accent: '2563EB',
+    accentLight: 'EFF6FF',
+    accentText: '1D4ED8',
+    titleColor: '0F172A',
+    textColor: '334155',
+    tableHeaderBg: '1E293B',
+    tableHeaderText: 'FFFFFF',
+    fontFamily: 'Microsoft YaHei',
+  },
+  'mckinsey-light': {
+    name: 'mckinsey-light',
+    coverBg: '0A192F',
+    coverTitle: 'FFFFFF',
+    coverAccent: '0EA5E9',
+    coverPillBg: '112240',
+    coverPillBorder: '64FFDA',
+    coverPillText: '64FFDA',
+    contentBg: 'FFFFFF',
+    cardBg: 'F8FAFC',
+    cardBorder: 'E2E8F0',
+    accent: '0A2540',
+    accentLight: 'F0F4F8',
+    accentText: '0A2540',
+    titleColor: '0A2540',
+    textColor: '425466',
+    tableHeaderBg: '0A2540',
+    tableHeaderText: 'FFFFFF',
+    fontFamily: 'Segoe UI',
+  },
+  'tech-dark': {
+    name: 'tech-dark',
+    coverBg: '090D16',
+    coverTitle: 'F1F5F9',
+    coverAccent: '06B6D4',
+    coverPillBg: '1E293B',
+    coverPillBorder: '06B6D4',
+    coverPillText: '06B6D4',
+    contentBg: '0F172A',
+    cardBg: '1E293B',
+    cardBorder: '334155',
+    accent: '06B6D4',
+    accentLight: '164E63',
+    accentText: '67E8F9',
+    titleColor: 'F8FAFC',
+    textColor: '94A3B8',
+    tableHeaderBg: '0E7490',
+    tableHeaderText: 'FFFFFF',
+    fontFamily: 'Microsoft YaHei',
+  },
+  'academic-editorial': {
+    name: 'academic-editorial',
+    coverBg: '1F2937',
+    coverTitle: 'F9FAFB',
+    coverAccent: 'D97706',
+    coverPillBg: '374151',
+    coverPillBorder: 'FBBF24',
+    coverPillText: 'FDE68A',
+    contentBg: 'FAF9F6',
+    cardBg: 'FFFFFF',
+    cardBorder: 'E5E7EB',
+    accent: 'B45309',
+    accentLight: 'FEF3C7',
+    accentText: '92400E',
+    titleColor: '1F2937',
+    textColor: '4B5563',
+    tableHeaderBg: '374151',
+    tableHeaderText: 'F9FAFB',
+    fontFamily: 'SimSun',
+  },
+  'healthcare-mint': {
+    name: 'healthcare-mint',
+    coverBg: '064E3B',
+    coverTitle: 'FFFFFF',
+    coverAccent: '34D399',
+    coverPillBg: '065F46',
+    coverPillBorder: '34D399',
+    coverPillText: 'A7F3D0',
+    contentBg: 'F0FDF4',
+    cardBg: 'FFFFFF',
+    cardBorder: 'DCFCE7',
+    accent: '059669',
+    accentLight: 'ECFDF5',
+    accentText: '047857',
+    titleColor: '064E3B',
+    textColor: '374151',
+    tableHeaderBg: '065F46',
+    tableHeaderText: 'FFFFFF',
+    fontFamily: 'Microsoft YaHei',
+  },
+};
+
 export interface RenderOptions {
   outPath: string;
   /** layout 解析器：slide → Map<blockId, Rect> */
   resolveRects: (slide: DeckSlide) => Map<string, Rect>;
   /** Template DNA 注入：用参考模板 accent/fontFamily 覆盖默认视觉（PHASE 13 P0） */
   dna?: { accent: string; fontFamily?: string };
+  /** 商业主题预设：executive-navy | mckinsey-light | tech-dark | academic-editorial | healthcare-mint */
+  themePreset?: ThemePresetName;
+  forceOverwrite?: boolean;
 }
 
 const KIND_THEME: Record<string, { fill: string; accent: string; font: string; fontFamily: string }> = {
@@ -82,16 +211,25 @@ const KIND_THEME: Record<string, { fill: string; accent: string; font: string; f
   ending: { fill: '0B132B', accent: '38BDF8', font: 'FFFFFF', fontFamily: 'Microsoft YaHei' },
 };
 
-export function themeFor(kind: string, dna?: RenderOptions['dna']): { fill: string; accent: string; font: string; fontFamily: string } {
-  const t = KIND_THEME[kind] ?? KIND_THEME.content;
-  if (!dna) return t;
-  return { ...t, accent: dna.accent, fontFamily: dna.fontFamily ?? t.fontFamily };
+export function themeFor(kind: string, dna?: RenderOptions['dna'], presetName: ThemePresetName = 'executive-navy'): { fill: string; accent: string; font: string; fontFamily: string } {
+  const preset = THEME_PRESETS[presetName] ?? THEME_PRESETS['executive-navy'];
+  const fill = kind === 'cover' || kind === 'ending' ? preset.coverBg : preset.contentBg;
+  const font = kind === 'cover' || kind === 'ending' ? preset.coverTitle : preset.textColor;
+  const accent = kind === 'cover' || kind === 'ending' ? preset.coverAccent : preset.accent;
+  const fontFamily = preset.fontFamily;
+
+  if (!dna) return { fill, accent, font, fontFamily };
+  return { ...tOrPreset(fill, accent, font, fontFamily), accent: dna.accent || accent, fontFamily: dna.fontFamily ?? fontFamily };
 }
 
-export function resolveSlideScene(slide: DeckSlide, resolveRects: RenderOptions['resolveRects'], dna?: RenderOptions['dna']) {
+function tOrPreset(fill: string, accent: string, font: string, fontFamily: string) {
+  return { fill, accent, font, fontFamily };
+}
+
+export function resolveSlideScene(slide: DeckSlide, resolveRects: RenderOptions['resolveRects'], dna?: RenderOptions['dna'], themePreset?: ThemePresetName) {
   const rects = resolveRects(slide);
   return {
-    theme: themeFor(slide.kind, dna),
+    theme: themeFor(slide.kind, dna, themePreset),
     title: { rect: { x: 0.8, y: 0.75, w: 11.7, h: 0.7 }, fontSize: 26 },
     blocks: slide.blocks.map((block, i) => ({
       id: `block-${i}`,
@@ -229,7 +367,7 @@ function renderCoverSlide(
   });
 }
 
-function classifySlideArchetype(slide: DeckSlide): 'table' | 'chart' | 'timeline' | 'comparison' | 'process' | 'quote' | 'cardGrid' | 'flow' {
+function classifySlideArchetype(slide: DeckSlide): 'table' | 'chart' | 'timeline' | 'comparison' | 'process' | 'quadrant' | 'funnel' | 'team' | 'quote' | 'cardGrid' | 'flow' {
   const hasTable = slide.blocks.some((b) => b.type === 'table');
   const hasChart = slide.blocks.some((b) => b.type === 'chart');
   const hasOther = slide.blocks.some((b) => b.type !== 'text' && b.type !== 'table' && b.type !== 'chart');
@@ -240,14 +378,16 @@ function classifySlideArchetype(slide: DeckSlide): 'table' | 'chart' | 'timeline
   const textBlocks = slide.blocks.filter((b) => b.type === 'text');
   if (textBlocks.length === 0 || hasOther) return 'flow';
 
+  const title = slide.title;
+
   // 1. Quote archetype: single text block with style 'quote' or title containing '宣言' / '愿景' / '金句' or starts with '>'
-  if (textBlocks.length === 1 && (slide.kind === 'quote' || textBlocks[0].style === 'quote' || /愿景|金句|宣言|使命|takeaway|quote/i.test(slide.title) || (textBlocks[0].text && textBlocks[0].text.startsWith('>')))) {
+  if (textBlocks.length === 1 && (slide.kind === 'quote' || textBlocks[0].style === 'quote' || /愿景|金句|宣言|使命|takeaway|quote/i.test(title) || (textBlocks[0].text && textBlocks[0].text.startsWith('>')))) {
     return 'quote';
   }
 
   // 2. Comparison archetype: 2 text blocks with contrasting words
   if (textBlocks.length === 2) {
-    const isCompareTitle = /对比|差异|vs|优劣|传统.*(创新|新一代|现代化)|现状.*目标|before.*after/i.test(slide.title);
+    const isCompareTitle = /对比|差异|vs|优劣|传统.*(创新|新一代|现代化)|现状.*目标|before.*after/i.test(title);
     const hasContrastWords = textBlocks.some(b => /传统|现状|痛点|缺点|方案一|旧架构|原有|人工/i.test(b.text ?? '')) &&
                              textBlocks.some(b => /创新|突破|优势|方案二|新架构|成果|目标|智能|自动化/i.test(b.text ?? ''));
     if (isCompareTitle || hasContrastWords) {
@@ -255,23 +395,48 @@ function classifySlideArchetype(slide: DeckSlide): 'table' | 'chart' | 'timeline
     }
   }
 
-  // 3. Timeline archetype: dates / years / quarters / roadmap
-  const isTimelineTitle = /时间|路线|规划|发展历程|里程碑|roadmap|timeline|阶段/i.test(slide.title);
+  // 3. 2x2 Matrix archetype: 4 blocks with quadrant / matrix / BCG / priority keywords
+  if (textBlocks.length === 4) {
+    const isMatrixTitle = /象限|矩阵|优先级|波士顿|matrix|quadrant|bcg|四维/i.test(title);
+    const hasMatrixKeywords = textBlocks.some(b => /重要|紧急|高价值|低难度|快速见效|核心要务|战略重点|q[1-4]|第一象限/i.test(b.text ?? ''));
+    if (isMatrixTitle || hasMatrixKeywords) {
+      return 'quadrant';
+    }
+  }
+
+  // 4. Funnel archetype: 3-5 blocks with funnel / conversion keywords
+  const isFunnelTitle = /漏斗|转化|客户旅程|链路|funnel|pipeline|sales\s*funnel/i.test(title);
+  const funnelPattern = /(曝光|浏览|展现|点击|激活|留存|付费|加购|线索|签约|复购|转化率)/i;
+  const funnelMatches = textBlocks.filter(b => funnelPattern.test(b.text ?? '')).length;
+  if ((isFunnelTitle && textBlocks.length >= 3 && textBlocks.length <= 5) || (funnelMatches >= 2 && textBlocks.length <= 5)) {
+    return 'funnel';
+  }
+
+  // 5. Team / Profile archetype: 3-4 blocks with roles or titles
+  const isTeamTitle = /团队|人员|领袖|专家|顾问|架构师|team|founders|leadership/i.test(title);
+  const rolePattern = /(ceo|cto|coo|cfo|创始人|合伙人|专家|教授|总监|负责人|科学家|架构师)/i;
+  const roleMatches = textBlocks.filter(b => rolePattern.test(b.text ?? '')).length;
+  if ((isTeamTitle && textBlocks.length >= 2 && textBlocks.length <= 4) || (roleMatches >= 2 && textBlocks.length <= 4)) {
+    return 'team';
+  }
+
+  // 6. Timeline archetype: dates / years / quarters / roadmap
+  const isTimelineTitle = /时间|路线|规划|发展历程|里程碑|roadmap|timeline|阶段/i.test(title);
   const datePattern = /(20\d\d年?|q[1-4]|第[一二三四1-4]阶段|phase\s*\d|stage\s*\d|年度)/i;
   const dateMatches = textBlocks.filter(b => datePattern.test(b.text ?? '')).length;
   if ((isTimelineTitle && textBlocks.length >= 2 && textBlocks.length <= 5) || (dateMatches >= 2 && dateMatches === textBlocks.length)) {
     return 'timeline';
   }
 
-  // 4. Process Flow archetype: steps / workflow
-  const isProcessTitle = /流程|步骤|实施路径|闭环|架构推进|process|workflow|steps/i.test(slide.title);
+  // 7. Process Flow archetype: steps / workflow
+  const isProcessTitle = /流程|步骤|实施路径|闭环|架构推进|process|workflow|steps/i.test(title);
   const stepPattern = /^(第[一二三四1-4]步|步骤[一二三四1-4]|step\s*\d|[0-9][\.\、\s])/i;
   const stepMatches = textBlocks.filter(b => stepPattern.test(b.text?.trim() ?? '')).length;
   if ((isProcessTitle && textBlocks.length >= 2 && textBlocks.length <= 5) || (stepMatches >= 2 && stepMatches === textBlocks.length)) {
     return 'process';
   }
 
-  // 5. Card Grid: 2 to 4 text blocks
+  // 8. Card Grid: 2 to 4 text blocks
   if (textBlocks.length >= 2 && textBlocks.length <= 4) {
     return 'cardGrid';
   }
@@ -284,6 +449,9 @@ function archetypeBadgeText(archetype: string): string {
     case 'timeline': return '[ 发展历程 · 路线规划 ]';
     case 'comparison': return '[ 方案对比 · 价值分析 ]';
     case 'process': return '[ 实施路径 · 闭环流程 ]';
+    case 'quadrant': return '[ 战略矩阵 · 象限分析 ]';
+    case 'funnel': return '[ 转化漏斗 · 链路分析 ]';
+    case 'team': return '[ 核心阵容 · 领军履历 ]';
     case 'quote': return '[ 战略愿景 · 核心宣言 ]';
     case 'table': return '[ 数据详述 · 核心指标 ]';
     case 'cardGrid': return '[ 核心指标 · 关键成果 ]';
@@ -397,6 +565,18 @@ async function renderContentSlide(
       renderComparison(s, textBlocks, theme);
       return;
     }
+    case 'quadrant': {
+      renderQuadrantMatrix(s, textBlocks, theme);
+      return;
+    }
+    case 'funnel': {
+      renderFunnel(s, textBlocks, theme);
+      return;
+    }
+    case 'team': {
+      renderTeamGrid(s, textBlocks, theme);
+      return;
+    }
     case 'timeline': {
       renderTimeline(s, textBlocks, theme);
       return;
@@ -413,6 +593,268 @@ async function renderContentSlide(
       await renderFlowCards(s, scene.blocks, theme);
       return;
     }
+  }
+}
+
+function renderQuadrantMatrix(
+  s: SlideLike,
+  blocks: SlideBlock[],
+  theme: { accent: string; font: string; fontFamily: string }
+) {
+  const cardW = 5.65;
+  const cardH = 2.25;
+  const topY = 1.85;
+  const bottomY = 4.35;
+  const leftX = 0.8;
+  const rightX = 6.88;
+
+  // Horizontal axis
+  s.addShape('roundRect', {
+    x: 0.6,
+    y: 4.2,
+    w: 12.13,
+    h: 0.04,
+    fill: { color: 'CBD5E1' },
+    line: { color: 'CBD5E1', width: 1 },
+    rectRadius: 0.02,
+  });
+  // Vertical axis
+  s.addShape('roundRect', {
+    x: 6.64,
+    y: 1.75,
+    w: 0.04,
+    h: 4.95,
+    fill: { color: 'CBD5E1' },
+    line: { color: 'CBD5E1', width: 1 },
+    rectRadius: 0.02,
+  });
+
+  const quadrants = [
+    { x: leftX, y: topY, badge: 'Q2 · 快速见效', fill: 'FFFFFF', border: '10B981', bColor: '059669', block: blocks[0] },
+    { x: rightX, y: topY, badge: 'Q1 · 战略重点', fill: 'EFF6FF', border: theme.accent || '2563EB', bColor: '1D4ED8', block: blocks[1] },
+    { x: leftX, y: bottomY, badge: 'Q3 · 常规跟进', fill: 'F8FAFC', border: 'E2E8F0', bColor: '64748B', block: blocks[2] },
+    { x: rightX, y: bottomY, badge: 'Q4 · 审慎评估', fill: 'FEF2F2', border: 'FCA5A5', bColor: 'DC2626', block: blocks[3] },
+  ];
+
+  for (const q of quadrants) {
+    if (!q.block) continue;
+    s.addShape('roundRect', {
+      x: q.x,
+      y: q.y,
+      w: cardW,
+      h: cardH,
+      fill: { color: q.fill },
+      line: { color: q.border, width: 1.5 },
+      rectRadius: 0.1,
+    });
+    s.addShape('roundRect', {
+      x: q.x + 0.25,
+      y: q.y + 0.2,
+      w: 1.8,
+      h: 0.32,
+      fill: { color: q.fill === 'FFFFFF' ? 'ECFDF5' : (q.fill === 'EFF6FF' ? 'DBEAFE' : 'F1F5F9') },
+      line: { color: q.border, width: 1 },
+      rectRadius: 0.08,
+    });
+    s.addText(q.badge, {
+      x: q.x + 0.25,
+      y: q.y + 0.2,
+      w: 1.8,
+      h: 0.32,
+      fontSize: 10,
+      bold: true,
+      color: q.bColor,
+      fontFace: theme.fontFamily,
+      align: 'center',
+      valign: 'middle',
+    });
+    s.addText(q.block.text ?? '', {
+      x: q.x + 0.25,
+      y: q.y + 0.65,
+      w: cardW - 0.5,
+      h: cardH - 0.8,
+      fontSize: 13,
+      color: '334155',
+      fontFace: theme.fontFamily,
+      valign: 'top',
+      wrap: true,
+    });
+  }
+}
+
+function renderFunnel(
+  s: SlideLike,
+  blocks: SlideBlock[],
+  theme: { accent: string; font: string; fontFamily: string }
+) {
+  const count = Math.min(blocks.length, 5);
+  const startY = 1.9;
+  const stageH = Math.min(1.0, 4.6 / count);
+  const gap = 0.15;
+  const colors = ['1E3A8A', '1D4ED8', '2563EB', '0284C7', '0D9488'];
+
+  for (let i = 0; i < count; i++) {
+    const block = blocks[i];
+    const stageW = 11.73 - i * (5.0 / count);
+    const stageX = 0.8 + (11.73 - stageW) / 2;
+    const y = startY + i * (stageH + gap);
+
+    s.addShape('roundRect', {
+      x: stageX,
+      y,
+      w: stageW,
+      h: stageH,
+      fill: { color: colors[i % colors.length] },
+      line: { color: 'FFFFFF', width: 1.5 },
+      rectRadius: 0.08,
+    });
+
+    s.addShape('roundRect', {
+      x: stageX + 0.3,
+      y: y + stageH / 2 - 0.18,
+      w: 1.3,
+      h: 0.36,
+      fill: { color: '0B132B' },
+      line: { color: '38BDF8', width: 1 },
+      rectRadius: 0.08,
+    });
+    s.addText(`STAGE 0${i + 1}`, {
+      x: stageX + 0.3,
+      y: y + stageH / 2 - 0.18,
+      w: 1.3,
+      h: 0.36,
+      fontSize: 10,
+      bold: true,
+      color: '38BDF8',
+      fontFace: theme.fontFamily,
+      align: 'center',
+      valign: 'middle',
+    });
+
+    s.addText(block.text ?? '', {
+      x: stageX + 1.8,
+      y: y + 0.1,
+      w: stageW - 2.1,
+      h: stageH - 0.2,
+      fontSize: 13,
+      bold: true,
+      color: 'FFFFFF',
+      fontFace: theme.fontFamily,
+      valign: 'middle',
+      wrap: true,
+    });
+  }
+}
+
+function renderTeamGrid(
+  s: SlideLike,
+  blocks: SlideBlock[],
+  theme: { accent: string; font: string; fontFamily: string }
+) {
+  const count = blocks.length;
+  const startX = 0.8;
+  const totalW = 11.73;
+  const gap = count === 4 ? 0.25 : (count === 3 ? 0.38 : 0.5);
+  const cardW = Math.round(((totalW - (count - 1) * gap) / count) * 100) / 100;
+  const cardY = 1.9;
+  const cardH = 4.6;
+
+  for (let i = 0; i < count; i++) {
+    const block = blocks[i];
+    const x = startX + i * (cardW + gap);
+
+    s.addShape('roundRect', {
+      x,
+      y: cardY,
+      w: cardW,
+      h: cardH,
+      fill: { color: 'FFFFFF' },
+      line: { color: 'E2E8F0', width: 1.5 },
+      rectRadius: 0.12,
+    });
+    s.addShape('roundRect', {
+      x: x + 0.1,
+      y: cardY + 0.08,
+      w: cardW - 0.2,
+      h: 0.05,
+      fill: { color: theme.accent || '2563EB' },
+      line: { color: theme.accent || '2563EB', width: 1 },
+      rectRadius: 0.02,
+    });
+
+    const avatarR = 0.9;
+    const avatarX = x + cardW / 2 - avatarR / 2;
+    const avatarY = cardY + 0.35;
+    s.addShape('roundRect', {
+      x: avatarX,
+      y: avatarY,
+      w: avatarR,
+      h: avatarR,
+      fill: { color: 'EFF6FF' },
+      line: { color: theme.accent || '2563EB', width: 2 },
+      rectRadius: avatarR / 2,
+    });
+    s.addText('👤', {
+      x: avatarX,
+      y: avatarY,
+      w: avatarR,
+      h: avatarR,
+      fontSize: 22,
+      align: 'center',
+      valign: 'middle',
+    });
+
+    const raw = block.text ?? '';
+    const match = /^([^·:：\s]+)\s*(?:[·-]\s*([^:：\n]+))?[:：\s]*([\s\S]*)$/.exec(raw);
+    const name = match ? match[1] : `成员 0${i + 1}`;
+    const role = match && match[2] ? match[2].trim() : '核心业务领袖';
+    const bio = match && match[3] ? match[3].trim() : raw;
+
+    s.addText(name, {
+      x: x + 0.2,
+      y: cardY + 1.4,
+      w: cardW - 0.4,
+      h: 0.38,
+      fontSize: 16,
+      bold: true,
+      color: '0F172A',
+      fontFace: theme.fontFamily,
+      align: 'center',
+    });
+
+    s.addShape('roundRect', {
+      x: x + cardW / 2 - 1.1,
+      y: cardY + 1.85,
+      w: 2.2,
+      h: 0.32,
+      fill: { color: 'F1F5F9' },
+      line: { color: 'CBD5E1', width: 1 },
+      rectRadius: 0.08,
+    });
+    s.addText(role, {
+      x: x + cardW / 2 - 1.1,
+      y: cardY + 1.85,
+      w: 2.2,
+      h: 0.32,
+      fontSize: 11,
+      bold: true,
+      color: '1D4ED8',
+      fontFace: theme.fontFamily,
+      align: 'center',
+      valign: 'middle',
+    });
+
+    s.addText(bio, {
+      x: x + 0.3,
+      y: cardY + 2.3,
+      w: cardW - 0.6,
+      h: cardH - 2.5,
+      fontSize: 12,
+      color: '475569',
+      fontFace: theme.fontFamily,
+      valign: 'top',
+      wrap: true,
+    });
   }
 }
 
