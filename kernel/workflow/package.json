@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@pres/durable-workflow": "workspace:*",
+    "@pres/document-parser": "workspace:*",
     "@pres/mechanical-qa": "workspace:*",
     "@pres/pptx-engine": "workspace:*",
     "@pres/revision-engine": "workspace:*",

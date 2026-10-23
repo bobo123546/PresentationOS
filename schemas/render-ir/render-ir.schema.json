@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://presentationos.local/schemas/render-ir/1",
+  "title": "RenderIR",
+  "description": "绝对坐标渲染中间表示（单位统一为英寸 inches，总方案 PHASE 2 / P02-B）",
+  "type": "object",
+  "required": ["schema", "version", "slideWidth", "slideHeight", "slides"],
+  "properties": {
+    "schema": { "const": "render-ir" },
+    "version": { "const": "1" },
+    "slideWidth": { "type": "number", "exclusiveMinimum": 0 },
+    "slideHeight": { "type": "number", "exclusiveMinimum": 0 },
+    "slides": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/renderedSlide" }
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "renderedSlide": {
+      "type": "object",
+      "required": ["slideIndex", "elements"],
+      "properties": {
+        "slideIndex": { "type": "integer", "minimum": 0 },
+        "backgroundColor": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" },
+        "notes": { "type": "string" },
+        "elements": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/renderedElement" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "renderedElement": {
+      "type": "object",
+      "required": ["id", "type", "x", "y", "w", "h"],
+      "properties": {
+        "id": { "type": "string" },
+        "type": { "enum": ["text", "image", "shape", "table", "chart", "container"] },
+        "x": { "type": "number", "minimum": 0 },
+        "y": { "type": "number", "minimum": 0 },
+        "w": { "type": "number", "exclusiveMinimum": 0 },
+        "h": { "type": "number", "exclusiveMinimum": 0 },
+        "zIndex": { "type": "integer" },
+        "text": { "type": "string" },
+        "fontSize": { "type": "number", "minimum": 6, "maximum": 120 },
+        "fontFace": { "type": "string" },
+        "fontColor": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" },
+        "bold": { "type": "boolean" },
+        "italic": { "type": "boolean" },
+        "align": { "enum": ["left", "center", "right", "justify"] },
+        "verticalAlign": { "enum": ["top", "middle", "bottom"] },
+        "fillColor": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" },
+        "borderColor": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" },
+        "borderWidth": { "type": "number", "minimum": 0 },
+        "src": { "type": "string" },
+        "tableData": {
+          "type": "object",
+          "properties": {
+            "headers": { "type": "array", "items": { "type": "string" } },
+            "rows": { "type": "array", "items": { "type": "array", "items": { "type": "string" } } }
+          }
+        },
+        "chartData": {
+          "type": "object",
+          "properties": {
+            "chartType": { "enum": ["bar", "line", "pie", "column", "scatter"] },
+            "labels": { "type": "array", "items": { "type": "string" } },
+            "series": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["name", "values"],
+                "properties": {
+                  "name": { "type": "string" },
+                  "values": { "type": "array", "items": { "type": "number" } }
+                }
+              }
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

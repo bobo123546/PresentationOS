@@ -1,9 +1,31 @@
 {
-  "feature": "C# PowerPoint Native Worker (dynamic COM)",
-  "exit_code": 0,
-  "real_output": "build 0 err; unit 4/4; integration PASS slideCount=4 pdfSize=171693; negative PASS (missing file -> WORKER_EXCEPTION); BOM stripping added",
-  "artifacts": [
-    "D:/PresentationOSData/projects/vs-demo/qa/deck-csharp.pdf"
+  "feature": "PowerPoint Native QA 9-Step Verification",
+  "timestamp": "2026-10-23T07:32:52.474Z",
+  "office_version": "16.0",
+  "owned_pid": 25992,
+  "slide_count": 3,
+  "checks": {
+    "open": true,
+    "save_reopen": true,
+    "semantic_readback": true,
+    "editability": true,
+    "pdf_export": true,
+    "png_export_count": 3,
+    "dialog_warnings": 0
+  },
+  "readback_text": [
+    "Native QA Verification",
+    "核心指标",
+    "服务可用性达到 99.99%",
+    "端到端响应时间 50ms",
+    "财务概览"
   ],
-  "recorded_at": "2026-09-21T19:02:50.021Z"
+  "artifacts": [
+    "D:\\PresentationOS\\temp-native-qa-1792740763101\\probe-run\\native.pdf",
+    "D:\\PresentationOS\\temp-native-qa-1792740763101\\probe-run\\slide-1.png",
+    "D:\\PresentationOS\\temp-native-qa-1792740763101\\probe-run\\slide-2.png",
+    "D:\\PresentationOS\\temp-native-qa-1792740763101\\probe-run\\slide-3.png"
+  ],
+  "status": "VERIFIED",
+  "pass": true
 }

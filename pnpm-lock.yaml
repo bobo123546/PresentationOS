@@ -180,6 +180,9 @@ importers:
 
   apps/desktop:
     dependencies:
+      '@pres/document-parser':
+        specifier: workspace:*
+        version: link:../../kernel/document-parser
       '@pres/schema-validator':
         specifier: workspace:*
         version: link:../../kernel/schema-validator
@@ -225,6 +228,19 @@ importers:
         version: 5.9.3
 
   kernel/capability-registry:
+    devDependencies:
+      '@types/node':
+        specifier: ^22.0.0
+        version: 22.20.4
+      typescript:
+        specifier: ^5.6.0
+        version: 5.9.3
+
+  kernel/document-parser:
+    dependencies:
+      '@pres/schema-validator':
+        specifier: workspace:*
+        version: link:../schema-validator
     devDependencies:
       '@types/node':
         specifier: ^22.0.0
@@ -392,6 +408,9 @@ importers:
 
   kernel/workflow:
     dependencies:
+      '@pres/document-parser':
+        specifier: workspace:*
+        version: link:../document-parser
       '@pres/durable-workflow':
         specifier: workspace:*
         version: link:../durable-workflow

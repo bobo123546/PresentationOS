@@ -9,7 +9,7 @@
     "schema": { "const": "document-ir" },
     "version": { "const": "1" },
     "source": { "type": "string", "minLength": 1 },
-    "sourceType": { "enum": ["markdown", "plaintext", "pdf", "docx", "pptx", "url"] },
+    "sourceType": { "enum": ["markdown", "plaintext", "pdf", "docx", "pptx", "csv", "tsv", "xlsx", "url"] },
     "blocks": { "type": "array", "items": { "$ref": "#/$defs/block" } }
   },
   "additionalProperties": false,
@@ -30,7 +30,8 @@
       "properties": {
         "type": { "const": "heading" },
         "level": { "type": "integer", "minimum": 1, "maximum": 6 },
-        "text": { "type": "string" }
+        "text": { "type": "string" },
+        "facts": { "type": "array" }
       },
       "additionalProperties": false
     },
@@ -39,7 +40,8 @@
       "required": ["type", "text"],
       "properties": {
         "type": { "const": "paragraph" },
-        "text": { "type": "string" }
+        "text": { "type": "string" },
+        "facts": { "type": "array" }
       },
       "additionalProperties": false
     },
@@ -49,7 +51,8 @@
       "properties": {
         "type": { "const": "list" },
         "ordered": { "type": "boolean" },
-        "items": { "type": "array", "items": { "type": "string" } }
+        "items": { "type": "array", "items": { "type": "string" } },
+        "facts": { "type": "array" }
       },
       "additionalProperties": false
     },
@@ -59,7 +62,8 @@
       "properties": {
         "type": { "const": "table" },
         "headers": { "type": "array", "items": { "type": "string" } },
-        "rows": { "type": "array", "items": { "type": "array", "items": { "type": "string" } } }
+        "rows": { "type": "array", "items": { "type": "array", "items": { "type": "string" } } },
+        "facts": { "type": "array" }
       },
       "additionalProperties": false
     },

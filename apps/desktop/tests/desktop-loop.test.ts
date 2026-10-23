@@ -242,6 +242,26 @@ describe('PresentationOS Desktop Workbench & Sidecar Loop Tests', () => {
     assert.equal(res3.status, 404);
   });
 
+  test('TC-D10: Multi-format document parsing API parses CSV and extracts facts (P05)', async () => {
+    const csvData = `Metric,Target,Status\nRevenue,$50M,Achieved\nUptime,99.9%,Verified`;
+    const res = await fetch(`${baseUrl}/api/document/parse`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        content: csvData,
+        filename: 'kpi.csv',
+      }),
+    });
+    assert.equal(res.status, 200);
+    const body: any = await res.json();
+    assert.ok(body.parsed);
+    assert.equal(body.parsed.doc.sourceType, 'csv');
+    assert.equal(body.parsed.summary.tablesCount, 1);
+    assert.ok(body.parsed.facts.length >= 2);
+    assert.ok(body.parsed.facts.some((f: any) => f.literalValue === '$50M'));
+    assert.ok(body.parsed.facts.some((f: any) => f.literalValue === '99.9%'));
+  });
+
   test('TC-D09: UI Automation IDs exist in production Vite bundle', () => {
     const bundleDist = existsSync(resolve(process.cwd(), 'dist'))
       ? resolve(process.cwd(), 'dist')

@@ -112,6 +112,76 @@ test('project-spec valid case passes and invalid rejected', () => {
   assert.equal(r2.valid, false);
 });
 
+test('render-ir valid case passes and invalid rejected', () => {
+  const validRender = {
+    schema: 'render-ir',
+    version: '1',
+    slideWidth: 13.333,
+    slideHeight: 7.5,
+    slides: [
+      {
+        slideIndex: 0,
+        backgroundColor: '#0b0f19',
+        elements: [
+          {
+            id: 'elem-1',
+            type: 'text',
+            x: 0.8,
+            y: 1.0,
+            w: 11.7,
+            h: 1.2,
+            text: 'Slide Title',
+            fontSize: 28,
+            fontColor: '#ffffff',
+          },
+        ],
+      },
+    ],
+  };
+  const r1 = validate(SCHEMA_IDS.renderIr, validRender);
+  assert.ok(r1.valid, JSON.stringify(r1.errors));
+
+  const invalidRender = {
+    schema: 'render-ir',
+    version: '1',
+    // 缺少 slideWidth/slideHeight
+    slides: [],
+  };
+  const r2 = validate(SCHEMA_IDS.renderIr, invalidRender);
+  assert.equal(r2.valid, false);
+});
+
+test('evidence-ir valid case passes', () => {
+  const validEvidence = {
+    timestamp: new Date().toISOString(),
+    evidenceType: 'unit-test',
+    taskId: 'TASK-0003',
+    status: 'VERIFIED',
+    pass: true,
+    exitCode: 0,
+    details: { totalPassed: 10 },
+  };
+  const r = validate(SCHEMA_IDS.evidenceIr, validEvidence);
+  assert.ok(r.valid, JSON.stringify(r.errors));
+});
+
+test('revision-record valid case passes', () => {
+  const validRevision = {
+    schema: 'revision-record',
+    version: '1',
+    revisionId: 'rev-001',
+    round: 1,
+    beforeScore: 82,
+    afterScore: 96,
+    appliedActions: [
+      { slideIndex: 0, action: 'split', ruleId: 'RULE-OVERFLOW', description: 'Split overloaded slide' },
+    ],
+    factsPreserved: true,
+  };
+  const r = validate(SCHEMA_IDS.revision, validRevision);
+  assert.ok(r.valid, JSON.stringify(r.errors));
+});
+
 test('unknown schema id fails loudly', () => {
   const r = validate('https://presentationos.local/schemas/nope/1', {});
   assert.equal(r.valid, false);

@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import JSZip from 'jszip';
-import { editPptx } from '../src/index.js';
+import { editPptx, revertPptx } from '../src/index.js';
 
 async function makePptx(): Promise<Buffer> {
   const zip = new JSZip();
@@ -56,4 +56,34 @@ test('no matching shape returns error', async () => {
   const { result } = await editPptx(buf, [{ slide: 1, target: 'title', text: 'x' }]);
   assert.equal(result.ok, false);
   assert.match(result.error ?? '', /no matching/);
+});
+
+test('P09: expectedOldText mismatch rejects operation with error', async () => {
+  const buf = await makePptx();
+  const { result } = await editPptx(buf, [
+    { slide: 1, target: 'title', text: 'New Title', expectedOldText: 'Wrong Old Title' },
+  ]);
+  assert.equal(result.ok, false);
+  assert.match(result.error ?? '', /old text mismatch/);
+});
+
+test('P09: edit produces reversible patches and verifies non-target parts SHA256 integrity', async () => {
+  const buf = await makePptx();
+  const { buffer: editedBuf, result } = await editPptx(buf, [
+    { slide: 1, target: 'title', text: 'Patched Title', expectedOldText: 'Old Title' },
+  ]);
+  assert.equal(result.ok, true);
+  assert.equal(result.nonTargetPartsVerified, true);
+  assert.ok(result.nonTargetPartsCount >= 2);
+  assert.equal(result.patches.length, 1);
+  assert.equal(result.patches[0].oldText, 'Old Title');
+  assert.equal(result.patches[0].newText, 'Patched Title');
+
+  // Revert back using the patch
+  const { buffer: revertedBuf, result: revertResult } = await revertPptx(editedBuf, result.patches);
+  assert.equal(revertResult.ok, true);
+  const zip = await JSZip.loadAsync(revertedBuf);
+  const s1 = await zip.files['ppt/slides/slide1.xml'].async('string');
+  assert.ok(s1.includes('Old Title'), 'Original title must be restored after revert');
+  assert.ok(!s1.includes('Patched Title'));
 });

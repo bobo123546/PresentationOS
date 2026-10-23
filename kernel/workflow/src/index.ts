@@ -1,6 +1,17 @@
 // PresentationOS Workflow Package Entrypoint
 export { TaskService, createTaskService, type TaskServiceOptions } from './task-service.js';
 export {
+  parseDocument,
+  documentIrToDeck,
+  extractFacts,
+  verifyFactsPreserved,
+  detectFormat,
+  type ParsedDocument,
+  type ExtractedFact,
+  type DocumentIR,
+  type DocumentFormat,
+} from '@pres/document-parser';
+export {
   mdToDeck,
   layoutFor,
   validateDeck,

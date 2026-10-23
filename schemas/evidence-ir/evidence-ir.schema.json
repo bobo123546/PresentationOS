@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://presentationos.local/schemas/evidence-ir/1",
+  "title": "EvidenceIR",
+  "description": "规范化证据包记录表示（总方案 PHASE 2 / P02-B）",
+  "type": "object",
+  "required": ["timestamp", "evidenceType", "status", "pass", "details"],
+  "properties": {
+    "timestamp": { "type": "string" },
+    "evidenceType": { "type": "string", "minLength": 1 },
+    "taskId": { "type": "string" },
+    "status": { "enum": ["VERIFIED", "UNVERIFIED", "FAILED", "PARTIAL"] },
+    "pass": { "type": "boolean" },
+    "command": { "type": "string" },
+    "workingDirectory": { "type": "string" },
+    "exitCode": { "type": "integer" },
+    "sourceHashes": {
+      "type": "object",
+      "additionalProperties": { "type": "string", "pattern": "^[0-9a-fA-F]{64}$" }
+    },
+    "artifacts": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "details": { "type": "object" }
+  },
+  "additionalProperties": false
+}

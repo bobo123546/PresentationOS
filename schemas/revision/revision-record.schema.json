@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://presentationos.local/schemas/revision/1",
+  "title": "RevisionRecord",
+  "description": "文稿质量循环修订记录与事实保真证明（总方案 PHASE 2 / P02-B）",
+  "type": "object",
+  "required": [
+    "schema",
+    "version",
+    "revisionId",
+    "round",
+    "beforeScore",
+    "afterScore",
+    "appliedActions",
+    "factsPreserved"
+  ],
+  "properties": {
+    "schema": { "const": "revision-record" },
+    "version": { "const": "1" },
+    "revisionId": { "type": "string" },
+    "round": { "type": "integer", "minimum": 0 },
+    "beforeScore": { "type": "number", "minimum": 0, "maximum": 100 },
+    "afterScore": { "type": "number", "minimum": 0, "maximum": 100 },
+    "appliedActions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["slideIndex", "action"],
+        "properties": {
+          "slideIndex": { "type": "integer", "minimum": 0 },
+          "action": { "enum": ["split", "increase_font", "decrease_font", "fix_contrast", "rebalance_columns"] },
+          "ruleId": { "type": "string" },
+          "description": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "factsPreserved": { "type": "boolean" },
+    "contentHashBefore": { "type": "string" },
+    "contentHashAfter": { "type": "string" }
+  },
+  "additionalProperties": false
+}

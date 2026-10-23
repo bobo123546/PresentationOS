@@ -9,6 +9,7 @@
     "build:cli": "pnpm -C apps/cli build",
     "build:desktop": "pnpm -C apps/desktop build",
     "test:desktop": "pnpm -C apps/desktop test",
+    "test:native": "node tools/native-qa/run-native-qa.mjs",
     "pack:desktop": "node tools/packager/pack-desktop.mjs",
     "smoke": "node tests/unit/node-smoke.test.mjs"
   }

@@ -184,6 +184,24 @@ export class DesktopSidecarServer {
       return;
     }
 
+    // Parse multi-format document (P05)
+    if (req.method === 'POST' && path === '/api/document/parse') {
+      const body = await this.parseJsonBody(req);
+      const { content, filename, base64 } = body;
+      if (!content && !base64) {
+        this.sendJson(res, 400, { error: 'Missing content or base64' });
+        return;
+      }
+      try {
+        const inputBuffer = base64 ? Buffer.from(base64, 'base64') : content;
+        const parsed = await this.taskService.parseDocument(inputBuffer, filename ?? 'document.md');
+        this.sendJson(res, 200, { parsed });
+      } catch (err: any) {
+        this.sendJson(res, 400, { error: err.message });
+      }
+      return;
+    }
+
     // Compile markdown / project
     if (req.method === 'POST' && path === '/api/project/compile') {
       const body = await this.parseJsonBody(req);

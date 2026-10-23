@@ -49,7 +49,7 @@ export async function loadAllSchemas(rootDir: string = SCHEMA_ROOT): Promise<num
       } else if (e.name.endsWith('.schema.json')) {
         const raw = await readFile(p, 'utf8');
         const schema = JSON.parse(raw) as { $id?: string };
-        if (schema.$id) {
+        if (schema.$id && !ajv.getSchema(schema.$id)) {
           ajv.addSchema(schema, schema.$id);
           loaded.set(schema.$id, schema);
         }
@@ -82,4 +82,7 @@ export const SCHEMA_IDS = {
   qaReport: 'https://presentationos.local/schemas/qa/1',
   designToken: 'https://presentationos.local/schemas/design-token/1',
   project: 'https://presentationos.local/schemas/project/1',
+  renderIr: 'https://presentationos.local/schemas/render-ir/1',
+  evidenceIr: 'https://presentationos.local/schemas/evidence-ir/1',
+  revision: 'https://presentationos.local/schemas/revision/1',
 } as const;

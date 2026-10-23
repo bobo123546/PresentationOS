@@ -1,10 +1,11 @@
-// PresentationOS Core Application Task Service (P03-A)
+// PresentationOS Core Application Task Service (P03-A / P05)
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { WorkflowStore, WorkflowExecutor, type WorkflowRun, type StepContext } from '@pres/durable-workflow';
 import { applyRevisions } from '@pres/revision-engine';
 import { resolveLayout, renderDeck, type DeckSpec } from '@pres/pptx-engine';
 import { validate, SCHEMA_IDS } from '@pres/schema-validator';
+import { parseDocument, extractFacts, verifyFactsPreserved, type ParsedDocument } from '@pres/document-parser';
 import {
   type PresentationProject,
   type CompileJobOptions,
@@ -200,6 +201,12 @@ export class TaskService {
     }
     mkdirSync(dirname(projectJsonPath), { recursive: true });
     writeFileSync(projectJsonPath, JSON.stringify(project, null, 2), 'utf8');
+  }
+
+  // ---- 多源文档解析与事实提取（P05） ----
+
+  async parseDocument(content: string | Buffer, filename: string): Promise<ParsedDocument> {
+    return parseDocument(content, filename);
   }
 
   // ---- 核心编译任务（P03-A） ----

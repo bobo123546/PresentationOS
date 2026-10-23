@@ -33,7 +33,15 @@ export interface ChatResult {
   provider?: string;
   model?: string;
   error?: string;
-  errorType?: 'TIMEOUT' | 'HTTP' | 'UNAUTHORIZED' | 'NETWORK' | 'NO_MODEL' | 'OTHER';
+  errorType?: 'TIMEOUT' | 'HTTP' | 'UNAUTHORIZED' | 'NETWORK' | 'NO_MODEL' | 'LOCAL_ONLY_VIOLATION' | 'BUDGET_EXCEEDED' | 'OTHER';
+}
+
+export interface RouteOptions {
+  temperature?: number;
+  localOnly?: boolean;
+  structuredJson?: boolean;
+  budgetTokens?: number;
+  abortSignal?: AbortSignal;
 }
 
 export interface RouterDecision {

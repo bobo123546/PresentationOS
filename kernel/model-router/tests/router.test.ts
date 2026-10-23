@@ -125,3 +125,18 @@ test('请求包含 Authorization 头（key 来自 env）', async () => {
     else process.env.ROUTER_TEST_KEY = prev;
   }
 });
+
+test('P10: 本地限定模式禁止云端 fallback', async () => {
+  const cfg = makeConfig(9998, 9999);
+  // cfg 中的两个模型均为 local: false
+  cfg.models[0].local = false;
+  cfg.models[1].local = false;
+
+  const router = new ModelRouter(cfg);
+  const d = await router.route('deck.design', [{ role: 'user', content: 'private document' }], { localOnly: true });
+
+  assert.equal(d.final.ok, false);
+  assert.equal(d.final.errorType, 'LOCAL_ONLY_VIOLATION');
+  assert.match(d.final.error ?? '', /本地限定模式/);
+  assert.equal(d.attempted.length, 0, 'No cloud calls may be attempted when localOnly is active');
+});
