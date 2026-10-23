@@ -229,6 +229,68 @@ function renderCoverSlide(
   });
 }
 
+function classifySlideArchetype(slide: DeckSlide): 'table' | 'chart' | 'timeline' | 'comparison' | 'process' | 'quote' | 'cardGrid' | 'flow' {
+  const hasTable = slide.blocks.some((b) => b.type === 'table');
+  const hasChart = slide.blocks.some((b) => b.type === 'chart');
+  const hasOther = slide.blocks.some((b) => b.type !== 'text' && b.type !== 'table' && b.type !== 'chart');
+
+  if (hasTable && !hasOther) return 'table';
+  if (hasChart && !hasOther) return 'chart';
+
+  const textBlocks = slide.blocks.filter((b) => b.type === 'text');
+  if (textBlocks.length === 0 || hasOther) return 'flow';
+
+  // 1. Quote archetype: single text block with style 'quote' or title containing '宣言' / '愿景' / '金句' or starts with '>'
+  if (textBlocks.length === 1 && (slide.kind === 'quote' || textBlocks[0].style === 'quote' || /愿景|金句|宣言|使命|takeaway|quote/i.test(slide.title) || (textBlocks[0].text && textBlocks[0].text.startsWith('>')))) {
+    return 'quote';
+  }
+
+  // 2. Comparison archetype: 2 text blocks with contrasting words
+  if (textBlocks.length === 2) {
+    const isCompareTitle = /对比|差异|vs|优劣|传统.*(创新|新一代|现代化)|现状.*目标|before.*after/i.test(slide.title);
+    const hasContrastWords = textBlocks.some(b => /传统|现状|痛点|缺点|方案一|旧架构|原有|人工/i.test(b.text ?? '')) &&
+                             textBlocks.some(b => /创新|突破|优势|方案二|新架构|成果|目标|智能|自动化/i.test(b.text ?? ''));
+    if (isCompareTitle || hasContrastWords) {
+      return 'comparison';
+    }
+  }
+
+  // 3. Timeline archetype: dates / years / quarters / roadmap
+  const isTimelineTitle = /时间|路线|规划|发展历程|里程碑|roadmap|timeline|阶段/i.test(slide.title);
+  const datePattern = /(20\d\d年?|q[1-4]|第[一二三四1-4]阶段|phase\s*\d|stage\s*\d|年度)/i;
+  const dateMatches = textBlocks.filter(b => datePattern.test(b.text ?? '')).length;
+  if ((isTimelineTitle && textBlocks.length >= 2 && textBlocks.length <= 5) || (dateMatches >= 2 && dateMatches === textBlocks.length)) {
+    return 'timeline';
+  }
+
+  // 4. Process Flow archetype: steps / workflow
+  const isProcessTitle = /流程|步骤|实施路径|闭环|架构推进|process|workflow|steps/i.test(slide.title);
+  const stepPattern = /^(第[一二三四1-4]步|步骤[一二三四1-4]|step\s*\d|[0-9][\.\、\s])/i;
+  const stepMatches = textBlocks.filter(b => stepPattern.test(b.text?.trim() ?? '')).length;
+  if ((isProcessTitle && textBlocks.length >= 2 && textBlocks.length <= 5) || (stepMatches >= 2 && stepMatches === textBlocks.length)) {
+    return 'process';
+  }
+
+  // 5. Card Grid: 2 to 4 text blocks
+  if (textBlocks.length >= 2 && textBlocks.length <= 4) {
+    return 'cardGrid';
+  }
+
+  return 'flow';
+}
+
+function archetypeBadgeText(archetype: string): string {
+  switch (archetype) {
+    case 'timeline': return '[ 发展历程 · 路线规划 ]';
+    case 'comparison': return '[ 方案对比 · 价值分析 ]';
+    case 'process': return '[ 实施路径 · 闭环流程 ]';
+    case 'quote': return '[ 战略愿景 · 核心宣言 ]';
+    case 'table': return '[ 数据详述 · 核心指标 ]';
+    case 'cardGrid': return '[ 核心指标 · 关键成果 ]';
+    default: return '[ 核心汇报 ]';
+  }
+}
+
 async function renderContentSlide(
   s: SlideLike,
   slide: DeckSlide,
@@ -241,22 +303,26 @@ async function renderContentSlide(
   // 1. 现代温润浅灰底色（告别刺眼纯白与空洞）
   s.background = { color: 'F8FAFC' };
 
-  // 2. 顶部微型分类标签
+  const archetype = classifySlideArchetype(slide);
+  const badgeLabel = archetypeBadgeText(archetype);
+  const badgeW = Math.max(2.4, badgeLabel.length * 0.22);
+
+  // 2. 顶部微型分类标签（按语义动态生成）
   s.addShape('roundRect', {
     x: 0.8,
     y: 0.42,
-    w: 2.2,
+    w: badgeW,
     h: 0.32,
     fill: { color: 'EFF6FF' },
     line: { color: 'BFDBFE', width: 1 },
     rectRadius: 0.15,
   });
-  s.addText('[ 核心汇报 ]', {
+  s.addText(badgeLabel, {
     x: 0.8,
     y: 0.42,
-    w: 2.2,
+    w: badgeW,
     h: 0.32,
-    fontSize: 11,
+    fontSize: 10,
     bold: true,
     color: '2563EB',
     fontFace: theme.fontFamily,
@@ -309,30 +375,459 @@ async function renderContentSlide(
     align: 'right',
   });
 
-  // 6. 内容区块渲染
-  const hasTable = slide.blocks.some((b) => b.type === 'table');
-  const hasChart = slide.blocks.some((b) => b.type === 'chart');
-  const hasOther = slide.blocks.some((b) => b.type !== 'text' && b.type !== 'table' && b.type !== 'chart');
-
-  if (hasTable && !hasOther) {
-    const tableBlock = slide.blocks.find((b) => b.type === 'table')!;
-    renderExecutiveTable(s, tableBlock, theme);
-    return;
-  }
-
-  if (hasChart && !hasOther) {
-    for (const { block, rect } of scene.blocks) {
-      await placeBlock(s, block, rect, theme);
-    }
-    return;
-  }
-
+  // 6. 内容区块渲染：根据语义架构分流
   const textBlocks = slide.blocks.filter((b) => b.type === 'text');
-  if (textBlocks.length === slide.blocks.length && textBlocks.length >= 2 && textBlocks.length <= 4) {
-    renderCardGrid(s, textBlocks, theme);
-  } else {
-    await renderFlowCards(s, scene.blocks, theme);
+  switch (archetype) {
+    case 'table': {
+      const tableBlock = slide.blocks.find((b) => b.type === 'table')!;
+      renderExecutiveTable(s, tableBlock, theme);
+      return;
+    }
+    case 'chart': {
+      for (const { block, rect } of scene.blocks) {
+        await placeBlock(s, block, rect, theme);
+      }
+      return;
+    }
+    case 'quote': {
+      renderQuoteSlide(s, textBlocks[0], theme);
+      return;
+    }
+    case 'comparison': {
+      renderComparison(s, textBlocks, theme);
+      return;
+    }
+    case 'timeline': {
+      renderTimeline(s, textBlocks, theme);
+      return;
+    }
+    case 'process': {
+      renderProcessSteps(s, textBlocks, theme);
+      return;
+    }
+    case 'cardGrid': {
+      renderCardGrid(s, textBlocks, theme);
+      return;
+    }
+    default: {
+      await renderFlowCards(s, scene.blocks, theme);
+      return;
+    }
   }
+}
+
+function renderComparison(
+  s: SlideLike,
+  blocks: SlideBlock[],
+  theme: { accent: string; font: string; fontFamily: string }
+) {
+  const cardW = 5.65;
+  const cardH = 4.8;
+  const cardY = 1.8;
+
+  // Left Card: 传统模式 / 现状痛点
+  const leftX = 0.8;
+  s.addShape('roundRect', {
+    x: leftX,
+    y: cardY,
+    w: cardW,
+    h: cardH,
+    fill: { color: 'F1F5F9' },
+    line: { color: 'CBD5E1', width: 1.5 },
+    rectRadius: 0.12,
+  });
+  // Left top pill badge
+  s.addShape('roundRect', {
+    x: leftX + 0.35,
+    y: cardY + 0.35,
+    w: 2.5,
+    h: 0.38,
+    fill: { color: 'E2E8F0' },
+    line: { color: '94A3B8', width: 1 },
+    rectRadius: 0.1,
+  });
+  s.addText('传统痛点 / BEFORE', {
+    x: leftX + 0.35,
+    y: cardY + 0.35,
+    w: 2.5,
+    h: 0.38,
+    fontSize: 11,
+    bold: true,
+    color: '475569',
+    fontFace: theme.fontFamily,
+    align: 'center',
+    valign: 'middle',
+  });
+  // Left content
+  s.addText(blocks[0].text ?? '', {
+    x: leftX + 0.35,
+    y: cardY + 1.0,
+    w: cardW - 0.7,
+    h: cardH - 1.3,
+    fontSize: 14,
+    color: '475569',
+    fontFace: theme.fontFamily,
+    valign: 'top',
+    wrap: true,
+  });
+
+  // Right Card: 现代化方案 / AI 突破 (Elevated)
+  const rightX = 6.88;
+  s.addShape('roundRect', {
+    x: rightX,
+    y: cardY,
+    w: cardW,
+    h: cardH,
+    fill: { color: 'FFFFFF' },
+    line: { color: theme.accent || '2563EB', width: 2 },
+    rectRadius: 0.12,
+  });
+  // Right top accent bar
+  s.addShape('roundRect', {
+    x: rightX + 0.1,
+    y: cardY + 0.08,
+    w: cardW - 0.2,
+    h: 0.06,
+    fill: { color: theme.accent || '2563EB' },
+    line: { color: theme.accent || '2563EB', width: 1 },
+    rectRadius: 0.03,
+  });
+  // Right top pill badge
+  s.addShape('roundRect', {
+    x: rightX + 0.35,
+    y: cardY + 0.35,
+    w: 2.7,
+    h: 0.38,
+    fill: { color: 'EFF6FF' },
+    line: { color: '93C5FD', width: 1 },
+    rectRadius: 0.1,
+  });
+  s.addText('核心突破 / AFTER', {
+    x: rightX + 0.35,
+    y: cardY + 0.35,
+    w: 2.7,
+    h: 0.38,
+    fontSize: 11,
+    bold: true,
+    color: '1D4ED8',
+    fontFace: theme.fontFamily,
+    align: 'center',
+    valign: 'middle',
+  });
+  // Right content
+  s.addText(blocks[1].text ?? '', {
+    x: rightX + 0.35,
+    y: cardY + 1.0,
+    w: cardW - 0.7,
+    h: cardH - 1.3,
+    fontSize: 14,
+    bold: true,
+    color: '0F172A',
+    fontFace: theme.fontFamily,
+    valign: 'top',
+    wrap: true,
+  });
+
+  // Center "VS" circle badge
+  s.addShape('roundRect', {
+    x: 6.07,
+    y: cardY + 1.9,
+    w: 1.2,
+    h: 0.7,
+    fill: { color: '0F172A' },
+    line: { color: '38BDF8', width: 2 },
+    rectRadius: 0.2,
+  });
+  s.addText('VS', {
+    x: 6.07,
+    y: cardY + 1.9,
+    w: 1.2,
+    h: 0.7,
+    fontSize: 16,
+    bold: true,
+    color: '38BDF8',
+    fontFace: theme.fontFamily,
+    align: 'center',
+    valign: 'middle',
+  });
+}
+
+function renderTimeline(
+  s: SlideLike,
+  blocks: SlideBlock[],
+  theme: { accent: string; font: string; fontFamily: string }
+) {
+  const count = blocks.length;
+  const startX = 0.8;
+  const totalW = 11.73;
+  const gap = count === 4 ? 0.3 : 0.45;
+  const cardW = Math.round(((totalW - (count - 1) * gap) / count) * 100) / 100;
+  const lineY = 2.4;
+
+  // Horizontal connecting pipeline
+  s.addShape('roundRect', {
+    x: startX + 0.5,
+    y: lineY,
+    w: totalW - 1.0,
+    h: 0.06,
+    fill: { color: 'CBD5E1' },
+    line: { color: 'CBD5E1', width: 1 },
+    rectRadius: 0.03,
+  });
+
+  for (let i = 0; i < count; i++) {
+    const block = blocks[i];
+    const x = startX + i * (cardW + gap);
+    const centerX = x + cardW / 2;
+
+    // Node Outer Ring
+    s.addShape('roundRect', {
+      x: centerX - 0.22,
+      y: lineY - 0.19,
+      w: 0.44,
+      h: 0.44,
+      fill: { color: 'EFF6FF' },
+      line: { color: theme.accent || '2563EB', width: 2 },
+      rectRadius: 0.22,
+    });
+    // Node Inner Center
+    s.addShape('roundRect', {
+      x: centerX - 0.1,
+      y: lineY - 0.07,
+      w: 0.2,
+      h: 0.2,
+      fill: { color: theme.accent || '2563EB' },
+      line: { color: theme.accent || '2563EB', width: 1 },
+      rectRadius: 0.1,
+    });
+
+    // Milestone Date Badge above node
+    const dateMatch = /(20\d\d年?|Q[1-4]|第[一二三四1-4]阶段|Phase\s*\d|Stage\s*\d)/i.exec(block.text ?? '');
+    const dateText = dateMatch ? dateMatch[1] : `Phase 0${i + 1}`;
+    s.addShape('roundRect', {
+      x: centerX - 0.8,
+      y: 1.7,
+      w: 1.6,
+      h: 0.42,
+      fill: { color: '0F172A' },
+      line: { color: '38BDF8', width: 1.5 },
+      rectRadius: 0.12,
+    });
+    s.addText(dateText, {
+      x: centerX - 0.8,
+      y: 1.7,
+      w: 1.6,
+      h: 0.42,
+      fontSize: 12,
+      bold: true,
+      color: '38BDF8',
+      fontFace: theme.fontFamily,
+      align: 'center',
+      valign: 'middle',
+    });
+
+    // Milestone Content Card below node
+    s.addShape('roundRect', {
+      x,
+      y: 2.85,
+      w: cardW,
+      h: 3.75,
+      fill: { color: 'FFFFFF' },
+      line: { color: 'E2E8F0', width: 1.5 },
+      rectRadius: 0.12,
+    });
+    // Top highlight line
+    s.addShape('roundRect', {
+      x: x + 0.1,
+      y: 2.93,
+      w: cardW - 0.2,
+      h: 0.05,
+      fill: { color: theme.accent || '2563EB' },
+      line: { color: theme.accent || '2563EB', width: 1 },
+      rectRadius: 0.02,
+    });
+    // Body Text
+    const bodyText = block.text ? block.text.replace(dateText, '').replace(/^[-*•:\s：]+/, '').trim() : '';
+    s.addText(bodyText || (block.text ?? ''), {
+      x: x + 0.3,
+      y: 3.2,
+      w: cardW - 0.6,
+      h: 3.1,
+      fontSize: 13,
+      color: '334155',
+      fontFace: theme.fontFamily,
+      valign: 'top',
+      wrap: true,
+    });
+  }
+}
+
+function renderProcessSteps(
+  s: SlideLike,
+  blocks: SlideBlock[],
+  theme: { accent: string; font: string; fontFamily: string }
+) {
+  const count = blocks.length;
+  const startX = 0.8;
+  const totalW = 11.73;
+  const gap = count === 4 ? 0.3 : 0.4;
+  const cardW = Math.round(((totalW - (count - 1) * gap) / count) * 100) / 100;
+  const cardY = 1.9;
+  const cardH = 4.6;
+
+  for (let i = 0; i < count; i++) {
+    const block = blocks[i];
+    const x = startX + i * (cardW + gap);
+
+    // Step Card
+    s.addShape('roundRect', {
+      x,
+      y: cardY,
+      w: cardW,
+      h: cardH,
+      fill: { color: 'FFFFFF' },
+      line: { color: 'E2E8F0', width: 1.5 },
+      rectRadius: 0.12,
+    });
+    // Top Accent line
+    s.addShape('roundRect', {
+      x: x + 0.1,
+      y: cardY + 0.08,
+      w: cardW - 0.2,
+      h: 0.05,
+      fill: { color: theme.accent || '2563EB' },
+      line: { color: theme.accent || '2563EB', width: 1 },
+      rectRadius: 0.02,
+    });
+
+    // Step Number Badge (e.g. STEP 01)
+    s.addShape('roundRect', {
+      x: x + 0.3,
+      y: cardY + 0.35,
+      w: 1.1,
+      h: 0.35,
+      fill: { color: 'EFF6FF' },
+      line: { color: 'BFDBFE', width: 1 },
+      rectRadius: 0.08,
+    });
+    s.addText(`STEP 0${i + 1}`, {
+      x: x + 0.3,
+      y: cardY + 0.35,
+      w: 1.1,
+      h: 0.35,
+      fontSize: 11,
+      bold: true,
+      color: '1D4ED8',
+      fontFace: theme.fontFamily,
+      align: 'center',
+      valign: 'middle',
+    });
+
+    // Content text
+    const stepClean = block.text ? block.text.replace(/^(第[一二三四1-4]步|步骤[一二三四1-4]|step\s*\d|[0-9][\.\、])[:：\s]*/i, '').trim() : '';
+    s.addText(stepClean || (block.text ?? ''), {
+      x: x + 0.3,
+      y: cardY + 0.95,
+      w: cardW - 0.6,
+      h: cardH - 1.2,
+      fontSize: 14,
+      color: '334155',
+      fontFace: theme.fontFamily,
+      valign: 'top',
+      wrap: true,
+    });
+
+    // Chevron connector arrow between cards
+    if (i < count - 1) {
+      const arrowX = x + cardW + gap / 2 - 0.15;
+      s.addShape('line', {
+        x: arrowX,
+        y: cardY + cardH / 2,
+        w: 0.3,
+        h: 0,
+        line: { color: '94A3B8', width: 2 },
+      });
+    }
+  }
+}
+
+function renderQuoteSlide(
+  s: SlideLike,
+  block: SlideBlock,
+  theme: { accent: string; font: string; fontFamily: string }
+) {
+  // Elevated large card backdrop
+  s.addShape('roundRect', {
+    x: 1.2,
+    y: 1.8,
+    w: 10.93,
+    h: 4.6,
+    fill: { color: 'FFFFFF' },
+    line: { color: 'E2E8F0', width: 1.5 },
+    rectRadius: 0.15,
+  });
+  // Top accent bar
+  s.addShape('roundRect', {
+    x: 1.3,
+    y: 1.88,
+    w: 10.73,
+    h: 0.06,
+    fill: { color: theme.accent || '2563EB' },
+    line: { color: theme.accent || '2563EB', width: 1 },
+    rectRadius: 0.03,
+  });
+
+  // Giant decorative quote mark
+  s.addText('“', {
+    x: 1.6,
+    y: 2.1,
+    w: 1.5,
+    h: 1.5,
+    fontSize: 72,
+    bold: true,
+    color: 'E2E8F0',
+    fontFace: 'Georgia',
+    valign: 'top',
+  });
+
+  // Quote content
+  const quoteText = block.text ? block.text.replace(/^[>“"”\s]+/, '').replace(/["”\s]+$/, '') : '';
+  s.addText(quoteText, {
+    x: 2.2,
+    y: 2.8,
+    w: 8.9,
+    h: 2.4,
+    fontSize: 24,
+    bold: true,
+    color: '0F172A',
+    fontFace: theme.fontFamily,
+    valign: 'middle',
+    align: 'center',
+    wrap: true,
+  });
+
+  // Attribution badge
+  s.addShape('roundRect', {
+    x: 4.8,
+    y: 5.5,
+    w: 3.73,
+    h: 0.45,
+    fill: { color: 'EFF6FF' },
+    line: { color: 'BFDBFE', width: 1 },
+    rectRadius: 0.12,
+  });
+  s.addText('PresentationOS · 核心设计战略宣言', {
+    x: 4.8,
+    y: 5.5,
+    w: 3.73,
+    h: 0.45,
+    fontSize: 12,
+    bold: true,
+    color: '1D4ED8',
+    fontFace: theme.fontFamily,
+    align: 'center',
+    valign: 'middle',
+  });
 }
 
 function renderCardGrid(
