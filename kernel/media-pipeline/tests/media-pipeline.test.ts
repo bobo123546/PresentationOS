@@ -11,7 +11,6 @@ import {
   buildDeckTimeline,
   generateSubtitles,
   MediaPipeline,
-  WindowsSapiTtsProvider,
 } from '../src/index.js';
 
 test('TC-M01: Normalizes speech script with numbers, currencies, and years', () => {
@@ -102,7 +101,7 @@ test('TC-M05: Subtitle generator outputs synchronized SRT and WebVTT', () => {
   assert.ok(vttContent.includes('00:00:00.000 --> 00:00:03.000'));
 });
 
-test('TC-M06: End-to-end Media Pipeline synthesizes audio, builds MP4, and verifies media QA', { skip: process.platform !== 'win32' }, async () => {
+test('TC-M06: End-to-end Media Pipeline builds MP4 and verifies media QA with deterministic test TTS', { skip: process.platform !== 'win32' }, async () => {
   const testDir = mkdtempSync(join(tmpdir(), 'presentationos-media-native-'));
 
   const slide1Img = resolve(testDir, 'slide-1.png');
@@ -114,7 +113,16 @@ test('TC-M06: End-to-end Media Pipeline synthesizes audio, builds MP4, and verif
     execFileSync('ffmpeg', ['-hide_banner', '-loglevel', 'error', '-nostdin', '-n', '-f', 'lavfi', '-i', 'color=c=navy:s=1280x720:d=1', '-frames:v', '1', '-update', '1', slide1Img], { stdio: 'pipe' });
     execFileSync('ffmpeg', ['-hide_banner', '-loglevel', 'error', '-nostdin', '-n', '-f', 'lavfi', '-i', 'color=c=darkgreen:s=1280x720:d=1', '-frames:v', '1', '-update', '1', slide2Img], { stdio: 'pipe' });
 
-    const pipeline = new MediaPipeline(new WindowsSapiTtsProvider());
+    // Hosted Windows runners do not guarantee that the optional SAPI voice
+    // packages are installed. The real SAPI provider is exercised by Native QA;
+    // this package test uses deterministic valid WAV output to isolate pipeline
+    // timing, muxing, subtitles, and media QA from machine voice inventory.
+    const pipeline = new MediaPipeline({
+      name: 'deterministic-test-tts',
+      async synthesize(_text, outputPath) {
+        return { durationSec: writeSilenceWav(outputPath, 1.5) };
+      },
+    });
 
     const result = await pipeline.processDeck(
       [
@@ -132,9 +140,6 @@ test('TC-M06: End-to-end Media Pipeline synthesizes audio, builds MP4, and verif
         },
       ],
       outMp4,
-      // Hosted Windows runners do not promise a particular optional voice pack.
-      // Leaving the voice unset still exercises real SAPI synthesis while using
-      // the runner's installed default voice.
       { workDir: testDir }
     );
 
