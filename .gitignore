@@ -2,6 +2,8 @@
 node_modules/
 dist/
 dist-test/
+dist-server/
+release/
 build/
 target/
 bin/

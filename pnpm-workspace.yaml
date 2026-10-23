@@ -9,5 +9,8 @@ packages:
 
 # PptxGenJS 3.12.0 declares this dependency but does not import it in any
 # published JavaScript entry. Keep its image parser free of the known 1.x DoS.
+allowBuilds:
+  esbuild: true
+
 overrides:
   "pptxgenjs>image-size": "2.0.4"

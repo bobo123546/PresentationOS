@@ -1,0 +1,47 @@
+{
+  "timestamp": "2026-10-23T06:19:22.315Z",
+  "contract": "presentationos-ui-contract/1",
+  "contract_file": "D:\\PresentationOS\\tools\\gui-automation\\ui_contract.yaml",
+  "controls_total": 25,
+  "controls": [
+    "ProjectTitleInput",
+    "NewProjectBtn",
+    "OpenProjectBtn",
+    "SaveProjectBtn",
+    "CompileDeckBtn",
+    "CancelTaskBtn",
+    "ExportPptxBtn",
+    "MarkdownEditorInput",
+    "ImportMarkdownBtn",
+    "SlideNavList",
+    "ActiveSlideView",
+    "SlideTitleInput",
+    "SlideLayoutSelect",
+    "SlideBodyInput",
+    "SlideNotesInput",
+    "QaScoreBadge",
+    "MechanicalQaList",
+    "VisualQaList",
+    "FactValidationBadge",
+    "QaIssuesList",
+    "StatusLabel",
+    "TaskProgressBar",
+    "RunIdLabel",
+    "ProjectPathLabel",
+    "NotificationToast"
+  ],
+  "patterns_covered": [
+    "ValuePattern",
+    "InvokePattern",
+    "SelectionPattern",
+    "RangeValuePattern",
+    "TextPattern"
+  ],
+  "executable": {
+    "path": "D:\\PresentationOS\\release\\PresentationOS\\PresentationOS.exe",
+    "sizeBytes": 154160739,
+    "boot_verified": true
+  },
+  "status": "VERIFIED",
+  "pass": true
+}

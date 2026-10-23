@@ -7,6 +7,9 @@
   "scripts": {
     "test:node": "node --test \"tests/unit/*.test.mjs\"",
     "build:cli": "pnpm -C apps/cli build",
+    "build:desktop": "pnpm -C apps/desktop build",
+    "test:desktop": "pnpm -C apps/desktop test",
+    "pack:desktop": "node tools/packager/pack-desktop.mjs",
     "smoke": "node tests/unit/node-smoke.test.mjs"
   }
 }

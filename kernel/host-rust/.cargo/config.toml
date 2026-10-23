@@ -1,3 +1,3 @@
 [target.x86_64-pc-windows-gnu]
-linker = "C:\\Users\\29903\\Documents\\Codex\\2026-08-14\\new-chat-2\\work\\llvm-mingw\\llvm-mingw-20260616-ucrt-x86_64\\bin\\gcc.exe"
-rustflags = ["-C", "link-arg=-LC:\\Users\\29903\\.rustup\\toolchains\\stable-x86_64-pc-windows-gnu\\lib\\rustlib\\x86_64-pc-windows-gnu\\lib"]
+linker = "gcc.exe"
+rustflags = ["-C", "link-arg=-LC:/Users/29903/.rustup/toolchains/stable-x86_64-pc-windows-gnu/lib/rustlib/x86_64-pc-windows-gnu/lib"]

@@ -314,7 +314,7 @@
     "id": "TASK-0018",
     "priority": "P1",
     "title": "PHASE 17: Desktop GUI（Tauri 2 + React + TS）",
-    "status": "NOT_STARTED",
+    "status": "COMPLETED",
     "dependencies": [
       "TASK-0008"
     ],
@@ -322,14 +322,16 @@
       "Project Manager/Slide Navigator/Canvas/AI Panel/Properties/Templates/Assets/QA/Workflow/Logs/History/Export/Skill Builder",
       "UI 不持有核心业务逻辑"
     ],
-    "evidence": [],
+    "evidence": [
+      "D:/PresentationOS/evidence/gui-automation/result.json"
+    ],
     "blocked_reason": null
   },
   {
     "id": "TASK-0019",
     "priority": "P1",
     "title": "PHASE 18: GUI 自动化（tools/gui-automation + ui_contract.yaml + UIA Patterns）",
-    "status": "NOT_STARTED",
+    "status": "COMPLETED",
     "dependencies": [
       "TASK-0018"
     ],
@@ -337,7 +339,9 @@
       "UIA 非坐标主方案",
       "每个按钮 Pattern 证据 + 状态变化 + Artifact + 日志"
     ],
-    "evidence": [],
+    "evidence": [
+      "D:/PresentationOS/evidence/gui-automation/result.json"
+    ],
     "blocked_reason": null
   },
   {

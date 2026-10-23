@@ -1,0 +1,157 @@
+# PresentationOS Desktop UI Automation Contract (P11-A)
+schema: presentationos-ui-contract/1
+version: 1.0.0
+app:
+  name: "PresentationOS Desktop Workbench"
+  executable: "release/PresentationOS/PresentationOS.exe"
+  window:
+    name: "PresentationOS Desktop Workbench"
+    automation_id: "PresentationOSMainWindow"
+    role: "Window"
+
+controls:
+  - id: "ProjectTitleInput"
+    role: "Edit"
+    patterns: ["ValuePattern"]
+    aria_label: "Project Title"
+    description: "Input box for setting current deck title"
+    sample_value: "Q4 Strategy Deck"
+
+  - id: "NewProjectBtn"
+    role: "Button"
+    patterns: ["InvokePattern"]
+    aria_label: "New Project"
+    description: "Resets workspace to fresh empty project"
+    expected_event: "ProjectTitleInput resets to default"
+
+  - id: "OpenProjectBtn"
+    role: "Button"
+    patterns: ["InvokePattern"]
+    aria_label: "Open Project"
+    description: "Opens existing project directory from disk"
+
+  - id: "SaveProjectBtn"
+    role: "Button"
+    patterns: ["InvokePattern"]
+    aria_label: "Save Project"
+    description: "Atomically writes pres-project.json to project directory"
+    expected_artifact: "pres-project.json"
+
+  - id: "CompileDeckBtn"
+    role: "Button"
+    patterns: ["InvokePattern"]
+    aria_label: "Compile Deck"
+    description: "Triggers full 3-stage compilation pipeline with dual-engine QA"
+    expected_state_change: "StatusLabel changes to RUNNING -> COMPLETED"
+    expected_artifact: "*.pptx"
+
+  - id: "CancelTaskBtn"
+    role: "Button"
+    patterns: ["InvokePattern"]
+    aria_label: "Cancel Task"
+    description: "Sends cancellation signal to active compilation job"
+    expected_state_change: "StatusLabel changes to CANCELLED"
+
+  - id: "ExportPptxBtn"
+    role: "Button"
+    patterns: ["InvokePattern"]
+    aria_label: "Export PPTX"
+    description: "Copies generated presentation to user specified export destination"
+
+  - id: "MarkdownEditorInput"
+    role: "Edit"
+    patterns: ["ValuePattern", "TextPattern"]
+    aria_label: "Markdown Editor Input"
+    description: "Markdown source text editor"
+
+  - id: "ImportMarkdownBtn"
+    role: "Button"
+    patterns: ["InvokePattern"]
+    aria_label: "Import Markdown"
+    description: "Parses markdown and populates SlideNavList"
+
+  - id: "SlideNavList"
+    role: "List"
+    patterns: ["SelectionPattern"]
+    aria_label: "Slide Navigation List"
+    description: "List of slide cards in the deck outline"
+
+  - id: "ActiveSlideView"
+    role: "Pane"
+    aria_label: "Active Slide View"
+    description: "Live visual presentation canvas of selected slide"
+
+  - id: "SlideTitleInput"
+    role: "Edit"
+    patterns: ["ValuePattern"]
+    aria_label: "Slide Title Input"
+    description: "Direct slide title editor"
+
+  - id: "SlideLayoutSelect"
+    role: "ComboBox"
+    patterns: ["ValuePattern"]
+    aria_label: "Slide Layout Select"
+    description: "Slide layout template selector (title, bullet_list, two_column, big_stat, quote)"
+
+  - id: "SlideBodyInput"
+    role: "Edit"
+    patterns: ["ValuePattern", "TextPattern"]
+    aria_label: "Slide Body Input"
+    description: "Bullet points content editor"
+
+  - id: "SlideNotesInput"
+    role: "Edit"
+    patterns: ["ValuePattern"]
+    aria_label: "Slide Notes Input"
+    description: "Speaker notes editor for the slide"
+
+  - id: "QaScoreBadge"
+    role: "Text"
+    aria_label: "QA Overall Score"
+    description: "Numerical quality score badge (0-100)"
+
+  - id: "MechanicalQaList"
+    role: "List"
+    aria_label: "Mechanical QA Rules"
+    description: "Mechanical QA pass/fail status list"
+
+  - id: "VisualQaList"
+    role: "List"
+    aria_label: "Visual QA Breakdown"
+    description: "Visual design and layout metrics"
+
+  - id: "FactValidationBadge"
+    role: "Text"
+    aria_label: "Fact Validation Guarantee"
+    description: "100% source fact preservation assurance indicator"
+
+  - id: "QaIssuesList"
+    role: "List"
+    aria_label: "QA Issues List"
+    description: "List of detected layout or style suggestions"
+
+  - id: "StatusLabel"
+    role: "Text"
+    aria_label: "System Status"
+    description: "Engine state: IDLE, RUNNING, COMPLETED, CANCELLED, FAILED"
+
+  - id: "TaskProgressBar"
+    role: "ProgressBar"
+    patterns: ["RangeValuePattern"]
+    aria_label: "Task Progress"
+    description: "Visual progress percentage indicator"
+
+  - id: "RunIdLabel"
+    role: "Text"
+    aria_label: "Run ID"
+    description: "Active task workflow run identifier"
+
+  - id: "ProjectPathLabel"
+    role: "Text"
+    aria_label: "Project Path"
+    description: "Path to active project on disk"
+
+  - id: "NotificationToast"
+    role: "Text"
+    aria_label: "Notification Message"
+    description: "Temporary feedback banner for user operations"
