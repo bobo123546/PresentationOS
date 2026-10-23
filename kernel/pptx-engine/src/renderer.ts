@@ -53,12 +53,192 @@ export interface DeckSlide {
   layout?: LayoutIR;
 }
 
+export type DomainCategory = 'business' | 'academic' | 'medical' | 'engineering' | 'education' | 'government';
+
+export interface DomainMeta {
+  domain: DomainCategory;
+  name: string;
+  defaultTheme: ThemePresetName;
+  footerTitle: string;
+  coverSubtitle: string;
+  coverMeta: string;
+  badgeMap: Record<string, string>;
+}
+
+export const DOMAIN_METAS: Record<DomainCategory, DomainMeta> = {
+  academic: {
+    domain: 'academic',
+    name: '学术科研与高校论文答辩',
+    defaultTheme: 'academic-editorial',
+    footerTitle: 'PresentationOS 学术科研系统 · 论文答辩与成果研讨 · 100% 严谨保真',
+    coverSubtitle: '顶会学术论文答辩与前沿科研实验突破成果汇报',
+    coverMeta: '学术科研成果汇报 · 答辩委员会评审 · 严谨保真',
+    badgeMap: {
+      pyramid: '[ 顶层设计 · 理论基石金字塔 ]',
+      architecture: '[ 方法体系 · 算法分层拓扑 ]',
+      comparison: '[ SOTA对比 · 理论方法优劣 ]',
+      quadrant: '[ 敏感性矩阵 · 消融分析 ]',
+      funnel: '[ 样本筛选 · 队列实验漏斗 ]',
+      team: '[ 课题组 · 导师与核心作者 ]',
+      timeline: '[ 科研路线 · 历史演进里程碑 ]',
+      process: '[ 实验方案 · 验证闭环步骤 ]',
+      cardGrid: '[ 核心突破 · 评估指标大数 ]',
+      table: '[ 实验数据 · Benchmark横评 ]',
+      quote: '[ 学术宣言 · 核心科学发现 ]',
+      default: '[ 学术汇报 · 核心论点 ]',
+    },
+  },
+  medical: {
+    domain: 'medical',
+    name: '医疗健康与临床生命科学',
+    defaultTheme: 'healthcare-mint',
+    footerTitle: 'PresentationOS 医疗健康系统 · 临床科研与循证医学 · 严格审校',
+    coverSubtitle: '临床试验队列研究与生命科学新药研发成果汇报',
+    coverMeta: '国家医学中心 · IRB伦理审查通过 · 循证真实',
+    badgeMap: {
+      pyramid: '[ 诊疗规范 · 循证医学层级 ]',
+      architecture: '[ 药理机制 · 分子靶点分层 ]',
+      comparison: '[ 双盲对照 · 对照组vs试验组 ]',
+      quadrant: '[ 风险收益 · 临床指征象限 ]',
+      funnel: '[ 患者招募 · 临床入组漏斗 ]',
+      team: '[ 临床专家 · PI领军医疗团队 ]',
+      timeline: '[ 研发阶段 · 临床试验阶段轴 ]',
+      process: '[ 诊疗路径 · 临床转化流程 ]',
+      cardGrid: '[ 临床疗效 · 安全有效性指标 ]',
+      table: '[ 病例队列 · 临床实验数据表 ]',
+      quote: '[ 医学誓言 · 生命健康宣言 ]',
+      default: '[ 临床研报 · 医学结论 ]',
+    },
+  },
+  engineering: {
+    domain: 'engineering',
+    name: '软件工程与前沿技术架构',
+    defaultTheme: 'tech-dark',
+    footerTitle: 'PresentationOS 极客工程系统 · 技术架构与系统蓝图 · 生产就绪',
+    coverSubtitle: '企业级高可用分布式系统架构蓝图与核心内核实践',
+    coverMeta: '系统工程架构组 · 生产环境就绪 · 纯原生矢量',
+    badgeMap: {
+      pyramid: '[ 技术愿景 · 架构分级模型 ]',
+      architecture: '[ 系统架构 · 模块分层蓝图 ]',
+      comparison: '[ 架构对比 · 传统模式vs云原生 ]',
+      quadrant: '[ 选型评估 · 性能成熟度矩阵 ]',
+      funnel: '[ 数据流转 · 高并发清洗漏斗 ]',
+      team: '[ 核心研发 · 资深架构师阵容 ]',
+      timeline: '[ 演进路线 · 版本迭代里程碑 ]',
+      process: '[ 部署交付 · 自动化CI/CD流水线 ]',
+      cardGrid: '[ 性能压测 · QPS与延迟指标 ]',
+      table: '[ 压测基准 · 性能横向对比表 ]',
+      quote: '[ 技术宣言 · 代码构建未来 ]',
+      default: '[ 技术汇报 · 架构实现 ]',
+    },
+  },
+  business: {
+    domain: 'business',
+    name: '商业战略与企业经营汇报',
+    defaultTheme: 'executive-navy',
+    footerTitle: 'PresentationOS 智能演示系统 · 商业战略与经营汇报 · 100% 事实保真',
+    coverSubtitle: '新一代智能化商业战略规划与核心业务成果落地实践',
+    coverMeta: '企业战略管理中心 · 高管决策参考 · 商业机密 · 事实保真',
+    badgeMap: {
+      pyramid: '[ 顶层设计 · 战略金字塔 ]',
+      architecture: '[ 技术架构 · 分层体系 ]',
+      comparison: '[ 方案对比 · 价值分析 ]',
+      quadrant: '[ 战略矩阵 · 象限分析 ]',
+      funnel: '[ 转化漏斗 · 链路分析 ]',
+      team: '[ 核心阵容 · 领军履历 ]',
+      timeline: '[ 发展历程 · 路线规划 ]',
+      process: '[ 实施路径 · 闭环流程 ]',
+      cardGrid: '[ 核心指标 · 关键成果 ]',
+      table: '[ 数据详述 · 核心指标 ]',
+      quote: '[ 战略愿景 · 核心宣言 ]',
+      default: '[ 核心汇报 ]',
+    },
+  },
+  education: {
+    domain: 'education',
+    name: '教育培训与知识讲义',
+    defaultTheme: 'academic-editorial',
+    footerTitle: 'PresentationOS 教育培训系统 · 课程讲义与知识沉淀 · 体系赋能',
+    coverSubtitle: '高阶专业能力进阶培训讲义与知识图谱实战训练',
+    coverMeta: '教学研发展中心 · 课程认证体系 · 体系讲义 · 知识赋能',
+    badgeMap: {
+      pyramid: '[ 知识体系 · 认知进阶金字塔 ]',
+      architecture: '[ 课程结构 · 知识模块拓扑 ]',
+      comparison: '[ 概念辨析 · 正误案例对比 ]',
+      quadrant: '[ 技能矩阵 · 难易重点象限 ]',
+      funnel: '[ 学习漏斗 · 知识吸收路径 ]',
+      team: '[ 教学名师 · 专家教研团队 ]',
+      timeline: '[ 学习历程 · 阶段通关打卡 ]',
+      process: '[ 实战步骤 · 演练实操流程 ]',
+      cardGrid: '[ 核心考点 · 关键指标解析 ]',
+      table: '[ 知识清单 · 重点掌握清单 ]',
+      quote: '[ 教育名言 · 终身学习誓言 ]',
+      default: '[ 课程讲授 · 重点精讲 ]',
+    },
+  },
+  government: {
+    domain: 'government',
+    name: '政务智库与宏观治理',
+    defaultTheme: 'academic-editorial',
+    footerTitle: 'PresentationOS 智库政务系统 · 政策宣导与治理规划 · 严肃审定',
+    coverSubtitle: '公共治理体系现代化与宏观发展规划实效汇编',
+    coverMeta: '公共政策智库 · 宏观决策参考 · 权威审校 · 成果通报',
+    badgeMap: {
+      pyramid: '[ 顶层设计 · 治理架构金字塔 ]',
+      architecture: '[ 治理体系 · 部门协同网络 ]',
+      comparison: '[ 政策成效 · 改革前后对比 ]',
+      quadrant: '[ 民生重点 · 迫切程度矩阵 ]',
+      funnel: '[ 诉求办理 · 办结闭环漏斗 ]',
+      team: '[ 专家顾问 · 决策智囊团队 ]',
+      timeline: '[ 发展规划 · 远景目标路线 ]',
+      process: '[ 推进流程 · 落实责任闭环 ]',
+      cardGrid: '[ 治理实效 · 惠民成果指标 ]',
+      table: '[ 考核明细 · 重点项目进度 ]',
+      quote: '[ 施政理念 · 人民至上宣言 ]',
+      default: '[ 政策通报 · 决策参考 ]',
+    },
+  },
+};
+
+export function detectDomain(deck: DeckSpec): DomainCategory {
+  if (deck.domain && DOMAIN_METAS[deck.domain]) {
+    return deck.domain;
+  }
+  const explicit = (deck.designTokens?.domain as DomainCategory);
+  if (explicit && DOMAIN_METAS[explicit]) {
+    return explicit;
+  }
+
+  const fullText = [
+    deck.title,
+    deck.subtitle ?? '',
+    ...deck.slides.flatMap(s => [s.title, ...s.blocks.map(b => b.text ?? '')])
+  ].join(' ');
+
+  const academicScore = (fullText.match(/论文|答辩|实验|数据集|baseline|sota|消融|文献|审稿|arxiv|doi|引用|高校|实验室|导师|硕士|博士|本科|定理|证明/gi) || []).length;
+  const medicalScore = (fullText.match(/临床|患者|试验|药物|靶点|双盲|对照组|不良反应|fda|nmpa|医院|医疗|病理|疗效|受试者|医学|细胞|生物|生命|处方/gi) || []).length;
+  const techScore = (fullText.match(/微服务|内核|高可用|中间件|分布式|开源|代码|github|qps|吞吐|延迟|api|网关|docker|k8s|数据库|并发|后端|协议/gi) || []).length;
+  const eduScore = (fullText.match(/课程|培训|学员|讲义|作业|知识点|复盘|考试|教学|教材|大纲|教师|班级/gi) || []).length;
+  const govScore = (fullText.match(/政策|智库|政务|治理|公文|民生|规章|党政|宏观|省委|市委|纪要/gi) || []).length;
+
+  const max = Math.max(academicScore, medicalScore, techScore, eduScore, govScore);
+  if (max === 0) return 'business';
+
+  if (medicalScore === max) return 'medical';
+  if (academicScore === max) return 'academic';
+  if (techScore === max) return 'engineering';
+  if (govScore === max) return 'government';
+  if (eduScore === max) return 'education';
+  return 'business';
+}
+
 export interface DeckSpec {
   schema?: 'deck-spec';
   version?: '1';
   title: string;
   subtitle?: string;
   author?: string;
+  domain?: DomainCategory;
   designTokens?: Record<string, unknown>;
   slides: DeckSlide[];
 }
@@ -197,6 +377,8 @@ export interface RenderOptions {
   dna?: { accent: string; fontFamily?: string };
   /** 商业主题预设：executive-navy | mckinsey-light | tech-dark | academic-editorial | healthcare-mint */
   themePreset?: ThemePresetName;
+  /** 行业领域类型：business | academic | medical | engineering | education | government */
+  domain?: DomainCategory;
   forceOverwrite?: boolean;
 }
 
@@ -211,15 +393,15 @@ const KIND_THEME: Record<string, { fill: string; accent: string; font: string; f
   ending: { fill: '0B132B', accent: '38BDF8', font: 'FFFFFF', fontFamily: 'Microsoft YaHei' },
 };
 
-export function themeFor(kind: string, dna?: RenderOptions['dna'], presetName: ThemePresetName = 'executive-navy'): { fill: string; accent: string; font: string; fontFamily: string } {
+export function themeFor(kind: string, dna?: RenderOptions['dna'], presetName: ThemePresetName = 'executive-navy'): { fill: string; accent: string; font: string; fontFamily: string; preset: ThemeTokens } {
   const preset = THEME_PRESETS[presetName] ?? THEME_PRESETS['executive-navy'];
   const fill = kind === 'cover' || kind === 'ending' ? preset.coverBg : preset.contentBg;
   const font = kind === 'cover' || kind === 'ending' ? preset.coverTitle : preset.textColor;
   const accent = kind === 'cover' || kind === 'ending' ? preset.coverAccent : preset.accent;
   const fontFamily = preset.fontFamily;
 
-  if (!dna) return { fill, accent, font, fontFamily };
-  return { ...tOrPreset(fill, accent, font, fontFamily), accent: dna.accent || accent, fontFamily: dna.fontFamily ?? fontFamily };
+  if (!dna) return { fill, accent, font, fontFamily, preset };
+  return { fill, accent: dna.accent || accent, font, fontFamily: dna.fontFamily ?? fontFamily, preset };
 }
 
 function tOrPreset(fill: string, accent: string, font: string, fontFamily: string) {
@@ -258,16 +440,23 @@ export async function renderDeck(deck: DeckSpec, opts: RenderOptions): Promise<{
   if (deck.author) p.author = deck.author;
   p.title = deck.title;
 
+  const domain: DomainCategory = opts.domain || deck.domain || (deck.designTokens?.domain as DomainCategory) || detectDomain(deck);
+  const domainMeta = DOMAIN_METAS[domain] ?? DOMAIN_METAS['business'];
+  const themePreset: ThemePresetName = opts.themePreset ||
+    (deck.designTokens?.preset as ThemePresetName) ||
+    (deck.designTokens?.theme as ThemePresetName) ||
+    domainMeta.defaultTheme;
+
   for (let idx = 0; idx < deck.slides.length; idx++) {
     const slide = deck.slides[idx];
-    const scene = resolveSlideScene(slide, opts.resolveRects, opts.dna);
+    const scene = resolveSlideScene(slide, opts.resolveRects, opts.dna, themePreset);
     const theme = scene.theme;
     const s = p.addSlide();
 
     if (slide.kind === 'cover') {
-      renderCoverSlide(s, slide, deck, theme);
+      renderCoverSlide(s, slide, deck, theme, domain);
     } else {
-      await renderContentSlide(s, slide, deck, theme, scene, idx, deck.slides.length);
+      await renderContentSlide(s, slide, deck, theme, scene, idx, deck.slides.length, domain);
     }
 
     if (slide.notes) {
@@ -289,29 +478,35 @@ function renderCoverSlide(
   s: SlideLike,
   slide: DeckSlide,
   deck: DeckSpec,
-  theme: { fill: string; accent: string; font: string; fontFamily: string }
+  theme: { fill: string; accent: string; font: string; fontFamily: string; preset: ThemeTokens },
+  domain: DomainCategory = 'business'
 ) {
+  const meta = DOMAIN_METAS[domain] ?? DOMAIN_METAS['business'];
+  const p = theme.preset;
+
   // 1. 深邃高端极简暗色背景
-  s.background = { color: '0B132B' };
+  s.background = { color: p.coverBg };
 
   // 2. 顶部精致胶囊徽标
+  const badgeText = `[ ${meta.name} · 成果发布 ]`;
+  const badgeW = Math.max(3.6, badgeText.length * 0.24);
   s.addShape('roundRect', {
     x: 1.2,
     y: 1.5,
-    w: 3.6,
+    w: badgeW,
     h: 0.4,
-    fill: { color: '1E293B' },
-    line: { color: '38BDF8', width: 1.5 },
+    fill: { color: p.coverPillBg },
+    line: { color: p.coverPillBorder, width: 1.5 },
     rectRadius: 0.2,
   });
-  s.addText('[ 2026 战略发布 · 商业汇报 ]', {
+  s.addText(badgeText, {
     x: 1.2,
     y: 1.5,
-    w: 3.6,
+    w: badgeW,
     h: 0.4,
     fontSize: 11,
     bold: true,
-    color: '38BDF8',
+    color: p.coverPillText,
     fontFace: theme.fontFamily,
     align: 'center',
     valign: 'middle',
@@ -325,7 +520,7 @@ function renderCoverSlide(
     h: 1.5,
     fontSize: 38,
     bold: true,
-    color: 'FFFFFF',
+    color: p.coverTitle,
     fontFace: theme.fontFamily,
     valign: 'top',
   });
@@ -336,13 +531,13 @@ function renderCoverSlide(
     y: 3.9,
     w: 2.8,
     h: 0.08,
-    fill: { color: theme.accent || '38BDF8' },
-    line: { color: theme.accent || '38BDF8', width: 1 },
+    fill: { color: p.coverAccent },
+    line: { color: p.coverAccent, width: 1 },
     rectRadius: 0.04,
   });
 
-  // 5. 副标题 / 战略宣言
-  const subtitle = deck.subtitle || (slide.blocks[0]?.type === 'text' && slide.blocks[0].text ? slide.blocks[0].text : '') || '新一代智能化商业战略规划与核心业务成果落地实践';
+  // 5. 副标题 / 领域主旨宣言
+  const subtitle = deck.subtitle || (slide.blocks[0]?.type === 'text' && slide.blocks[0].text ? slide.blocks[0].text : '') || meta.coverSubtitle;
   s.addText(subtitle, {
     x: 1.2,
     y: 4.2,
@@ -355,7 +550,7 @@ function renderCoverSlide(
   });
 
   // 6. 底部权威元信息
-  s.addText(`PresentationOS AI Engine · ${deck.author ?? '企业战略'} · 商业机密 · 100% 事实保真`, {
+  s.addText(`PresentationOS · ${deck.author ?? meta.name} · ${meta.coverMeta} · 100% 事实保真`, {
     x: 1.2,
     y: 6.3,
     w: 10.9,
@@ -470,47 +665,39 @@ function classifySlideArchetype(slide: DeckSlide): 'table' | 'chart' | 'timeline
   return 'flow';
 }
 
-function archetypeBadgeText(archetype: string): string {
-  switch (archetype) {
-    case 'architecture': return '[ 技术架构 · 分层体系 ]';
-    case 'pyramid': return '[ 顶层设计 · 战略金字塔 ]';
-    case 'timeline': return '[ 发展历程 · 路线规划 ]';
-    case 'comparison': return '[ 方案对比 · 价值分析 ]';
-    case 'process': return '[ 实施路径 · 闭环流程 ]';
-    case 'quadrant': return '[ 战略矩阵 · 象限分析 ]';
-    case 'funnel': return '[ 转化漏斗 · 链路分析 ]';
-    case 'team': return '[ 核心阵容 · 领军履历 ]';
-    case 'quote': return '[ 战略愿景 · 核心宣言 ]';
-    case 'table': return '[ 数据详述 · 核心指标 ]';
-    case 'cardGrid': return '[ 核心指标 · 关键成果 ]';
-    default: return '[ 核心汇报 ]';
-  }
+function archetypeBadgeText(archetype: string, domain: DomainCategory = 'business'): string {
+  const meta = DOMAIN_METAS[domain] ?? DOMAIN_METAS['business'];
+  return meta.badgeMap[archetype] ?? meta.badgeMap['default'] ?? '[ 核心汇报 ]';
 }
 
 async function renderContentSlide(
   s: SlideLike,
   slide: DeckSlide,
   deck: DeckSpec,
-  theme: { fill: string; accent: string; font: string; fontFamily: string },
+  theme: { fill: string; accent: string; font: string; fontFamily: string; preset: ThemeTokens },
   scene: ReturnType<typeof resolveSlideScene>,
   slideIndex: number,
-  totalSlides: number
+  totalSlides: number,
+  domain: DomainCategory = 'business'
 ) {
-  // 1. 现代温润浅灰底色（告别刺眼纯白与空洞）
-  s.background = { color: 'F8FAFC' };
+  const meta = DOMAIN_METAS[domain] ?? DOMAIN_METAS['business'];
+  const p = theme.preset;
+
+  // 1. 内容背景色（自适应行业预设，科技黑为深黑，学术为象牙白，医疗为浅薄荷）
+  s.background = { color: p.contentBg };
 
   const archetype = classifySlideArchetype(slide);
-  const badgeLabel = archetypeBadgeText(archetype);
+  const badgeLabel = archetypeBadgeText(archetype, domain);
   const badgeW = Math.max(2.4, badgeLabel.length * 0.22);
 
-  // 2. 顶部微型分类标签（按语义动态生成）
+  // 2. 顶部微型分类标签（按语义与行业动态生成）
   s.addShape('roundRect', {
     x: 0.8,
     y: 0.42,
     w: badgeW,
     h: 0.32,
-    fill: { color: 'EFF6FF' },
-    line: { color: 'BFDBFE', width: 1 },
+    fill: { color: p.accentLight },
+    line: { color: p.accent, width: 1 },
     rectRadius: 0.15,
   });
   s.addText(badgeLabel, {
@@ -520,13 +707,13 @@ async function renderContentSlide(
     h: 0.32,
     fontSize: 10,
     bold: true,
-    color: '2563EB',
+    color: p.accentText,
     fontFace: theme.fontFamily,
     align: 'center',
     valign: 'middle',
   });
 
-  // 3. 页面大标题（26pt 极简深色）
+  // 3. 页面大标题（26pt 极简深色/浅色自适应）
   s.addText(slide.title, {
     x: 0.8,
     y: 0.78,
@@ -534,7 +721,7 @@ async function renderContentSlide(
     h: 0.65,
     fontSize: 26,
     bold: true,
-    color: '0F172A',
+    color: p.titleColor,
     fontFace: theme.fontFamily,
     valign: 'top',
   });
@@ -545,19 +732,19 @@ async function renderContentSlide(
     y: 1.48,
     w: 1.8,
     h: 0.05,
-    fill: { color: theme.accent || '2563EB' },
-    line: { color: theme.accent || '2563EB', width: 1 },
+    fill: { color: p.accent },
+    line: { color: p.accent, width: 1 },
     rectRadius: 0.02,
   });
 
-  // 5. 底部页码与品牌标记
-  s.addText(`PresentationOS 智能演示系统 · 商业保密报告`, {
+  // 5. 底部页码与行业专属品牌标记
+  s.addText(meta.footerTitle, {
     x: 0.8,
     y: 6.9,
-    w: 5.0,
+    w: 6.5,
     h: 0.3,
     fontSize: 10,
-    color: '94A3B8',
+    color: p.name === 'tech-dark' ? '64748B' : '94A3B8',
     fontFace: theme.fontFamily,
   });
   s.addText(`第 ${slideIndex + 1} 页 / 共 ${totalSlides} 页`, {
@@ -566,7 +753,7 @@ async function renderContentSlide(
     w: 2.0,
     h: 0.3,
     fontSize: 10,
-    color: '94A3B8',
+    color: p.name === 'tech-dark' ? '64748B' : '94A3B8',
     fontFace: theme.fontFamily,
     align: 'right',
   });
