@@ -1,8 +1,8 @@
 {
   "feature": "PowerPoint Native QA 9-Step Verification",
-  "timestamp": "2026-10-23T07:32:52.474Z",
+  "timestamp": "2026-10-23T08:02:54.118Z",
   "office_version": "16.0",
-  "owned_pid": 25992,
+  "owned_pid": 30892,
   "slide_count": 3,
   "checks": {
     "open": true,
@@ -21,10 +21,10 @@
     "财务概览"
   ],
   "artifacts": [
-    "D:\\PresentationOS\\temp-native-qa-1792740763101\\probe-run\\native.pdf",
-    "D:\\PresentationOS\\temp-native-qa-1792740763101\\probe-run\\slide-1.png",
-    "D:\\PresentationOS\\temp-native-qa-1792740763101\\probe-run\\slide-2.png",
-    "D:\\PresentationOS\\temp-native-qa-1792740763101\\probe-run\\slide-3.png"
+    "D:\\PresentationOS\\temp-native-qa-1792742563523\\probe-run\\native.pdf",
+    "D:\\PresentationOS\\temp-native-qa-1792742563523\\probe-run\\slide-1.png",
+    "D:\\PresentationOS\\temp-native-qa-1792742563523\\probe-run\\slide-2.png",
+    "D:\\PresentationOS\\temp-native-qa-1792742563523\\probe-run\\slide-3.png"
   ],
   "status": "VERIFIED",
   "pass": true
