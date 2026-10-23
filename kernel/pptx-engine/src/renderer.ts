@@ -53,7 +53,17 @@ export interface DeckSlide {
   layout?: LayoutIR;
 }
 
-export type DomainCategory = 'business' | 'academic' | 'medical' | 'engineering' | 'education' | 'government';
+export type DomainCategory =
+  | 'business'
+  | 'academic'
+  | 'medical'
+  | 'engineering'
+  | 'education'
+  | 'government'
+  | 'finance'
+  | 'consulting'
+  | 'legal'
+  | 'creative';
 
 export interface DomainMeta {
   domain: DomainCategory;
@@ -198,6 +208,94 @@ export const DOMAIN_METAS: Record<DomainCategory, DomainMeta> = {
       default: '[ 政策通报 · 决策参考 ]',
     },
   },
+  finance: {
+    domain: 'finance',
+    name: '金融投资与投行研报',
+    defaultTheme: 'financial-gold',
+    footerTitle: 'PresentationOS 投行金融系统 · 资本运作与估值模型 · 严密合规',
+    coverSubtitle: '投资银行 IPO 股票路演推介与 DCF 估值财务尽调研报',
+    coverMeta: '华尔街投行视觉规范 · 估值模型审校 · 财务合规真实',
+    badgeMap: {
+      pyramid: '[ 资本结构 · 股权债券多层架构 ]',
+      architecture: '[ 交易架构 · 境内外红筹上市拓扑 ]',
+      comparison: '[ 对标估值 · P/E vs EV/EBITDA 横评 ]',
+      quadrant: '[ 风险收益 · 资产组合分配象限 ]',
+      funnel: '[ 交易漏斗 · 并购标的筛选漏斗 ]',
+      team: '[ 承销团队 · 保荐代表人与量化团队 ]',
+      timeline: '[ IPO 进程 · 申报过会发行时间轴 ]',
+      process: '[ 尽调流程 · 财务法律审计六步法 ]',
+      cardGrid: '[ 核心财务指标 · 营收/净利/EBITDA ]',
+      table: '[ 财务预测 · 三张表未来五年预测 ]',
+      quote: '[ 投资论点 · 核心投资价值陈述 ]',
+      default: '[ 金融研报 · 关键财务结论 ]',
+    },
+  },
+  consulting: {
+    domain: 'consulting',
+    name: '管理咨询与战略规划',
+    defaultTheme: 'mckinsey-light',
+    footerTitle: 'PresentationOS 战略咨询系统 · MECE 逻辑架构与顶层设计 · 决策级交付',
+    coverSubtitle: '麦肯锡级企业数字化转型战略规划与组织变革落地方案',
+    coverMeta: '战略咨询方法论 · MECE 原则 · 董事长与董事会审阅',
+    badgeMap: {
+      pyramid: '[ 议题树 · MECE 战略分解金字塔 ]',
+      architecture: '[ 转型蓝图 · 业务与技术顶层架构 ]',
+      comparison: '[ 战略选型 · 自研 vs 并购 vs 合作 ]',
+      quadrant: '[ 优先级矩阵 · 业务影响 vs 实施难度 ]',
+      funnel: '[ 变革漏斗 · 组织阻力与认知转化 ]',
+      team: '[ 咨询顾问 · 项目合伙人与专家组 ]',
+      timeline: '[ 落地路线图 · 3 年数字化转型路径 ]',
+      process: '[ 实施路径 · 阶段规划与交付物闭环 ]',
+      cardGrid: '[ 价值量化 · 降本增效 ROI 测算 ]',
+      table: '[ 差距分析 · 现状 vs 行业标杆 ]',
+      quote: '[ 核心洞见 · 董事长战略解码寄语 ]',
+      default: '[ 战略洞见 · 关键决策建议 ]',
+    },
+  },
+  legal: {
+    domain: 'legal',
+    name: '法律事务与合规风控',
+    defaultTheme: 'legal-burgundy',
+    footerTitle: 'PresentationOS 法律合规系统 · 诉讼抗辩与监管合规 · 证据链严谨保真',
+    coverSubtitle: '重大跨国商业诉讼法律抗辩策略与数据跨境合规审查报告',
+    coverMeta: '法理逻辑论证 · 诉讼证据链闭环 · 特别法务顾问审校',
+    badgeMap: {
+      pyramid: '[ 法律渊源 · 宪制法律规章层级 ]',
+      architecture: '[ 证据链网 · 主客观证据印证拓扑 ]',
+      comparison: '[ 判例对比 · 指导性案例与本案异同 ]',
+      quadrant: '[ 法律风险 · 违规概率 vs 罚金影响象限 ]',
+      funnel: '[ 诉讼程序 · 举证质证判决漏斗 ]',
+      team: '[ 出庭律师 · 主办合伙人与法律顾问 ]',
+      timeline: '[ 案情脉络 · 争议发生与仲裁推进时序 ]',
+      process: '[ 合规整改 · 闭环审查四步法 ]',
+      cardGrid: '[ 索赔标的 · 涉案金额与预期损益 ]',
+      table: '[ 证据清单 · 证据名称/证明目的/质证意见 ]',
+      quote: '[ 法律意见 · 资深大律师法律结论 ]',
+      default: '[ 法律意见 · 核心法理要旨 ]',
+    },
+  },
+  creative: {
+    domain: 'creative',
+    name: '创意设计与品牌公关',
+    defaultTheme: 'creative-gradient',
+    footerTitle: 'PresentationOS 创意文娱系统 · 品牌企划与视觉策展 · 先锋美学',
+    coverSubtitle: '新消费品牌全球发布盛典企划与年度创意视觉概念提案',
+    coverMeta: '全球顶级品牌策划 · 视觉感官体系 · 创意总监审校',
+    badgeMap: {
+      pyramid: '[ 品牌金字塔 · 使命愿景与核心价值 ]',
+      architecture: '[ 传播矩阵 · 全域多触点营销拓扑 ]',
+      comparison: '[ 竞品突围 · 差异化品牌定位 VS 对比 ]',
+      quadrant: '[ 人群定位 · Z世代偏好与消费力象限 ]',
+      funnel: '[ 营销漏斗 · 曝光获客与私域沉淀漏斗 ]',
+      team: '[ 主创团队 · 创意总监与艺术指导 ]',
+      timeline: '[ 发售波次 · 预热引爆与长尾节奏 ]',
+      process: '[ 策展动线 · 空间感官体验六阶段 ]',
+      cardGrid: '[ 传播声量 · 全网曝光与 GMV 爆发预期 ]',
+      table: '[ 媒体矩阵 · 投放渠道/预算配比/ROI 横评 ]',
+      quote: '[ 品牌宣言 · 态度主张与情绪共鸣 ]',
+      default: '[ 创意概念 · 核心灵感提案 ]',
+    },
+  },
 };
 
 export function detectDomain(deck: DeckSpec): DomainCategory {
@@ -220,10 +318,18 @@ export function detectDomain(deck: DeckSpec): DomainCategory {
   const techScore = (fullText.match(/微服务|内核|高可用|中间件|分布式|开源|代码|github|qps|吞吐|延迟|api|网关|docker|k8s|数据库|并发|后端|协议/gi) || []).length;
   const eduScore = (fullText.match(/课程|培训|学员|讲义|作业|知识点|复盘|考试|教学|教材|大纲|教师|班级/gi) || []).length;
   const govScore = (fullText.match(/政策|智库|政务|治理|公文|民生|规章|党政|宏观|省委|市委|纪要/gi) || []).length;
+  const financeScore = (fullText.match(/投行|证券|估值|股权|债券|融资|财报|净利润|ebitda|ipo|承销|量化|投资组合|收益率|资本市场|基金|纳斯达克|上市|尽调|现金流|资产负债/gi) || []).length;
+  const consultingScore = (fullText.match(/咨询|麦肯锡|数字化转型|mece|组织变革|议题树|商业模式|战略规划|标杆对标|顶层设计|降本增效|痛点诊断|战略解码|变革管理/gi) || []).length;
+  const legalScore = (fullText.match(/法律|诉讼|仲裁|证据|法院|侵权|知识产权|专利|合规|gdpr|pipl|律师|案情|判决|法规|条例|违约|赔偿/gi) || []).length;
+  const creativeScore = (fullText.match(/创意|品牌|视觉|策展|艺术|传媒|影视|宣发|潮玩|营销|设计|美学|故事板|概念|时尚|先锋/gi) || []).length;
 
-  const max = Math.max(academicScore, medicalScore, techScore, eduScore, govScore);
+  const max = Math.max(academicScore, medicalScore, techScore, eduScore, govScore, financeScore, consultingScore, legalScore, creativeScore);
   if (max === 0) return 'business';
 
+  if (financeScore === max) return 'finance';
+  if (consultingScore === max) return 'consulting';
+  if (legalScore === max) return 'legal';
+  if (creativeScore === max) return 'creative';
   if (medicalScore === max) return 'medical';
   if (academicScore === max) return 'academic';
   if (techScore === max) return 'engineering';
@@ -243,7 +349,15 @@ export interface DeckSpec {
   slides: DeckSlide[];
 }
 
-export type ThemePresetName = 'executive-navy' | 'mckinsey-light' | 'tech-dark' | 'academic-editorial' | 'healthcare-mint';
+export type ThemePresetName =
+  | 'executive-navy'
+  | 'mckinsey-light'
+  | 'tech-dark'
+  | 'academic-editorial'
+  | 'healthcare-mint'
+  | 'financial-gold'
+  | 'legal-burgundy'
+  | 'creative-gradient';
 
 export interface ThemeTokens {
   name: ThemePresetName;
@@ -364,6 +478,66 @@ export const THEME_PRESETS: Record<ThemePresetName, ThemeTokens> = {
     titleColor: '064E3B',
     textColor: '374151',
     tableHeaderBg: '065F46',
+    tableHeaderText: 'FFFFFF',
+    fontFamily: 'Microsoft YaHei',
+  },
+  'financial-gold': {
+    name: 'financial-gold',
+    coverBg: '0B1528',
+    coverTitle: 'FFFFFF',
+    coverAccent: 'F59E0B',
+    coverPillBg: '1E293B',
+    coverPillBorder: 'F59E0B',
+    coverPillText: 'FDE68A',
+    contentBg: 'F8FAFC',
+    cardBg: 'FFFFFF',
+    cardBorder: 'E2E8F0',
+    accent: 'B45309',
+    accentLight: 'FEF3C7',
+    accentText: '92400E',
+    titleColor: '0F172A',
+    textColor: '334155',
+    tableHeaderBg: '1E293B',
+    tableHeaderText: 'F59E0B',
+    fontFamily: 'Segoe UI',
+  },
+  'legal-burgundy': {
+    name: 'legal-burgundy',
+    coverBg: '1C1417',
+    coverTitle: 'FFFFFF',
+    coverAccent: 'E11D48',
+    coverPillBg: '2E1922',
+    coverPillBorder: 'E11D48',
+    coverPillText: 'FDA4AF',
+    contentBg: 'FAFAF9',
+    cardBg: 'FFFFFF',
+    cardBorder: 'E7E5E4',
+    accent: '9F1239',
+    accentLight: 'FFE4E6',
+    accentText: '881337',
+    titleColor: '1C1917',
+    textColor: '44403C',
+    tableHeaderBg: '4C0519',
+    tableHeaderText: 'FFFFFF',
+    fontFamily: 'SimSun',
+  },
+  'creative-gradient': {
+    name: 'creative-gradient',
+    coverBg: '0F0B1E',
+    coverTitle: 'FFFFFF',
+    coverAccent: 'A855F7',
+    coverPillBg: '211638',
+    coverPillBorder: 'C084FC',
+    coverPillText: 'E9D5FF',
+    contentBg: 'FAF5FF',
+    cardBg: 'FFFFFF',
+    cardBorder: 'E9D5FF',
+    accent: '7E22CE',
+    accentLight: 'F3E8FF',
+    accentText: '6B21A8',
+    titleColor: '2E1065',
+    textColor: '475569',
+    tableHeaderBg: '3B0764',
     tableHeaderText: 'FFFFFF',
     fontFamily: 'Microsoft YaHei',
   },
