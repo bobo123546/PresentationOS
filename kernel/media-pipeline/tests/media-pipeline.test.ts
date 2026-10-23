@@ -132,7 +132,10 @@ test('TC-M06: End-to-end Media Pipeline synthesizes audio, builds MP4, and verif
         },
       ],
       outMp4,
-      { workDir: testDir, voice: 'Microsoft Huihui Desktop' }
+      // Hosted Windows runners do not promise a particular optional voice pack.
+      // Leaving the voice unset still exercises real SAPI synthesis while using
+      // the runner's installed default voice.
+      { workDir: testDir }
     );
 
     assert.equal(result.ok, true, `Pipeline failed: ${JSON.stringify(result.qa.errors)}`);
