@@ -1,0 +1,24 @@
+{
+  "name": "@pres/workflow",
+  "version": "0.1.2-alpha",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "tsc -p tsconfig.test.json && node --test \"dist-test/tests/**/*.test.js\""
+  },
+  "dependencies": {
+    "@pres/durable-workflow": "workspace:*",
+    "@pres/mechanical-qa": "workspace:*",
+    "@pres/pptx-engine": "workspace:*",
+    "@pres/revision-engine": "workspace:*",
+    "@pres/schema-validator": "workspace:*",
+    "@pres/telemetry": "workspace:*",
+    "@pres/visual-qa": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.6.0"
+  }
+}

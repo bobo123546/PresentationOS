@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://presentationos.local/schemas/project/1",
+  "title": "PresentationOS Project Specification v1",
+  "type": "object",
+  "required": ["schema", "version", "projectId", "title", "createdAt", "updatedAt", "sourceDocument"],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "presentationos-project"
+    },
+    "version": {
+      "type": "string",
+      "enum": ["1.0.0"]
+    },
+    "projectId": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9_-]{1,64}$"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "sourceDocument": {
+      "type": "object",
+      "required": ["filename", "format", "content"],
+      "properties": {
+        "filename": { "type": "string" },
+        "format": { "type": "string", "enum": ["markdown", "txt", "docx", "csv", "tsv", "xlsx", "pdf", "pptx"] },
+        "sha256": { "type": "string" },
+        "content": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "template": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "themeOverrides": { "type": "object" }
+      },
+      "additionalProperties": true
+    },
+    "artifacts": {
+      "type": "object",
+      "properties": {
+        "pptxPath": { "type": ["string", "null"] },
+        "qaReportPath": { "type": ["string", "null"] },
+        "pdfPath": { "type": ["string", "null"] }
+      },
+      "additionalProperties": false
+    },
+    "lastCompileState": {
+      "type": "object",
+      "required": ["status"],
+      "properties": {
+        "status": { "type": "string", "enum": ["IDLE", "QUEUED", "RUNNING", "COMPLETED", "FAILED", "CANCELLED"] },
+        "compiledAt": { "type": ["string", "null"] },
+        "durationMs": { "type": ["number", "null"] },
+        "error": { "type": ["string", "null"] }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

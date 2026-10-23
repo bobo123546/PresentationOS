@@ -18,6 +18,8 @@ export interface StepContext {
   runId: string;
   stepName: string;
   traceId?: string;
+  signal?: AbortSignal;
+  isCancelled?: () => boolean;
 }
 
 export interface WorkflowDefinition {
@@ -140,12 +142,16 @@ export class WorkflowStore {
   }
 
   cancelRun(runId: string): void {
-    this.updateRunStatus(runId, 'CANCELLED');
+    const now = new Date().toISOString();
+    this.db.prepare('UPDATE workflow_runs SET status = ?, updated_at = ? WHERE run_id = ?')
+      .run('CANCELLED', now, runId);
+    this.db.prepare("UPDATE workflow_steps SET status = 'SKIPPED', finished_at = ? WHERE run_id = ? AND status IN ('PENDING', 'IN_PROGRESS')")
+      .run(now, runId);
   }
 
-  /** 找最后一个可继续的 run：RUNNING 且存在 FAILED 步骤（可 resume）或 PENDING 步骤 */
+  /** 找可继续的 run：RUNNING 或 PAUSED，且存在 PENDING、IN_PROGRESS（崩溃遗留）或 FAILED 步骤 */
   findResumable(): WorkflowRun[] {
-    const rows = this.db.prepare("SELECT DISTINCT r.* FROM workflow_runs r JOIN workflow_steps s ON r.run_id = s.run_id WHERE r.status = 'RUNNING' AND (s.status = 'FAILED' OR s.status = 'PENDING')").all() as Record<string, unknown>[];
+    const rows = this.db.prepare("SELECT DISTINCT r.* FROM workflow_runs r JOIN workflow_steps s ON r.run_id = s.run_id WHERE r.status IN ('RUNNING', 'PAUSED') AND s.status IN ('PENDING', 'IN_PROGRESS', 'FAILED')").all() as Record<string, unknown>[];
     return rows.map((row) => ({
       runId: String(row.run_id), definition: String(row.definition), status: row.status as RunStatus,
       inputJson: String(row.input_json), createdAt: String(row.created_at), updatedAt: String(row.updated_at),

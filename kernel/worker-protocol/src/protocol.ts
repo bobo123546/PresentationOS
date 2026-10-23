@@ -1,7 +1,7 @@
 // Worker Protocol（总方案 PHASE 4 / PHASE 11）
 // JSON Lines over stdio；每个消息一行 JSON。支持 handshake / job / cancel / heartbeat / status。
 
-export type WorkerMessageType = 'handshake' | 'job_request' | 'job_response' | 'heartbeat' | 'job_cancel' | 'status';
+export type WorkerMessageType = 'handshake' | 'job_request' | 'job_response' | 'heartbeat' | 'job_cancel' | 'job_cancel_ack' | 'status';
 
 export interface WorkerHandshake {
   type: 'handshake';
@@ -45,12 +45,19 @@ export interface JobCancel {
   jobId: string;
 }
 
+export interface JobCancelAck {
+  type: 'job_cancel_ack';
+  jobId: string;
+  cancelled: boolean;
+  reason?: string;
+}
+
 export interface StatusQuery {
   type: 'status';
   workerId: string;
 }
 
-export type WorkerMessage = WorkerHandshake | JobRequest | JobResponse | Heartbeat | JobCancel | StatusQuery;
+export type WorkerMessage = WorkerHandshake | JobRequest | JobResponse | Heartbeat | JobCancel | JobCancelAck | StatusQuery;
 
 export const PROTOCOL_VERSION = '0.1.0';
 
@@ -75,4 +82,10 @@ export function isJobRequest(m: WorkerMessage): m is JobRequest {
 }
 export function isJobResponse(m: WorkerMessage): m is JobResponse {
   return m.type === 'job_response';
+}
+export function isJobCancel(m: WorkerMessage): m is JobCancel {
+  return m.type === 'job_cancel';
+}
+export function isJobCancelAck(m: WorkerMessage): m is JobCancelAck {
+  return m.type === 'job_cancel_ack';
 }

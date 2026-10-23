@@ -82,6 +82,36 @@ test('qa-report valid case passes', () => {
   assert.ok(r.valid, JSON.stringify(r.errors));
 });
 
+test('project-spec valid case passes and invalid rejected', () => {
+  const validProject = {
+    schema: 'presentationos-project',
+    version: '1.0.0',
+    projectId: 'demo-proj-001',
+    title: 'Demo Presentation',
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+    sourceDocument: {
+      filename: 'sample.md',
+      format: 'markdown',
+      content: '# Title\n\nContent',
+    },
+    lastCompileState: {
+      status: 'IDLE',
+    },
+  };
+  const r1 = validate(SCHEMA_IDS.project, validProject);
+  assert.ok(r1.valid, JSON.stringify(r1.errors));
+
+  const invalidProject = {
+    schema: 'presentationos-project',
+    version: '1.0.0',
+    // 缺少 projectId 和 sourceDocument
+    title: 'Incomplete',
+  };
+  const r2 = validate(SCHEMA_IDS.project, invalidProject);
+  assert.equal(r2.valid, false);
+});
+
 test('unknown schema id fails loudly', () => {
   const r = validate('https://presentationos.local/schemas/nope/1', {});
   assert.equal(r.valid, false);

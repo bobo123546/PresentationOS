@@ -81,4 +81,5 @@ export const SCHEMA_IDS = {
   layoutIr: 'https://presentationos.local/schemas/layout-ir/1',
   qaReport: 'https://presentationos.local/schemas/qa/1',
   designToken: 'https://presentationos.local/schemas/design-token/1',
+  project: 'https://presentationos.local/schemas/project/1',
 } as const;

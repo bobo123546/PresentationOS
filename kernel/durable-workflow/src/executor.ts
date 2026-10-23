@@ -10,6 +10,7 @@ export class WorkflowExecutor {
   private readonly store: WorkflowStore;
   private readonly defs = new Map<string, WorkflowDefinition>();
   private readonly opts: ExecutorOptions;
+  private readonly abortControllers = new Map<string, AbortController>();
 
   constructor(store: WorkflowStore, opts: ExecutorOptions = {}) {
     this.store = store;
@@ -37,9 +38,20 @@ export class WorkflowExecutor {
     if (!def) throw new Error(`workflow definition not registered: ${run.definition}`);
     const input = run.inputJson ? JSON.parse(run.inputJson) : null;
 
+    let ac = this.abortControllers.get(runId);
+    if (!ac || ac.signal.aborted) {
+      ac = new AbortController();
+      this.abortControllers.set(runId, ac);
+    }
+
     const steps = this.store.steps(runId);
     let currentInput = input;
     for (const step of steps) {
+      const liveRun = this.store.getRun(runId);
+      if (!liveRun || liveRun.status === 'CANCELLED' || ac.signal.aborted) {
+        return { status: 'CANCELLED' };
+      }
+
       if (this.opts.shouldPause?.(step.stepName, runId)) {
         this.store.updateRunStatus(runId, 'PAUSED', step.stepName);
         return { status: 'PAUSED' };
@@ -49,20 +61,39 @@ export class WorkflowExecutor {
         if (step.outputJson) currentInput = JSON.parse(step.outputJson);
         continue;
       }
+      if (step.status === 'SKIPPED') {
+        continue;
+      }
       const defStep = def.steps.find((s) => s.name === step.stepName);
       if (!defStep) { this.store.markStepFailed(runId, step.stepName, 'step not in definition'); continue; }
       const maxAttempts = defStep.maxAttempts ?? 1;
       let attempt = step.attempt + 1;
       const stepInput = step.inputJson ? JSON.parse(step.inputJson) : currentInput;
-      const ctx: StepContext = { runId, stepName: step.stepName };
+      const ctx: StepContext = {
+        runId,
+        stepName: step.stepName,
+        signal: ac.signal,
+        isCancelled: () => this.store.getRun(runId)?.status === 'CANCELLED' || ac.signal.aborted,
+      };
       this.store.markStepInProgress(runId, step.stepName, attempt, stepInput);
       try {
         const out = await defStep.handler(stepInput, ctx);
+
+        // 关键防护：执行后核验终态与取消信号，已取消绝不能标记完成或写回 RUNNING/COMPLETED
+        const postRun = this.store.getRun(runId);
+        if (!postRun || postRun.status === 'CANCELLED' || ac.signal.aborted) {
+          return { status: 'CANCELLED' };
+        }
+
         this.store.markStepCompleted(runId, step.stepName, out, { attempts: attempt });
         currentInput = out;
         // checkpoint：每个步骤完成后更新 run.current_step
         this.store.updateRunStatus(runId, 'RUNNING', step.stepName);
       } catch (err) {
+        const postErrRun = this.store.getRun(runId);
+        if (!postErrRun || postErrRun.status === 'CANCELLED' || ac.signal.aborted) {
+          return { status: 'CANCELLED' };
+        }
         const msg = err instanceof Error ? err.message : String(err);
         this.store.markStepFailed(runId, step.stepName, msg);
         if (attempt < maxAttempts) {
@@ -73,11 +104,24 @@ export class WorkflowExecutor {
         return { status: 'FAILED', failedStep: step.stepName, error: msg };
       }
     }
+
+    const finalRun = this.store.getRun(runId);
+    if (!finalRun || finalRun.status === 'CANCELLED' || ac.signal.aborted) {
+      return { status: 'CANCELLED' };
+    }
     this.store.updateRunStatus(runId, 'COMPLETED', null);
+    this.abortControllers.delete(runId);
     return { status: 'COMPLETED' };
   }
 
-  cancel(runId: string): void { this.store.cancelRun(runId); }
+  cancel(runId: string): void {
+    const ac = this.abortControllers.get(runId);
+    if (ac) {
+      ac.abort();
+      this.abortControllers.delete(runId);
+    }
+    this.store.cancelRun(runId);
+  }
 
   get storeInstance(): WorkflowStore { return this.store; }
 }
