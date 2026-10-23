@@ -1,5 +1,6 @@
 // PresentationOS Workflow Package Entrypoint
 export { TaskService, createTaskService, type TaskServiceOptions } from './task-service.js';
+export { documentToDeck } from './document-pipeline.js';
 export {
   parseDocument,
   documentIrToDeck,

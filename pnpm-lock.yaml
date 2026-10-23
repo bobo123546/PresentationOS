@@ -393,6 +393,9 @@ importers:
       '@pres/template-dna':
         specifier: workspace:*
         version: link:../template-dna
+      '@pres/workflow':
+        specifier: workspace:*
+        version: link:../workflow
       yaml:
         specifier: ^2.5.0
         version: 2.9.1
@@ -467,6 +470,9 @@ importers:
       '@pres/telemetry':
         specifier: workspace:*
         version: link:../telemetry
+      '@pres/template-dna':
+        specifier: workspace:*
+        version: link:../template-dna
       '@pres/visual-qa':
         specifier: workspace:*
         version: link:../visual-qa

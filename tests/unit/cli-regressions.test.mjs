@@ -36,6 +36,27 @@ test('CLI preserves non-md input and rejects source aliases',()=>{
   }finally{rmSync(dir,{recursive:true,force:true});}
 });
 test('CLI child failures cannot become success',()=>{assert.equal(childExit({status:null}),1);assert.equal(childExit({status:7}),7);});
+
+test('CLI refuses binary input and malformed template options without publishing',()=>{
+  const dir=mkdtempSync(join(tmpdir(),'pres-cli-reference-'));
+  try{
+    const source=join(dir,'source.pptx'),output=join(dir,'output.pptx');writeFileSync(source,Buffer.from([0x50,0x4b,3,4,0,255]));
+    for(const args of [[source,output],[source,output,'--template'],[source,output,'--template','x.txt']]){
+      const result=spawnSync(process.execPath,[resolve('apps/cli/dist/index.js'),'compile',...args],{encoding:'utf8'});
+      assert.notEqual(result.status,0);assert.equal(existsSync(output),false);
+    }
+    assert.deepEqual(readFileSync(source),Buffer.from([0x50,0x4b,3,4,0,255]));
+  }finally{rmSync(dir,{recursive:true,force:true});}
+});
+
+test('CLI rejects malformed UTF-8 rather than rendering replacement characters',()=>{
+  const dir=mkdtempSync(join(tmpdir(),'pres-cli-utf8-'));
+  try{
+    const source=join(dir,'broken.md'),output=join(dir,'output.pptx');writeFileSync(source,Buffer.from([0x23,0x20,0x41,0x0A,0xC3,0x28]));
+    const result=spawnSync(process.execPath,[resolve('apps/cli/dist/index.js'),'compile',source,output],{encoding:'utf8'});
+    assert.notEqual(result.status,0);assert.equal(existsSync(output),false);assert.match(result.stderr,/encoded data|encoding/i);
+  }finally{rmSync(dir,{recursive:true,force:true});}
+});
 test('compile rejects QA failure before publishing a PPTX',()=>{
   const dir=mkdtempSync(join(tmpdir(),'pres-qa-failure-'));
   try{

@@ -9,6 +9,7 @@
     "test": "tsc -p tsconfig.test.json && node --test \"dist-test/tests/**/*.test.js\""
   },
   "dependencies": {
+    "@pres/template-dna": "workspace:*",
     "@pres/durable-workflow": "workspace:*",
     "@pres/document-parser": "workspace:*",
     "@pres/mechanical-qa": "workspace:*",

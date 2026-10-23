@@ -43,6 +43,11 @@ export interface CompileJobOptions {
   outPptxPath: string;
   outReportPath?: string;
   maxRevisionRounds?: number;
+  /** Reference theme only: does not copy template slide layouts or embedded assets. */
+  referencePptxPath?: string;
+  designTokens?: Record<string, unknown>;
+  /** Used by compileDocumentFile; source bytes are read by the recorded parse step. */
+  sourceDocumentPath?: string;
 }
 
 export interface CompileJobResult {

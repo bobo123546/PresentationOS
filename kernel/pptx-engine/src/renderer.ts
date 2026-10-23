@@ -7,6 +7,7 @@ import { verifyRenderedDeck, type RenderedDeckVerification } from './readback.js
 import { randomUUID } from 'node:crypto';
 import { metricLiteral } from './metric.js';
 import JSZip from 'jszip';
+import { readDesignTokens, onColor, type DesignTokens } from './design-tokens.js';
 
 // pptxgenjs 为 CJS：NodeNext 下 default 指向类本身
 const PptxGenJS = (pptxgenNS as unknown as { default?: new () => PptxGenJSLike }).default ?? (pptxgenNS as unknown as new () => PptxGenJSLike);
@@ -599,14 +600,23 @@ export interface ResolvedSlideScene {
   blocks: Array<{id: string; block: SlideBlock; rect: Rect; fontSize: number}>;
 }
 
-export function themeFor(kind: string, dna?: RenderOptions['dna'], presetName: ThemePresetName = 'executive-navy') {
-  const preset = THEME_PRESETS[presetName] ?? THEME_PRESETS['executive-navy'];
+export function themeFor(kind: string, dna?: RenderOptions['dna'], presetName: ThemePresetName = 'executive-navy', tokens?: DesignTokens) {
+  const base = THEME_PRESETS[presetName] ?? THEME_PRESETS['executive-navy'];
+  const color = (role: keyof DesignTokens['colors'], fallback: string) => typeof tokens?.colors[role] === 'string' ? (tokens.colors[role] as string).slice(1).toUpperCase() : fallback;
+  const primary = color('primary', base.accent), background = color('background', base.contentBg), foreground = color('text', base.textColor);
+  const accent = color('accent', primary), surface = color('surface', background);
+  const preset = tokens ? { ...base, coverBg: primary, coverTitle: onColor(primary), coverAccent: onColor(primary),
+    contentBg: background, cardBg: surface, cardBorder: color('secondary', base.cardBorder), accent, accentLight: surface,
+    accentText: onColor(accent), titleColor: foreground, textColor: foreground, tableHeaderBg: primary,
+    tableHeaderText: onColor(primary), fontFamily: tokens.fonts.body } : base;
   const cover = kind === 'cover' || kind === 'ending';
   return {
     fill: cover ? preset.coverBg : preset.contentBg,
-    accent: dna?.accent || (cover ? preset.coverAccent : preset.accent),
+    accent: tokens ? (cover ? preset.coverAccent : preset.accent) : dna?.accent || (cover ? preset.coverAccent : preset.accent),
     font: cover ? preset.coverTitle : preset.textColor,
-    fontFamily: dna?.fontFamily ?? preset.fontFamily,
+    fontFamily: tokens?.fonts.body ?? dna?.fontFamily ?? preset.fontFamily,
+    headingFont: tokens?.fonts.heading ?? dna?.fontFamily ?? preset.fontFamily,
+    chartColors: tokens ? [...new Set([primary, color('secondary', base.accent), accent, ...[1,2,3,4,5,6].map(n => color(`series${n}`, '')), '10B981', 'F59E0B', '8B5CF6', 'EF4444'].filter(Boolean))] : [dna?.accent || preset.accent, 'F59E0B', '10B981', 'EF4444'],
     preset,
   };
 }
@@ -671,7 +681,9 @@ export function resolveDeckScenes(deck: DeckSpec, opts: Pick<RenderOptions,'reso
 
 function resolvePreset(deck:DeckSpec,opts:Pick<RenderOptions,'domain'|'themePreset'>):ThemePresetName {
   const domain=opts.domain??detectDomain(deck),meta=DOMAIN_METAS[domain]??DOMAIN_METAS.business;
-  return opts.themePreset??deck.designTokens?.preset as ThemePresetName??deck.designTokens?.theme as ThemePresetName??meta.defaultTheme;
+  const preset = opts.themePreset??deck.designTokens?.preset as ThemePresetName??deck.designTokens?.theme as ThemePresetName??meta.defaultTheme;
+  if (!Object.hasOwn(THEME_PRESETS,preset)) throw new Error(`Unsupported theme preset: ${preset}`);
+  return preset;
 }
 
 function checkCancelled(signal?:AbortSignal):void {
@@ -692,7 +704,7 @@ function composeSlide(deck: DeckSpec, slide: DeckSlide, index: number, opts: Pic
   if (slide.notes) assertText(slide.notes,'Slide notes');
   if (slide.kind === 'cover' && deck.subtitle) assertText(deck.subtitle,'Deck subtitle');
   const archetype = classifySlideArchetype(slide);
-  const theme = themeFor(slide.kind,opts.dna,preset), p = theme.preset;
+  const theme = themeFor(slide.kind,opts.dna,preset,readDesignTokens(deck.designTokens)), p = theme.preset;
   const cover = archetype === 'cover';
   const commands: ResolvedCommand[] = [];
   const sourceRects = opts.resolveRects(slide);
@@ -708,7 +720,7 @@ function composeSlide(deck: DeckSpec, slide: DeckSlide, index: number, opts: Pic
     add('text',rect,{fontFace:theme.fontFamily,fontSize:16,color:theme.font,margin:0,breakLine:false,valign:'top',wrap:true,fit:'shrink',...options,...(objectName?{objectName}:{})},{text:value},sourceBlockIndex,role);
   };
   const titleRect = cover ? {x:1.0,y:1.1,w:11.33,h:1.45} : {x:0.8,y:0.65,w:11.73,h:0.8};
-  text(slide.title,titleRect,{fontSize:cover?34:26,bold:true,color:cover?p.coverTitle:p.titleColor},undefined,`source-${slide.id}-title`);
+  text(slide.title,titleRect,{fontSize:cover?34:26,bold:true,color:cover?p.coverTitle:p.titleColor,fontFace:theme.headingFont},undefined,`source-${slide.id}-title`);
   decoration({x:cover?1.0:0.8,y:cover?2.78:1.5,w:1.8,h:0.05},theme.accent,theme.accent);
   if (!cover) text(`${index+1} / ${deck.slides.length}`,{x:11.0,y:7.0,w:1.5,h:0.2},{fontSize:9,align:'right',color:p.textColor},undefined,undefined,'decoration');
   if (deck.author) text(deck.author,{x:cover?1.0:0.8,y:7.0,w:9.5,h:0.2},{fontSize:9,color:cover?p.coverTitle:p.textColor},undefined,undefined,'decoration');
@@ -793,7 +805,7 @@ function composeSlide(deck: DeckSpec, slide: DeckSlide, index: number, opts: Pic
           text(badge,{x:body.x,y:body.y,w:1.0,h:0.28},{fontSize:10,bold:true,color:theme.accent},undefined,undefined,'decoration');
           body={...body,y:body.y+0.4,h:body.h-0.4};
         }
-        text(block.text,body,{fontSize:archetype==='quote'?24:baseFont,color:contentColor,...(archetype==='quote'?{align:'center',valign:'middle'}:{})},i,name);
+        text(block.text,body,{fontSize:archetype==='quote'?24:baseFont,color:contentColor,...(/^h[1-3]$/.test(block.style??'')?{fontFace:theme.headingFont}:{}),...(archetype==='quote'?{align:'center',valign:'middle'}:{})},i,name);
         blocks.push({id:`block-${i}`,block,rect:body,fontSize:archetype==='quote'?24:baseFont});
         break;
       }
@@ -814,7 +826,7 @@ function composeSlide(deck: DeckSpec, slide: DeckSlide, index: number, opts: Pic
         for(const value of [...d.labels,...d.series.map(se=>se.name)]) assertText(value,'Chart label');
         const chartType=block.chartType==='column'?'bar':block.chartType??'bar';
         if (!['bar','line','pie','doughnut','area','radar'].includes(chartType)) throw new Error(`Chart type is not verified: ${chartType}`);
-        add('chart',rect,{objectName:name,showLegend:true,chartColors:[theme.accent,'F59E0B','10B981','EF4444'],catAxisLabelColor:contentColor,valAxisLabelColor:contentColor,legendColor:contentColor},{chartType,data:d.series.map(se=>({name:se.name,labels:d.labels,values:se.values}))},i,'content');
+        add('chart',rect,{objectName:name,showLegend:true,chartColors:theme.chartColors,catAxisLabelColor:contentColor,valAxisLabelColor:contentColor,legendColor:contentColor},{chartType,data:d.series.map(se=>({name:se.name,labels:d.labels,values:se.values}))},i,'content');
         blocks.push({id:`block-${i}`,block,rect,fontSize:12});
         break;
       }

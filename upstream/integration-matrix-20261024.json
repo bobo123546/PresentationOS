@@ -1,0 +1,2688 @@
+{
+  "schema": "presentationos-upstream-capability-matrix",
+  "version": 1,
+  "date": "2026-10-24",
+  "timezone": "Asia/Shanghai",
+  "scope": "106 actual local project directories; seven scoped source reviews; independent metadata/token transfer does not mean whole-project integration",
+  "counts": {
+    "CATALOGUED": 99,
+    "IMPLEMENTED_SCOPED": 3,
+    "REVIEWED": 4
+  },
+  "sourceReviewPending": 99,
+  "validation": "No upstream install/build/model inference/test suite was executed by this inventory. Template DNA scoped implementation has separate 13-test and eight read-only fixture evidence.",
+  "projects": [
+    {
+      "project": "AeSlides",
+      "sourcePath": "H:/ppt/AeSlides",
+      "sourceCommit": "9bfea23dce517127ae271d51cb714d40f87408d3",
+      "licenseEvidence": [
+        {
+          "path": null,
+          "indicator": "NO_ROOT_LICENSE_FOUND",
+          "scope": "Not proof of no license; nested license/source review pending"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/AeSlides"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "agent-skills",
+      "sourcePath": "H:/ppt/agent-skills",
+      "sourceCommit": "8e6ea763ae19aa39c93bdfe3886971abab79b97e",
+      "licenseEvidence": [
+        {
+          "path": null,
+          "indicator": "NO_ROOT_LICENSE_FOUND",
+          "scope": "Not proof of no license; nested license/source review pending"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/agent-skills"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "ai-labs-claude-skills",
+      "sourcePath": "H:/ppt/ai-labs-claude-skills",
+      "sourceCommit": "1a12bc7aadcc7b211f77a7455db454b77a71f827",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/ai-labs-claude-skills/LICENSE",
+          "sha256": "30bfa64f098c4d196e90281cf01da31ea9dce6a39c0150a5fe055a0a36a4b209",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/ai-labs-claude-skills"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "ArcDeck",
+      "sourcePath": "H:/ppt/ArcDeck",
+      "sourceCommit": "048e1d262112c712940c478c74142fedf807b74c",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/ArcDeck/LICENSE",
+          "sha256": "588ca8e9dc72888b13c60d95538b93e63ec30a5bb5e6017e3138107670bc2294",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "IMPLEMENTED_SCOPED",
+      "advantage": "Paragraph-linked narrative planning and real theme-only master/layout templates.",
+      "decision": "Implement compatibility for zero-slide design templates and semantic theme roles; use the eight templates as read-only probes without copying them.",
+      "targetModules": [
+        "kernel/template-dna",
+        "kernel/document-parser",
+        "kernel/revision-engine"
+      ],
+      "evidence": [
+        "H:/ppt/ArcDeck/slide_generation/outline_generation/narrative_judge.py",
+        "H:/ppt/ArcDeck/slide_generation/content_generation/layout_planner.py",
+        "H:/ppt/ArcDeck/slide_generation/renderer/slide_types.py",
+        "D:/099/presentationos-integration-20261024/template-dna-arcdeck-probe.json"
+      ],
+      "remaining": [
+        "Narrative RST/critic/judge model pipeline is not integrated.",
+        "Figure matching and template geometry/assets are not copied.",
+        "Current evidence is metadata inspection, not native Office validation of the templates."
+      ]
+    },
+    {
+      "project": "Auto-claude-code-research-in-sleep",
+      "sourcePath": "H:/ppt/Auto-claude-code-research-in-sleep",
+      "sourceCommit": "341f914024d270dc5c8fa51337d1ad38829273aa",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/Auto-claude-code-research-in-sleep/LICENSE",
+          "sha256": "e30cf5dd5f49b4f9b656590e23d782b4756c924a9f0ff0162b3e7b5d87006bf5",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/Auto-claude-code-research-in-sleep"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "Auto-Slides",
+      "sourcePath": "H:/ppt/Auto-Slides",
+      "sourceCommit": "d07d547553d91322215f9ee2de24e8346aef2345",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/Auto-Slides/LICENSE",
+          "sha256": "12db6737200382802e1860d32e737d3c6cbc34e21031bb55f17c006cbc9096fc",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/Auto-Slides"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "autoppt",
+      "sourcePath": "H:/ppt/autoppt",
+      "sourceCommit": "68bae829d78f1f42eb121fbb15db935fec4c8e2f",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/autoppt/LICENSE",
+          "sha256": "c0add26390ef94d469c236c09d028eeff05a3f47456f9d5c52130e7eab805040",
+          "indicator": "Apache-2.0 text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/autoppt"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "AutoPresent",
+      "sourcePath": "H:/ppt/AutoPresent",
+      "sourceCommit": "98e0c012e89469863d9c3c8bc87eac967d82b2e6",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/AutoPresent/LICENSE",
+          "sha256": "7e62ad6d04447749fc4d0bbe6c6f4e8ba26af0ad79d970f628ad19f7dc322379",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/AutoPresent"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "Awesome-PPT-Design-Skills",
+      "sourcePath": "H:/ppt/Awesome-PPT-Design-Skills",
+      "sourceCommit": "75273f06172d1b174ee4a19cec6a875377924559",
+      "licenseEvidence": [
+        {
+          "path": null,
+          "indicator": "NO_ROOT_LICENSE_FOUND",
+          "scope": "Not proof of no license; nested license/source review pending"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/Awesome-PPT-Design-Skills"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "banana-slides",
+      "sourcePath": "H:/ppt/banana-slides",
+      "sourceCommit": "bfed2c84ac15db13668b2643cd3cf3831d963ccc",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/banana-slides/LICENSE",
+          "sha256": "6f1e622c82a380075843bb084a7ec3b1f1d12a4a02526d75e78b0924a860aa75",
+          "indicator": "AGPL text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/banana-slides"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "baoyu-skills",
+      "sourcePath": "H:/ppt/baoyu-skills",
+      "sourceCommit": "1567581c26ec29f4216c6e6835415bf30343b0e3",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/baoyu-skills/LICENSE",
+          "sha256": "3a4fa1a0d481411c0bda3cd27f4856ac2b7c25625b37091dd8f416e38ae39c96",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/baoyu-skills"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "beautiful-html-templates",
+      "sourcePath": "H:/ppt/beautiful-html-templates",
+      "sourceCommit": null,
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/beautiful-html-templates/LICENSE",
+          "sha256": "6d3011c008b1b4290f4f5713d86550bcc4b57ab477d9ed5eb893c6a7042add57",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/beautiful-html-templates"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "blcaptain-ppt-skill",
+      "sourcePath": "H:/ppt/blcaptain-ppt-skill",
+      "sourceCommit": "0689d19ccf0d94a3f04fcb2f7945b2ee15cb2bb8",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/blcaptain-ppt-skill/LICENSE",
+          "sha256": "b6e36c5cf7326657701dde4e2b0bfec0488eee482e71448283dbde02c344cbce",
+          "indicator": "UNCLASSIFIED_LICENSE_TEXT",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/blcaptain-ppt-skill"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "Brusdeylins-ppt-skill",
+      "sourcePath": "H:/ppt/Brusdeylins-ppt-skill",
+      "sourceCommit": "e4eec67bf7f508ad6b916610be6eb7857459a8a6",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/Brusdeylins-ppt-skill/LICENSE",
+          "sha256": "bab2aa85d4757485863c20c9345984bd82cb53b13eff899050b0546ecfb8177e",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/Brusdeylins-ppt-skill"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "cat-agent-skills",
+      "sourcePath": "H:/ppt/cat-agent-skills",
+      "sourceCommit": "24729fe2228ef92d5fcacf7a96e274dd793b73e2",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/cat-agent-skills/LICENSE",
+          "sha256": "9906940f61b1f0b533fa7d99baf55178b2808fbe113ea51dfbfad8572ccd5f2b",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/cat-agent-skills"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "cerase-ai-pptx-skill",
+      "sourcePath": "H:/ppt/cerase-ai-pptx-skill",
+      "sourceCommit": "37bb07f8710a797507d8c562ab2d9217aa9e793b",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/cerase-ai-pptx-skill/LICENSE",
+          "sha256": "ee3af16f2a78a7b7d529794dd95fbd264c447ea116417a7ea92823783f32dd74",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/cerase-ai-pptx-skill"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "claude-code",
+      "sourcePath": "H:/ppt/claude-code",
+      "sourceCommit": "e93d46629e728dc414d315d859544b485de27316",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/claude-code/LICENSE",
+          "sha256": "298840fed66fb661fd403b293e4a9fcacae3b0f3c0af30e16a10c94f24f40891",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/claude-code"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "claude-codex-settings",
+      "sourcePath": "H:/ppt/claude-codex-settings",
+      "sourceCommit": null,
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/claude-codex-settings/LICENSE",
+          "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+          "indicator": "Apache-2.0 text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/claude-codex-settings"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "claude-office-skills",
+      "sourcePath": "H:/ppt/claude-office-skills",
+      "sourceCommit": "9c4c7d5cd2813a8936bf2c9fdb174ea883b85a11",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/claude-office-skills/LICENSE",
+          "sha256": "ab58b730adcb4cf1131b5b4ee9816d94e5b1f4ca1cc897ae73444ac257a17f00",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/claude-office-skills"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "claude-pptx-skill",
+      "sourcePath": "H:/ppt/claude-pptx-skill",
+      "sourceCommit": "f963690cf79a678d9e9696513757687c15ed68d0",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/claude-pptx-skill/LICENSE",
+          "sha256": "2b9dfa50f67f42ce0f2c61c4b490c5c83ac37aa43f47727d1f3a888bc6ef72bd",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/claude-pptx-skill"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "claude-skill-pptx",
+      "sourcePath": "H:/ppt/claude-skill-pptx",
+      "sourceCommit": "254436724ab2e2993cc84a3180cb29106d717c1b",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/claude-skill-pptx/LICENSE.txt",
+          "sha256": "70f1be28ec179d13371737178978f6cc7e2570e6fe22ca9823250e1325722ac5",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/claude-skill-pptx"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "codex-ppt",
+      "sourcePath": "H:/ppt/codex-ppt",
+      "sourceCommit": "d743a07482a8ad3a1453d3e67f2bc678d171d1c2",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/codex-ppt/LICENSE",
+          "sha256": "e9e7fcc3bd37d652e94f967ed650cf92b8f24277949721f282a265f56334d347",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/codex-ppt"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "codex-ppt-skill",
+      "sourcePath": "H:/ppt/codex-ppt-skill",
+      "sourceCommit": "32221ef8654c87505c846c9a48bb5dbe2a744a67",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/codex-ppt-skill/LICENSE",
+          "sha256": "1db20bcc78e95cf5e2d189ea05e0f47498c6e8b9b9aec089f1c073fcd6bcb822",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/codex-ppt-skill"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "dash-persona",
+      "sourcePath": "H:/ppt/dash-persona",
+      "sourceCommit": "d200b783cccf3c9cd1cafb7527c940cdff2c0f97",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/dash-persona/LICENSE",
+          "sha256": "be7052d6efa5a99636c81a8d17881901a56b9726a5f69a55f96bc27b98548f28",
+          "indicator": "Apache-2.0 text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/dash-persona"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "dashi-ppt",
+      "sourcePath": "H:/ppt/dashi-ppt",
+      "sourceCommit": null,
+      "licenseEvidence": [
+        {
+          "path": null,
+          "indicator": "NO_ROOT_LICENSE_FOUND",
+          "scope": "Not proof of no license; nested license/source review pending"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/dashi-ppt"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "deepPPT",
+      "sourcePath": "H:/ppt/deepPPT",
+      "sourceCommit": "1e4640620ba7b105961eb033aa7528fcd2d38188",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/deepPPT/LICENSE",
+          "sha256": "8d37f01db108bd51818020b2e7d78b4c1c1bbf2a359682e509c2fac2eed40d50",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "REVIEWED",
+      "advantage": "Claim/evidence/source-reference deck contracts and hash-bound rendered review before completion.",
+      "decision": "Use as a contract and negative-gate design reference, retaining the existing TypeScript workflow as the single runtime.",
+      "targetModules": [
+        "schemas/evidence-ir",
+        "schemas/narrative-ir",
+        "kernel/workflow"
+      ],
+      "evidence": [
+        "H:/ppt/deepPPT/schemas/deck-plan.schema.json",
+        "H:/ppt/deepPPT/src/deepppt/contracts.py",
+        "H:/ppt/deepPPT/src/deepppt/framework.py",
+        "H:/ppt/deepPPT/tests/test_agent_framework.py"
+      ],
+      "remaining": [
+        "The complete claim/evidence plan contract has not been integrated.",
+        "Do not describe existing source files or review records as proof of truthful content or Native validation."
+      ]
+    },
+    {
+      "project": "DeepSlides",
+      "sourcePath": "H:/ppt/DeepSlides",
+      "sourceCommit": "40240e5847f18c61ea893200597deb0b6f3a41c1",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/DeepSlides/LICENSE",
+          "sha256": "16dc1c22355a5128f99be716f7f7b0c60eaf8d31e8f5e7a8952218bff3d7e3ba",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/DeepSlides"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "easyslides",
+      "sourcePath": "H:/ppt/easyslides",
+      "sourceCommit": "fe4882b9857712400a4fd4e912174a7504204f28",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/easyslides/LICENSE",
+          "sha256": "7a4d8ee2bb15574dcea5bcd5a7e1f73cad7d72e44ba5d80777bd341cc5f1d0bf",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/easyslides"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "elephant.ai",
+      "sourcePath": "H:/ppt/elephant.ai",
+      "sourceCommit": "bc94628f41b7daba20825b86069ae8e0fa83dc5e",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/elephant.ai/LICENSE",
+          "sha256": "ac4475aee220fe3f0e3a496fecc77af759e388c8c38fa0db73f5df7c2ea4662a",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/elephant.ai"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "EvoPresent",
+      "sourcePath": "H:/ppt/EvoPresent",
+      "sourceCommit": "971e37ba073abf7124785334bd44661b42145f56",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/EvoPresent/LICENSE",
+          "sha256": "5c0c3fbf379d8b9cc4708ab87e627d71244fa0c3ff2fcda01d837b162988959e",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/EvoPresent"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "frdeange-pptx-skill",
+      "sourcePath": "H:/ppt/frdeange-pptx-skill",
+      "sourceCommit": "8d9e60a3545ac8ead8b6aace2c1b73ba368cf80f",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/frdeange-pptx-skill/LICENSE",
+          "sha256": "30e8b02cd26483e387fae127810a45582c52a67739feaf14097a38e5e0568a91",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/frdeange-pptx-skill"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "frontend-slides",
+      "sourcePath": "H:/ppt/frontend-slides",
+      "sourceCommit": "9906a34d640d2111f724544cbc50f7f130569ae1",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/frontend-slides/LICENSE",
+          "sha256": "1e2322478caf6fb00fa4b35d7a890782197be49dd4812d30b9cde94e4c7d9938",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/frontend-slides"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "frontend-slides-editable",
+      "sourcePath": "H:/ppt/frontend-slides-editable",
+      "sourceCommit": "e5663e6a0bdc2c2a673198bab3fb61036a7f20ee",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/frontend-slides-editable/LICENSE",
+          "sha256": "766378b7de7db1f410d30f296d67c8087036263cbc51a56c954b2a4c32616a3a",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/frontend-slides-editable"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "future-slide-skill",
+      "sourcePath": "H:/ppt/future-slide-skill",
+      "sourceCommit": "26914e8ee2b874e4bdd07843948b0ca841542c59",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/future-slide-skill/LICENSE",
+          "sha256": "02df79da0e4637e347f3d7df80830f532563de8ea49bbed4a98b1a87e71ca678",
+          "indicator": "Apache-2.0 text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/future-slide-skill"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "GenSlide",
+      "sourcePath": "H:/ppt/GenSlide",
+      "sourceCommit": "3b847fc7432cd6ac3b6652d801768cb36e3bad8d",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/GenSlide/LICENSE.md",
+          "sha256": "7363fc7e2596998f3fc0109b6908575bf1cd8f6fa2fc97aff6bd9d17177f50bb",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/GenSlide"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "gorden-ppt-skill",
+      "sourcePath": "H:/ppt/gorden-ppt-skill",
+      "sourceCommit": "7d4a61cbd8363b92e4a30784f8ca460a0a2b0a33",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/gorden-ppt-skill/LICENSE",
+          "sha256": "8032d3bd1c9dfbe2fd82b8c443160049ef8bf93f8d1535f1adca89bf374a564c",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/gorden-ppt-skill"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "gorden-super-ppt-skills",
+      "sourcePath": "H:/ppt/gorden-super-ppt-skills",
+      "sourceCommit": "8c05583dab8334182b71738e8dfbbec5c56a1951",
+      "licenseEvidence": [
+        {
+          "path": null,
+          "indicator": "NO_ROOT_LICENSE_FOUND",
+          "scope": "Not proof of no license; nested license/source review pending"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/gorden-super-ppt-skills"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "gpt-image2-ppt-skills",
+      "sourcePath": "H:/ppt/gpt-image2-ppt-skills",
+      "sourceCommit": "2d57ef8127b83e8232a1be4e9515f0b3cc9fc91e",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/gpt-image2-ppt-skills/LICENSE",
+          "sha256": "1eb85fc97224598dad1852b5d6483bbcf0aa8608790dcc657a5a2a761ae9c8c6",
+          "indicator": "Apache-2.0 text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/gpt-image2-ppt-skills"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "guizang-ppt-skill",
+      "sourcePath": "H:/ppt/guizang-ppt-skill",
+      "sourceCommit": "c91369c449d34755d320a8b81d0734000d99d1ab",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/guizang-ppt-skill/LICENSE",
+          "sha256": "e0eedba615d5cd1b986afb6c5b3a4b1ae33713e7e9dc74d19daec5e3221f9d2e",
+          "indicator": "AGPL text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/guizang-ppt-skill"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption.",
+        "Root license is AGPL: do not copy concrete implementation/assets into the MIT distribution without resolving obligations. Only docs/theme descriptions and root license were inspected; source review remains pending."
+      ]
+    },
+    {
+      "project": "hermes-agent",
+      "sourcePath": "H:/ppt/hermes-agent",
+      "sourceCommit": "274bc7b8f613c299b4f59160bacf8a19010f7003",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/hermes-agent/LICENSE",
+          "sha256": "e29dfaf6905a8d396a58ea4bd84ad27057756bbd9599b5bec0971ae34d2a2118",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/hermes-agent"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "high-quality-slides",
+      "sourcePath": "H:/ppt/high-quality-slides",
+      "sourceCommit": "30a90be3561e61580cd52800a43f867513a8b144",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/high-quality-slides/LICENSE",
+          "sha256": "a5cc713ac52f462b4dfaf8b3696a0d9fd58903257fcd1a35f0caa828461b7cbf",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/high-quality-slides"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "html-ppt-skill",
+      "sourcePath": "H:/ppt/html-ppt-skill",
+      "sourceCommit": "fd1629067909ff55b36b905476de4e5f26062a1f",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/html-ppt-skill/LICENSE",
+          "sha256": "c4d813ddbc17877460f13ce23618b11cbe7bfe561e7e0ce6ed5d4f7cfe258348",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/html-ppt-skill"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "html-to-editable-pptx",
+      "sourcePath": "H:/ppt/html-to-editable-pptx",
+      "sourceCommit": "17c1dbb76e958543dc2741a7d50ca374354f33b7",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/html-to-editable-pptx/LICENSE",
+          "sha256": "a06da92cbc7d771c7c706e1ab64d80ce9a7f7a3111c7b01cf6b1abcf245d95e7",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/html-to-editable-pptx"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "huashu-design",
+      "sourcePath": "H:/ppt/huashu-design",
+      "sourceCommit": "0e842afc1fa4f008071e34ae1df16c66d3f5d18a",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/huashu-design/LICENSE",
+          "sha256": "fd164d60e753fd14343e54d03b0c104a292546761bc5866e371de4a02035659c",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/huashu-design"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "huawei-style-ppt-skill",
+      "sourcePath": "H:/ppt/huawei-style-ppt-skill",
+      "sourceCommit": "12877ae9357beba06471994366ed7ca69cc947e2",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/huawei-style-ppt-skill/LICENSE",
+          "sha256": "254afc801bc46ad06fb39636e01615779e8ea2f9d71e958f447cdb5324289e3d",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/huawei-style-ppt-skill"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "hunkim-slide-skill",
+      "sourcePath": "H:/ppt/hunkim-slide-skill",
+      "sourceCommit": "beae7c4c8ec21241076411a49f7968f862154969",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/hunkim-slide-skill/LICENSE",
+          "sha256": "ba60d39663ffb9f936c56a79f876390dd44b882c9c7d73577ab5945075b7efe9",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/hunkim-slide-skill"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "icgma-slide-skill",
+      "sourcePath": "H:/ppt/icgma-slide-skill",
+      "sourceCommit": "bf5c64265f4a9c6bc18f2274cf5520d7c8a6169d",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/icgma-slide-skill/LICENSE",
+          "sha256": "48fa09bbcf713bbe6244a7b8e2c980c943050091bb7228aa4cbe46d23ad584d3",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/icgma-slide-skill"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "image-ppt-king",
+      "sourcePath": "H:/ppt/image-ppt-king",
+      "sourceCommit": "c319f48ee9f25fee4a7a413476e1c97c34c29acd",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/image-ppt-king/LICENSE",
+          "sha256": "76d96c8576adcbab7166472b35773776316e6759cf21bf599230f9ca52321ce0",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/image-ppt-king"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "jameshemson-slides",
+      "sourcePath": "H:/ppt/jameshemson-slides",
+      "sourceCommit": "245c0e6858df9afe6a3381e36244812f3d2e4452",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/jameshemson-slides/LICENSE",
+          "sha256": "8a5a55d49cdb161dc0e0c9ed1520f591852bbe705c59df581a309bd469e7bdb9",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/jameshemson-slides"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "KingDee-PPT-Skill",
+      "sourcePath": "H:/ppt/KingDee-PPT-Skill",
+      "sourceCommit": "28ca93aadeefc91fcc64152714ddeece15f13e1d",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/KingDee-PPT-Skill/LICENSE",
+          "sha256": "23ec60aaaa7e703aafad7ce3e03955e218439f55cb24baf92684ca0b8f5e47f2",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/KingDee-PPT-Skill"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "knowledge-cat-ppt-skill",
+      "sourcePath": "H:/ppt/knowledge-cat-ppt-skill",
+      "sourceCommit": "889c3dc00b356607fa9af935eb807056c3394886",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/knowledge-cat-ppt-skill/LICENSE",
+          "sha256": "0f8f82f01dca09b1e5513eeb8575bf9a6d84d7eaef66ecf2414479770f715022",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/knowledge-cat-ppt-skill"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "lgwanai-ppt-skill",
+      "sourcePath": "H:/ppt/lgwanai-ppt-skill",
+      "sourceCommit": "efc578087e71915af6409c62553ba55ff644a4b6",
+      "licenseEvidence": [
+        {
+          "path": null,
+          "indicator": "NO_ROOT_LICENSE_FOUND",
+          "scope": "Not proof of no license; nested license/source review pending"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/lgwanai-ppt-skill"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "marketplace",
+      "sourcePath": "H:/ppt/marketplace",
+      "sourceCommit": "739b21338bb0010b61dd498f5e1ac4b61b30ba97",
+      "licenseEvidence": [
+        {
+          "path": null,
+          "indicator": "NO_ROOT_LICENSE_FOUND",
+          "scope": "Not proof of no license; nested license/source review pending"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/marketplace"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "marp",
+      "sourcePath": "H:/ppt/marp",
+      "sourceCommit": "aaac2347ec65cd835c0ccd90ba3d866c9a75cb07",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/marp/LICENSE",
+          "sha256": "46fc4179408a3c7fb02c842b299b8e513f2030ba67f7e9023d8b2203990e276a",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/marp"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "Mck-ppt-design-skill",
+      "sourcePath": "H:/ppt/Mck-ppt-design-skill",
+      "sourceCommit": "e190e083b715b63172e1c4fea01bc5f9bb21a021",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/Mck-ppt-design-skill/LICENSE",
+          "sha256": "3ddf9be5c28fe27dad143a5dc76eea25222ad1dd68934a047064e56ed2fa40c5",
+          "indicator": "Apache-2.0 text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/Mck-ppt-design-skill"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "next-slide",
+      "sourcePath": "H:/ppt/next-slide",
+      "sourceCommit": "e92c1b2506e6cf5acff7d2b92339ba0c0ce2af22",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/next-slide/LICENSE",
+          "sha256": "5f199fe8ca29cd72992b567edaee025ca7933092dfb58cfb73c72d92c38e2586",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/next-slide"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "open-slide",
+      "sourcePath": "H:/ppt/open-slide",
+      "sourceCommit": "2713e38df2d6d7c560c6c3ba42b9b9dbbc13781e",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/open-slide/LICENSE",
+          "sha256": "7c1554241f4b9e50329a55ca1c584ae5467f307bd87c61d909a9eee49596f1f2",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/open-slide"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "paper-collage-ppt",
+      "sourcePath": "H:/ppt/paper-collage-ppt",
+      "sourceCommit": "a35a7549196ae41ff586eb95496804abdeca5826",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/paper-collage-ppt/LICENSE",
+          "sha256": "8cbd63e97c24afb28ac9a4e2ffb48751c58067251409208bf3be3ef428f8f83e",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/paper-collage-ppt"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "paper2slides",
+      "sourcePath": "H:/ppt/paper2slides",
+      "sourceCommit": "0785051d1f52814097e94c44751e3f12b83f7c8a",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/paper2slides/LICENSE",
+          "sha256": "f6e71135bdcbecd6d173c6b4c4c426fcb5242e0f3c1e0f8fbf203acb44456d2f",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/paper2slides"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "Powerpoint-fancy-design",
+      "sourcePath": "H:/ppt/Powerpoint-fancy-design",
+      "sourceCommit": "d6167dbc5d1ee9a0f3b2b90b399156322e9178ae",
+      "licenseEvidence": [
+        {
+          "path": null,
+          "indicator": "NO_ROOT_LICENSE_FOUND",
+          "scope": "Not proof of no license; nested license/source review pending"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/Powerpoint-fancy-design"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "ppt-agent-skill",
+      "sourcePath": "H:/ppt/ppt-agent-skill",
+      "sourceCommit": "01825dee2ad40a8c719824252605396b9a570d57",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/ppt-agent-skill/LICENSE",
+          "sha256": "a02edb992b9fdff8c79a5cf582a259f0714351cb86814821e78b040151da354a",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/ppt-agent-skill"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "ppt-agent-skills",
+      "sourcePath": "H:/ppt/ppt-agent-skills",
+      "sourceCommit": "13e353776d0ba774eff7c423cc3e529cfe0adbeb",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/ppt-agent-skills/LICENSE",
+          "sha256": "434df30c77125b3e791b64a014f8ad841371cbf2cff040da90af0c2b7bf1b1d5",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/ppt-agent-skills"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "ppt-agent-workflow-san",
+      "sourcePath": "H:/ppt/ppt-agent-workflow-san",
+      "sourceCommit": null,
+      "licenseEvidence": [
+        {
+          "path": null,
+          "indicator": "NO_ROOT_LICENSE_FOUND",
+          "scope": "Not proof of no license; nested license/source review pending"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/ppt-agent-workflow-san"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "ppt-master",
+      "sourcePath": "H:/ppt/ppt-master",
+      "sourceCommit": "2a05498f4303229abf52d8fbded8c2d66dde544f",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/ppt-master/LICENSE",
+          "sha256": "cd9cf27f52d3c336dd42e13f4a1df453da118e25e15520bbe02f91d75531e91b",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "IMPLEMENTED_SCOPED",
+      "advantage": "Typed placeholder roles, theme/font extraction and immutable text-slot topology separate structure from visual identity.",
+      "decision": "Independent implementation of theme/font metadata and semantic token normalization only; no SVG converter, template assets or source code wholesale import.",
+      "targetModules": [
+        "kernel/template-dna",
+        "kernel/pptx-engine",
+        "kernel/workflow"
+      ],
+      "evidence": [
+        "H:/ppt/ppt-master/skills/ppt-master/scripts/template_import/manifest.py",
+        "H:/ppt/ppt-master/skills/ppt-master/scripts/template_import/native_structure.py",
+        "H:/ppt/ppt-master/skills/ppt-master/scripts/template_text_slots.py",
+        "D:/PresentationOS/kernel/template-dna/src/index.ts",
+        "D:/099/presentationos-integration-20261024/template-dna-tests.log"
+      ],
+      "remaining": [
+        "Master/layout structure preservation and SVG editable conversion are not implemented by this scoped transfer.",
+        "Template assets/fonts need independent rights and Native fidelity validation."
+      ]
+    },
+    {
+      "project": "PPT-sense-deck-skill",
+      "sourcePath": "H:/ppt/PPT-sense-deck-skill",
+      "sourceCommit": "e59d03faec2fbebb83a6d795e98498736f3db38f",
+      "licenseEvidence": [
+        {
+          "path": null,
+          "indicator": "NO_ROOT_LICENSE_FOUND",
+          "scope": "Not proof of no license; nested license/source review pending"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/PPT-sense-deck-skill"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "PPT-Skill",
+      "sourcePath": "H:/ppt/PPT-Skill",
+      "sourceCommit": "dffb31139df251ef147624177c42ef10f435c0d8",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/PPT-Skill/LICENSE",
+          "sha256": "8dbd912b6fccc87b40c045bff4d8579419581fae484becdbf8cdba1c81919f8b",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/PPT-Skill"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "ppt-skills",
+      "sourcePath": "H:/ppt/ppt-skills",
+      "sourceCommit": "2e60eed836472b61e013f34b2a74de183e345bc8",
+      "licenseEvidence": [
+        {
+          "path": null,
+          "indicator": "NO_ROOT_LICENSE_FOUND",
+          "scope": "Not proof of no license; nested license/source review pending"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/ppt-skills"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "ppt-svg-generator",
+      "sourcePath": "H:/ppt/ppt-svg-generator",
+      "sourceCommit": null,
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/ppt-svg-generator/LICENSE",
+          "sha256": "cba28df6483ebab88dfc9b8f13f7c7aa36cedde811c0aeeffdbff00b1e7522c9",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/ppt-svg-generator"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "ppt-to-beamer-skill",
+      "sourcePath": "H:/ppt/ppt-to-beamer-skill",
+      "sourceCommit": "63e7134cbc2d3467627e947da152649d6d75bdc0",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/ppt-to-beamer-skill/LICENSE",
+          "sha256": "992b23703a62203bec7a38958c9f3163cc7ab11513d89a466868fe772f337f3a",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/ppt-to-beamer-skill"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "PPT-Translator-Formatting-Intact-with-LLMs",
+      "sourcePath": "H:/ppt/PPT-Translator-Formatting-Intact-with-LLMs",
+      "sourceCommit": "9800d4890b38b9165c1d51b2b913718085c5685c",
+      "licenseEvidence": [
+        {
+          "path": null,
+          "indicator": "NO_ROOT_LICENSE_FOUND",
+          "scope": "Not proof of no license; nested license/source review pending"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/PPT-Translator-Formatting-Intact-with-LLMs"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "PPTAgent",
+      "sourcePath": "H:/ppt/PPTAgent",
+      "sourceCommit": "833cda553b343be0e486a93b0b57cac962cdd566",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/PPTAgent/LICENSE",
+          "sha256": "de9cb45b7da9d58d871391793a8d8b2ed058ba7f5bff2d9a33e02a5c31c526dc",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "REVIEWED",
+      "advantage": "Input/resource and final-artifact fingerprints invalidate stale slide/deck reviews.",
+      "decision": "Adapt fingerprint currentness principles into the existing workflow; optional HTML-to-editable-PPTX must remain a separate provider.",
+      "targetModules": [
+        "kernel/artifact-store",
+        "kernel/workflow",
+        "kernel/capability-registry"
+      ],
+      "evidence": [
+        "H:/ppt/PPTAgent/skills/pptagent/scripts/pptagent_runtime/core.py",
+        "H:/ppt/PPTAgent/skills/pptagent/references/task-contract.md",
+        "H:/ppt/PPTAgent/skills/pptagent/tests/test_workflow.py"
+      ],
+      "remaining": [
+        "No whole PPTAgent runtime integration has been performed.",
+        "HTML conversion, browser render fidelity and complete current-review transfer need adapter and acceptance tests."
+      ]
+    },
+    {
+      "project": "pptskill",
+      "sourcePath": "H:/ppt/pptskill",
+      "sourceCommit": "07eeaadcb04c32c9adb107eb5c8608e6be4e1008",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/pptskill/LICENSE",
+          "sha256": "801bef9b89add5fa33152db10c21286d834d29a55c3d73bad033838b4b0ccfa6",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/pptskill"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "pptx-gen",
+      "sourcePath": "H:/ppt/pptx-gen",
+      "sourceCommit": "71b1f5d4c27aa130407ce0d4b30cccc642a03afe",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/pptx-gen/LICENSE",
+          "sha256": "3e99ab3c3f3d2f476fce73cc0b5be8fce9bb986a56d51fc190c23142e08bf3cb",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/pptx-gen"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "pptx-to-pypptx",
+      "sourcePath": "H:/ppt/pptx-to-pypptx",
+      "sourceCommit": "0abb7cad2c7ec769b562335d0b0086e7bbe45ea4",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/pptx-to-pypptx/LICENSE",
+          "sha256": "1eb85fc97224598dad1852b5d6483bbcf0aa8608790dcc657a5a2a761ae9c8c6",
+          "indicator": "Apache-2.0 text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/pptx-to-pypptx"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "pptx.skill",
+      "sourcePath": "H:/ppt/pptx.skill",
+      "sourceCommit": "93efbabf84b1f268cead22d9bedfd78afd8beb6e",
+      "licenseEvidence": [
+        {
+          "path": null,
+          "indicator": "NO_ROOT_LICENSE_FOUND",
+          "scope": "Not proof of no license; nested license/source review pending"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/pptx.skill"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "PptxGenJS",
+      "sourcePath": "H:/ppt/PptxGenJS",
+      "sourceCommit": "3c9ec1b687c174952166f6a34b5e87ebf69fa469",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/PptxGenJS/LICENSE",
+          "sha256": "4f328db229e7238350d30f8d811d82157ed374d0bb1e86e4771389a3489f67e0",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "IMPLEMENTED_SCOPED",
+      "advantage": "Native editable PowerPoint text/shape/table/chart generation with TypeScript APIs.",
+      "decision": "Already used as the main rendering dependency (^3.12.0); local 4.0.1 source reviewed separately and not adopted as an upgrade.",
+      "targetModules": [
+        "kernel/pptx-engine"
+      ],
+      "evidence": [
+        "D:/PresentationOS/kernel/pptx-engine/package.json",
+        "D:/PresentationOS/kernel/pptx-engine/src/renderer.ts",
+        "H:/ppt/PptxGenJS/src/gen-xml.ts",
+        "H:/ppt/PptxGenJS/types/index.d.ts",
+        "H:/ppt/PptxGenJS/TESTING.md"
+      ],
+      "remaining": [
+        "Local upstream commit is 4.0.1 while the app uses ^3.12.0; source identity is not the installed dependency identity.",
+        "Keep table drawing-ID collision guard; the inspected newer source still has a potentially colliding ID formula.",
+        "Any upgrade requires full content and native Office regressions."
+      ]
+    },
+    {
+      "project": "PracticalSwan-agent-skills",
+      "sourcePath": "H:/ppt/PracticalSwan-agent-skills",
+      "sourceCommit": "ff6d12f61e8250dd1b988e101a482f6adc05c451",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/PracticalSwan-agent-skills/LICENSE.txt",
+          "sha256": "5e03913d73342f7471bda503b5308ecfccecae017bea44307d5b04c1c363c6c7",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/PracticalSwan-agent-skills"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "presentation_skill",
+      "sourcePath": "H:/ppt/presentation_skill",
+      "sourceCommit": "8715ae6e7f50b930595668c455f3fad51f70d1db",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/presentation_skill/LICENSE",
+          "sha256": "b0c6dbf8de0c8ced0dd1825d6cf5cb8fb0d4408e97d34e58b9f68b1ada4bb40f",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/presentation_skill"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "python-pptx",
+      "sourcePath": "H:/ppt/python-pptx",
+      "sourceCommit": "278b47b1dedd5b46ee84c286e77cdfb0bf4594be",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/python-pptx/LICENSE",
+          "sha256": "c11ac9e552a26eacb5d831c306042990cfe3cd3b7680089d596846a12eae13b4",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "REVIEWED",
+      "advantage": "OOXML package relationships, placeholder inheritance and bounded editing of existing presentations.",
+      "decision": "Potential Python Worker for existing-PPT editing; the isolated 098 prototype pins python-pptx==1.0.2 but that is not main-engine integration.",
+      "targetModules": [
+        "workers/python-worker (proposed)",
+        "kernel/pptx-editor",
+        "kernel/template-dna"
+      ],
+      "evidence": [
+        "H:/ppt/python-pptx/src/pptx/shapes/placeholder.py",
+        "H:/ppt/python-pptx/src/pptx/opc/package.py",
+        "H:/ppt/python-pptx/src/pptx/slide.py",
+        "D:/PresentationOS/098/requirements.txt"
+      ],
+      "remaining": [
+        "Unified Worker adapter, interface/schema and cancellation/timeout acceptance are pending.",
+        "python-pptx read/write does not replace native Office reopen/export validation."
+      ]
+    },
+    {
+      "project": "remotion-video-skill",
+      "sourcePath": "H:/ppt/remotion-video-skill",
+      "sourceCommit": "d16ebd9ca330d636cf82bfd33d48ae12df74fadd",
+      "licenseEvidence": [
+        {
+          "path": null,
+          "indicator": "NO_ROOT_LICENSE_FOUND",
+          "scope": "Not proof of no license; nested license/source review pending"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/remotion-video-skill"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "reveal.js",
+      "sourcePath": "H:/ppt/reveal.js",
+      "sourceCommit": "f8c9ec3bb3b288e061b166fba5e4975920dd5cd4",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/reveal.js/LICENSE",
+          "sha256": "b4384f1931aa4a3625b592f113174f07861c8b7751f77f6cdd00bcb079cae33a",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/reveal.js"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "revealjs-skill",
+      "sourcePath": "H:/ppt/revealjs-skill",
+      "sourceCommit": "d0ccd344c4aaf9f045e5a15be6a2ab67b595796f",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/revealjs-skill/LICENSE",
+          "sha256": "71c339f7cc7e1bc6eab878e531bb7d54638c724299fd9fe0310bdde032728e72",
+          "indicator": "UNCLASSIFIED_LICENSE_TEXT",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/revealjs-skill"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "skills-anthropics",
+      "sourcePath": "H:/ppt/skills-anthropics",
+      "sourceCommit": "34040c9c568585f6929bedeaad110ad08f079624",
+      "licenseEvidence": [
+        {
+          "path": null,
+          "indicator": "NO_ROOT_LICENSE_FOUND",
+          "scope": "Not proof of no license; nested license/source review pending"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/skills-anthropics"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "skills-jetbrains",
+      "sourcePath": "H:/ppt/skills-jetbrains",
+      "sourceCommit": "e0f258b5cfed145015cb3e48da9a97947f7c4ed7",
+      "licenseEvidence": [
+        {
+          "path": null,
+          "indicator": "NO_ROOT_LICENSE_FOUND",
+          "scope": "Not proof of no license; nested license/source review pending"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/skills-jetbrains"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "skills-minimax",
+      "sourcePath": "H:/ppt/skills-minimax",
+      "sourceCommit": "60aaae52bb2af8162732751a4332f62a5fef518b",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/skills-minimax/LICENSE",
+          "sha256": "a1608c42e98d9d61c5239e15de4975f11399879d59803dbec24f1d5c3ba49af4",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/skills-minimax"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "skills-openai",
+      "sourcePath": "H:/ppt/skills-openai",
+      "sourceCommit": "49f948faa9258a0c61caceaf225e179651397431",
+      "licenseEvidence": [
+        {
+          "path": null,
+          "indicator": "NO_ROOT_LICENSE_FOUND",
+          "scope": "Not proof of no license; nested license/source review pending"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/skills-openai"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "skills-slides",
+      "sourcePath": "H:/ppt/skills-slides",
+      "sourceCommit": "c271d3cda03bf79733cc91ba28e25716196638b7",
+      "licenseEvidence": [
+        {
+          "path": null,
+          "indicator": "NO_ROOT_LICENSE_FOUND",
+          "scope": "Not proof of no license; nested license/source review pending"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/skills-slides"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "skills-slidespeak",
+      "sourcePath": "H:/ppt/skills-slidespeak",
+      "sourceCommit": "fc4dfbf9273a9b96054f015eeb393748b0901363",
+      "licenseEvidence": [
+        {
+          "path": null,
+          "indicator": "NO_ROOT_LICENSE_FOUND",
+          "scope": "Not proof of no license; nested license/source review pending"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/skills-slidespeak"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "skills-terminalskills",
+      "sourcePath": "H:/ppt/skills-terminalskills",
+      "sourceCommit": null,
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/skills-terminalskills/LICENSE",
+          "sha256": "e4d43109bf742885e5080b7008c8acbb19ef7f156938f08e3eaede4ed093e1a2",
+          "indicator": "Apache-2.0 text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/skills-terminalskills"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "slide-creator",
+      "sourcePath": "H:/ppt/slide-creator",
+      "sourceCommit": "9e999874b2107c3a8a727962151c61d275f74bf3",
+      "licenseEvidence": [
+        {
+          "path": null,
+          "indicator": "NO_ROOT_LICENSE_FOUND",
+          "scope": "Not proof of no license; nested license/source review pending"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/slide-creator"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "slide-deck-ai",
+      "sourcePath": "H:/ppt/slide-deck-ai",
+      "sourceCommit": "2e64c64fe19071a9022d70196f9ad191a87f858f",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/slide-deck-ai/LICENSE",
+          "sha256": "0ac5dedd3bc58466b0bdfd87a1e146c76bf2fa4bcc12f576991d4031fa95a6d7",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/slide-deck-ai"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "slide-writer",
+      "sourcePath": "H:/ppt/slide-writer",
+      "sourceCommit": "3c4524c4abb3310fdee106282d0a64f156fd4ff6",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/slide-writer/LICENSE",
+          "sha256": "25ff0241953942c200c08b57229d4cb9a4c783f79d4df83c1ca8af4f62016bdf",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/slide-writer"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "SlideCoder",
+      "sourcePath": "H:/ppt/SlideCoder",
+      "sourceCommit": "c71faa5b76caaa09e407e17c845bbabc0ed8a3fa",
+      "licenseEvidence": [
+        {
+          "path": null,
+          "indicator": "NO_ROOT_LICENSE_FOUND",
+          "scope": "Not proof of no license; nested license/source review pending"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/SlideCoder"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "slidedown",
+      "sourcePath": "H:/ppt/slidedown",
+      "sourceCommit": "58fd640fe15138b175471b683833ed26280002c1",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/slidedown/LICENSE",
+          "sha256": "d9eef19081ea23dacf19c8e492a03ea2f247500e0f7fa3135409060e685317f2",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/slidedown"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "SlideGen",
+      "sourcePath": "H:/ppt/SlideGen",
+      "sourceCommit": "f9416e4c99e83dfe368d26bb8c74e02889da8b3a",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/SlideGen/LICENSE",
+          "sha256": "7d86a97378cef5fb06ac0b9b31d10b736bbb2f7cc9d095e2cc9732b0578c7430",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/SlideGen"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "slidemd",
+      "sourcePath": "H:/ppt/slidemd",
+      "sourceCommit": "79fcd96d16a238be8ecaa5becc2b273c7c2ddb55",
+      "licenseEvidence": [
+        {
+          "path": null,
+          "indicator": "NO_ROOT_LICENSE_FOUND",
+          "scope": "Not proof of no license; nested license/source review pending"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/slidemd"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "slides-skill",
+      "sourcePath": "H:/ppt/slides-skill",
+      "sourceCommit": "94a7035886b83ec414dbfbc2b442f9234da9b9f9",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/slides-skill/LICENSE",
+          "sha256": "4fa6d4c3a7a6325b68fe98a72a2d349266ae1f5c2d0b36ae2a7ceee7db04a011",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/slides-skill"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "slides-skills",
+      "sourcePath": "H:/ppt/slides-skills",
+      "sourceCommit": "5c0db58508469f7973e212e7d261ed2d1c0ceb03",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/slides-skills/LICENSE",
+          "sha256": "ebf7b0905a7c9b7c044dec5c847b47b5bed6576847a1e955eff0b33637ad5138",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/slides-skills"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "slides_generator",
+      "sourcePath": "H:/ppt/slides_generator",
+      "sourceCommit": "5c614a03b014a233270256dac937e216cdff3977",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/slides_generator/LICENSE",
+          "sha256": "f6222341e5a375bd14e0c5aba96bc8964d9ebf0ec48a4d0d9ff9c34355ede046",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/slides_generator"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "slides_maker",
+      "sourcePath": "H:/ppt/slides_maker",
+      "sourceCommit": "150473e84295d76b4bde359433ffa7d21e26f8f2",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/slides_maker/LICENSE",
+          "sha256": "cd0de4bad02dd893e0db3998e5c46d504ad9a9e7d96110a8d9c1f727047c4ff3",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/slides_maker"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "SlideTailor",
+      "sourcePath": "H:/ppt/SlideTailor",
+      "sourceCommit": "6c636089129c32828de69cb8ffd01a45c921b8de",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/SlideTailor/LICENSE",
+          "sha256": "c7e29a8190c56d9437e8a80d9c12e5f67131e9cf5b392b850a76bdec03267f52",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "REVIEWED",
+      "advantage": "Reference-document/presentation pairs yield explicit preferences before content planning and iterative refinement.",
+      "decision": "Model preferences as a separate project contract; avoid importing the Linux/GPU-heavy runtime into the Windows core.",
+      "targetModules": [
+        "schemas/project",
+        "schemas/narrative-ir",
+        "kernel/model-router",
+        "kernel/revision-engine"
+      ],
+      "evidence": [
+        "H:/ppt/SlideTailor/src/stage_modules.py",
+        "H:/ppt/SlideTailor/src/pptgen_2stage.py",
+        "H:/ppt/SlideTailor/src/agentic_loop/pref_refine_loop.py"
+      ],
+      "remaining": [
+        "Real preference extraction/inference and user-aligned model planning are pending.",
+        "No upstream test suite was run.",
+        "Cache content keys, subprocess portability and GPU dependencies need redesign."
+      ]
+    },
+    {
+      "project": "slidev",
+      "sourcePath": "H:/ppt/slidev",
+      "sourceCommit": "30a0a54c8739b4b395d9b336a6304cc8ebcc3947",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/slidev/LICENSE",
+          "sha256": "3ac1ce024d7b8cb8bdf1725816ddf222d8cb0dceb078275e1324fd409c15c617",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/slidev"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "td-skills",
+      "sourcePath": "H:/ppt/td-skills",
+      "sourceCommit": "43e66a8f1574644df4cac045872f94bec0502113",
+      "licenseEvidence": [
+        {
+          "path": null,
+          "indicator": "NO_ROOT_LICENSE_FOUND",
+          "scope": "Not proof of no license; nested license/source review pending"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/td-skills"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "video-shotcraft",
+      "sourcePath": "H:/ppt/video-shotcraft",
+      "sourceCommit": "5e71af35a2daee492dd3ea93e5e8903f32dcd13c",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/video-shotcraft/LICENSE",
+          "sha256": "02da8ccd8ddb6946940ccc99494c04992a8cf4b9835bcc32f70ae985ef160f59",
+          "indicator": "Apache-2.0 text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/video-shotcraft"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "visual-cognition-slides",
+      "sourcePath": "H:/ppt/visual-cognition-slides",
+      "sourceCommit": "83fc4b55f409b6564c9c1b8aee93d3015af2da9c",
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/visual-cognition-slides/LICENSE",
+          "sha256": "bb0a6c5ee72c59ff6505a422fcdb95bc1272cc029a46b9a520a8888b7b3b3c10",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/visual-cognition-slides"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    },
+    {
+      "project": "visual-explainer",
+      "sourcePath": "H:/ppt/visual-explainer",
+      "sourceCommit": null,
+      "licenseEvidence": [
+        {
+          "path": "H:/ppt/visual-explainer/LICENSE",
+          "sha256": "871b3c6c64e030c0647ca33543716bdae9511ae2d6a85d6f4ce63783bab52c8f",
+          "indicator": "MIT text present",
+          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+        }
+      ],
+      "status": "CATALOGUED",
+      "advantage": "PENDING_SOURCE_REVIEW",
+      "decision": "PENDING_SOURCE_REVIEW",
+      "targetModules": [],
+      "evidence": [
+        "H:/ppt/visual-explainer"
+      ],
+      "remaining": [
+        "PENDING_SOURCE_REVIEW",
+        "No runtime integration or acceptance claim.",
+        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+      ]
+    }
+  ]
+}

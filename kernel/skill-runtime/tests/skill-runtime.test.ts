@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { mkdtempSync, rmSync, writeFileSync, readFileSync, existsSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { parseSkill, loadSkill, validateInputs, runSkill } from '../src/index.js';
@@ -51,10 +51,27 @@ test('runSkill renders pptx from markdown path', async () => {
   writeFileSync(md, '# 测试标题\n\n## 第一页\n\n- 要点 A\n- 要点 B\n');
   const s = parseSkill(GOOD_YAML, dir);
   const r = await runSkill(s, { markdownPath: md, output: out });
+  const report = r.artifacts.find(path => path.endsWith('.loop.json'));
+  assert.ok(report, r.error);
+  assert.equal(JSON.parse(readFileSync(report, 'utf8')).contentVerification.ok, true);
   rmSync(dir, { recursive: true, force: true });
   assert.equal(r.ok, true);
   assert.equal(r.output, out);
   assert.ok(r.artifacts.includes(out));
+});
+
+test('skill render preserves existing output and refuses invalid source instead of bypassing the workflow gate', async () => {
+  const dir = mkdtempSync(join(tmpdir(), 'pres-skill-gate-'));
+  try {
+    const skill = parseSkill(GOOD_YAML, dir), input = join(dir, 'in.md'), output = join(dir, 'keep.pptx');
+    writeFileSync(input, '# Report\nBody'); writeFileSync(output, 'existing user bytes');
+    const occupied = await runSkill(skill, { markdownPath: input, output });
+    assert.equal(occupied.ok, false); assert.equal(readFileSync(output, 'utf8'), 'existing user bytes');
+    writeFileSync(input, '# Invalid\nText\u0001');
+    const rejected = join(dir, 'rejected.pptx');
+    const bad = await runSkill(skill, { markdownPath: input, output: rejected });
+    assert.equal(bad.ok, false); assert.equal(existsSync(rejected), false);
+  } finally { rmSync(dir, { recursive: true, force: true }); }
 });
 
 test('runSkill unsupported capability fails cleanly', async () => {

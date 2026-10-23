@@ -12,10 +12,10 @@ PresentationOS 是一个正在开发的演示文稿生成、编辑与验证平�
 
 | 模块 | 已有实现 | 当前边界 |
 |---|---|---|
-| CLI / Workflow | compile、qa、audit，Markdown 解析、排版与工件生成 | 内容与数值回归修复中；任意输入需要独立检查 |
+| CLI / Workflow | compile、qa、audit；Markdown/文本与 DOCX/XLSX/CSV/TSV 支持范围内的正文、缓存单元格导入 | 文档原有排版、图片、公式计算不复刻；不支持的格式与正文对象明确拒绝 |
 | PPTX Engine | 文本、表格、图形与多个排版原型；领域配色与规则分类 | 领域模板是排版配置，不能代替专业内容审核；复杂内容应拆页 |
 | 内容检查 | 从实际生成 PPTX 读取文本，与输入期望核对 | 文本存在检查不能证明事实本身真实，也不能代替视觉与原生验收 |
-| Template DNA / OOXML 编辑 | 提取样式、目标文本 Run 编辑与未修改部件哈希比较 | 复杂母版、图表、动画与任意 PPT 的编辑保真尚未完成矩阵验收 |
+| Template DNA / OOXML 编辑 | 主题角色及中西文字体进入生成与质检；跨 Run 局部替换、精确快照撤销与部件哈希比较 | 主题应用不复制母版布局和素材；复杂图表、动画与任意 PPT 的编辑保真尚未完成矩阵验收 |
 | 媒体 | Windows SAPI TTS、字幕、时间线与 FFmpeg 渲染 | 时间线/字幕/尾部同步修复需以新生成成品验证；依赖本机环境 |
 | 桌面 | .NET 8 WinForms + WebView2 宿主、React/TypeScript UI、本地 Node sidecar | 最终安装包与真实 UIA、任务隔离和干净机生命周期未完成验收 |
 | 模型路由 | 协议、fallback 与 mock 集成 | 真实模型推理尚未验收；需要合法配置模型服务 |
@@ -36,6 +36,16 @@ node apps/cli/dist/index.js audit
 ```
 
 输出使用新文件路径，保留已有成品。CLI 的 qa 是规则检查；PowerPoint 原生验收单独执行。
+
+导入表格文档和应用参考主题：
+
+```powershell
+node apps/cli/dist/index.js compile ./report.docx ./report.pptx
+node apps/cli/dist/index.js compile ./metrics.xlsx ./metrics.pptx
+node apps/cli/dist/index.js compile ./outline.md ./branded.pptx --template ./reference.pptx
+```
+
+参考模板可以只有母版与版式、没有普通幻灯片。报告记录源文件 SHA256、主题选择、实际颜色/字体及回退警告。正文和表格的不可读对比度会阻断发布。PDF 与已有 PPTX 的全文导入尚未接通；旧稿文本编辑使用独立的受限编辑接口。详见 [本轮集成范围与证据](docs/integration-2026-10-24.md) 和 [上游追踪矩阵](upstream/integration-matrix-20261024.json)。
 
 桌面工作台应由新构建的宿主启动。宿主为每次运行分配本地端口和随机会话密钥，并把授权交给 UI 与 sidecar；只访问未授权的本地 URL 无法操作接口。不要把会话密钥复制到日志或公开材料。
 

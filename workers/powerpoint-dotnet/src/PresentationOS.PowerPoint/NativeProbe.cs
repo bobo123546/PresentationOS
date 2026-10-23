@@ -5,7 +5,6 @@ using System.Text;
 using System.Text.Json;
 using System.IO.Compression;
 using System.Xml.Linq;
-using Microsoft.Win32;
 
 namespace PresentationOS.PowerPoint;
 
@@ -147,12 +146,13 @@ public static class NativeProbe
             result["semantic_scope"] = "Slide count and ordered text-shape indices/text; only CRLF/CR newlines normalized";
             result["font_names"] = final.Fonts;
             var requestedFonts = RequestedFonts(source).Concat(final.Fonts).Distinct(StringComparer.OrdinalIgnoreCase).ToArray();
-            var installed = InstalledFonts();
-            var missingFonts = requestedFonts.Where(font => !installed.Any(name => name.Equals(font, StringComparison.OrdinalIgnoreCase) || name.StartsWith(font + " ", StringComparison.OrdinalIgnoreCase))).ToArray();
+            var fontReport = InstalledFontCatalog.CaptureWindows(requestedFonts);
             result["requested_fonts"] = requestedFonts;
-            result["missing_fonts"] = missingFonts;
-            result["fonts"] = requestedFonts.Length > 0 && missingFonts.Length == 0;
-            result["font_scope"] = "Requested OOXML and COM text fonts checked against installed Windows font registry; glyph rendering fidelity needs visual review";
+            result["missing_fonts"] = fontReport.Missing;
+            result["font_matches"] = fontReport.Matches;
+            result["font_catalog_diagnostics"] = fontReport.Diagnostics;
+            result["fonts"] = fontReport.Passed;
+            result["font_scope"] = "Exact requested OOXML/COM family names matched to localized SFNT/TTC family/typographic-family name records in registered Windows font files, with file SHA256; glyph coverage/rendering fidelity needs visual review";
             Stage("export_pdf");
             var pdf = Path.Combine(directory, "native.pdf"); presentation.SaveAs(pdf, 32);
             result["pdf"] = File.Exists(pdf) && new FileInfo(pdf).Length > 1000;
@@ -205,18 +205,6 @@ public static class NativeProbe
             }
         }
         return fonts;
-    }
-
-    private static string[] InstalledFonts()
-    {
-        var names = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-        foreach (var hive in new[] { Registry.LocalMachine, Registry.CurrentUser }) {
-            using var key = hive.OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts");
-            foreach (var entry in key?.GetValueNames() ?? Array.Empty<string>()) {
-                foreach (var name in entry.Split('&')) names.Add(name.Trim().Replace(" (TrueType)", "").Replace(" (OpenType)", ""));
-            }
-        }
-        return names.ToArray();
     }
 
     private static NativeTextSnapshot ReadText(dynamic presentation)

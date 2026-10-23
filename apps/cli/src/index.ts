@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { createRequire } from 'node:module';
-import { resolve, dirname, join } from 'node:path';
+import { resolve, dirname, join, extname } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { spawnSync } from 'node:child_process';
 import { assertNewOutputs, defaultOutput } from '../../../tools/shared/io-safety.mjs';
@@ -12,25 +12,36 @@ export function childExit(result: { status: number | null; error?: Error; signal
 }
 export function main(argv: string[]): number {
   if (!argv.length || argv[0] === '--help' || argv[0] === '-h') {
-    console.log(`PresentationOS ${pkg.version}\nUsage: pres compile <input> [output.pptx] | qa <input> [report.json] | audit\nOutputs are new files. Existing files are never overwritten. Native Office QA is a separate verification step.`);
+    console.log(`PresentationOS ${pkg.version}\nUsage: pres compile <input.md|txt|csv|tsv|docx|xlsx> [output.pptx] [--template reference.pptx] | qa <input> [report.json] | audit\nDocument import preserves supported body text and cached table values, not document styling or embedded assets.\nTemplate colors and fonts are applied; template layouts and assets are not copied.\nOutputs are new files. Existing files are never overwritten. Native Office QA is a separate verification step.`);
     return 0;
   }
   if (argv[0] === '--version' || argv[0] === '-v') { console.log(`${pkg.name} ${pkg.version}`); return 0; }
-  const [command, input, output, ...extra] = argv;
+  const [command, input, ...remaining] = argv;
   try {
     if (command === 'audit') {
       if (input) throw new Error('audit takes no arguments');
       return childExit(spawnSync(process.execPath, [join(root, 'tools/docs-auditor/audit-docs.mjs'), root], { cwd: root, stdio: 'inherit' }));
     }
     if (!['compile', 'qa'].includes(command)) throw new Error(`Unknown command: ${command}`);
-    if (!input || extra.length) throw new Error(`Usage: pres ${command} <input> [output]`);
+    const args = [...remaining];
+    const output = args[0] && !args[0].startsWith('--') ? args.shift() : undefined;
+    let reference: string | undefined;
+    if (args.length) {
+      if (command !== 'compile' || args.length !== 2 || args[0] !== '--template' || !args[1] || args[1].startsWith('--')) throw new Error(`Usage: pres ${command} <input> [output]${command === 'compile' ? ' [--template reference.pptx]' : ''}`);
+      reference = resolve(args[1]);
+      if (extname(reference).toLowerCase() !== '.pptx') throw new Error('Reference template must be a .pptx file');
+    }
+    if (!input) throw new Error(`Usage: pres ${command} <input> [output]`);
     const source = resolve(input);
+    if (command === 'compile' && !['.md', '.markdown', '.txt', '.csv', '.tsv', '.docx', '.xlsx'].includes(extname(source).toLowerCase())) throw new Error('Unsupported compile format; PDF and existing PPTX need a dedicated import adapter');
     const target = output ? resolve(output) : defaultOutput(source, command === 'compile' ? '.pptx' : '.qa.json');
     if (command === 'compile' && !target.toLowerCase().endsWith('.pptx')) throw new Error('Compile output must end in .pptx');
     const report = target.replace(/\.pptx$/i, '.loop.json');
     assertNewOutputs(source, command === 'compile' ? [target, report] : [target]);
+    if (reference) assertNewOutputs(reference, [target, report]);
     const script = command === 'compile' ? 'tools/revision-loop/loop-deck.mjs' : 'tools/visual-qa/qa-deck.mjs';
-    return childExit(spawnSync(process.execPath, [join(root, script), source, target], { cwd: root, stdio: 'inherit' }));
+    const childArgs = [join(root, script), source, target, ...(reference ? [report, '--template', reference] : [])];
+    return childExit(spawnSync(process.execPath, childArgs, { cwd: root, stdio: 'inherit' }));
   } catch (error) { console.error(`Error: ${(error as Error).message}`); return 1; }
 }
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) process.exitCode = main(process.argv.slice(2));

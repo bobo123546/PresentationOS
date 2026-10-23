@@ -1,129 +1,63 @@
-// Microsoft Word (.docx) Document Parser
+// DOCX body text/tables, in document order. Complex objects are not reconstructed.
 import { extractZipEntries } from '../zip.js';
 import { Block, DocumentIR, ExtractedFact } from '../types.js';
 import { extractFacts } from '../fact-extractor.js';
+import { readXml, localName, elements, descendants, attribute, textContent, type XmlElement } from '../xml.js';
 
-function stripXmlTags(xml: string): string {
-  return xml.replace(/<[^>]+>/g, '').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&').replace(/&quot;/g, '"');
+function paragraphText(node: XmlElement): string {
+  return node.children.map(child => {
+    if (typeof child === 'string') return '';
+    const name = localName(child.name);
+    if (name === 't') return textContent(child);
+    if (name === 'tab') return '\t';
+    if (name === 'br' || name === 'cr') return '\n';
+    if (name === 'del') return '';
+    return paragraphText(child);
+  }).join('');
 }
 
-export function parseDocx(
-  buffer: Buffer,
-  sourceFilename: string = 'document.docx'
-): { doc: DocumentIR; facts: ExtractedFact[] } {
-  const entries = extractZipEntries(buffer);
-  const docXmlBuffer = entries.get('word/document.xml');
-
-  if (!docXmlBuffer) {
-    throw new Error('Invalid DOCX file: word/document.xml not found in archive');
-  }
-
-  const xml = docXmlBuffer.toString('utf8');
-  const blocks: Block[] = [];
-  const allFacts: ExtractedFact[] = [];
-  let chunkCounter = 0;
-
-  // Extract paragraphs: <w:p ...> ... </w:p>
-  const pRegex = /<w:p(?:[\s>][\s\S]*?<\/w:p>|[\s]*\/>)/g;
-  let match: RegExpExecArray | null;
-
-  while ((match = pRegex.exec(xml)) !== null) {
-    const pContent = match[0];
-
-    // Check if within a table cell (avoid duplicating table paragraphs)
-    // To handle tables cleanly, we check pStyle
-    const isHeading = /<w:pStyle\s+w:val="(?:Heading|Title|heading|title)(\d)?"/i.test(pContent);
-    const headingLevelMatch = pContent.match(/<w:pStyle\s+w:val="(?:Heading|heading)(\d)"/i);
-    const level = headingLevelMatch ? Math.min(6, Math.max(1, parseInt(headingLevelMatch[1], 10))) : 1;
-
-    // Collect all text from <w:t> tags
-    const tRegex = /<w:t(?:[\s>][\s\S]*?<\/w:t>|[\s]*\/>)/g;
-    let tMatch: RegExpExecArray | null;
-    let fullText = '';
-
-    while ((tMatch = tRegex.exec(pContent)) !== null) {
-      fullText += stripXmlTags(tMatch[0]);
-    }
-
-    fullText = fullText.trim();
-    if (!fullText) continue;
-
-    const chunkId = `chk-docx-${chunkCounter++}`;
-    const facts = extractFacts(fullText, chunkId, allFacts.length);
-    allFacts.push(...facts);
-
-    if (isHeading) {
-      blocks.push({
-        type: 'heading',
-        level,
-        text: fullText,
-        facts,
-      });
-    } else {
-      blocks.push({
-        type: 'paragraph',
-        text: fullText,
-        facts,
-      });
-    }
-  }
-
-  // Extract tables: <w:tbl> ... </w:tbl>
-  const tblRegex = /<w:tbl[\s\S]*?<\/w:tbl>/g;
-  let tblMatch: RegExpExecArray | null;
-
-  while ((tblMatch = tblRegex.exec(xml)) !== null) {
-    const tblXml = tblMatch[0];
-    const trRegex = /<w:tr[\s\S]*?<\/w:tr>/g;
-    const tableRows: string[][] = [];
-
-    let trMatch: RegExpExecArray | null;
-    while ((trMatch = trRegex.exec(tblXml)) !== null) {
-      const trXml = trMatch[0];
-      const tcRegex = /<w:tc[\s\S]*?<\/w:tc>/g;
-      const rowCells: string[] = [];
-
-      let tcMatch: RegExpExecArray | null;
-      while ((tcMatch = tcRegex.exec(trXml)) !== null) {
-        const tcXml = tcMatch[0];
-        const tInsideRegex = /<w:t(?:[\s>][\s\S]*?<\/w:t>|[\s]*\/>)/g;
-        let cellText = '';
-        let cellMatch: RegExpExecArray | null;
-        while ((cellMatch = tInsideRegex.exec(tcXml)) !== null) {
-          cellText += stripXmlTags(cellMatch[0]);
-        }
-        rowCells.push(cellText.trim());
-      }
-
-      if (rowCells.some((c) => c !== '')) {
-        tableRows.push(rowCells);
-      }
-    }
-
-    if (tableRows.length > 0) {
-      const headers = tableRows[0];
-      const rows = tableRows.slice(1);
-      const chunkId = `chk-docx-${chunkCounter++}`;
-      const allText = headers.join(' ') + ' ' + rows.map((r) => r.join(' ')).join(' ');
-      const facts = extractFacts(allText, chunkId, allFacts.length);
-      allFacts.push(...facts);
-
-      blocks.push({
-        type: 'table',
-        headers,
-        rows,
-        facts,
-      });
-    }
-  }
-
-  const doc: DocumentIR = {
-    schema: 'document-ir',
-    version: '1',
-    source: sourceFilename,
-    sourceType: 'docx',
-    blocks,
+export function parseDocx(buffer: Buffer, sourceFilename = 'document.docx'): { doc: DocumentIR; facts: ExtractedFact[] } {
+  const entries = extractZipEntries(buffer), bytes = entries.get('word/document.xml');
+  if (!bytes) throw new Error('Invalid DOCX file: word/document.xml not found in archive');
+  const document = readXml(bytes), body = elements(document, 'body')[0];
+  if (!body) throw new Error('Invalid DOCX file: document body not found');
+  const unsupported = ['drawing', 'pict', 'object', 'altChunk', 'oMath', 'oMathPara'].find(name => descendants(body, name).length > 0);
+  if (unsupported) throw new Error(`Unsupported DOCX body feature: ${unsupported}; embedded assets and equations require a dedicated adapter`);
+  const blocks: Block[] = [], allFacts: ExtractedFact[] = [];
+  const factsFor = (text: string): ExtractedFact[] => {
+    const facts = extractFacts(text, `chk-docx-${blocks.length}`, allFacts.length);
+    allFacts.push(...facts); return facts;
   };
-
-  return { doc, facts: allFacts };
+  const table = (node: XmlElement): void => {
+    if (descendants(node, 'tbl').length) throw new Error('DOCX nested tables are unsupported');
+    const tableRows = elements(node, 'tr').map(row => elements(row, 'tc').flatMap(cell => {
+      const paragraphs = descendants(cell, 'p').map(paragraphText), gridSpan = descendants(cell, 'gridSpan')[0];
+      const span = gridSpan ? Number(attribute(gridSpan, 'val')) : 1;
+      if (!Number.isInteger(span) || span < 1 || span > 16_384) throw new Error('Invalid DOCX table gridSpan');
+      return [paragraphs.join('\n'), ...Array<string>(span - 1).fill('')];
+    }));
+    if (!tableRows.length) return;
+    const width = tableRows.reduce((max, row) => Math.max(max, row.length), 0);
+    if (width * tableRows.length > 1_000_000) throw new Error('DOCX table exceeds ingestion cell limit');
+    for (const row of tableRows) while (row.length < width) row.push('');
+    const [headers, ...rows] = tableRows, facts = factsFor(tableRows.map(row => row.join('\t')).join('\n'));
+    blocks.push({ type: 'table', headers, rows, facts });
+  };
+  const visit = (node: XmlElement): void => {
+    for (const child of elements(node)) {
+      const name = localName(child.name);
+      if (name === 'tbl') { table(child); continue; }
+      if (name === 'del') continue;
+      if (name !== 'p') { visit(child); continue; }
+      const text = paragraphText(child);
+      if (!text.trim()) continue;
+      const style = elements(child, 'pPr').flatMap(p => elements(p, 'pStyle'))[0];
+      const styleName = style ? attribute(style, 'val') ?? '' : '';
+      const heading = /^(?:heading\s*([1-9])|title)$/i.exec(styleName), facts = factsFor(text);
+      if (heading) blocks.push({ type: 'heading', level: Math.min(6, Number(heading[1] ?? 1)), text, facts });
+      else blocks.push({ type: 'paragraph', text, facts });
+    }
+  };
+  visit(body);
+  return { doc: { schema: 'document-ir', version: '1', source: sourceFilename, sourceType: 'docx', blocks }, facts: allFacts };
 }

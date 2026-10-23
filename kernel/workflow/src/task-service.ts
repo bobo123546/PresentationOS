@@ -1,12 +1,14 @@
 // PresentationOS Core Application Task Service (P03-A / P05)
 import { readFileSync, writeFileSync, mkdirSync, existsSync, mkdtempSync, copyFileSync, constants, unlinkSync, statSync } from 'node:fs';
-import { dirname, resolve, join } from 'node:path';
+import { dirname, resolve, join, basename } from 'node:path';
 import { createHash } from 'node:crypto';
 import { WorkflowStore, WorkflowExecutor, type WorkflowRun, type StepContext } from '@pres/durable-workflow';
 import { applyRevisions } from '@pres/revision-engine';
 import { resolveLayout, renderDeck, verifyRenderedDeck, type DeckSpec } from '@pres/pptx-engine';
 import { validate, SCHEMA_IDS } from '@pres/schema-validator';
 import { parseDocument, type ParsedDocument } from '@pres/document-parser';
+import { extractTemplateDna, designTokensFromDna } from '@pres/template-dna';
+import { documentToDeck } from './document-pipeline.js';
 import {
   type PresentationProject,
   type CompileJobOptions,
@@ -45,25 +47,49 @@ export class TaskService {
       steps: [
         {
           name: 'parse_and_validate',
-          handler: async (input: { markdown: string; title?: string; outPptxPath: string; outReportPath?: string }, ctx: StepContext) => {
+          handler: async (input: { markdown: string; title?: string; outPptxPath: string; outReportPath?: string; referencePptxPath?: string; designTokens?: Record<string, unknown>; maxRevisionRounds?: number; sourceDocumentPath?: string }, ctx: StepContext) => {
             if (ctx.isCancelled?.()) throw new Error('Task was cancelled');
             await ensureSchemas();
-            let deck = mdToDeck(input.markdown, input.title ?? 'deck');
+            const maxRevisionRounds = input.maxRevisionRounds === undefined ? 3 : input.maxRevisionRounds;
+            if (!Number.isSafeInteger(maxRevisionRounds) || maxRevisionRounds < 0 || maxRevisionRounds > 10) throw new Error('maxRevisionRounds must be an integer between 0 and 10');
+            let deck: DeckSpec;
+            let sourceProfile: Record<string, unknown> | undefined;
+            if (input.sourceDocumentPath) {
+              if (input.markdown) throw new Error('Choose Markdown content or a document source path, not both');
+              if (statSync(input.sourceDocumentPath).size > 16 * 1024 * 1024) throw new Error('Document source exceeds the 16 MiB ingestion limit');
+              const source = await parseDocument(readFileSync(input.sourceDocumentPath), basename(input.sourceDocumentPath));
+              deck = documentToDeck(source.doc, input.title ?? basename(input.sourceDocumentPath));
+              sourceProfile = { path: resolve(input.sourceDocumentPath), sha256: source.sha256, format: source.doc.sourceType, summary: source.summary,
+                scope: 'Parsed body text, lists, code and cached table values; embedded assets, document styling and formula evaluation are not reproduced' };
+            } else deck = mdToDeck(input.markdown, input.title ?? 'deck');
+            if (input.referencePptxPath && input.designTokens) throw new Error('Choose a reference template or explicit design tokens, not both');
+            let designProfile: Record<string, unknown> | undefined;
+            if (input.referencePptxPath) {
+              if (!/\.pptx$/i.test(input.referencePptxPath)) throw new Error('Reference template must be a .pptx file');
+              const bytes = readFileSync(input.referencePptxPath);
+              const dna = await extractTemplateDna(bytes, resolve(input.referencePptxPath));
+              deck.designTokens = { ...designTokensFromDna(dna) };
+              designProfile = { source: resolve(input.referencePptxPath), sha256: createHash('sha256').update(bytes).digest('hex'),
+                dna, tokens: deck.designTokens, scope: 'Theme colors and fonts applied to generated editable slides; template geometry and assets are not copied' };
+            } else if (input.designTokens) {
+              deck.designTokens = input.designTokens;
+              designProfile = { tokens: input.designTokens, scope: 'Explicit role-based colors and fonts applied to generated editable slides' };
+            }
             deck = await validateDeck(deck);
             const originalContent = contentSnapshot(deck);
-            return { deck, originalContent, title: input.title, outPptxPath: input.outPptxPath, outReportPath: input.outReportPath };
+            return { deck, originalContent, designProfile, sourceProfile, maxRevisionRounds, title: input.title, outPptxPath: input.outPptxPath, outReportPath: input.outReportPath };
           },
         },
         {
           name: 'revision_loop',
-          handler: async (input: { deck: DeckSpec; originalContent: string; title?: string; outPptxPath: string; outReportPath?: string }, ctx: StepContext) => {
+          handler: async (input: { deck: DeckSpec; originalContent: string; designProfile?: Record<string, unknown>; sourceProfile?: Record<string, unknown>; maxRevisionRounds: number; title?: string; outPptxPath: string; outReportPath?: string }, ctx: StepContext) => {
             if (ctx.isCancelled?.()) throw new Error('Task was cancelled');
             let deck = input.deck;
             const original = input.originalContent;
             const history: any[] = [];
             let qa: DeckInspectionResult = inspectDeck(deck);
 
-            for (let round = 0; round < 3; round++) {
+            for (let round = 0; round < input.maxRevisionRounds; round++) {
               if (ctx.isCancelled?.()) throw new Error('Task was cancelled');
               history.push({ round, overall: qa.visual.overall, passed: qa.passed });
               const suggestions = qa.visual.revision.filter((s: any) => ['split', 'increase_font', 'fix_contrast'].includes(s.action));
@@ -80,13 +106,13 @@ export class TaskService {
               qa = inspectDeck(deck);
             }
 
-            return { deck, qa, history, originalContent: original, outPptxPath: input.outPptxPath, outReportPath: input.outReportPath };
+            return { deck, qa, history, designProfile: input.designProfile, sourceProfile: input.sourceProfile, originalContent: original, outPptxPath: input.outPptxPath, outReportPath: input.outReportPath };
           },
         },
         {
           name: 'render_and_export',
           handler: async (
-            input: { deck: DeckSpec; qa: DeckInspectionResult; history: any[]; outPptxPath: string; outReportPath?: string },
+            input: { deck: DeckSpec; qa: DeckInspectionResult; history: any[]; designProfile?: Record<string, unknown>; sourceProfile?: Record<string, unknown>; outPptxPath: string; outReportPath?: string },
             ctx: StepContext
           ) => {
             if (ctx.isCancelled?.()) throw new Error('Task was cancelled');
@@ -117,6 +143,8 @@ export class TaskService {
               visualScope: 'Deterministic rules on the actual resolved render commands',
               pptx: outputPath,
               stagingDirectory: stagingDir,
+              designProfile: input.designProfile,
+              sourceProfile: input.sourceProfile,
             };
             if (!qa.passed) {
               writeFileSync(stagedReport, JSON.stringify(summary, null, 2), { encoding: 'utf8', flag: 'wx' });
@@ -264,6 +292,10 @@ export class TaskService {
       title: opts.title ?? opts.projectId,
       outPptxPath: opts.outPptxPath,
       outReportPath: opts.outReportPath,
+      referencePptxPath: opts.referencePptxPath,
+      designTokens: opts.designTokens,
+      maxRevisionRounds: opts.maxRevisionRounds,
+      sourceDocumentPath: opts.sourceDocumentPath,
     });
 
     onProgress?.({
@@ -330,6 +362,14 @@ export class TaskService {
       durationMs,
       summary: outData.summary,
     };
+  }
+
+  async compileDocumentFile(
+    opts: Omit<CompileJobOptions, 'markdown' | 'sourceDocumentPath'> & { inputPath: string },
+    onProgress?: (e: CompileProgressEvent) => void
+  ): Promise<CompileJobResult> {
+    const { inputPath, ...options } = opts;
+    return this.compileMarkdown({ ...options, title: options.title ?? basename(inputPath).replace(/\.[^.]+$/, ''), markdown: '', sourceDocumentPath: resolve(inputPath) }, onProgress);
   }
 
   cancel(runId: string): void {

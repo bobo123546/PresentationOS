@@ -2,6 +2,7 @@
 import { test, describe } from 'node:test';
 import assert from 'node:assert/strict';
 import { deflateRawSync } from 'node:zlib';
+import { crc32 } from './fixtures.js';
 import {
   parseDocument,
   extractFacts,
@@ -28,7 +29,7 @@ function createSimpleZipBuffer(files: Record<string, string>): Buffer {
     lh.writeUInt16LE(8, 8); // Deflate
     lh.writeUInt16LE(0, 10);
     lh.writeUInt16LE(0, 12);
-    lh.writeUInt32LE(0, 14); // crc
+    lh.writeUInt32LE(crc32(rawData), 14);
     lh.writeUInt32LE(compressed.length, 18);
     lh.writeUInt32LE(rawData.length, 22);
     lh.writeUInt16LE(fnBuf.length, 26);
@@ -47,7 +48,7 @@ function createSimpleZipBuffer(files: Record<string, string>): Buffer {
     cdh.writeUInt16LE(8, 10);
     cdh.writeUInt16LE(0, 12);
     cdh.writeUInt16LE(0, 14);
-    cdh.writeUInt32LE(0, 16);
+    cdh.writeUInt32LE(crc32(rawData), 16);
     cdh.writeUInt32LE(compressed.length, 20);
     cdh.writeUInt32LE(rawData.length, 24);
     cdh.writeUInt16LE(fnBuf.length, 28);

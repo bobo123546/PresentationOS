@@ -3,6 +3,8 @@ import { resolveLayout, resolveDeckScenes, type DeckSpec, type DeckSlide, type L
 import { runMechanicalQa } from '@pres/mechanical-qa';
 import { runVisualQa, type QaReport } from '@pres/visual-qa';
 import { loadAllSchemas, validate, SCHEMA_IDS } from '@pres/schema-validator';
+import { contrast } from '@pres/revision-engine';
+import { extractFacts } from '@pres/document-parser';
 
 let schemasLoaded: Promise<number> | null = null;
 
@@ -91,16 +93,18 @@ export function mdToDeck(md: string, name = 'deck'): DeckSpec {
 
   if (!sections.length) throw new Error('Markdown contains no presentation content');
 
+  return sectionsToDeck(title, sections);
+}
+
+/** Shared lossless pagination for Markdown and parsed document blocks. */
+export function sectionsToDeck(title: string, sections: Array<{ title: string; blocks: any[] }>): DeckSpec {
+  if (!sections.length) throw new Error('Document contains no presentation content');
+
   const slides: DeckSlide[] = [];
   for (const section of sections) {
     const blocks = section.blocks.flatMap((block) => {
       if (block.type === 'text') {
-        const chars = Array.from(block.text as string);
-        const parts: any[] = [];
-        for (let i = 0; i < chars.length; i += 700) {
-          parts.push({ ...block, text: chars.slice(i, i + 700).join('') });
-        }
-        return parts.length ? parts : [block];
+        return splitTextForSlides(block.text).map(text => ({ ...block, text }));
       }
       if (!block.rows.length) return [block];
       const parts: any[] = [];
@@ -132,6 +136,32 @@ export function mdToDeck(md: string, name = 'deck'): DeckSpec {
   }
 
   return { schema: 'deck-spec', version: '1', title, author: 'PresentationOS', slides };
+}
+
+/** Split without cutting graphemes, literal quantities, words or URLs in half. */
+export function splitTextForSlides(text: string, capacity = 700): string[] {
+  if (!Number.isSafeInteger(capacity) || capacity < 1) throw new Error('Slide text capacity must be a positive integer');
+  const graphemes = [...new Intl.Segmenter(undefined, { granularity: 'grapheme' }).segment(text)];
+  const protectedRanges = [
+    ...extractFacts(text).map(fact => fact.charRange!).filter(Boolean),
+    ...[...text.matchAll(/\d{4}[-/]\d{1,2}[-/]\d{1,2}|[+\-−]?(?:[$¥￥€£]\s*)?\d[\d,，.]*(?:[eE][+\-]?\d+)?(?:\s*(?:万元|亿元|人民币|美元|%|％|万|亿|元|家|人|台|年|月|日|ms|GB|TB))?/g)].map(match => [match.index!, match.index! + match[0].length] as [number, number]),
+    ...[...text.matchAll(/https?:\/\/[^\s]+|[A-Za-z][A-Za-z0-9_]*(?:[-'][A-Za-z][A-Za-z0-9_]*)*/g)].map(match => [match.index!, match.index! + match[0].length] as [number, number]),
+  ];
+  const parts: string[] = [];
+  let start = 0;
+  while (start < graphemes.length) {
+    let end = Math.min(start + capacity, graphemes.length);
+    while (end < graphemes.length) {
+      const offset = graphemes[end].index;
+      const crossing = protectedRanges.find(([from, to]) => from < offset && to > offset);
+      if (!crossing) break;
+      while (end > start && graphemes[end].index > crossing[0]) end--;
+      if (end === start) throw new Error('An indivisible source quantity, word or URL exceeds readable slide capacity; restructure the source explicitly');
+    }
+    const from = graphemes[start].index, to = end === graphemes.length ? text.length : graphemes[end].index;
+    parts.push(text.slice(from, to)); start = end;
+  }
+  return parts.length ? parts : [text];
 }
 
 export async function validateDeck(deck: DeckSpec): Promise<DeckSpec> {
@@ -188,6 +218,14 @@ export function inspectDeck(deck: DeckSpec): DeckInspectionResult {
       }
     }
     mechanical.push({ slide: slide.id, ...check });
+    const backgroundFor = (command: typeof content[number]): string => {
+      const own = (command.options.fill as any)?.color;
+      if (typeof own === 'string') return own;
+      const behind = scene.commands.slice(0, scene.commands.indexOf(command)).reverse().find(candidate =>
+        typeof (candidate.options.fill as any)?.color === 'string' && candidate.rect.x <= command.rect.x && candidate.rect.y <= command.rect.y &&
+        candidate.rect.x + candidate.rect.w >= command.rect.x + command.rect.w && candidate.rect.y + candidate.rect.h >= command.rect.y + command.rect.h);
+      return (behind?.options.fill as any)?.color ?? scene.background.color;
+    };
     return {
       index: index + 1,
       kind: scene.kind,
@@ -200,13 +238,25 @@ export function inspectDeck(deck: DeckSpec): DeckInspectionResult {
           style: {
             fontSize: Number(command.options.fontSize ?? 12),
             color: typeof command.options.color === 'string' ? command.options.color : scene.theme.font,
-            bg: typeof (command.options.fill as any)?.color === 'string' ? (command.options.fill as any).color : scene.background,
+            bg: backgroundFor(command),
           },
         })),
     };
   });
 
   const visual = runVisualQa(slides);
+  // Unreadable text is a publication error, including theme-derived defaults.
+  // Cells have individual fills, so a table-level style alone is insufficient.
+  for (const issue of visual.issues) if (issue.rule === 'contrast') issue.severity = 'error';
+  for (const scene of scenes) for (const command of scene.commands.filter(c => c.type === 'table')) {
+    for (const [rowIndex, row] of (command.rows ?? []).entries()) for (const [columnIndex, cell] of row.entries()) {
+      const options = (cell as { options?: { color?: string; fill?: string } }).options;
+      if (options?.color && options.fill && contrast(options.color, options.fill) < 3) {
+        visual.issues.push({ slide: scene.index + 1, rule: 'contrast', severity: 'error',
+          message: `Table cell ${rowIndex + 1},${columnIndex + 1} has unreadable contrast (${options.color}/${options.fill})` });
+      }
+    }
+  }
   const mechanicalPass = mechanical.every((check) => check.ok && !check.findings.some((finding: any) => ['overflow', 'overlap'].includes(finding.check)));
   return {
     passed: mechanicalPass && !visual.issues.some((issue) => issue.severity === 'error'),

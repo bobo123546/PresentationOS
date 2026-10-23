@@ -30,7 +30,7 @@ export function parsePlaintext(
     } else {
       blocks.push({
         type: 'paragraph',
-        text: rawPara.replace(/\r?\n/g, ' '),
+        text: rawPara,
         facts,
       });
     }

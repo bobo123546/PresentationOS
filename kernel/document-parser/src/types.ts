@@ -15,6 +15,7 @@ export interface ExtractedFact {
   factType: 'numeric' | 'currency' | 'percentage' | 'date' | 'unit';
   literalValue: string;
   charRange?: [number, number];
+  /** Extracted from a source span; does not certify the claim as true. */
   verified: boolean;
 }
 
@@ -37,6 +38,7 @@ export interface DocumentIR {
 export interface ParsedDocument {
   doc: DocumentIR;
   facts: ExtractedFact[];
+  /** Original UTF-8 text, or extracted body/cached-cell text for OOXML inputs. */
   rawText: string;
   sha256: string;
   summary: {

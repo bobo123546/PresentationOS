@@ -1,4 +1,4 @@
-// PresentationOS Multi-Format Document Ingestion & Fact Preservation (P05)
+// Structured document ingestion with explicit format and preservation limits.
 import { createHash } from 'node:crypto';
 import { extname } from 'node:path';
 import { validate, SCHEMA_IDS, loadAllSchemas } from '@pres/schema-validator';
@@ -19,6 +19,35 @@ import { extractFacts, verifyFactsPreserved } from './fact-extractor.js';
 export * from './types.js';
 export { extractFacts, verifyFactsPreserved } from './fact-extractor.js';
 export { extractZipEntries } from './zip.js';
+
+export const SUPPORTED_DOCUMENT_FORMATS = ['markdown', 'plaintext', 'csv', 'tsv', 'docx', 'xlsx'] as const;
+export class UnsupportedDocumentFormatError extends Error {
+  readonly code = 'UNSUPPORTED_DOCUMENT_FORMAT';
+  constructor(readonly format: string) {
+    super(`Unsupported document format: ${format}. Supported ingestion formats: ${SUPPORTED_DOCUMENT_FORMATS.join(', ')}`);
+    this.name = 'UnsupportedDocumentFormatError';
+  }
+}
+
+function decodeText(buffer: Buffer): string {
+  let text: string;
+  try { text = new TextDecoder('utf-8', { fatal: true }).decode(buffer); }
+  catch { throw new Error('Document text must be valid UTF-8; binary input cannot be parsed as plaintext'); }
+  if (text.includes('\u0000') || text.startsWith('%PDF-') || buffer.subarray(0, 4).equals(Buffer.from([0x50, 0x4b, 0x03, 0x04]))) throw new Error('Binary document cannot be parsed as UTF-8 plaintext');
+  return text;
+}
+
+function documentText(doc: DocumentIR): string {
+  return doc.blocks.map(block => {
+    switch (block.type) {
+      case 'heading': case 'paragraph': return block.text;
+      case 'list': return block.items.join('\n');
+      case 'table': return [block.headers, ...block.rows].map(row => row.join('\t')).join('\n');
+      case 'code': return block.code;
+      case 'image': return block.caption;
+    }
+  }).join('\n');
+}
 
 let schemasEnsured = false;
 async function ensureSchemas(): Promise<void> {
@@ -63,9 +92,9 @@ export async function parseDocument(
   filename: string,
   format?: DocumentFormat
 ): Promise<ParsedDocument> {
-  await ensureSchemas();
-
   const detected = format ?? detectFormat(filename, content);
+  if (!(SUPPORTED_DOCUMENT_FORMATS as readonly string[]).includes(detected)) throw new UnsupportedDocumentFormatError(detected);
+  await ensureSchemas();
   const buffer = Buffer.isBuffer(content) ? content : Buffer.from(content, 'utf8');
   const sha256 = createHash('sha256').update(buffer).digest('hex');
 
@@ -73,16 +102,16 @@ export async function parseDocument(
 
   switch (detected) {
     case 'markdown':
-      parseResult = parseMarkdown(buffer.toString('utf8'), filename);
+      parseResult = parseMarkdown(decodeText(buffer), filename);
       break;
     case 'plaintext':
-      parseResult = parsePlaintext(buffer.toString('utf8'), filename);
+      parseResult = parsePlaintext(decodeText(buffer), filename);
       break;
     case 'csv':
-      parseResult = parseTabular(buffer.toString('utf8'), 'csv', filename);
+      parseResult = parseTabular(decodeText(buffer), 'csv', filename);
       break;
     case 'tsv':
-      parseResult = parseTabular(buffer.toString('utf8'), 'tsv', filename);
+      parseResult = parseTabular(decodeText(buffer), 'tsv', filename);
       break;
     case 'docx':
       parseResult = parseDocx(buffer, filename);
@@ -91,9 +120,7 @@ export async function parseDocument(
       parseResult = parseXlsx(buffer, filename);
       break;
     default:
-      // Fallback to plaintext
-      parseResult = parsePlaintext(buffer.toString('utf8'), filename);
-      break;
+      throw new UnsupportedDocumentFormatError(detected);
   }
 
   // Schema validation against DocumentIR
@@ -113,7 +140,7 @@ export async function parseDocument(
   return {
     doc: parseResult.doc,
     facts: parseResult.facts,
-    rawText: buffer.toString('utf8'),
+    rawText: detected === 'docx' || detected === 'xlsx' ? documentText(parseResult.doc) : decodeText(buffer),
     sha256,
     summary: {
       totalBlocks: parseResult.doc.blocks.length,
@@ -125,7 +152,7 @@ export async function parseDocument(
 }
 
 /**
- * Transforms DocumentIR into DeckSpec presentation structure while preserving 100% of facts.
+ * Maps supported text/list/table blocks to DeckSpec; it is not a factual-truth certificate.
  */
 export function documentIrToDeck(
   doc: DocumentIR,
