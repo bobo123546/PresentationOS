@@ -1,138 +1,77 @@
 import { createHash } from 'node:crypto';
-import { existsSync, mkdirSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
+import { existsSync, mkdirSync, mkdtempSync, statSync, writeFileSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
-import type {
-  AudioSegment,
-  MediaPipelineOptions,
-  MediaPipelineResult,
-  SlideNarration,
-} from './types.js';
+import type { AudioSegment, MediaPipelineOptions, MediaPipelineResult, NarrationCue, SlideNarration } from './types.js';
 import { normalizeNarrationScript } from './normalizer.js';
-import { WindowsSapiTtsProvider, ITtsProvider, readWavDuration } from './tts-provider.js';
+import { WindowsSapiTtsProvider, type ITtsProvider, readWavInfo, readWavDuration, writeSilenceWav } from './tts-provider.js';
 import { buildDeckTimeline } from './timeline.js';
-import { writeSubtitleFiles } from './subtitle.js';
+import { splitNarrationSentences, writeSubtitleFiles } from './subtitle.js';
 import { renderDeckVideo } from './ffmpeg-runner.js';
 
-export interface RawSlideInput {
-  id: string;
-  index: number;
-  notes?: string;
-  imagePath?: string;
-}
+export interface RawSlideInput { id: string; index: number; notes?: string; imagePath?: string; }
 
 export class MediaPipeline {
-  private ttsProvider: ITtsProvider;
+  constructor(private ttsProvider: ITtsProvider = new WindowsSapiTtsProvider()) {}
 
-  constructor(provider?: ITtsProvider) {
-    this.ttsProvider = provider || new WindowsSapiTtsProvider();
-  }
-
-  /**
-   * Executes complete end-to-end media pipeline:
-   * Notes -> Narration Normalization -> TTS -> Timeline -> Subtitles -> MP4 Video -> Media QA
-   */
-  async processDeck(
-    slides: RawSlideInput[],
-    outMp4Path: string,
-    options: MediaPipelineOptions = {}
-  ): Promise<MediaPipelineResult> {
-    const workDir = options.workDir || dirname(outMp4Path);
-    const cacheDir = options.cacheDir || resolve(workDir, '.media-cache');
+  /** Sentence boundaries come from independently synthesised audio, not guessed word timing. */
+  async processDeck(slides: RawSlideInput[], outMp4Path: string, options: MediaPipelineOptions = {}): Promise<MediaPipelineResult> {
+    if (!Array.isArray(slides) || !slides.length || slides.some(s => !s.id || !Number.isInteger(s.index) || s.index < 0) || new Set(slides.map(s => s.id)).size !== slides.length || new Set(slides.map(s => s.index)).size !== slides.length) throw new Error('A nonempty deck with unique slide identifiers/indices is required');
+    if (!/\.mp4$/i.test(outMp4Path)) throw new Error('Output path must end with .mp4');
+    const fps = options.fps ?? 25;
+    if (!Number.isFinite(fps) || fps < 1 || fps > 120) throw new Error('Video FPS must be between 1 and 120');
+    const silenceDuration = options.silentSlideDurationSec ?? 3;
+    if (!Number.isFinite(silenceDuration) || silenceDuration <= 0 || silenceDuration > 3600 || !Number.isFinite(options.transitionSec ?? 0.5) || (options.transitionSec ?? 0.5) < 0) throw new Error('Invalid slide/transition duration');
+    // Reject missing assets before any synthesis/output. No mock-success branch.
+    for (const s of slides) if (!s.imagePath || !existsSync(s.imagePath) || !statSync(s.imagePath).isFile()) throw new Error(`A real slide image is required for ${s.id}`);
+    for (const p of [outMp4Path, outMp4Path.replace(/\.mp4$/i, '.srt'), outMp4Path.replace(/\.mp4$/i, '.vtt')]) if (existsSync(p)) throw new Error(`Refusing to overwrite existing media output: ${p}`);
+    mkdirSync(dirname(resolve(outMp4Path)), { recursive: true });
+    const workDir = resolve(options.workDir ?? dirname(outMp4Path));
     mkdirSync(workDir, { recursive: true });
+    const jobDir = mkdtempSync(resolve(workDir, '.speech-job-'));
+    const cacheDir = resolve(options.cacheDir ?? resolve(workDir, '.media-cache-v2'));
     mkdirSync(cacheDir, { recursive: true });
-
-    // 1. Script Normalization & Narration Preparation
-    const narrations: SlideNarration[] = [];
-    for (const s of slides) {
-      const norm = normalizeNarrationScript(s.notes || '');
-      narrations.push({
-        slideId: s.id,
-        slideIndex: s.index,
-        notesRaw: s.notes || '',
-        narrationScript: norm.narrationScript,
-        voice: options.voice,
-        speed: options.speed,
-        isSilent: norm.isSilent,
-      });
-    }
-
-    // 2. Synthesize audio per slide with hash-based caching (P14 requirement: single-slide regeneration)
+    const narrations: SlideNarration[] = slides.map(s => ({ slideId: s.id, slideIndex: s.index, notesRaw: s.notes ?? '', ...normalizeNarrationScript(s.notes ?? ''), voice: options.voice, speed: options.speed }));
     const audioSegments: AudioSegment[] = [];
     for (const n of narrations) {
-      const contentHash = createHash('sha256')
-        .update(`${n.narrationScript}|${n.voice || 'default'}|${n.speed || 0}`)
-        .digest('hex')
-        .slice(0, 16);
-
-      const segmentAudioPath = resolve(cacheDir, `slide-${n.slideIndex}-${contentHash}.wav`);
-      let cached = false;
-
-      if (existsSync(segmentAudioPath)) {
-        cached = true;
-      } else {
-        await this.ttsProvider.synthesize(n.narrationScript, segmentAudioPath, {
-          voice: n.voice,
-          speed: n.speed,
-        });
+      if (n.isSilent) {
+        const audioPath = resolve(jobDir, `silent-${n.slideIndex}.wav`);
+        const durationSec = writeSilenceWav(audioPath, silenceDuration);
+        audioSegments.push({ slideId: n.slideId, audioPath, durationSec, cached: false, narrationCues: [] });
+        continue;
       }
-
-      const durationSec = readWavDuration(segmentAudioPath);
-      audioSegments.push({
-        slideId: n.slideId,
-        audioPath: segmentAudioPath,
-        durationSec,
-        cached,
-      });
+      const chunks = splitNarrationSentences(n.narrationScript);
+      const paths: string[] = [], cues: NarrationCue[] = [];
+      let duration = 0, allCached = true, format = '';
+      for (const text of chunks) {
+        const hash = createHash('sha256').update(JSON.stringify({ schema: 'sentence-wav-v2', provider: this.ttsProvider.name, text, voice: options.voice ?? '', speed: options.speed ?? 0 })).digest('hex');
+        const path = resolve(cacheDir, `${hash}.wav`);
+        if (!existsSync(path)) {
+          allCached = false;
+          await this.ttsProvider.synthesize(text, path, { voice: options.voice, speed: options.speed });
+        }
+        const info = readWavInfo(path);
+        const key = [info.audioFormat, info.channels, info.sampleRate, info.bitsPerSample].join('/');
+        if (format && format !== key) throw new Error('Narration sentences must share one WAV sample format');
+        format = key;
+        paths.push(path);
+        cues.push({ startSec: duration, endSec: duration + info.durationSec, text });
+        duration += info.durationSec;
+      }
+      let audioPath = paths[0];
+      if (paths.length > 1) {
+        const manifest = resolve(jobDir, `sentences-${n.slideIndex}.txt`);
+        writeFileSync(manifest, paths.map(p => `file '${p.replace(/\\/g, '/').replace(/'/g, "'\\''")}'`).join('\n'), { flag: 'wx' });
+        audioPath = resolve(jobDir, `narration-${n.slideIndex}.wav`);
+        execFileSync('ffmpeg', ['-hide_banner', '-loglevel', 'error', '-nostdin', '-n', '-f', 'concat', '-safe', '0', '-i', manifest, '-c:a', 'copy', audioPath], { timeout: 120000, windowsHide: true, stdio: ['ignore', 'pipe', 'pipe'] });
+      }
+      const actual = readWavDuration(audioPath);
+      if (Math.abs(actual - duration) > 0.0001) throw new Error('Joined sentence audio does not match subtitle boundaries');
+      audioSegments.push({ slideId: n.slideId, audioPath, durationSec: actual, cached: allCached, narrationCues: cues });
     }
-
-    // 3. Compute Deck Timeline
-    const { timeline, totalDurationSec } = buildDeckTimeline(narrations, audioSegments, {
-      transitionSec: options.transitionSec ?? 0.5,
-      silentSlideDurationSec: options.silentSlideDurationSec ?? 3.0,
-    });
-
-    // 4. Generate Subtitles (SRT & WebVTT)
+    const { timeline, totalDurationSec } = buildDeckTimeline(narrations, audioSegments, { transitionSec: options.transitionSec, silentSlideDurationSec: silenceDuration, fps });
+    const qa = await renderDeckVideo({ slideImages: slides.map(s => s.imagePath!), audioSegments, timeline, outMp4Path, workDir: jobDir, fps, resolution: options.resolution });
     const { srtPath, vttPath } = writeSubtitleFiles(narrations, timeline, outMp4Path);
-
-    // 5. Gather slide images (or fallbacks)
-    const slideImages = slides.map((s) => s.imagePath || '');
-
-    // 6. If slide images exist, render MP4 video
-    let qaReport;
-    if (slideImages.length > 0 && slideImages.every((p) => p && existsSync(p))) {
-      qaReport = await renderDeckVideo({
-        slideImages,
-        audioSegments,
-        timeline,
-        outMp4Path,
-        workDir,
-        fps: options.fps ?? 25,
-      });
-    } else {
-      // Mock/dry-run QA report if images not supplied
-      qaReport = {
-        videoDurationSec: totalDurationSec,
-        audioDurationSec: totalDurationSec,
-        syncDeltaSec: 0,
-        syncPassed: true,
-        videoStreamValid: true,
-        audioStreamValid: true,
-        width: 1920,
-        height: 1080,
-        fps: options.fps ?? 25,
-        bitrate: 192000,
-        errors: [],
-      };
-    }
-
-    return {
-      ok: qaReport.syncPassed && qaReport.errors.length === 0,
-      mp4Path: outMp4Path,
-      vttPath,
-      srtPath,
-      timeline,
-      totalDurationSec,
-      qa: qaReport,
-    };
+    return { ok: qa.syncPassed && !qa.errors.length, mp4Path: outMp4Path, srtPath, vttPath, timeline, totalDurationSec, qa, subtitleAlignment: 'sentence-audio-boundary', audioSegments };
   }
 }

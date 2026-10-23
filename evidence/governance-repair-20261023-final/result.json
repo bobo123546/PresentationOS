@@ -1,0 +1,42 @@
+{
+  "status": "PASS_SCOPED",
+  "exit_code": 0,
+  "command": "node D:/099/presentationos-repair-20261023/security/finalize-governance.mjs",
+  "scope": "31 targeted regression tests for security and documentation semantics, current documentation audit; does not certify full task acceptance or release",
+  "recorded_at": "2026-10-23T14:23:22.453Z",
+  "commit_hash": "916575c44f876350a7ac6957ae67d3d4ddd63947",
+  "working_tree_dirty": true,
+  "release_ready": false,
+  "tests": 31,
+  "audit": 121,
+  "artifacts": [
+    {
+      "path": "regression.stdout.txt",
+      "sha256": "05c011fd88331a215c79fda1fdb64213bb494163c98a3541fa47a93b096b5e05"
+    },
+    {
+      "path": "regression.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "regression.command.json",
+      "sha256": "c693d64c688edb1d56df1c84abdeae1393001b3c682229ed3d1ea8f3543dba49"
+    },
+    {
+      "path": "semantic-audit.stdout.txt",
+      "sha256": "e2f1a7df9d4ff0079cd8fff83be5bc4ee32ee8002870d98824afe7e4b0d05666"
+    },
+    {
+      "path": "semantic-audit.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "semantic-audit.command.json",
+      "sha256": "335396e3f352a97bf29f91fbf2904ff4c95efab09b98b17b33c0211292fa15f6"
+    },
+    {
+      "path": "source-files.json",
+      "sha256": "d1e480f3ef567c9919a31e2d6358c7503955bcc59801ee072c1da29408ab762c"
+    }
+  ]
+}

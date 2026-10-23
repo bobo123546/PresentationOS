@@ -1,97 +1,46 @@
-import { writeFileSync } from 'node:fs';
+import { existsSync, rmSync, writeFileSync } from 'node:fs';
 import type { SlideNarration, SubtitleEntry, TimelineEntry } from './types.js';
 
-function formatSrtTime(totalMs: number): string {
-  const hours = Math.floor(totalMs / 3600000);
-  const minutes = Math.floor((totalMs % 3600000) / 60000);
-  const seconds = Math.floor((totalMs % 60000) / 1000);
-  const ms = Math.floor(totalMs % 1000);
-
-  const pad = (n: number, z = 2) => String(n).padStart(z, '0');
-  return `${pad(hours)}:${pad(minutes)}:${pad(seconds)},${pad(ms, 3)}`;
+/** Preserve text exactly; each chunk will be independently synthesised and timed. */
+export function splitNarrationSentences(text: string): string[] {
+  if (!text.trim()) return [];
+  return text.match(/[^。！？!?；;\n]+[。！？!?；;\n]*|[。！？!?；;\n]+/gu) ?? [text];
 }
 
-function formatVttTime(totalMs: number): string {
-  const hours = Math.floor(totalMs / 3600000);
-  const minutes = Math.floor((totalMs % 3600000) / 60000);
-  const seconds = Math.floor((totalMs % 60000) / 1000);
-  const ms = Math.floor(totalMs % 1000);
-
-  const pad = (n: number, z = 2) => String(n).padStart(z, '0');
-  return `${pad(hours)}:${pad(minutes)}:${pad(seconds)}.${pad(ms, 3)}`;
+function time(ms: number, separator: string): string {
+  if (!Number.isSafeInteger(ms) || ms < 0) throw new Error('Invalid subtitle timestamp');
+  const pad = (n: number, width = 2) => String(n).padStart(width, '0');
+  return `${pad(Math.floor(ms / 3600000))}:${pad(Math.floor(ms / 60000) % 60)}:${pad(Math.floor(ms / 1000) % 60)}${separator}${pad(ms % 1000, 3)}`;
 }
 
-export function generateSubtitles(
-  narrations: SlideNarration[],
-  timeline: TimelineEntry[]
-): {
-  entries: SubtitleEntry[];
-  srtContent: string;
-  vttContent: string;
-} {
+export function generateSubtitles(narrations: SlideNarration[], timeline: TimelineEntry[]): { entries: SubtitleEntry[]; srtContent: string; vttContent: string } {
   const entries: SubtitleEntry[] = [];
-  const timeMap = new Map<string, TimelineEntry>();
-  for (const t of timeline) {
-    timeMap.set(t.slideId, t);
-  }
-
-  let index = 1;
+  const map = new Map(timeline.map(t => [t.slideId, t]));
+  if (map.size !== timeline.length || new Set(narrations.map(n => n.slideId)).size !== narrations.length) throw new Error('Duplicate subtitle slide identifiers');
+  let lastEnd = 0;
   for (const n of narrations) {
     if (n.isSilent || !n.narrationScript.trim()) continue;
-
-    const t = timeMap.get(n.slideId);
-    if (!t) continue;
-
-    const startMs = Math.round(t.startSec * 1000);
-    // Subtitle displays across spoken audio duration, leaving transition buffer
-    const endMs = Math.round((t.startSec + t.audioDurationSec) * 1000);
-
-    entries.push({
-      index: index++,
-      startMs,
-      endMs,
-      text: n.narrationScript,
-    });
+    const t = map.get(n.slideId);
+    if (!t || ![t.startSec, t.endSec, t.audioDurationSec].every(Number.isFinite) || t.startSec < 0 || t.audioDurationSec <= 0 || t.endSec < t.startSec + t.audioDurationSec - 1e-7) throw new Error('Invalid or missing subtitle timeline');
+    const cues = t.narrationCues ?? [{ startSec: 0, endSec: t.audioDurationSec, text: n.narrationScript }];
+    if (!cues.length || cues.map(c => c.text).join('') !== n.narrationScript) throw new Error('Subtitle chunks must preserve the complete narration text');
+    for (const cue of cues) {
+      if (![cue.startSec, cue.endSec].every(Number.isFinite) || cue.startSec < 0 || cue.endSec <= cue.startSec || cue.endSec > t.audioDurationSec + 1e-7 || !cue.text.trim()) throw new Error('Subtitle cue exceeds its actual narration audio');
+      const startMs = Math.round((t.startSec + cue.startSec) * 1000), endMs = Math.round((t.startSec + cue.endSec) * 1000);
+      if (startMs < lastEnd || endMs <= startMs || endMs > Math.round(t.endSec * 1000)) throw new Error('Overlapping or empty subtitle cue');
+      entries.push({ index: entries.length + 1, startMs, endMs, text: cue.text });
+      lastEnd = endMs;
+    }
   }
-
-  // Build SRT
-  const srtLines: string[] = [];
-  for (const e of entries) {
-    srtLines.push(String(e.index));
-    srtLines.push(`${formatSrtTime(e.startMs)} --> ${formatSrtTime(e.endMs)}`);
-    srtLines.push(e.text);
-    srtLines.push('');
-  }
-  const srtContent = srtLines.join('\n');
-
-  // Build WebVTT
-  const vttLines: string[] = ['WEBVTT', ''];
-  for (const e of entries) {
-    vttLines.push(String(e.index));
-    vttLines.push(`${formatVttTime(e.startMs)} --> ${formatVttTime(e.endMs)}`);
-    vttLines.push(e.text);
-    vttLines.push('');
-  }
-  const vttContent = vttLines.join('\n');
-
-  return {
-    entries,
-    srtContent,
-    vttContent,
-  };
+  const serialize = (separator: string) => entries.map(e => `${e.index}\n${time(e.startMs, separator)} --> ${time(e.endMs, separator)}\n${e.text}\n`).join('\n');
+  return { entries, srtContent: serialize(','), vttContent: `WEBVTT\n\n${serialize('.')}` };
 }
 
-export function writeSubtitleFiles(
-  narrations: SlideNarration[],
-  timeline: TimelineEntry[],
-  basePath: string
-): { srtPath: string; vttPath: string } {
+export function writeSubtitleFiles(narrations: SlideNarration[], timeline: TimelineEntry[], basePath: string): { srtPath: string; vttPath: string } {
   const { srtContent, vttContent } = generateSubtitles(narrations, timeline);
-  const srtPath = basePath.replace(/\.[^.]+$/, '') + '.srt';
-  const vttPath = basePath.replace(/\.[^.]+$/, '') + '.vtt';
-
-  writeFileSync(srtPath, srtContent, 'utf8');
-  writeFileSync(vttPath, vttContent, 'utf8');
-
+  const stem = basePath.replace(/\.mp4$/i, ''), srtPath = `${stem}.srt`, vttPath = `${stem}.vtt`;
+  if (existsSync(srtPath) || existsSync(vttPath)) throw new Error('Refusing to overwrite existing subtitle output');
+  writeFileSync(srtPath, srtContent, { flag: 'wx' });
+  try { writeFileSync(vttPath, vttContent, { flag: 'wx' }); } catch (error) { rmSync(srtPath); throw error; }
   return { srtPath, vttPath };
 }

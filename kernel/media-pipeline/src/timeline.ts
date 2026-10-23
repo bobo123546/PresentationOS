@@ -1,59 +1,24 @@
 import type { AudioSegment, SlideNarration, TimelineEntry } from './types.js';
+export interface TimelineOptions { transitionSec?: number; silentSlideDurationSec?: number; fps?: number; }
 
-export interface TimelineOptions {
-  transitionSec?: number;
-  silentSlideDurationSec?: number;
-}
-
-export function buildDeckTimeline(
-  narrations: SlideNarration[],
-  audioSegments: AudioSegment[],
-  options: TimelineOptions = {}
-): {
-  timeline: TimelineEntry[];
-  totalDurationSec: number;
-} {
-  const transitionSec = options.transitionSec ?? 0.5;
-  const silentDurationSec = options.silentSlideDurationSec ?? 3.0;
-
-  const audioMap = new Map<string, AudioSegment>();
-  for (const seg of audioSegments) {
-    audioMap.set(seg.slideId, seg);
-  }
-
+export function buildDeckTimeline(narrations: SlideNarration[], audioSegments: AudioSegment[], options: TimelineOptions = {}): { timeline: TimelineEntry[]; totalDurationSec: number } {
+  const transition = options.transitionSec ?? 0.5, silent = options.silentSlideDurationSec ?? 3;
+  if (!Number.isFinite(transition) || transition < 0 || !Number.isFinite(silent) || silent <= 0) throw new Error('Invalid timeline duration options');
+  if (options.fps !== undefined && (!Number.isFinite(options.fps) || options.fps < 1 || options.fps > 120)) throw new Error('Invalid timeline FPS');
+  const audio = new Map(audioSegments.map(s => [s.slideId, s]));
+  if (audio.size !== audioSegments.length || new Set(narrations.map(n => n.slideId)).size !== narrations.length) throw new Error('Duplicate slide identifiers');
   const timeline: TimelineEntry[] = [];
-  let currentStartSec = 0;
-
-  for (let i = 0; i < narrations.length; i++) {
-    const n = narrations[i];
-    const seg = audioMap.get(n.slideId);
-
-    const audioDur = seg ? seg.durationSec : (n.isSilent ? silentDurationSec : 2.0);
-    const isLastSlide = i === narrations.length - 1;
-    // Keep a buffer at the end of each slide for transition
-    const transDur = isLastSlide ? 0.5 : transitionSec;
-    const slideTotalDur = Math.round((audioDur + transDur) * 1000) / 1000;
-
-    const startSec = Math.round(currentStartSec * 1000) / 1000;
-    const endSec = Math.round((currentStartSec + slideTotalDur) * 1000) / 1000;
-
-    timeline.push({
-      slideId: n.slideId,
-      slideIndex: n.slideIndex,
-      startSec,
-      endSec,
-      audioDurationSec: audioDur,
-      transitionDurationSec: transDur,
-      totalDurationSec: slideTotalDur,
-    });
-
-    currentStartSec = endSec;
+  let current = 0;
+  for (const n of narrations) {
+    const segment = audio.get(n.slideId);
+    if (!segment && !n.isSilent) throw new Error(`Missing narration audio for ${n.slideId}`);
+    const duration = segment?.durationSec ?? silent;
+    if (!Number.isFinite(duration) || duration <= 0) throw new Error('Audio duration must be finite and positive');
+    const intended = duration + transition;
+    const total = options.fps ? Math.ceil(intended * options.fps - 1e-9) / options.fps : intended;
+    const end = current + total;
+    timeline.push({ slideId: n.slideId, slideIndex: n.slideIndex, startSec: current, endSec: end, audioDurationSec: duration, transitionDurationSec: total - duration, totalDurationSec: total, narrationCues: segment?.narrationCues });
+    current = end;
   }
-
-  const totalDurationSec = Math.round(currentStartSec * 1000) / 1000;
-
-  return {
-    timeline,
-    totalDurationSec,
-  };
+  return { timeline, totalDurationSec: current };
 }

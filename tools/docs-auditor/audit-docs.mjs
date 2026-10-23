@@ -1,17 +1,19 @@
 import {readFileSync,existsSync} from 'node:fs';
 import {join,resolve} from 'node:path';
 import {pathToFileURL} from 'node:url';
+import {auditSemantic,validateEvidence} from './semantic-rules.mjs';
 
 export function auditRepo(root){
   const checks=[];
   const check=(name,pass,detail='')=>checks.push({name,pass:Boolean(pass),detail});
-  function json(file){try{return JSON.parse(readFileSync(join(root,file),'utf8'));}catch(error){check(`${file} parses`,false,error.message);return null;}}
+  function json(file){try{return JSON.parse(readFileSync(join(root,file),'utf8').replace(/^\uFEFF/,''));}catch(error){check(`${file} parses`,false,error.message);return null;}}
   const pkg=json('package.json');
   const cli=json('apps/cli/package.json');
   const state=json('state/project_state.json');
   const backlog=json('state/backlog.json');
   const blockers=json('state/blockers.json');
   if(!pkg||!state||!Array.isArray(backlog)||!Array.isArray(blockers))return{passAll:false,checks};
+  if(backlog.some(t=>!t||typeof t!=='object'||!Array.isArray(t.dependencies))||blockers.some(b=>!b||typeof b!=='object')){check('task and blocker entries have object shapes',false);return{passAll:false,checks};}
   check('product version agrees with state',pkg.version===state.project_version,`${pkg.version} / ${state.project_version}`);
   check('CLI version agrees with product',cli?.version===pkg.version,`${cli?.version} / ${pkg.version}`);
   const ids=backlog.map(t=>t.id);
@@ -27,8 +29,7 @@ export function auditRepo(root){
   check('ready release has no open blockers',state.release_status!=='RELEASE_READY'||open.length===0);
   check('not-ready release records its blockers',state.release_status!=='NOT_READY'||open.length>0);
   check('ready release has explicit validation evidence',state.release_status!=='RELEASE_READY'||['native','uia','installer','clean_machine','security'].every(key=>{
-    const file=state.release_evidence?.[key];if(!file)return false;
-    try{const record=JSON.parse(readFileSync(join(root,file),'utf8'));return record.status==='PASS'&&record.command&&record.exit_code===0&&/^[a-f0-9]{40}$/.test(record.commit_hash);}catch{return false;}
+    return validateEvidence(root,state.release_evidence?.[key],{report:true}).valid;
   }));
   for(const name of ['交接文档.md','源码结构文档.md','编译部署指南.md','协作提示词.md','训练数据.md']){
     const file=join(root,'docs',name);
@@ -43,6 +44,7 @@ export function auditRepo(root){
   const prototype=state.prototypes?.['098'];
   check('098 has explicit experimental ownership and verification limits',!existsSync(join(root,'098'))||(prototype?.status==='EXPERIMENTAL'&&prototype.release_status==='NOT_READY'&&prototype.native_qa==='PARTIAL'&&Boolean(prototype.contract)));
   check('phase remains in progress while QA task is incomplete',state.current_phase!=='PHASE_9_COMPLETE'||backlog.find(t=>t.id==='TASK-0010')?.status==='COMPLETED');
+  checks.push(...auditSemantic(root,pkg,state,backlog,blockers));
   return{repo:root,passAll:checks.every(c=>c.pass),checks};
 }
 if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).href){const report=auditRepo(resolve(process.argv[2]??'.'));console.log(JSON.stringify(report,null,2));process.exitCode=report.passAll?0:1;}

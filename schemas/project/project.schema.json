@@ -41,6 +41,25 @@
       },
       "additionalProperties": false
     },
+    "editorState": {
+      "type": "object",
+      "required": ["sections"],
+      "properties": {
+        "sections": {
+          "type": "array",
+          "maxItems": 5000,
+          "items": {
+            "type": "object",
+            "properties": {
+              "speakerNotes": { "type": "string" },
+              "layout": { "type": "string", "enum": ["title", "bullet_list", "two_column", "big_stat", "quote"] }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
     "template": {
       "type": "object",
       "properties": {

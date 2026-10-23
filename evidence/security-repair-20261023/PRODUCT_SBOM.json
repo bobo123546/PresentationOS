@@ -1,0 +1,944 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "serialNumber": "urn:uuid:76e0c88f-dda3-4896-8b11-4de0a7204aa8",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2026-10-23T14:22:46.112Z",
+    "component": {
+      "type": "application",
+      "name": "presentationos",
+      "version": "0.1.2-alpha"
+    },
+    "properties": [
+      {
+        "name": "presentationos:scope",
+        "value": "npm workspace production transitive graph plus restored NuGet inventory; not an installed-binary SBOM"
+      }
+    ]
+  },
+  "components": [
+    {
+      "type": "application",
+      "bom-ref": "workspace:presentationos",
+      "name": "presentationos",
+      "version": "0.1.2-alpha"
+    },
+    {
+      "type": "application",
+      "bom-ref": "workspace:@pres/cli",
+      "name": "@pres/cli",
+      "version": "0.1.2-alpha"
+    },
+    {
+      "type": "application",
+      "bom-ref": "workspace:@pres/desktop",
+      "name": "@pres/desktop",
+      "version": "0.1.2-alpha"
+    },
+    {
+      "type": "application",
+      "bom-ref": "workspace:@pres/document-parser",
+      "name": "@pres/document-parser",
+      "version": "0.1.2-alpha"
+    },
+    {
+      "type": "application",
+      "bom-ref": "workspace:@pres/schema-validator",
+      "name": "@pres/schema-validator",
+      "version": "0.1.0"
+    },
+    {
+      "type": "application",
+      "bom-ref": "workspace:@pres/media-pipeline",
+      "name": "@pres/media-pipeline",
+      "version": "0.1.0"
+    },
+    {
+      "type": "application",
+      "bom-ref": "workspace:@pres/pptx-engine",
+      "name": "@pres/pptx-engine",
+      "version": "0.1.0"
+    },
+    {
+      "type": "application",
+      "bom-ref": "workspace:@pres/scene-reconstruction",
+      "name": "@pres/scene-reconstruction",
+      "version": "0.1.0"
+    },
+    {
+      "type": "application",
+      "bom-ref": "workspace:@pres/workflow",
+      "name": "@pres/workflow",
+      "version": "0.1.2-alpha"
+    },
+    {
+      "type": "application",
+      "bom-ref": "workspace:@pres/durable-workflow",
+      "name": "@pres/durable-workflow",
+      "version": "0.1.0"
+    },
+    {
+      "type": "application",
+      "bom-ref": "workspace:@pres/mechanical-qa",
+      "name": "@pres/mechanical-qa",
+      "version": "0.1.0"
+    },
+    {
+      "type": "application",
+      "bom-ref": "workspace:@pres/revision-engine",
+      "name": "@pres/revision-engine",
+      "version": "0.1.0"
+    },
+    {
+      "type": "application",
+      "bom-ref": "workspace:@pres/telemetry",
+      "name": "@pres/telemetry",
+      "version": "0.1.0"
+    },
+    {
+      "type": "application",
+      "bom-ref": "workspace:@pres/visual-qa",
+      "name": "@pres/visual-qa",
+      "version": "0.1.0"
+    },
+    {
+      "type": "application",
+      "bom-ref": "workspace:@pres/artifact-store",
+      "name": "@pres/artifact-store",
+      "version": "0.1.0"
+    },
+    {
+      "type": "application",
+      "bom-ref": "workspace:@pres/capability-registry",
+      "name": "@pres/capability-registry",
+      "version": "0.1.0"
+    },
+    {
+      "type": "application",
+      "bom-ref": "workspace:@pres/model-router",
+      "name": "@pres/model-router",
+      "version": "0.1.0"
+    },
+    {
+      "type": "application",
+      "bom-ref": "workspace:@pres/plugin-sdk",
+      "name": "@pres/plugin-sdk",
+      "version": "0.1.0"
+    },
+    {
+      "type": "application",
+      "bom-ref": "workspace:@pres/pptx-editor",
+      "name": "@pres/pptx-editor",
+      "version": "0.1.0"
+    },
+    {
+      "type": "application",
+      "bom-ref": "workspace:@pres/skill-runtime",
+      "name": "@pres/skill-runtime",
+      "version": "0.1.0"
+    },
+    {
+      "type": "application",
+      "bom-ref": "workspace:@pres/template-dna",
+      "name": "@pres/template-dna",
+      "version": "0.1.0"
+    },
+    {
+      "type": "application",
+      "bom-ref": "workspace:@pres/worker-protocol",
+      "name": "@pres/worker-protocol",
+      "version": "0.1.0"
+    },
+    {
+      "type": "application",
+      "bom-ref": "workspace:@pres/node-worker",
+      "name": "@pres/node-worker",
+      "version": "0.1.0"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40tauri-apps/api@2.12.4",
+      "name": "@tauri-apps/api",
+      "version": "2.12.4",
+      "purl": "pkg:npm/%40tauri-apps/api@2.12.4",
+      "licenses": [
+        {
+          "expression": "Apache-2.0 OR MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "presentationos:license",
+          "value": "Apache-2.0 OR MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/%40types/node@18.19.130",
+      "name": "@types/node",
+      "version": "18.19.130",
+      "purl": "pkg:npm/%40types/node@18.19.130",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "presentationos:license",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/ajv-formats@3.0.1",
+      "name": "ajv-formats",
+      "version": "3.0.1",
+      "purl": "pkg:npm/ajv-formats@3.0.1",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "presentationos:license",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/ajv@8.20.0",
+      "name": "ajv",
+      "version": "8.20.0",
+      "purl": "pkg:npm/ajv@8.20.0",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "presentationos:license",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/core-util-is@1.0.3",
+      "name": "core-util-is",
+      "version": "1.0.3",
+      "purl": "pkg:npm/core-util-is@1.0.3",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "presentationos:license",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/fast-deep-equal@3.1.3",
+      "name": "fast-deep-equal",
+      "version": "3.1.3",
+      "purl": "pkg:npm/fast-deep-equal@3.1.3",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "presentationos:license",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/fast-uri@3.1.8",
+      "name": "fast-uri",
+      "version": "3.1.8",
+      "purl": "pkg:npm/fast-uri@3.1.8",
+      "licenses": [
+        {
+          "expression": "BSD-3-Clause"
+        }
+      ],
+      "properties": [
+        {
+          "name": "presentationos:license",
+          "value": "BSD-3-Clause"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/https@1.0.0",
+      "name": "https",
+      "version": "1.0.0",
+      "purl": "pkg:npm/https@1.0.0",
+      "licenses": [
+        {
+          "expression": "ISC"
+        }
+      ],
+      "properties": [
+        {
+          "name": "presentationos:license",
+          "value": "ISC"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/image-size@2.0.4",
+      "name": "image-size",
+      "version": "2.0.4",
+      "purl": "pkg:npm/image-size@2.0.4",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "presentationos:license",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/immediate@3.0.6",
+      "name": "immediate",
+      "version": "3.0.6",
+      "purl": "pkg:npm/immediate@3.0.6",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "presentationos:license",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/inherits@2.0.4",
+      "name": "inherits",
+      "version": "2.0.4",
+      "purl": "pkg:npm/inherits@2.0.4",
+      "licenses": [
+        {
+          "expression": "ISC"
+        }
+      ],
+      "properties": [
+        {
+          "name": "presentationos:license",
+          "value": "ISC"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/isarray@1.0.0",
+      "name": "isarray",
+      "version": "1.0.0",
+      "purl": "pkg:npm/isarray@1.0.0",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "presentationos:license",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/js-tokens@4.0.0",
+      "name": "js-tokens",
+      "version": "4.0.0",
+      "purl": "pkg:npm/js-tokens@4.0.0",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "presentationos:license",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/json-schema-traverse@1.0.0",
+      "name": "json-schema-traverse",
+      "version": "1.0.0",
+      "purl": "pkg:npm/json-schema-traverse@1.0.0",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "presentationos:license",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/jszip@3.10.2",
+      "name": "jszip",
+      "version": "3.10.2",
+      "purl": "pkg:npm/jszip@3.10.2",
+      "licenses": [
+        {
+          "expression": "(MIT OR GPL-3.0-or-later)"
+        }
+      ],
+      "properties": [
+        {
+          "name": "presentationos:license",
+          "value": "(MIT OR GPL-3.0-or-later)"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/lie@3.3.0",
+      "name": "lie",
+      "version": "3.3.0",
+      "purl": "pkg:npm/lie@3.3.0",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "presentationos:license",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/loose-envify@1.4.0",
+      "name": "loose-envify",
+      "version": "1.4.0",
+      "purl": "pkg:npm/loose-envify@1.4.0",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "presentationos:license",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/pako@1.0.11",
+      "name": "pako",
+      "version": "1.0.11",
+      "purl": "pkg:npm/pako@1.0.11",
+      "licenses": [
+        {
+          "expression": "(MIT AND Zlib)"
+        }
+      ],
+      "properties": [
+        {
+          "name": "presentationos:license",
+          "value": "(MIT AND Zlib)"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/pptxgenjs@3.12.0",
+      "name": "pptxgenjs",
+      "version": "3.12.0",
+      "purl": "pkg:npm/pptxgenjs@3.12.0",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "presentationos:license",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/process-nextick-args@2.0.1",
+      "name": "process-nextick-args",
+      "version": "2.0.1",
+      "purl": "pkg:npm/process-nextick-args@2.0.1",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "presentationos:license",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/react-dom@18.3.1",
+      "name": "react-dom",
+      "version": "18.3.1",
+      "purl": "pkg:npm/react-dom@18.3.1",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "presentationos:license",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/react@18.3.1",
+      "name": "react",
+      "version": "18.3.1",
+      "purl": "pkg:npm/react@18.3.1",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "presentationos:license",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/readable-stream@2.3.8",
+      "name": "readable-stream",
+      "version": "2.3.8",
+      "purl": "pkg:npm/readable-stream@2.3.8",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "presentationos:license",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/require-from-string@2.0.2",
+      "name": "require-from-string",
+      "version": "2.0.2",
+      "purl": "pkg:npm/require-from-string@2.0.2",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "presentationos:license",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/safe-buffer@5.1.2",
+      "name": "safe-buffer",
+      "version": "5.1.2",
+      "purl": "pkg:npm/safe-buffer@5.1.2",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "presentationos:license",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/scheduler@0.23.2",
+      "name": "scheduler",
+      "version": "0.23.2",
+      "purl": "pkg:npm/scheduler@0.23.2",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "presentationos:license",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/setimmediate@1.0.5",
+      "name": "setimmediate",
+      "version": "1.0.5",
+      "purl": "pkg:npm/setimmediate@1.0.5",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "presentationos:license",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/string_decoder@1.1.1",
+      "name": "string_decoder",
+      "version": "1.1.1",
+      "purl": "pkg:npm/string_decoder@1.1.1",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "presentationos:license",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/undici-types@5.26.5",
+      "name": "undici-types",
+      "version": "5.26.5",
+      "purl": "pkg:npm/undici-types@5.26.5",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "presentationos:license",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/util-deprecate@1.0.2",
+      "name": "util-deprecate",
+      "version": "1.0.2",
+      "purl": "pkg:npm/util-deprecate@1.0.2",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "presentationos:license",
+          "value": "MIT"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/yaml@2.9.1",
+      "name": "yaml",
+      "version": "2.9.1",
+      "purl": "pkg:npm/yaml@2.9.1",
+      "licenses": [
+        {
+          "expression": "ISC"
+        }
+      ],
+      "properties": [
+        {
+          "name": "presentationos:license",
+          "value": "ISC"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:nuget/Microsoft.NET.ILLink.Tasks@8.0.31",
+      "name": "Microsoft.NET.ILLink.Tasks",
+      "version": "8.0.31",
+      "purl": "pkg:nuget/Microsoft.NET.ILLink.Tasks@8.0.31",
+      "licenses": [],
+      "properties": [
+        {
+          "name": "presentationos:license",
+          "value": "UNKNOWN"
+        },
+        {
+          "name": "presentationos:scope",
+          "value": "restored-transitive-assets; binary-inclusion-and-license-review-required"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:nuget/Microsoft.Web.WebView2@1.0.2903.40",
+      "name": "Microsoft.Web.WebView2",
+      "version": "1.0.2903.40",
+      "purl": "pkg:nuget/Microsoft.Web.WebView2@1.0.2903.40",
+      "licenses": [],
+      "properties": [
+        {
+          "name": "presentationos:license",
+          "value": "UNKNOWN"
+        },
+        {
+          "name": "presentationos:scope",
+          "value": "restored-transitive-assets; binary-inclusion-and-license-review-required"
+        }
+      ]
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "workspace:@pres/desktop",
+      "dependsOn": [
+        "pkg:npm/%40tauri-apps/api@2.12.4",
+        "pkg:npm/react-dom@18.3.1",
+        "pkg:npm/react@18.3.1",
+        "workspace:@pres/document-parser",
+        "workspace:@pres/media-pipeline",
+        "workspace:@pres/scene-reconstruction",
+        "workspace:@pres/schema-validator",
+        "workspace:@pres/workflow"
+      ]
+    },
+    {
+      "ref": "workspace:@pres/document-parser",
+      "dependsOn": [
+        "workspace:@pres/schema-validator"
+      ]
+    },
+    {
+      "ref": "workspace:@pres/schema-validator",
+      "dependsOn": [
+        "pkg:npm/ajv-formats@3.0.1",
+        "pkg:npm/ajv@8.20.0"
+      ]
+    },
+    {
+      "ref": "pkg:npm/ajv@8.20.0",
+      "dependsOn": [
+        "pkg:npm/fast-deep-equal@3.1.3",
+        "pkg:npm/fast-uri@3.1.8",
+        "pkg:npm/json-schema-traverse@1.0.0",
+        "pkg:npm/require-from-string@2.0.2"
+      ]
+    },
+    {
+      "ref": "pkg:npm/ajv-formats@3.0.1",
+      "dependsOn": [
+        "pkg:npm/ajv@8.20.0"
+      ]
+    },
+    {
+      "ref": "workspace:@pres/media-pipeline",
+      "dependsOn": [
+        "workspace:@pres/pptx-engine"
+      ]
+    },
+    {
+      "ref": "workspace:@pres/pptx-engine",
+      "dependsOn": [
+        "pkg:npm/jszip@3.10.2",
+        "pkg:npm/pptxgenjs@3.12.0"
+      ]
+    },
+    {
+      "ref": "pkg:npm/jszip@3.10.2",
+      "dependsOn": [
+        "pkg:npm/lie@3.3.0",
+        "pkg:npm/pako@1.0.11",
+        "pkg:npm/readable-stream@2.3.8",
+        "pkg:npm/setimmediate@1.0.5"
+      ]
+    },
+    {
+      "ref": "pkg:npm/lie@3.3.0",
+      "dependsOn": [
+        "pkg:npm/immediate@3.0.6"
+      ]
+    },
+    {
+      "ref": "pkg:npm/readable-stream@2.3.8",
+      "dependsOn": [
+        "pkg:npm/core-util-is@1.0.3",
+        "pkg:npm/inherits@2.0.4",
+        "pkg:npm/isarray@1.0.0",
+        "pkg:npm/process-nextick-args@2.0.1",
+        "pkg:npm/safe-buffer@5.1.2",
+        "pkg:npm/string_decoder@1.1.1",
+        "pkg:npm/util-deprecate@1.0.2"
+      ]
+    },
+    {
+      "ref": "pkg:npm/string_decoder@1.1.1",
+      "dependsOn": [
+        "pkg:npm/safe-buffer@5.1.2"
+      ]
+    },
+    {
+      "ref": "pkg:npm/pptxgenjs@3.12.0",
+      "dependsOn": [
+        "pkg:npm/%40types/node@18.19.130",
+        "pkg:npm/https@1.0.0",
+        "pkg:npm/image-size@2.0.4",
+        "pkg:npm/jszip@3.10.2"
+      ]
+    },
+    {
+      "ref": "pkg:npm/%40types/node@18.19.130",
+      "dependsOn": [
+        "pkg:npm/undici-types@5.26.5"
+      ]
+    },
+    {
+      "ref": "workspace:@pres/scene-reconstruction",
+      "dependsOn": [
+        "workspace:@pres/pptx-engine",
+        "workspace:@pres/schema-validator"
+      ]
+    },
+    {
+      "ref": "workspace:@pres/workflow",
+      "dependsOn": [
+        "workspace:@pres/document-parser",
+        "workspace:@pres/durable-workflow",
+        "workspace:@pres/mechanical-qa",
+        "workspace:@pres/pptx-engine",
+        "workspace:@pres/revision-engine",
+        "workspace:@pres/schema-validator",
+        "workspace:@pres/telemetry",
+        "workspace:@pres/visual-qa"
+      ]
+    },
+    {
+      "ref": "pkg:npm/react@18.3.1",
+      "dependsOn": [
+        "pkg:npm/loose-envify@1.4.0"
+      ]
+    },
+    {
+      "ref": "pkg:npm/loose-envify@1.4.0",
+      "dependsOn": [
+        "pkg:npm/js-tokens@4.0.0"
+      ]
+    },
+    {
+      "ref": "pkg:npm/react-dom@18.3.1",
+      "dependsOn": [
+        "pkg:npm/loose-envify@1.4.0",
+        "pkg:npm/react@18.3.1",
+        "pkg:npm/scheduler@0.23.2"
+      ]
+    },
+    {
+      "ref": "pkg:npm/scheduler@0.23.2",
+      "dependsOn": [
+        "pkg:npm/loose-envify@1.4.0"
+      ]
+    },
+    {
+      "ref": "workspace:@pres/model-router",
+      "dependsOn": [
+        "pkg:npm/yaml@2.9.1"
+      ]
+    },
+    {
+      "ref": "workspace:@pres/plugin-sdk",
+      "dependsOn": [
+        "pkg:npm/yaml@2.9.1"
+      ]
+    },
+    {
+      "ref": "workspace:@pres/pptx-editor",
+      "dependsOn": [
+        "pkg:npm/jszip@3.10.2"
+      ]
+    },
+    {
+      "ref": "workspace:@pres/skill-runtime",
+      "dependsOn": [
+        "pkg:npm/yaml@2.9.1",
+        "workspace:@pres/mechanical-qa",
+        "workspace:@pres/pptx-engine",
+        "workspace:@pres/template-dna"
+      ]
+    },
+    {
+      "ref": "workspace:@pres/template-dna",
+      "dependsOn": [
+        "pkg:npm/jszip@3.10.2"
+      ]
+    },
+    {
+      "ref": "workspace:@pres/node-worker",
+      "dependsOn": [
+        "workspace:@pres/capability-registry",
+        "workspace:@pres/worker-protocol"
+      ]
+    }
+  ]
+}

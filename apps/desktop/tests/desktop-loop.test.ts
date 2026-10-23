@@ -5,6 +5,11 @@ import { existsSync, readFileSync, rmSync, mkdirSync, statSync, readdirSync } fr
 import { resolve } from 'node:path';
 import { DesktopSidecarServer } from '../src-server/sidecar-server.js';
 
+const token = 'a'.repeat(64);
+const fetch = (input: string, init: RequestInit = {}) => globalThis.fetch(input, {
+  ...init, headers: { ...init.headers, Authorization: `Bearer ${token}` },
+});
+
 describe('PresentationOS Desktop Workbench & Sidecar Loop Tests', () => {
   const testRoot = resolve(process.cwd(), 'temp-desktop-test-' + Date.now());
   const testDb = resolve(testRoot, 'desktop-test.db');
@@ -15,7 +20,7 @@ describe('PresentationOS Desktop Workbench & Sidecar Loop Tests', () => {
   before(async () => {
     mkdirSync(testRoot, { recursive: true });
     // Use port 0 to bind dynamically to any free port
-    server = new DesktopSidecarServer({ port: 0, dbPath: testDb });
+    server = new DesktopSidecarServer({ port: 0, dbPath: testDb, dataRoot: testRoot, sessionToken: token });
     port = await server.start();
     baseUrl = `http://127.0.0.1:${port}`;
   });
@@ -170,9 +175,9 @@ describe('PresentationOS Desktop Workbench & Sidecar Loop Tests', () => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ runId: 'dummy-run-id' }),
     });
-    assert.equal(cancelRes.status, 200);
+    assert.equal(cancelRes.status, 404);
     const body: any = await cancelRes.json();
-    assert.equal(body.success, true);
+    assert.equal(body.error, 'Task not found');
   });
 
   test('TC-D07: Dual project isolation ensures separate workspace files and runs', async () => {
@@ -307,7 +312,7 @@ describe('PresentationOS Desktop Workbench & Sidecar Loop Tests', () => {
     assert.equal(body.result.editableCoverageRatio, 1.0);
   });
 
-  test('TC-D12: Media pipeline generation API produces timeline, subtitles, and MP4 (P14)', async () => {
+  test('TC-D12: Media API rejects notes without actual slide images', async () => {
     const outMp4 = resolve(testRoot, 'api_deck.mp4');
     const res = await fetch(`${baseUrl}/api/media/generate`, {
       method: 'POST',
@@ -323,11 +328,10 @@ describe('PresentationOS Desktop Workbench & Sidecar Loop Tests', () => {
         outMp4Path: outMp4,
       }),
     });
-    assert.equal(res.status, 200);
+    assert.equal(res.status, 500);
     const body: any = await res.json();
-    assert.ok(body.result);
-    assert.ok(body.result.timeline.length >= 1);
-    assert.ok(body.result.totalDurationSec > 0);
+    assert.match(body.error, /real slide image/i);
+    assert.equal(existsSync(outMp4), false);
   });
 
   test('TC-D09: UI Automation IDs exist in production Vite bundle', () => {

@@ -18,12 +18,13 @@ jobs:
         with:
           version: 12.5.1
       - run: pnpm install --frozen-lockfile
-      - run: pnpm audit --audit-level=high
-      - run: pnpm -r --if-present build
+      - run: pnpm audit --audit-level=low
+      - run: pnpm --workspace-concurrency=1 -r --if-present build
       - run: pnpm test:node
-      - run: pnpm -r --if-present test
+      - run: pnpm --workspace-concurrency=1 -r --if-present test
       - run: node tests/e2e/worker-protocol.e2e.mjs
-      - run: node --test tools/docs-auditor/audit-docs.test.mjs
+      - name: Documentation semantics and security failure-gate regressions
+        run: node --test tools/docs-auditor/audit-docs.test.mjs tools/docs-auditor/semantic-rules.test.mjs tools/packager/generate-sbom.test.mjs
       - run: node tools/docs-auditor/audit-docs.mjs
       - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
         with:

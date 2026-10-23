@@ -41,7 +41,7 @@ controls:
     role: "Button"
     patterns: ["InvokePattern"]
     aria_label: "Compile Deck"
-    description: "Triggers full 3-stage compilation pipeline with dual-engine QA"
+    description: "Compiles and reads back actual PPTX content; native Office acceptance is separate"
     expected_state_change: "StatusLabel changes to RUNNING -> COMPLETED"
     expected_artifact: "*.pptx"
 
@@ -62,13 +62,13 @@ controls:
     role: "Button"
     patterns: ["InvokePattern"]
     aria_label: "Reconstruct Slide"
-    description: "Triggers layered scene reconstruction from reference screenshot"
+    description: "Converts user supplied SceneIR objects; screenshot recognition is not implemented by this button"
 
   - id: "MediaExportBtn"
     role: "Button"
     patterns: ["InvokePattern"]
     aria_label: "Export Media Video"
-    description: "Generates multi-language TTS narration, subtitles, and synchronized MP4 presentation video"
+    description: "Requires real page images, then generates Windows SAPI speech, sentence subtitles and MP4"
 
   - id: "MarkdownEditorInput"
     role: "Edit"
@@ -83,8 +83,7 @@ controls:
     description: "Parses markdown and populates SlideNavList"
 
   - id: "SlideNavList"
-    role: "List"
-    patterns: ["SelectionPattern"]
+    role: "Group"
     aria_label: "Slide Navigation List"
     description: "List of slide cards in the deck outline"
 
@@ -103,7 +102,7 @@ controls:
     role: "ComboBox"
     patterns: ["ValuePattern"]
     aria_label: "Slide Layout Select"
-    description: "Slide layout template selector (title, bullet_list, two_column, big_stat, quote)"
+    description: "Outline preview layout selector; final exported layout is chosen by the renderer"
 
   - id: "SlideBodyInput"
     role: "Edit"
@@ -134,8 +133,8 @@ controls:
 
   - id: "FactValidationBadge"
     role: "Text"
-    aria_label: "Fact Validation Guarantee"
-    description: "100% source fact preservation assurance indicator"
+    aria_label: "Output Content Readback"
+    description: "Actual output object content comparison; not an assurance of factual truth"
 
   - id: "QaIssuesList"
     role: "List"

@@ -1,0 +1,702 @@
+[
+  {
+    "name": "presentationos",
+    "version": "0.1.2-alpha",
+    "path": "D:\\PresentationOS",
+    "private": true
+  },
+  {
+    "name": "@pres/cli",
+    "version": "0.1.2-alpha",
+    "path": "D:\\PresentationOS\\apps\\cli",
+    "private": true
+  },
+  {
+    "name": "@pres/desktop",
+    "version": "0.1.2-alpha",
+    "path": "D:\\PresentationOS\\apps\\desktop",
+    "private": true,
+    "dependencies": {
+      "@pres/document-parser": {
+        "from": "@pres/document-parser",
+        "version": "link:../../kernel/document-parser",
+        "path": "D:\\PresentationOS\\kernel\\document-parser",
+        "dependencies": {
+          "@pres/schema-validator": {
+            "from": "@pres/schema-validator",
+            "version": "link:../../kernel/schema-validator",
+            "path": "D:\\PresentationOS\\kernel\\schema-validator",
+            "dependencies": {
+              "ajv": {
+                "from": "ajv",
+                "version": "8.20.0",
+                "resolved": "https://registry.npmjs.org/ajv/-/ajv-8.20.0.tgz",
+                "path": "D:\\PresentationOS\\node_modules\\.pnpm\\ajv@8.20.0\\node_modules\\ajv",
+                "dependencies": {
+                  "fast-deep-equal": {
+                    "from": "fast-deep-equal",
+                    "version": "3.1.3",
+                    "resolved": "https://registry.npmjs.org/fast-deep-equal/-/fast-deep-equal-3.1.3.tgz",
+                    "path": "D:\\PresentationOS\\node_modules\\.pnpm\\fast-deep-equal@3.1.3\\node_modules\\fast-deep-equal"
+                  },
+                  "fast-uri": {
+                    "from": "fast-uri",
+                    "version": "3.1.8",
+                    "resolved": "https://registry.npmjs.org/fast-uri/-/fast-uri-3.1.8.tgz",
+                    "path": "D:\\PresentationOS\\node_modules\\.pnpm\\fast-uri@3.1.8\\node_modules\\fast-uri"
+                  },
+                  "json-schema-traverse": {
+                    "from": "json-schema-traverse",
+                    "version": "1.0.0",
+                    "resolved": "https://registry.npmjs.org/json-schema-traverse/-/json-schema-traverse-1.0.0.tgz",
+                    "path": "D:\\PresentationOS\\node_modules\\.pnpm\\json-schema-traverse@1.0.0\\node_modules\\json-schema-traverse"
+                  },
+                  "require-from-string": {
+                    "from": "require-from-string",
+                    "version": "2.0.2",
+                    "resolved": "https://registry.npmjs.org/require-from-string/-/require-from-string-2.0.2.tgz",
+                    "path": "D:\\PresentationOS\\node_modules\\.pnpm\\require-from-string@2.0.2\\node_modules\\require-from-string"
+                  }
+                }
+              },
+              "ajv-formats": {
+                "from": "ajv-formats",
+                "version": "3.0.1",
+                "resolved": "https://registry.npmjs.org/ajv-formats/-/ajv-formats-3.0.1.tgz",
+                "path": "D:\\PresentationOS\\node_modules\\.pnpm\\ajv-formats@3.0.1_ajv@8.20.0\\node_modules\\ajv-formats",
+                "dependencies": {
+                  "ajv": {
+                    "from": "ajv",
+                    "version": "8.20.0",
+                    "resolved": "https://registry.npmjs.org/ajv/-/ajv-8.20.0.tgz",
+                    "path": "D:\\PresentationOS\\node_modules\\.pnpm\\ajv@8.20.0\\node_modules\\ajv",
+                    "deduped": true,
+                    "dedupedDependenciesCount": 4
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "@pres/media-pipeline": {
+        "from": "@pres/media-pipeline",
+        "version": "link:../../kernel/media-pipeline",
+        "path": "D:\\PresentationOS\\kernel\\media-pipeline",
+        "dependencies": {
+          "@pres/pptx-engine": {
+            "from": "@pres/pptx-engine",
+            "version": "link:../../kernel/pptx-engine",
+            "path": "D:\\PresentationOS\\kernel\\pptx-engine",
+            "dependencies": {
+              "jszip": {
+                "from": "jszip",
+                "version": "3.10.2",
+                "resolved": "https://registry.npmjs.org/jszip/-/jszip-3.10.2.tgz",
+                "path": "D:\\PresentationOS\\node_modules\\.pnpm\\jszip@3.10.2\\node_modules\\jszip",
+                "dependencies": {
+                  "lie": {
+                    "from": "lie",
+                    "version": "3.3.0",
+                    "resolved": "https://registry.npmjs.org/lie/-/lie-3.3.0.tgz",
+                    "path": "D:\\PresentationOS\\node_modules\\.pnpm\\lie@3.3.0\\node_modules\\lie",
+                    "dependencies": {
+                      "immediate": {
+                        "from": "immediate",
+                        "version": "3.0.6",
+                        "resolved": "https://registry.npmjs.org/immediate/-/immediate-3.0.6.tgz",
+                        "path": "D:\\PresentationOS\\node_modules\\.pnpm\\immediate@3.0.6\\node_modules\\immediate"
+                      }
+                    }
+                  },
+                  "pako": {
+                    "from": "pako",
+                    "version": "1.0.11",
+                    "resolved": "https://registry.npmjs.org/pako/-/pako-1.0.11.tgz",
+                    "path": "D:\\PresentationOS\\node_modules\\.pnpm\\pako@1.0.11\\node_modules\\pako"
+                  },
+                  "readable-stream": {
+                    "from": "readable-stream",
+                    "version": "2.3.8",
+                    "resolved": "https://registry.npmjs.org/readable-stream/-/readable-stream-2.3.8.tgz",
+                    "path": "D:\\PresentationOS\\node_modules\\.pnpm\\readable-stream@2.3.8\\node_modules\\readable-stream",
+                    "dependencies": {
+                      "core-util-is": {
+                        "from": "core-util-is",
+                        "version": "1.0.3",
+                        "resolved": "https://registry.npmjs.org/core-util-is/-/core-util-is-1.0.3.tgz",
+                        "path": "D:\\PresentationOS\\node_modules\\.pnpm\\core-util-is@1.0.3\\node_modules\\core-util-is"
+                      },
+                      "inherits": {
+                        "from": "inherits",
+                        "version": "2.0.4",
+                        "resolved": "https://registry.npmjs.org/inherits/-/inherits-2.0.4.tgz",
+                        "path": "D:\\PresentationOS\\node_modules\\.pnpm\\inherits@2.0.4\\node_modules\\inherits"
+                      },
+                      "isarray": {
+                        "from": "isarray",
+                        "version": "1.0.0",
+                        "resolved": "https://registry.npmjs.org/isarray/-/isarray-1.0.0.tgz",
+                        "path": "D:\\PresentationOS\\node_modules\\.pnpm\\isarray@1.0.0\\node_modules\\isarray"
+                      },
+                      "process-nextick-args": {
+                        "from": "process-nextick-args",
+                        "version": "2.0.1",
+                        "resolved": "https://registry.npmjs.org/process-nextick-args/-/process-nextick-args-2.0.1.tgz",
+                        "path": "D:\\PresentationOS\\node_modules\\.pnpm\\process-nextick-args@2.0.1\\node_modules\\process-nextick-args"
+                      },
+                      "safe-buffer": {
+                        "from": "safe-buffer",
+                        "version": "5.1.2",
+                        "resolved": "https://registry.npmjs.org/safe-buffer/-/safe-buffer-5.1.2.tgz",
+                        "path": "D:\\PresentationOS\\node_modules\\.pnpm\\safe-buffer@5.1.2\\node_modules\\safe-buffer"
+                      },
+                      "string_decoder": {
+                        "from": "string_decoder",
+                        "version": "1.1.1",
+                        "resolved": "https://registry.npmjs.org/string_decoder/-/string_decoder-1.1.1.tgz",
+                        "path": "D:\\PresentationOS\\node_modules\\.pnpm\\string_decoder@1.1.1\\node_modules\\string_decoder",
+                        "dependencies": {
+                          "safe-buffer": {
+                            "from": "safe-buffer",
+                            "version": "5.1.2",
+                            "resolved": "https://registry.npmjs.org/safe-buffer/-/safe-buffer-5.1.2.tgz",
+                            "path": "D:\\PresentationOS\\node_modules\\.pnpm\\safe-buffer@5.1.2\\node_modules\\safe-buffer"
+                          }
+                        }
+                      },
+                      "util-deprecate": {
+                        "from": "util-deprecate",
+                        "version": "1.0.2",
+                        "resolved": "https://registry.npmjs.org/util-deprecate/-/util-deprecate-1.0.2.tgz",
+                        "path": "D:\\PresentationOS\\node_modules\\.pnpm\\util-deprecate@1.0.2\\node_modules\\util-deprecate"
+                      }
+                    }
+                  },
+                  "setimmediate": {
+                    "from": "setimmediate",
+                    "version": "1.0.5",
+                    "resolved": "https://registry.npmjs.org/setimmediate/-/setimmediate-1.0.5.tgz",
+                    "path": "D:\\PresentationOS\\node_modules\\.pnpm\\setimmediate@1.0.5\\node_modules\\setimmediate"
+                  }
+                }
+              },
+              "pptxgenjs": {
+                "from": "pptxgenjs",
+                "version": "3.12.0",
+                "resolved": "https://registry.npmjs.org/pptxgenjs/-/pptxgenjs-3.12.0.tgz",
+                "path": "D:\\PresentationOS\\node_modules\\.pnpm\\pptxgenjs@3.12.0\\node_modules\\pptxgenjs",
+                "dependencies": {
+                  "@types/node": {
+                    "from": "@types/node",
+                    "version": "18.19.130",
+                    "resolved": "https://registry.npmjs.org/@types/node/-/node-18.19.130.tgz",
+                    "path": "D:\\PresentationOS\\node_modules\\.pnpm\\@types+node@18.19.130\\node_modules\\@types/node",
+                    "dependencies": {
+                      "undici-types": {
+                        "from": "undici-types",
+                        "version": "5.26.5",
+                        "resolved": "https://registry.npmjs.org/undici-types/-/undici-types-5.26.5.tgz",
+                        "path": "D:\\PresentationOS\\node_modules\\.pnpm\\undici-types@5.26.5\\node_modules\\undici-types"
+                      }
+                    }
+                  },
+                  "https": {
+                    "from": "https",
+                    "version": "1.0.0",
+                    "resolved": "https://registry.npmjs.org/https/-/https-1.0.0.tgz",
+                    "path": "D:\\PresentationOS\\node_modules\\.pnpm\\https@1.0.0\\node_modules\\https"
+                  },
+                  "image-size": {
+                    "from": "image-size",
+                    "version": "2.0.4",
+                    "resolved": "https://registry.npmjs.org/image-size/-/image-size-2.0.4.tgz",
+                    "path": "D:\\PresentationOS\\node_modules\\.pnpm\\image-size@2.0.4\\node_modules\\image-size"
+                  },
+                  "jszip": {
+                    "from": "jszip",
+                    "version": "3.10.2",
+                    "resolved": "https://registry.npmjs.org/jszip/-/jszip-3.10.2.tgz",
+                    "path": "D:\\PresentationOS\\node_modules\\.pnpm\\jszip@3.10.2\\node_modules\\jszip",
+                    "deduped": true,
+                    "dedupedDependenciesCount": 13
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "@pres/scene-reconstruction": {
+        "from": "@pres/scene-reconstruction",
+        "version": "link:../../kernel/scene-reconstruction",
+        "path": "D:\\PresentationOS\\kernel\\scene-reconstruction",
+        "dependencies": {
+          "@pres/pptx-engine": {
+            "from": "@pres/pptx-engine",
+            "version": "link:../../kernel/pptx-engine",
+            "path": "D:\\PresentationOS\\kernel\\pptx-engine",
+            "deduped": true,
+            "dedupedDependenciesCount": 20
+          },
+          "@pres/schema-validator": {
+            "from": "@pres/schema-validator",
+            "version": "link:../../kernel/schema-validator",
+            "path": "D:\\PresentationOS\\kernel\\schema-validator",
+            "deduped": true,
+            "dedupedDependenciesCount": 7
+          }
+        }
+      },
+      "@pres/schema-validator": {
+        "from": "@pres/schema-validator",
+        "version": "link:../../kernel/schema-validator",
+        "path": "D:\\PresentationOS\\kernel\\schema-validator",
+        "deduped": true,
+        "dedupedDependenciesCount": 7
+      },
+      "@pres/workflow": {
+        "from": "@pres/workflow",
+        "version": "link:../../kernel/workflow",
+        "path": "D:\\PresentationOS\\kernel\\workflow",
+        "dependencies": {
+          "@pres/document-parser": {
+            "from": "@pres/document-parser",
+            "version": "link:../../kernel/document-parser",
+            "path": "D:\\PresentationOS\\kernel\\document-parser",
+            "deduped": true,
+            "dedupedDependenciesCount": 8
+          },
+          "@pres/durable-workflow": {
+            "from": "@pres/durable-workflow",
+            "version": "link:../../kernel/durable-workflow",
+            "path": "D:\\PresentationOS\\kernel\\durable-workflow"
+          },
+          "@pres/mechanical-qa": {
+            "from": "@pres/mechanical-qa",
+            "version": "link:../../kernel/mechanical-qa",
+            "path": "D:\\PresentationOS\\kernel\\mechanical-qa"
+          },
+          "@pres/pptx-engine": {
+            "from": "@pres/pptx-engine",
+            "version": "link:../../kernel/pptx-engine",
+            "path": "D:\\PresentationOS\\kernel\\pptx-engine",
+            "deduped": true,
+            "dedupedDependenciesCount": 20
+          },
+          "@pres/revision-engine": {
+            "from": "@pres/revision-engine",
+            "version": "link:../../kernel/revision-engine",
+            "path": "D:\\PresentationOS\\kernel\\revision-engine"
+          },
+          "@pres/schema-validator": {
+            "from": "@pres/schema-validator",
+            "version": "link:../../kernel/schema-validator",
+            "path": "D:\\PresentationOS\\kernel\\schema-validator",
+            "deduped": true,
+            "dedupedDependenciesCount": 7
+          },
+          "@pres/telemetry": {
+            "from": "@pres/telemetry",
+            "version": "link:../../kernel/telemetry",
+            "path": "D:\\PresentationOS\\kernel\\telemetry"
+          },
+          "@pres/visual-qa": {
+            "from": "@pres/visual-qa",
+            "version": "link:../../kernel/visual-qa",
+            "path": "D:\\PresentationOS\\kernel\\visual-qa"
+          }
+        }
+      },
+      "@tauri-apps/api": {
+        "from": "@tauri-apps/api",
+        "version": "2.12.4",
+        "resolved": "https://registry.npmjs.org/@tauri-apps/api/-/api-2.12.4.tgz",
+        "path": "D:\\PresentationOS\\node_modules\\.pnpm\\@tauri-apps+api@2.12.4\\node_modules\\@tauri-apps/api"
+      },
+      "react": {
+        "from": "react",
+        "version": "18.3.1",
+        "resolved": "https://registry.npmjs.org/react/-/react-18.3.1.tgz",
+        "path": "D:\\PresentationOS\\node_modules\\.pnpm\\react@18.3.1\\node_modules\\react",
+        "dependencies": {
+          "loose-envify": {
+            "from": "loose-envify",
+            "version": "1.4.0",
+            "resolved": "https://registry.npmjs.org/loose-envify/-/loose-envify-1.4.0.tgz",
+            "path": "D:\\PresentationOS\\node_modules\\.pnpm\\loose-envify@1.4.0\\node_modules\\loose-envify",
+            "dependencies": {
+              "js-tokens": {
+                "from": "js-tokens",
+                "version": "4.0.0",
+                "resolved": "https://registry.npmjs.org/js-tokens/-/js-tokens-4.0.0.tgz",
+                "path": "D:\\PresentationOS\\node_modules\\.pnpm\\js-tokens@4.0.0\\node_modules\\js-tokens"
+              }
+            }
+          }
+        }
+      },
+      "react-dom": {
+        "from": "react-dom",
+        "version": "18.3.1",
+        "resolved": "https://registry.npmjs.org/react-dom/-/react-dom-18.3.1.tgz",
+        "path": "D:\\PresentationOS\\node_modules\\.pnpm\\react-dom@18.3.1_react@18.3.1\\node_modules\\react-dom",
+        "dependencies": {
+          "loose-envify": {
+            "from": "loose-envify",
+            "version": "1.4.0",
+            "resolved": "https://registry.npmjs.org/loose-envify/-/loose-envify-1.4.0.tgz",
+            "path": "D:\\PresentationOS\\node_modules\\.pnpm\\loose-envify@1.4.0\\node_modules\\loose-envify",
+            "deduped": true,
+            "dedupedDependenciesCount": 1
+          },
+          "react": {
+            "from": "react",
+            "version": "18.3.1",
+            "resolved": "https://registry.npmjs.org/react/-/react-18.3.1.tgz",
+            "path": "D:\\PresentationOS\\node_modules\\.pnpm\\react@18.3.1\\node_modules\\react",
+            "deduped": true,
+            "dedupedDependenciesCount": 2
+          },
+          "scheduler": {
+            "from": "scheduler",
+            "version": "0.23.2",
+            "resolved": "https://registry.npmjs.org/scheduler/-/scheduler-0.23.2.tgz",
+            "path": "D:\\PresentationOS\\node_modules\\.pnpm\\scheduler@0.23.2\\node_modules\\scheduler",
+            "dependencies": {
+              "loose-envify": {
+                "from": "loose-envify",
+                "version": "1.4.0",
+                "resolved": "https://registry.npmjs.org/loose-envify/-/loose-envify-1.4.0.tgz",
+                "path": "D:\\PresentationOS\\node_modules\\.pnpm\\loose-envify@1.4.0\\node_modules\\loose-envify",
+                "deduped": true,
+                "dedupedDependenciesCount": 1
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  {
+    "name": "@pres/artifact-store",
+    "version": "0.1.0",
+    "path": "D:\\PresentationOS\\kernel\\artifact-store",
+    "private": true
+  },
+  {
+    "name": "@pres/capability-registry",
+    "version": "0.1.0",
+    "path": "D:\\PresentationOS\\kernel\\capability-registry",
+    "private": true
+  },
+  {
+    "name": "@pres/document-parser",
+    "version": "0.1.2-alpha",
+    "path": "D:\\PresentationOS\\kernel\\document-parser",
+    "private": true,
+    "dependencies": {
+      "@pres/schema-validator": {
+        "from": "@pres/schema-validator",
+        "version": "link:../schema-validator",
+        "path": "D:\\PresentationOS\\kernel\\schema-validator",
+        "deduped": true,
+        "dedupedDependenciesCount": 7
+      }
+    }
+  },
+  {
+    "name": "@pres/durable-workflow",
+    "version": "0.1.0",
+    "path": "D:\\PresentationOS\\kernel\\durable-workflow",
+    "private": true
+  },
+  {
+    "name": "@pres/mechanical-qa",
+    "version": "0.1.0",
+    "path": "D:\\PresentationOS\\kernel\\mechanical-qa",
+    "private": true
+  },
+  {
+    "name": "@pres/media-pipeline",
+    "version": "0.1.0",
+    "path": "D:\\PresentationOS\\kernel\\media-pipeline",
+    "private": true,
+    "dependencies": {
+      "@pres/pptx-engine": {
+        "from": "@pres/pptx-engine",
+        "version": "link:../pptx-engine",
+        "path": "D:\\PresentationOS\\kernel\\pptx-engine",
+        "deduped": true,
+        "dedupedDependenciesCount": 20
+      }
+    }
+  },
+  {
+    "name": "@pres/model-router",
+    "version": "0.1.0",
+    "path": "D:\\PresentationOS\\kernel\\model-router",
+    "private": true,
+    "dependencies": {
+      "yaml": {
+        "from": "yaml",
+        "version": "2.9.1",
+        "resolved": "https://registry.npmjs.org/yaml/-/yaml-2.9.1.tgz",
+        "path": "D:\\PresentationOS\\node_modules\\.pnpm\\yaml@2.9.1\\node_modules\\yaml"
+      }
+    }
+  },
+  {
+    "name": "@pres/plugin-sdk",
+    "version": "0.1.0",
+    "path": "D:\\PresentationOS\\kernel\\plugin-sdk",
+    "private": true,
+    "dependencies": {
+      "yaml": {
+        "from": "yaml",
+        "version": "2.9.1",
+        "resolved": "https://registry.npmjs.org/yaml/-/yaml-2.9.1.tgz",
+        "path": "D:\\PresentationOS\\node_modules\\.pnpm\\yaml@2.9.1\\node_modules\\yaml"
+      }
+    }
+  },
+  {
+    "name": "@pres/pptx-editor",
+    "version": "0.1.0",
+    "path": "D:\\PresentationOS\\kernel\\pptx-editor",
+    "private": true,
+    "dependencies": {
+      "jszip": {
+        "from": "jszip",
+        "version": "3.10.2",
+        "resolved": "https://registry.npmjs.org/jszip/-/jszip-3.10.2.tgz",
+        "path": "D:\\PresentationOS\\node_modules\\.pnpm\\jszip@3.10.2\\node_modules\\jszip",
+        "deduped": true,
+        "dedupedDependenciesCount": 13
+      }
+    }
+  },
+  {
+    "name": "@pres/pptx-engine",
+    "version": "0.1.0",
+    "path": "D:\\PresentationOS\\kernel\\pptx-engine",
+    "private": true,
+    "dependencies": {
+      "jszip": {
+        "from": "jszip",
+        "version": "3.10.2",
+        "resolved": "https://registry.npmjs.org/jszip/-/jszip-3.10.2.tgz",
+        "path": "D:\\PresentationOS\\node_modules\\.pnpm\\jszip@3.10.2\\node_modules\\jszip",
+        "deduped": true,
+        "dedupedDependenciesCount": 13
+      },
+      "pptxgenjs": {
+        "from": "pptxgenjs",
+        "version": "3.12.0",
+        "resolved": "https://registry.npmjs.org/pptxgenjs/-/pptxgenjs-3.12.0.tgz",
+        "path": "D:\\PresentationOS\\node_modules\\.pnpm\\pptxgenjs@3.12.0\\node_modules\\pptxgenjs",
+        "deduped": true,
+        "dedupedDependenciesCount": 5
+      }
+    }
+  },
+  {
+    "name": "@pres/revision-engine",
+    "version": "0.1.0",
+    "path": "D:\\PresentationOS\\kernel\\revision-engine",
+    "private": true
+  },
+  {
+    "name": "@pres/scene-reconstruction",
+    "version": "0.1.0",
+    "path": "D:\\PresentationOS\\kernel\\scene-reconstruction",
+    "private": true,
+    "dependencies": {
+      "@pres/pptx-engine": {
+        "from": "@pres/pptx-engine",
+        "version": "link:../pptx-engine",
+        "path": "D:\\PresentationOS\\kernel\\pptx-engine",
+        "deduped": true,
+        "dedupedDependenciesCount": 20
+      },
+      "@pres/schema-validator": {
+        "from": "@pres/schema-validator",
+        "version": "link:../schema-validator",
+        "path": "D:\\PresentationOS\\kernel\\schema-validator",
+        "deduped": true,
+        "dedupedDependenciesCount": 7
+      }
+    }
+  },
+  {
+    "name": "@pres/schema-validator",
+    "version": "0.1.0",
+    "path": "D:\\PresentationOS\\kernel\\schema-validator",
+    "private": true,
+    "dependencies": {
+      "ajv": {
+        "from": "ajv",
+        "version": "8.20.0",
+        "resolved": "https://registry.npmjs.org/ajv/-/ajv-8.20.0.tgz",
+        "path": "D:\\PresentationOS\\node_modules\\.pnpm\\ajv@8.20.0\\node_modules\\ajv",
+        "deduped": true,
+        "dedupedDependenciesCount": 4
+      },
+      "ajv-formats": {
+        "from": "ajv-formats",
+        "version": "3.0.1",
+        "resolved": "https://registry.npmjs.org/ajv-formats/-/ajv-formats-3.0.1.tgz",
+        "path": "D:\\PresentationOS\\node_modules\\.pnpm\\ajv-formats@3.0.1_ajv@8.20.0\\node_modules\\ajv-formats",
+        "deduped": true,
+        "dedupedDependenciesCount": 1
+      }
+    }
+  },
+  {
+    "name": "@pres/skill-runtime",
+    "version": "0.1.0",
+    "path": "D:\\PresentationOS\\kernel\\skill-runtime",
+    "private": true,
+    "dependencies": {
+      "@pres/mechanical-qa": {
+        "from": "@pres/mechanical-qa",
+        "version": "link:../mechanical-qa",
+        "path": "D:\\PresentationOS\\kernel\\mechanical-qa"
+      },
+      "@pres/pptx-engine": {
+        "from": "@pres/pptx-engine",
+        "version": "link:../pptx-engine",
+        "path": "D:\\PresentationOS\\kernel\\pptx-engine",
+        "deduped": true,
+        "dedupedDependenciesCount": 20
+      },
+      "@pres/template-dna": {
+        "from": "@pres/template-dna",
+        "version": "link:../template-dna",
+        "path": "D:\\PresentationOS\\kernel\\template-dna",
+        "dependencies": {
+          "jszip": {
+            "from": "jszip",
+            "version": "3.10.2",
+            "resolved": "https://registry.npmjs.org/jszip/-/jszip-3.10.2.tgz",
+            "path": "D:\\PresentationOS\\node_modules\\.pnpm\\jszip@3.10.2\\node_modules\\jszip",
+            "deduped": true,
+            "dedupedDependenciesCount": 13
+          }
+        }
+      },
+      "yaml": {
+        "from": "yaml",
+        "version": "2.9.1",
+        "resolved": "https://registry.npmjs.org/yaml/-/yaml-2.9.1.tgz",
+        "path": "D:\\PresentationOS\\node_modules\\.pnpm\\yaml@2.9.1\\node_modules\\yaml"
+      }
+    }
+  },
+  {
+    "name": "@pres/telemetry",
+    "version": "0.1.0",
+    "path": "D:\\PresentationOS\\kernel\\telemetry",
+    "private": true
+  },
+  {
+    "name": "@pres/template-dna",
+    "version": "0.1.0",
+    "path": "D:\\PresentationOS\\kernel\\template-dna",
+    "private": true,
+    "dependencies": {
+      "jszip": {
+        "from": "jszip",
+        "version": "3.10.2",
+        "resolved": "https://registry.npmjs.org/jszip/-/jszip-3.10.2.tgz",
+        "path": "D:\\PresentationOS\\node_modules\\.pnpm\\jszip@3.10.2\\node_modules\\jszip",
+        "deduped": true,
+        "dedupedDependenciesCount": 13
+      }
+    }
+  },
+  {
+    "name": "@pres/visual-qa",
+    "version": "0.1.0",
+    "path": "D:\\PresentationOS\\kernel\\visual-qa",
+    "private": true
+  },
+  {
+    "name": "@pres/worker-protocol",
+    "version": "0.1.0",
+    "path": "D:\\PresentationOS\\kernel\\worker-protocol",
+    "private": true
+  },
+  {
+    "name": "@pres/workflow",
+    "version": "0.1.2-alpha",
+    "path": "D:\\PresentationOS\\kernel\\workflow",
+    "private": false,
+    "dependencies": {
+      "@pres/document-parser": {
+        "from": "@pres/document-parser",
+        "version": "link:../document-parser",
+        "path": "D:\\PresentationOS\\kernel\\document-parser",
+        "deduped": true,
+        "dedupedDependenciesCount": 8
+      },
+      "@pres/durable-workflow": {
+        "from": "@pres/durable-workflow",
+        "version": "link:../durable-workflow",
+        "path": "D:\\PresentationOS\\kernel\\durable-workflow"
+      },
+      "@pres/mechanical-qa": {
+        "from": "@pres/mechanical-qa",
+        "version": "link:../mechanical-qa",
+        "path": "D:\\PresentationOS\\kernel\\mechanical-qa"
+      },
+      "@pres/pptx-engine": {
+        "from": "@pres/pptx-engine",
+        "version": "link:../pptx-engine",
+        "path": "D:\\PresentationOS\\kernel\\pptx-engine",
+        "deduped": true,
+        "dedupedDependenciesCount": 20
+      },
+      "@pres/revision-engine": {
+        "from": "@pres/revision-engine",
+        "version": "link:../revision-engine",
+        "path": "D:\\PresentationOS\\kernel\\revision-engine"
+      },
+      "@pres/schema-validator": {
+        "from": "@pres/schema-validator",
+        "version": "link:../schema-validator",
+        "path": "D:\\PresentationOS\\kernel\\schema-validator",
+        "deduped": true,
+        "dedupedDependenciesCount": 7
+      },
+      "@pres/telemetry": {
+        "from": "@pres/telemetry",
+        "version": "link:../telemetry",
+        "path": "D:\\PresentationOS\\kernel\\telemetry"
+      },
+      "@pres/visual-qa": {
+        "from": "@pres/visual-qa",
+        "version": "link:../visual-qa",
+        "path": "D:\\PresentationOS\\kernel\\visual-qa"
+      }
+    }
+  },
+  {
+    "name": "@pres/node-worker",
+    "version": "0.1.0",
+    "path": "D:\\PresentationOS\\workers\\node-worker",
+    "private": true,
+    "dependencies": {
+      "@pres/capability-registry": {
+        "from": "@pres/capability-registry",
+        "version": "link:../../kernel/capability-registry",
+        "path": "D:\\PresentationOS\\kernel\\capability-registry"
+      },
+      "@pres/worker-protocol": {
+        "from": "@pres/worker-protocol",
+        "version": "link:../../kernel/worker-protocol",
+        "path": "D:\\PresentationOS\\kernel\\worker-protocol"
+      }
+    }
+  }
+]

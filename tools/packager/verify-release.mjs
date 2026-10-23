@@ -1,126 +1,46 @@
-// PresentationOS Release Packaging & Verification (P15 / P16 / P17)
 import { createHash } from 'node:crypto';
-import { readFileSync, writeFileSync, existsSync, statSync, mkdirSync } from 'node:fs';
-import { resolve, dirname } from 'node:path';
+import { readFileSync, writeFileSync, existsSync, statSync, mkdirSync, readdirSync, lstatSync } from 'node:fs';
+import { resolve, dirname, join, relative, isAbsolute } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { execFileSync } from 'node:child_process';
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
-const rootDir = resolve(__dirname, '..', '..');
-const releaseDir = resolve(rootDir, 'release', 'PresentationOS');
-const exePath = resolve(releaseDir, 'PresentationOS.exe');
-const distDir = resolve(releaseDir, 'dist');
-const distServerDir = resolve(releaseDir, 'dist-server');
-
-console.log('=== PresentationOS Release Verification Gate ===');
-
-if (!existsSync(exePath)) {
-  console.error(`[FAIL] PresentationOS.exe not found at ${exePath}`);
-  process.exit(1);
-}
-
-const exeStat = statSync(exePath);
-const exeSizeMb = (exeStat.size / (1024 * 1024)).toFixed(2);
-console.log(`[PASS] Release binary located: ${exePath} (${exeSizeMb} MB)`);
-
-// 1. Calculate SHA256 Checksums
-function sha256(filePath) {
-  const data = readFileSync(filePath);
-  return createHash('sha256').update(data).digest('hex');
-}
-
-const exeHash = sha256(exePath);
-console.log(`[PASS] PresentationOS.exe SHA256: ${exeHash}`);
-
-const htmlPath = resolve(distDir, 'index.html');
-const serverPath = resolve(distServerDir, 'sidecar-server.js');
-
-const sums = [
-  `${exeHash}  PresentationOS.exe`,
-  existsSync(htmlPath) ? `${sha256(htmlPath)}  dist/index.html` : null,
-  existsSync(serverPath) ? `${sha256(serverPath)}  dist-server/sidecar-server.js` : null,
-].filter(Boolean);
-
-const sumsPath = resolve(releaseDir, 'SHA256SUMS.txt');
-writeFileSync(sumsPath, sums.join('\n') + '\n', 'utf8');
-console.log(`[PASS] Checksums generated at: ${sumsPath}`);
-
-// 2. Generate Release Manifest
-const commitHash = execFileSync('git', ['rev-parse', 'HEAD'], { cwd: rootDir, encoding: 'utf8' }).trim();
-const manifest = {
-  name: 'PresentationOS',
-  version: '0.1.2-alpha',
-  target: 'win-x64',
-  releaseChannel: 'beta-rc1',
-  commitHash,
-  builtAt: new Date().toISOString(),
-  architecture: 'x64',
-  minimumOS: 'Windows 10 Version 1809+ / Windows 11',
-  artifacts: {
-    executable: {
-      path: 'PresentationOS.exe',
-      sizeBytes: exeStat.size,
-      sha256: exeHash,
-      runtime: 'Self-contained .NET 8 + WebView2 Loader',
-    },
-    uiBundle: {
-      path: 'dist',
-      framework: 'React 18 + Vite',
-      controlsContract: 'tools/gui-automation/ui_contract.yaml',
-      controlsCount: 27,
-    },
-    sidecar: {
-      path: 'dist-server',
-      runtime: 'Node.js LTS / Builtin Sidecar Engine',
-      capabilities: [
-        'deck.render',
-        'document.parse',
-        'scene.reconstruct',
-        'media.generate',
-        'qa.mechanical',
-        'qa.visual',
-        'pptx.native_edit',
-      ],
-    },
-  },
-  verification: {
-    selfContainedVerified: exeStat.size > 100 * 1024 * 1024,
-    cleanMachineReady: true,
-    externalRuntimeRequired: false,
-    zeroCloudFallbackEnforced: true,
-    factPreservation100Percent: true,
-  },
-};
-
-const manifestPath = resolve(releaseDir, 'RELEASE_MANIFEST.json');
-writeFileSync(manifestPath, JSON.stringify(manifest, null, 2), 'utf8');
-console.log(`[PASS] Release manifest generated at: ${manifestPath}`);
-
-// 3. Emit evidence
-const evidenceDir = resolve(rootDir, 'evidence', 'installer-packaging');
-mkdirSync(evidenceDir, { recursive: true });
-const evidenceRecord = {
-  feature: 'Release Packaging, Single-File EXE & Clean Machine Distribution',
-  status: 'PASS',
-  command: 'node tools/packager/verify-release.mjs',
-  exit_code: 0,
-  commit_hash: commitHash,
-  recorded_at: new Date().toISOString(),
-  artifacts: [
-    sumsPath,
-    manifestPath,
-    exePath,
-  ],
-  metrics: {
-    binarySizeMb: parseFloat(exeSizeMb),
-    sha256: exeHash,
-    selfContained: true,
-    cleanMachineReady: true,
-  },
-};
-
-const evidencePath = resolve(evidenceDir, 'result.json');
-writeFileSync(evidencePath, JSON.stringify(evidenceRecord, null, 2), 'utf8');
-console.log(`[PASS] Evidence record emitted: ${evidencePath}`);
-
-console.log('=== Release Gate Passed Successfully ===');
+const root = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
+const args = process.argv.slice(2);
+const option = key => { const at = args.indexOf(key); return at < 0 ? undefined : args[at + 1]; };
+const release = resolve(option('--release') ?? join(root, 'release/PresentationOS'));
+const evidence = resolve(option('--evidence') ?? join(root, 'evidence', `bundle-${Date.now()}`));
+if (existsSync(evidence)) throw new Error('Evidence directory already exists; refusing to overwrite a previous verification.');
+mkdirSync(evidence, { recursive: true });
+const result = { status: 'FAIL', release, recordedAt: new Date().toISOString(), checks: [], releaseReady: false, cleanMachine: 'NOT_VERIFIED', windowsUI: 'NOT_ATTEMPTED', nativeQA: 'NOT_ATTEMPTED' };
+try {
+  const manifest = JSON.parse(readFileSync(join(release, 'RELEASE_MANIFEST.json'), 'utf8'));
+  if (manifest.name !== 'PresentationOS' || !Array.isArray(manifest.files) || manifest.files.length < 5) throw new Error('Missing or invalid file inventory');
+  const paths = new Set();
+  for (const file of manifest.files) {
+    const path = resolve(release, file.path), rel = relative(release, path);
+    if (isAbsolute(rel) || rel.startsWith('..') || paths.has(file.path)) throw new Error(`Invalid inventory path: ${file.path}`);
+    paths.add(file.path);
+    if (!existsSync(path) || lstatSync(path).isSymbolicLink() || statSync(path).size !== file.sizeBytes || createHash('sha256').update(readFileSync(path)).digest('hex') !== file.sha256) throw new Error(`Bundle checksum mismatch: ${file.path}`);
+  }
+  function rejectLinks(directory) { for (const entry of readdirSync(directory, { withFileTypes: true })) { const path = join(directory, entry.name); if (entry.isSymbolicLink()) throw new Error('Bundle must not contain links'); if (entry.isDirectory()) rejectLinks(path); else if (!paths.has(relative(release, path).replaceAll('\\', '/')) && !['RELEASE_MANIFEST.json', 'SHA256SUMS.txt'].includes(relative(release, path))) throw new Error(`Uninventoried bundle file: ${path}`); } }
+  rejectLinks(release);
+  for (const required of ['PresentationOS.exe', 'runtime/node.exe', 'runtime/ffmpeg.exe', 'runtime/ffprobe.exe', 'dist/index.html', 'dist-server/sidecar-server.js', 'schemas/project/project.schema.json', 'Install.ps1', 'Uninstall.ps1']) {
+    if (!existsSync(join(release, required)) || !paths.has(required)) throw new Error(`Required bundled file missing or untracked: ${required}`);
+  }
+  result.checks.push({ check: 'manifest-file-size-and-sha256', status: 'PASS', files: manifest.files.length });
+  const env = { ...process.env, PATH: join(process.env.SystemRoot ?? 'C:/Windows', 'System32'), PRES_DATA_DIR: join(evidence, 'data'), PRES_BOOT_REPORT: join(evidence, 'bootstrap.json') };
+  delete env.NODE_PATH; delete env.NODE_OPTIONS; delete env.PRES_SESSION_TOKEN; delete env.PRES_PORT;
+  const exe = join(release, 'PresentationOS.exe');
+  const stdout = execFileSync(exe, ['--test-boot'], { cwd: evidence, env, timeout: 40000, encoding: 'utf8', windowsHide: true });
+  writeFileSync(join(evidence, 'bootstrap-stdout.txt'), stdout);
+  const boot = JSON.parse(readFileSync(env.PRES_BOOT_REPORT, 'utf8'));
+  if (boot.bootstrapPassed !== true || resolve(boot.dataRoot) !== resolve(env.PRES_DATA_DIR) || String(boot.version).split('+')[0] !== manifest.version) throw new Error('Host failed authenticated isolated-data/version bootstrap');
+  result.checks.push({ check: 'bundled-node-authenticated-host-bootstrap-with-no-node-on-PATH', status: 'PASS', port: boot.port, ownedSidecarPid: boot.ownedSidecarPid });
+  // A portable local bootstrap is useful evidence, never a substitute for a clean Windows machine.
+  result.status = args.includes('--bundle-only') ? 'PASS_SCOPED' : 'PARTIAL'; result.bundleVerified = true; result.commitHash = manifest.commitHash;
+  result.scope = args.includes('--bundle-only') ? 'bundle-and-authenticated-bootstrap' : 'full-release';
+  if (!args.includes('--bundle-only')) process.exitCode = 1;
+  result.limitations = ['Installer lifecycle, final Windows UI interaction, clean-machine prerequisites, native Office and distribution-license review require separate evidence.'];
+} catch (error) { result.error = error.message; process.exitCode = 1; }
+writeFileSync(join(evidence, 'result.json'), JSON.stringify(result, null, 2));
+console.log(JSON.stringify(result, null, 2));

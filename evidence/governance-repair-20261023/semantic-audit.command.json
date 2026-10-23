@@ -1,0 +1,12 @@
+{
+  "command": [
+    "C:\\Program Files\\nodejs\\node.exe",
+    "tools/docs-auditor/audit-docs.mjs"
+  ],
+  "cwd": "D:/PresentationOS",
+  "started_at": "2026-10-23T14:19:06.091Z",
+  "finished_at": "2026-10-23T14:19:06.222Z",
+  "exit_code": 0,
+  "signal": null,
+  "error": null
+}

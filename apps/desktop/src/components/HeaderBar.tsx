@@ -6,6 +6,7 @@ interface HeaderBarProps {
   onTitleChange: (newTitle: string) => void;
   status: TaskEngineStatus;
   hasPptx: boolean;
+  ready?: boolean;
   onNew: () => void;
   onOpen: () => void;
   onSave: () => void;
@@ -21,6 +22,7 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({
   onTitleChange,
   status,
   hasPptx,
+  ready = true,
   onNew,
   onOpen,
   onSave,
@@ -31,6 +33,7 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({
   onMediaExport,
 }) => {
   const isRunning = status === 'RUNNING';
+  const unavailable = isRunning || !ready;
 
   return (
     <header className="header-bar">
@@ -44,7 +47,7 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({
           type="text"
           className="project-title-input"
           value={title}
-          disabled={isRunning}
+          disabled={unavailable}
           onChange={(e) => onTitleChange(e.target.value)}
           placeholder="输入项目标题..."
         />
@@ -57,7 +60,7 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({
           data-automation-id="NewProjectBtn"
           aria-label="New Project"
           className="btn"
-          disabled={isRunning}
+          disabled={unavailable}
           onClick={onNew}
         >
           新建项目
@@ -69,7 +72,7 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({
           data-automation-id="OpenProjectBtn"
           aria-label="Open Project"
           className="btn"
-          disabled={isRunning}
+          disabled={unavailable}
           onClick={onOpen}
         >
           打开项目
@@ -81,7 +84,7 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({
           data-automation-id="SaveProjectBtn"
           aria-label="Save Project"
           className="btn"
-          disabled={isRunning}
+          disabled={unavailable}
           onClick={onSave}
         >
           保存项目
@@ -93,7 +96,7 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({
           data-automation-id="CompileDeckBtn"
           aria-label="Compile Deck"
           className="btn btn-primary"
-          disabled={isRunning}
+          disabled={unavailable}
           onClick={onCompile}
         >
           {isRunning ? '生成中...' : '生成 PPTX'}
@@ -129,10 +132,10 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({
           data-automation-id="ReconstructBtn"
           aria-label="Reconstruct Slide"
           className="btn"
-          disabled={isRunning}
+          disabled={unavailable}
           onClick={onReconstruct}
         >
-          参考图重建
+          场景对象转换
         </button>
 
         <button
@@ -141,7 +144,7 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({
           data-automation-id="MediaExportBtn"
           aria-label="Export Media Video"
           className="btn"
-          disabled={isRunning}
+          disabled={unavailable || !hasPptx}
           onClick={onMediaExport}
         >
           配音与视频

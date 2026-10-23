@@ -5,6 +5,7 @@ export interface SlideItem {
   bullets: string[];
   layout: 'title' | 'bullet_list' | 'two_column' | 'big_stat' | 'quote';
   speakerNotes?: string;
+  headingLevel?: 1 | 2;
 }
 
 export interface QaReport {
@@ -15,6 +16,7 @@ export interface QaReport {
   sourceContentPreserved: boolean;
   mechanicalPassed?: boolean;
   visualPassed?: boolean;
+  nativeStatus?: string;
   issues?: Array<{
     slideIndex: number;
     ruleId: string;

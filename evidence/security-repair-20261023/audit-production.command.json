@@ -1,0 +1,16 @@
+{
+  "command": [
+    "pnpm",
+    "audit",
+    "--prod",
+    "--json"
+  ],
+  "cwd": "D:\\PresentationOS",
+  "started_at": "2026-10-23T14:22:41.578Z",
+  "finished_at": "2026-10-23T14:22:43.632Z",
+  "exit_code": 0,
+  "signal": null,
+  "error": null,
+  "stdout_file": "audit-production.stdout.txt",
+  "stderr_file": "audit-production.stderr.txt"
+}

@@ -3,7 +3,7 @@
     "id": "TASK-0001",
     "priority": "P0",
     "title": "PHASE 0: 完成五个专项 MD + state JSON + environment-baseline.json + 最小 build/test",
-    "status": "COMPLETED",
+    "status": "PARTIAL",
     "dependencies": [],
     "acceptance": [
       "五文档存在",
@@ -11,10 +11,13 @@
       "环境基线生成",
       "Node/Python/.NET/Rust 最小 test 通过"
     ],
-    "evidence": [
+    "evidence": [],
+    "blocked_reason": "Current full acceptance has not been independently revalidated; historical component success is not release certification.",
+    "historical_status": "COMPLETED",
+    "historical_evidence": [
       "D:/PresentationOS/evidence/environment-baseline/result.json"
     ],
-    "blocked_reason": null
+    "verification_scope": "Historical component reports remain below as historical_evidence. Full current acceptance is not certified; newly hashed executed evidence must cover all criteria before COMPLETED."
   },
   {
     "id": "TASK-0002",
@@ -29,17 +32,20 @@
       "106/106 manifest yaml 生成",
       "Syft SBOM/Grype 扫描完成"
     ],
-    "evidence": [
+    "evidence": [],
+    "blocked_reason": "Historical component evidence exists; the complete current acceptance criteria have not all been independently verified.",
+    "historical_status": "PARTIAL",
+    "historical_evidence": [
       "D:/PresentationOS/evidence/sbom-audit/result.json",
       "D:/PresentationOS/upstream/audits/_audit_summary.json"
     ],
-    "blocked_reason": "Historical component evidence exists; the complete current acceptance criteria have not all been independently verified."
+    "verification_scope": "Historical component reports remain below as historical_evidence. Full current acceptance is not certified; newly hashed executed evidence must cover all criteria before COMPLETED."
   },
   {
     "id": "TASK-0003",
     "priority": "P0",
     "title": "PHASE 2: Schema 与多层 IR 第一版（DocumentIR/NarrativeIR/DeckSpec/SlideSpec/DesignTokens/TemplateDNA/LayoutIR/RenderIR/QAReport/RevisionRecord）",
-    "status": "COMPLETED",
+    "status": "PARTIAL",
     "dependencies": [
       "TASK-0001"
     ],
@@ -48,10 +54,13 @@
       "valid/invalid 测试",
       "跨引用 deck<->layout<->design-token"
     ],
-    "evidence": [
+    "evidence": [],
+    "blocked_reason": "Current full acceptance has not been independently revalidated; historical component success is not release certification.",
+    "historical_status": "COMPLETED",
+    "historical_evidence": [
       "D:/PresentationOS/evidence/schema-ir/result.json"
     ],
-    "blocked_reason": null
+    "verification_scope": "Historical component reports remain below as historical_evidence. Full current acceptance is not certified; newly hashed executed evidence must cover all criteria before COMPLETED."
   },
   {
     "id": "TASK-0004",
@@ -67,10 +76,13 @@
       "Graph 依赖/fallback",
       "两 Provider 过同一 Contract"
     ],
-    "evidence": [
+    "evidence": [],
+    "blocked_reason": "Historical component evidence exists; the complete current acceptance criteria have not all been independently verified.",
+    "historical_status": "PARTIAL",
+    "historical_evidence": [
       "D:/PresentationOS/evidence/capability-abi/result.json"
     ],
-    "blocked_reason": "Historical component evidence exists; the complete current acceptance criteria have not all been independently verified."
+    "verification_scope": "Historical component reports remain below as historical_evidence. Full current acceptance is not certified; newly hashed executed evidence must cover all criteria before COMPLETED."
   },
   {
     "id": "TASK-0005",
@@ -85,26 +97,32 @@
       "spawn 真实进程",
       "结构化日志"
     ],
-    "evidence": [
+    "evidence": [],
+    "blocked_reason": "Historical component evidence exists; the complete current acceptance criteria have not all been independently verified.",
+    "historical_status": "PARTIAL",
+    "historical_evidence": [
       "D:/PresentationOS/evidence/worker-protocol/result.json"
     ],
-    "blocked_reason": "Historical component evidence exists; the complete current acceptance criteria have not all been independently verified."
+    "verification_scope": "Historical component reports remain below as historical_evidence. Full current acceptance is not certified; newly hashed executed evidence must cover all criteria before COMPLETED."
   },
   {
     "id": "TASK-0006",
     "priority": "P1",
     "title": "PHASE 5: Artifact Store（SHA256 CAS）",
-    "status": "COMPLETED",
+    "status": "PARTIAL",
     "dependencies": [
       "TASK-0003"
     ],
     "acceptance": [
       "dedupe/integrity/index reload"
     ],
-    "evidence": [
+    "evidence": [],
+    "blocked_reason": "Current full acceptance has not been independently revalidated; historical component success is not release certification.",
+    "historical_status": "COMPLETED",
+    "historical_evidence": [
       "D:/PresentationOS/evidence/artifact-store/result.json"
     ],
-    "blocked_reason": null
+    "verification_scope": "Historical component reports remain below as historical_evidence. Full current acceptance is not certified; newly hashed executed evidence must cover all criteria before COMPLETED."
   },
   {
     "id": "TASK-0007",
@@ -119,10 +137,13 @@
       "多阶段 workflow",
       "强制杀进程后从 Checkpoint 恢复"
     ],
-    "evidence": [
+    "evidence": [],
+    "blocked_reason": "Historical component evidence exists; the complete current acceptance criteria have not all been independently verified.",
+    "historical_status": "PARTIAL",
+    "historical_evidence": [
       "D:/PresentationOS/evidence/durable-workflow/result.json"
     ],
-    "blocked_reason": "Historical component evidence exists; the complete current acceptance criteria have not all been independently verified."
+    "verification_scope": "Historical component reports remain below as historical_evidence. Full current acceptance is not certified; newly hashed executed evidence must cover all criteria before COMPLETED."
   },
   {
     "id": "TASK-0008",
@@ -138,17 +159,20 @@
       "slideCount=4 PASS",
       "PDF 导出"
     ],
-    "evidence": [
+    "evidence": [],
+    "blocked_reason": "Historical component evidence exists; the complete current acceptance criteria have not all been independently verified.",
+    "historical_status": "PARTIAL",
+    "historical_evidence": [
       "D:/PresentationOS/evidence/vertical-slice/result.json",
       "D:/PresentationOS/evidence/pptx-engine/result.json"
     ],
-    "blocked_reason": "Historical component evidence exists; the complete current acceptance criteria have not all been independently verified."
+    "verification_scope": "Historical component reports remain below as historical_evidence. Full current acceptance is not certified; newly hashed executed evidence must cover all criteria before COMPLETED."
   },
   {
     "id": "TASK-0009",
     "priority": "P1",
     "title": "PHASE 8: Layout Engine（语义约束→几何计算）",
-    "status": "COMPLETED",
+    "status": "PARTIAL",
     "dependencies": [
       "TASK-0008"
     ],
@@ -156,16 +180,19 @@
       "anchor/align/gap/flow/约束",
       "负尺寸 clamp 防损坏"
     ],
-    "evidence": [
+    "evidence": [],
+    "blocked_reason": "Current full acceptance has not been independently revalidated; historical component success is not release certification.",
+    "historical_status": "COMPLETED",
+    "historical_evidence": [
       "D:/PresentationOS/evidence/pptx-engine/result.json"
     ],
-    "blocked_reason": null
+    "verification_scope": "Historical component reports remain below as historical_evidence. Full current acceptance is not certified; newly hashed executed evidence must cover all criteria before COMPLETED."
   },
   {
     "id": "TASK-0010",
     "priority": "P1",
     "title": "PHASE 9: QA 系统（Mechanical QA + Visual QA 调度 + Revision Loop）",
-    "status": "COMPLETED",
+    "status": "IN_PROGRESS",
     "dependencies": [
       "TASK-0008"
     ],
@@ -174,18 +201,21 @@
       "人为损坏案例可检出",
       "Revision 定位到 slide/object"
     ],
-    "evidence": [
+    "evidence": [],
+    "blocked_reason": "Repair content preservation and QA failure propagation; current output, Native/UIA evidence and full revision-loop acceptance remain under verification.",
+    "historical_status": "COMPLETED",
+    "historical_evidence": [
       "evidence/powerpoint-native-worker/result.json",
       "evidence/visual-qa/result.json",
       "evidence/mechanical-qa/result.json"
     ],
-    "blocked_reason": "规则级单测已存在；视觉渲染对比与完整 Revision 闭环需接真实模型与原生截图"
+    "verification_scope": "Historical component reports remain below as historical_evidence. Full current acceptance is not certified; newly hashed executed evidence must cover all criteria before COMPLETED."
   },
   {
     "id": "TASK-0011",
     "priority": "P0",
     "title": "PHASE 10: PowerPoint Native Worker / QA（C# .NET8 + COM）",
-    "status": "COMPLETED",
+    "status": "PARTIAL",
     "dependencies": [
       "TASK-0008"
     ],
@@ -194,17 +224,20 @@
       "无 repair dialog",
       "无 POWERPNT.EXE 残留"
     ],
-    "evidence": [
+    "evidence": [],
+    "blocked_reason": "Isolated .NET save/reopen, ordered text readback, edit/PDF/PNG operations and path/failure boundaries have current evidence. Full OpenXML schema, font substitution and visual fidelity remain unverified.",
+    "historical_blocked_reason": "PowerShell COM QA 通道已通；C# Worker 骨架已有，需补 open/save/reopen/export PNG/font check 完整 DoD",
+    "historical_status": "COMPLETED",
+    "historical_evidence": [
       "evidence/powerpoint-native-worker/result.json"
     ],
-    "blocked_reason": "Isolated .NET save/reopen, ordered text readback, edit/PDF/PNG operations and path/failure boundaries have current evidence. Full OpenXML schema, font substitution and visual fidelity remain unverified.",
-    "historical_blocked_reason": "PowerShell COM QA 通道已通；C# Worker 骨架已有，需补 open/save/reopen/export PNG/font check 完整 DoD"
+    "verification_scope": "Historical component reports remain below as historical_evidence. Full current acceptance is not certified; newly hashed executed evidence must cover all criteria before COMPLETED."
   },
   {
     "id": "TASK-0012",
     "priority": "P1",
     "title": "PHASE 11: Template DNA 提取",
-    "status": "COMPLETED",
+    "status": "PARTIAL",
     "dependencies": [
       "TASK-0008"
     ],
@@ -212,17 +245,20 @@
       "真实 PPTX 提取 fonts/colors/grid/layout 等 → TemplateDNA",
       "新 PPT 继承视觉系统"
     ],
-    "evidence": [
+    "evidence": [],
+    "blocked_reason": "提取原型与单测已就绪，精确复刻与复杂版式映射仍需深化",
+    "historical_status": "COMPLETED",
+    "historical_evidence": [
       "evidence/template-dna/result.json",
       "evidence/pptx-engine-dna/result.json"
     ],
-    "blocked_reason": "提取原型与单测已就绪，精确复刻与复杂版式映射仍需深化"
+    "verification_scope": "Historical component reports remain below as historical_evidence. Full current acceptance is not certified; newly hashed executed evidence must cover all criteria before COMPLETED."
   },
   {
     "id": "TASK-0013",
     "priority": "P1",
     "title": "PHASE 12: Existing PPT Editing（只改第 5 页标题与布局）",
-    "status": "COMPLETED",
+    "status": "PARTIAL",
     "dependencies": [
       "TASK-0008",
       "TASK-0011"
@@ -233,16 +269,19 @@
       "PowerPoint 正常打开",
       "对象保持可编辑"
     ],
-    "evidence": [
+    "evidence": [],
+    "blocked_reason": "文本 Run 级编辑验证通过，多形状复杂 PPT 保真编辑待扩展",
+    "historical_status": "COMPLETED",
+    "historical_evidence": [
       "evidence/pptx-editor/result.json"
     ],
-    "blocked_reason": "文本 Run 级编辑验证通过，多形状复杂 PPT 保真编辑待扩展"
+    "verification_scope": "Historical component reports remain below as historical_evidence. Full current acceptance is not certified; newly hashed executed evidence must cover all criteria before COMPLETED."
   },
   {
     "id": "TASK-0014",
     "priority": "P2",
     "title": "PHASE 13: Reference / Screenshot Reconstruction",
-    "status": "COMPLETED",
+    "status": "PARTIAL",
     "dependencies": [
       "TASK-0008",
       "TASK-0011"
@@ -251,16 +290,19 @@
       "OCR→Segmentation→Layout→DNA→SlideSpec→Editable PPTX→Render→Visual Compare",
       "禁止整图当背景"
     ],
-    "evidence": [
+    "evidence": [],
+    "blocked_reason": "Current full acceptance has not been independently revalidated; historical component success is not release certification.",
+    "historical_status": "COMPLETED",
+    "historical_evidence": [
       "evidence/reference-reconstruction/result.json"
     ],
-    "blocked_reason": null
+    "verification_scope": "Historical component reports remain below as historical_evidence. Full current acceptance is not certified; newly hashed executed evidence must cover all criteria before COMPLETED."
   },
   {
     "id": "TASK-0015",
     "priority": "P1",
     "title": "PHASE 14: Model Router（统一 ModelProvider + fallback）",
-    "status": "COMPLETED",
+    "status": "PARTIAL",
     "dependencies": [
       "TASK-0004"
     ],
@@ -268,16 +310,19 @@
       "任务声明/模型声明",
       "Provider A 不可用自动 fallback B"
     ],
-    "evidence": [
+    "evidence": [],
+    "blocked_reason": "Mock HTTP 集成测试通过，真实模型 API key/本地推理接入待配置",
+    "historical_status": "COMPLETED",
+    "historical_evidence": [
       "evidence/model-router/result.json"
     ],
-    "blocked_reason": "Mock HTTP 集成测试通过，真实模型 API key/本地推理接入待配置"
+    "verification_scope": "Historical component reports remain below as historical_evidence. Full current acceptance is not certified; newly hashed executed evidence must cover all criteria before COMPLETED."
   },
   {
     "id": "TASK-0016",
     "priority": "P1",
     "title": "PHASE 15: Skill Runtime / Skill Compiler",
-    "status": "COMPLETED",
+    "status": "PARTIAL",
     "dependencies": [
       "TASK-0007",
       "TASK-0008"
@@ -287,16 +332,19 @@
       "编译目标多端",
       "Desktop 与 Skill 同一 Capability Core"
     ],
-    "evidence": [
+    "evidence": [],
+    "blocked_reason": "deck.plan/deck.render 运行时通过，QA 工件全生命周期链待闭合",
+    "historical_status": "COMPLETED",
+    "historical_evidence": [
       "evidence/skill-runtime/result.json"
     ],
-    "blocked_reason": "deck.plan/deck.render 运行时通过，QA 工件全生命周期链待闭合"
+    "verification_scope": "Historical component reports remain below as historical_evidence. Full current acceptance is not certified; newly hashed executed evidence must cover all criteria before COMPLETED."
   },
   {
     "id": "TASK-0017",
     "priority": "P2",
     "title": "PHASE 16: Plugin System（Safe WASM + Privileged Worker + Permission Manifest）",
-    "status": "COMPLETED",
+    "status": "PARTIAL",
     "dependencies": [
       "TASK-0007"
     ],
@@ -304,16 +352,19 @@
       "两类插件",
       "权限声明"
     ],
-    "evidence": [
+    "evidence": [],
+    "blocked_reason": "Plugin SDK 原型与单测已就绪，安全沙箱与进程隔离边界待补强",
+    "historical_status": "COMPLETED",
+    "historical_evidence": [
       "evidence/plugin-sdk/result.json"
     ],
-    "blocked_reason": "Plugin SDK 原型与单测已就绪，安全沙箱与进程隔离边界待补强"
+    "verification_scope": "Historical component reports remain below as historical_evidence. Full current acceptance is not certified; newly hashed executed evidence must cover all criteria before COMPLETED."
   },
   {
     "id": "TASK-0018",
     "priority": "P1",
-    "title": "PHASE 17: Desktop GUI（Tauri 2 + React + TS）",
-    "status": "COMPLETED",
+    "title": "PHASE 17: Desktop GUI（.NET 8 WinForms + WebView2 + React + TS）",
+    "status": "PARTIAL",
     "dependencies": [
       "TASK-0008"
     ],
@@ -321,16 +372,20 @@
       "Project Manager/Slide Navigator/Canvas/AI Panel/Properties/Templates/Assets/QA/Workflow/Logs/History/Export/Skill Builder",
       "UI 不持有核心业务逻辑"
     ],
-    "evidence": [
+    "evidence": [],
+    "blocked_reason": "Current full acceptance has not been independently revalidated; historical component success is not release certification.",
+    "historical_status": "COMPLETED",
+    "historical_evidence": [
       "D:/PresentationOS/evidence/gui-automation/result.json"
     ],
-    "blocked_reason": null
+    "verification_scope": "Historical component reports remain below as historical_evidence. Full current acceptance is not certified; newly hashed executed evidence must cover all criteria before COMPLETED.",
+    "historical_title": "PHASE 17: Desktop GUI（Tauri 2 + React + TS）"
   },
   {
     "id": "TASK-0019",
     "priority": "P1",
     "title": "PHASE 18: GUI 自动化（tools/gui-automation + ui_contract.yaml + UIA Patterns）",
-    "status": "COMPLETED",
+    "status": "PARTIAL",
     "dependencies": [
       "TASK-0018"
     ],
@@ -338,10 +393,13 @@
       "UIA 非坐标主方案",
       "每个按钮 Pattern 证据 + 状态变化 + Artifact + 日志"
     ],
-    "evidence": [
+    "evidence": [],
+    "blocked_reason": "Prior control-string checks did not execute UIA patterns or verify state and artifact changes. Final packaged EXE requires real UIA operation evidence.",
+    "historical_status": "COMPLETED",
+    "historical_evidence": [
       "D:/PresentationOS/evidence/gui-automation/result.json"
     ],
-    "blocked_reason": null
+    "verification_scope": "Historical component reports remain below as historical_evidence. Full current acceptance is not certified; newly hashed executed evidence must cover all criteria before COMPLETED."
   },
   {
     "id": "TASK-0020",
@@ -357,32 +415,38 @@
       "脱敏层",
       "Desktop 日志入口（UIA 验证）"
     ],
-    "evidence": [
+    "evidence": [],
+    "blocked_reason": "Historical component evidence exists; the complete current acceptance criteria have not all been independently verified.",
+    "historical_status": "PARTIAL",
+    "historical_evidence": [
       "D:/PresentationOS/evidence/telemetry/result.json"
     ],
-    "blocked_reason": "Historical component evidence exists; the complete current acceptance criteria have not all been independently verified."
+    "verification_scope": "Historical component reports remain below as historical_evidence. Full current acceptance is not certified; newly hashed executed evidence must cover all criteria before COMPLETED."
   },
   {
     "id": "TASK-0021",
     "priority": "P2",
     "title": "PHASE 20: Voice / Video Pipeline（Speaker Notes→TTS→Timeline→FFmpeg→MP4）",
-    "status": "COMPLETED",
+    "status": "PARTIAL",
     "dependencies": [
       "TASK-0008"
     ],
     "acceptance": [
       "配音同步 MP4"
     ],
-    "evidence": [
+    "evidence": [],
+    "blocked_reason": "Current full acceptance has not been independently revalidated; historical component success is not release certification.",
+    "historical_status": "COMPLETED",
+    "historical_evidence": [
       "evidence/media-pipeline/result.json"
     ],
-    "blocked_reason": null
+    "verification_scope": "Historical component reports remain below as historical_evidence. Full current acceptance is not certified; newly hashed executed evidence must cover all criteria before COMPLETED."
   },
   {
     "id": "TASK-0022",
     "priority": "P0",
     "title": "PHASE 21: Security / SBOM / License（Syft + Grype 全量 + Critical/High 处理）",
-    "status": "COMPLETED",
+    "status": "PARTIAL",
     "dependencies": [
       "TASK-0002"
     ],
@@ -391,31 +455,42 @@
       "Critical/High 无静默忽略"
     ],
     "evidence": [
+      {
+        "path": "evidence/security-repair-20261023/result.json",
+        "sha256": "cd85bc351c81ad30346f4b2951ce74e81891035ea88159c2dfee034ad19a55ee"
+      }
+    ],
+    "blocked_reason": "npm advisory and installed-production inventory checks are scoped. NuGet, final packaged runtime/FFmpeg obligations, plugin isolation and release threat review remain unverified.",
+    "historical_status": "COMPLETED",
+    "historical_evidence": [
       "D:/PresentationOS/evidence/sbom-audit/result.json"
     ],
-    "blocked_reason": null
+    "verification_scope": "Historical component reports remain below as historical_evidence. Full current acceptance is not certified; newly hashed executed evidence must cover all criteria before COMPLETED."
   },
   {
     "id": "TASK-0023",
     "priority": "P1",
     "title": "PHASE 22: Installer / Release（EXE + Installer + 干净环境验证 + Checksums）",
-    "status": "COMPLETED",
+    "status": "PARTIAL",
     "dependencies": [
       "TASK-0018"
     ],
     "acceptance": [
       "安装/卸载/升级/校验"
     ],
-    "evidence": [
+    "evidence": [],
+    "blocked_reason": "Installer scripts and EXE existence do not prove clean-machine install/upgrade/uninstall and isolated runtime closure.",
+    "historical_status": "COMPLETED",
+    "historical_evidence": [
       "evidence/installer-packaging/result.json"
     ],
-    "blocked_reason": null
+    "verification_scope": "Historical component reports remain below as historical_evidence. Full current acceptance is not certified; newly hashed executed evidence must cover all criteria before COMPLETED."
   },
   {
     "id": "TASK-0024",
     "priority": "P1",
     "title": "tools/docs-auditor（五文档一致性检查）",
-    "status": "COMPLETED",
+    "status": "PARTIAL",
     "dependencies": [
       "TASK-0001"
     ],
@@ -427,16 +502,24 @@
       "规则版本正确"
     ],
     "evidence": [
+      {
+        "path": "evidence/governance-repair-20261023-final/result.json",
+        "sha256": "3cd37c782a79279c305fabcc1f78e803aaba4966b2429d05adddbc6e33289c26"
+      }
+    ],
+    "blocked_reason": "Current full acceptance has not been independently revalidated; historical component success is not release certification.",
+    "historical_status": "COMPLETED",
+    "historical_evidence": [
       "tools/docs-auditor/audit-docs.mjs",
       "tools/docs-auditor/audit-docs.test.mjs"
     ],
-    "blocked_reason": null
+    "verification_scope": "Historical component reports remain below as historical_evidence. Full current acceptance is not certified; newly hashed executed evidence must cover all criteria before COMPLETED."
   },
   {
     "id": "TASK-0025",
     "priority": "P1",
     "title": "统一命令入口（pres CLI 脚手架 + pnpm workspace 初始化）",
-    "status": "COMPLETED",
+    "status": "PARTIAL",
     "dependencies": [
       "TASK-0001"
     ],
@@ -444,9 +527,12 @@
       "pnpm install 成功",
       "最小 Node test 成功"
     ],
-    "evidence": [
+    "evidence": [],
+    "blocked_reason": "Current full acceptance has not been independently revalidated; historical component success is not release certification.",
+    "historical_status": "COMPLETED",
+    "historical_evidence": [
       "D:/PresentationOS/evidence/environment-baseline/result.json"
     ],
-    "blocked_reason": null
+    "verification_scope": "Historical component reports remain below as historical_evidence. Full current acceptance is not certified; newly hashed executed evidence must cover all criteria before COMPLETED."
   }
 ]

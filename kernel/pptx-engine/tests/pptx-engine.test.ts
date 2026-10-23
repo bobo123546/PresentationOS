@@ -26,7 +26,9 @@ test('shared scene uses the renderer font scale and exact geometry', () => {
   const slide = {id:'slide-1',kind:'content',title:'Title',blocks:[{type:'text',text:'Metric 987654321',fontScale:1.25}]};
   const rect = {x:1,y:2,w:8,h:3};
   const scene = resolveSlideScene(slide,()=>new Map([['block-0',rect]]));
-  assert.deepEqual(scene.blocks[0].rect,rect);
+  const command = scene.commands.find(c=>c.role==='content'&&c.sourceBlockIndex===0&&c.type==='text')!;
+  assert.deepEqual(scene.blocks[0].rect,command.rect);
+  assert.equal(command.options.fontSize,20);
   assert.equal(scene.blocks[0].fontSize,20);
 });
 

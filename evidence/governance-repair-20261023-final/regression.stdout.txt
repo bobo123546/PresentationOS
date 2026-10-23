@@ -1,0 +1,39 @@
+✔ current project governance passes (12.7269ms)
+✔ unchanged isolated governance fixture passes (87.0281ms)
+✔ version mismatch fails (71.4944ms)
+✔ CLI version cannot drift from the product (67.8641ms)
+✔ release-ready with open blockers fails (72.1933ms)
+✔ unknown release state fails (64.6112ms)
+✔ duplicate and malformed task IDs fail (118.8134ms)
+✔ active task status and title must match backlog (117.3459ms)
+✔ current document metadata cannot silently drift (62.3806ms)
+✔ invalid blockers JSON fails closed (56.62ms)
+✔ visible body drift is rejected even when hidden JSON metadata matches (211.6666ms)
+✔ README unconditional marketing and incorrect implemented architecture fail (359.3648ms)
+✔ history stays readable without being mistaken for current claims (54.5173ms)
+✔ missing, bare-path, corrupt and hash-mismatched evidence cannot complete tasks (227.9011ms)
+✔ complete task requires execution evidence, all criteria and no outstanding gap (166.1232ms)
+✔ a report digest cannot conceal a changed output artifact (53.9388ms)
+✔ source-only, scoped, mock or missing execution fields cannot certify completion (401.4614ms)
+✔ resolved blocker without executed proof and missing known blocker entries fail (106.0575ms)
+✔ self dependency, dependency cycle and malformed task fail closed (162.0836ms)
+✔ release evidence must bind a clean source commit, version and full release acceptance (5.3315ms)
+✔ null/array report JSON and malformed known blocker types fail closed (60.7138ms)
+✔ SPDX choices and obligations are evaluated separately; unknown does not become MIT (1.6658ms)
+✔ inventory includes transitive/optional packages, versions and internal links (27.4401ms)
+✔ missing metadata and ambiguous legacy license arrays retain UNKNOWN (0.4854ms)
+✔ secret detection checks every file independently and never reports matched text (0.69ms)
+✔ audit network errors, malformed/incomplete JSON and inconsistent exits fail closed (0.5831ms)
+✔ real command paths are invoked and pass is scoped rather than a release certificate (31.7736ms)
+✔ development-only advisory changes output and exit instead of writing zero (21.724ms)
+✔ secret finding fails the gate while saved evidence remains redacted (22.3403ms)
+✔ missing license metadata and an AND obligation fail the actual evidence gate (103.5961ms)
+✔ permissive AND, OR choice and parentheses survive the real gate (66.3498ms)
+ℹ tests 31
+ℹ suites 0
+ℹ pass 31
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1953.9232

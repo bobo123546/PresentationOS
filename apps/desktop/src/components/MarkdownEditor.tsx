@@ -51,7 +51,7 @@ export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
         />
 
         <div className="panel-header" style={{ padding: '6px 0', border: 'none', background: 'transparent' }}>
-          <span className="panel-title">幻灯片导航 ({slides.length})</span>
+          <span className="panel-title">源文章节 ({slides.length}) · 导出时自动分页</span>
         </div>
 
         <div
@@ -62,18 +62,20 @@ export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
           className="slide-nav-list"
         >
           {slides.map((s, idx) => (
-            <div
+            <button
               key={s.id || idx}
               id={`SlideNavItem_${idx}`}
               data-testid={`SlideNavItem_${idx}`}
               data-automation-id={`SlideNavItem_${idx}`}
               aria-label={`Slide ${idx + 1}: ${s.title}`}
+              aria-pressed={idx === selectedIndex}
+              disabled={disabled}
               className={`slide-nav-item ${idx === selectedIndex ? 'active' : ''}`}
               onClick={() => onSelectSlide(idx)}
             >
               <span>{idx + 1}. {s.title || '无标题幻灯片'}</span>
               <span style={{ fontSize: '10px', color: '#94a3b8' }}>{s.layout}</span>
-            </div>
+            </button>
           ))}
         </div>
       </div>

@@ -1,11 +1,14 @@
 import { createTaskService } from '../kernel/workflow/dist/index.js';
-import { statSync, existsSync, unlinkSync } from 'node:fs';
+import { mkdirSync, mkdtempSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 
 async function main() {
   console.log('=== Compiling High-Stakes Presentations for Universal Scenarios ===');
-  const taskService = createTaskService();
-  const outDir = 'D:/PresentationOSData';
+  const base = path.resolve(process.argv[2] ?? path.join(process.env.PRES_DATA_DIR ?? 'D:/PresentationOSData', 'artifacts'));
+  mkdirSync(base, { recursive: true });
+  const outDir = mkdtempSync(path.join(base, 'scenarios-'));
+  const taskService = createTaskService({ dbPath: path.join(outDir, 'workflows.db') });
+  try {
 
   // 1. Finance: IPO Roadshow & DCF Valuation
   console.log('\n[1/4] Compiling Finance IPO Roadshow Deck...');
@@ -304,7 +307,19 @@ async function main() {
   });
   console.log('DevOps Deck compiled:', r4.ok, 'Slides:', r4.slidesCount, 'Score:', r4.overallScore);
 
-  console.log('\n=== ALL 4 PRESENTATIONS COMPILED SUCCESSFULLY ===');
+  for (const [name, markdown, result] of [
+    ['finance', financeMd, r1], ['consulting', consultingMd, r2],
+    ['legal', legalMd, r3], ['devops', devopsMd, r4],
+  ]) {
+    writeFileSync(path.join(outDir, `${name}.md`), markdown, { flag: 'wx' });
+    if (!result.ok || !result.sourceContentPreserved || !result.summary?.contentVerification?.ok) {
+      throw new Error(`${name} failed final content verification: ${result.error}`);
+    }
+  }
+  writeFileSync(path.join(outDir, 'result.json'), JSON.stringify({ scope: 'example-compile-and-ooxml-readback',
+    native: 'NOT_ATTEMPTED', pass: true, presentations: [r1,r2,r3,r4] }, null, 2), { flag: 'wx' });
+  console.log(`Four example decks passed content readback; Native/UI validation separate. Output: ${outDir}`);
+  } finally { taskService.close(); }
 }
 
 main().catch(err => {

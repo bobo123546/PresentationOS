@@ -22,6 +22,7 @@ export const StatusBar: React.FC<StatusBarProps> = ({
           data-testid="StatusLabel"
           data-automation-id="StatusLabel"
           aria-label={`System Status: ${status}`}
+          role="status"
           className={`status-badge ${status}`}
         >
           {status}
@@ -33,6 +34,10 @@ export const StatusBar: React.FC<StatusBarProps> = ({
             data-testid="TaskProgressBar"
             data-automation-id="TaskProgressBar"
             aria-label={`Task Progress: ${progressPercent}%`}
+            role="progressbar"
+            aria-valuemin={0}
+            aria-valuemax={100}
+            aria-valuenow={progressPercent}
             className="progress-bar-container"
           >
             <div className="progress-bar-fill" style={{ width: `${progressPercent}%` }} />
@@ -61,6 +66,7 @@ export const StatusBar: React.FC<StatusBarProps> = ({
             data-testid="NotificationToast"
             data-automation-id="NotificationToast"
             aria-label="Notification Message"
+            role="status"
             className="toast-message"
           >
             {toast}

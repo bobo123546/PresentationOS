@@ -1,9 +1,10 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtempSync, rmSync, existsSync, readFileSync } from 'node:fs';
+import { mkdtempSync, rmSync, existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { createTaskService } from '../src/index.js';
+import { readRenderedDeck } from '@pres/pptx-engine';
 
 test('TaskService: create, save, and open project conforming to schema', async () => {
   const dir = mkdtempSync(join(tmpdir(), 'pres-proj-test-'));
@@ -142,4 +143,59 @@ More content.
     service.close();
     rmSync(dir, { recursive: true, force: true });
   }
+});
+
+test('actual PPTX keeps every introductory budget and reports its readback hash', async () => {
+  const dir = mkdtempSync(join(tmpdir(), 'pres-budget-regression-'));
+  const service = createTaskService({ dbPath: join(dir, 'workflow.db') });
+  try {
+    const result = await service.compileMarkdown({ projectId: 'budgets',
+      markdown: '# 保真验收探针\n来源A预算为37万元。\n来源B预算为58万元。\n来源C预算为91万元。\n## 正文\n普通内容。',
+      outPptxPath: join(dir, 'budgets.pptx') });
+    assert.equal(result.ok, true, result.error);
+    const slides = await readRenderedDeck(readFileSync(result.pptxPath!));
+    const actual = slides.flatMap(s => s.texts).join('\n');
+    for (const budget of ['37万元', '58万元', '91万元']) assert.ok(actual.includes(budget), budget);
+    assert.equal((result.summary as any).contentVerification.ok, true);
+    assert.match(String((result.summary as any).sha256), /^[a-f0-9]{64}$/);
+    assert.equal((result.summary as any).native.status, 'NOT_ATTEMPTED');
+    service.cancel(result.runId);
+    assert.equal(service.getRun(result.runId)?.status, 'COMPLETED');
+  } finally { service.close(); rmSync(dir, { recursive: true, force: true }); }
+});
+
+test('failed compile returns its default report and never points to an unrelated existing report', async () => {
+  const dir = mkdtempSync(join(tmpdir(), 'pres-failed-report-'));
+  const service = createTaskService({ dbPath: join(dir, 'workflow.db') });
+  try {
+    const result = await service.compileMarkdown({ projectId: 'invalid', markdown: '# Invalid\nText\u0001', outPptxPath: join(dir, 'bad.pptx') });
+    assert.equal(result.ok, false);
+    assert.equal(result.reportPath, join(dir, 'bad.loop.json'));
+    assert.equal(JSON.parse(readFileSync(result.reportPath!, 'utf8')).passed, false);
+    const second = await service.compileMarkdown({ projectId: 'occupied', markdown: '# Good\nText', outPptxPath: join(dir, 'bad.pptx') });
+    assert.equal(second.ok, false);
+    assert.equal(second.reportPath, undefined);
+  } finally { service.close(); rmSync(dir, { recursive: true, force: true }); }
+});
+
+test('compile refuses to replace existing PPTX or report and cancellation never claims readback', async () => {
+  const dir = mkdtempSync(join(tmpdir(), 'pres-output-protect-'));
+  const service = createTaskService({ dbPath: join(dir, 'workflow.db') });
+  try {
+    for (const occupied of ['output.pptx', 'output.loop.json']) {
+      const path = join(dir, occupied);
+      writeFileSync(path, 'existing user bytes');
+      const result = await service.compileMarkdown({ projectId: occupied, markdown: '# Keep\nBody',
+        outPptxPath: join(dir, 'output.pptx') });
+      assert.equal(result.ok, false);
+      assert.equal(result.sourceContentPreserved, false);
+      assert.equal(readFileSync(path, 'utf8'), 'existing user bytes');
+      rmSync(path);
+    }
+    const cancelled = await service.compileMarkdown({ projectId: 'cancel', markdown: '# Keep\nBody',
+      outPptxPath: join(dir, 'cancelled.pptx') }, event => service.cancel(event.runId));
+    assert.equal(cancelled.status, 'CANCELLED');
+    assert.equal(cancelled.sourceContentPreserved, false);
+    assert.equal(existsSync(join(dir, 'cancelled.pptx')), false);
+  } finally { service.close(); rmSync(dir, { recursive: true, force: true }); }
 });

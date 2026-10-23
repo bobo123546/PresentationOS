@@ -1,30 +1,65 @@
 [
   {
     "id": "BLOCKED-MODEL-001",
-    "title": "真实模型推理未执行",
-    "reason": "无本地模型/无 API key",
-    "resolution": "用户提供 API key（models.yaml apiKeyRef）或安装 Ollama + qwen2.5:14b",
-    "status": "OPEN"
+    "title": "真实模型推理尚未验收",
+    "reason": "Protocol/mock tests cannot prove real remote or local model behavior.",
+    "resolution": "Configure an authorized model and execute real success/fallback/error evaluation without logging credentials.",
+    "status": "OPEN",
+    "historical_record": {
+      "id": "BLOCKED-MODEL-001",
+      "title": "真实模型推理未执行",
+      "reason": "无本地模型/无 API key",
+      "resolution": "用户提供 API key（models.yaml apiKeyRef）或安装 Ollama + qwen2.5:14b",
+      "status": "OPEN"
+    }
   },
   {
     "id": "BLOCKED-RELEASE-001",
-    "title": "原生桌面客户端与独立安装包尚未开发",
-    "reason": "PHASE 17 (Tauri 2 + React) 与 PHASE 22 (Installer / Release) 处于未启动状态",
-    "resolution": "实现 Tauri 桌面宿主工程，集成打包管道，完成干净机安装与卸载验证",
-    "status": "RESOLVED"
+    "title": "桌面安装与干净机闭环尚未验收",
+    "reason": "A .NET 8 WinForms/WebView2 host exists. Final packaged runtime closure, clean-machine installation, upgrade and uninstall are not proven.",
+    "resolution": "Build an isolated package and record hashes, dependency closure and real clean-machine lifecycle operations.",
+    "status": "OPEN",
+    "historical_record": {
+      "id": "BLOCKED-RELEASE-001",
+      "title": "原生桌面客户端与独立安装包尚未开发",
+      "reason": "PHASE 17 (Tauri 2 + React) 与 PHASE 22 (Installer / Release) 处于未启动状态",
+      "resolution": "实现 Tauri 桌面宿主工程，集成打包管道，完成干净机安装与卸载验证",
+      "status": "RESOLVED"
+    }
   },
   {
     "id": "BLOCKED-GATE-001",
-    "title": "PowerPoint 完整 Native QA DoD 门禁待全面闭环",
-    "reason": "Native save/reopen, text edit/readback, PDF and all-page PNG operations have isolated evidence. Full OpenXML schema validation, font substitution and visual fidelity remain unverified.",
-    "resolution": "完善 C# 与 Python Worker 的 9 步严格原生验证，将 Native QA 输出纳入发布强制门禁",
-    "status": "RESOLVED"
+    "title": "当前产物完整 Native QA 尚未闭环",
+    "reason": "Historical COM operations apply to their own inputs only. Current source/output-bound open/save/close/reopen, PDF/PNG, fonts, repair-dialog and process-leak evidence is still required.",
+    "resolution": "Run the complete isolated PowerPoint acceptance on newly compiled regression outputs and bind all input/output hashes.",
+    "status": "OPEN",
+    "historical_record": {
+      "id": "BLOCKED-GATE-001",
+      "title": "PowerPoint 完整 Native QA DoD 门禁待全面闭环",
+      "reason": "Native save/reopen, text edit/readback, PDF and all-page PNG operations have isolated evidence. Full OpenXML schema validation, font substitution and visual fidelity remain unverified.",
+      "resolution": "完善 C# 与 Python Worker 的 9 步严格原生验证，将 Native QA 输出纳入发布强制门禁",
+      "status": "RESOLVED"
+    }
+  },
+  {
+    "id": "BLOCKED-UIA-001",
+    "title": "最终打包 EXE 的真实 UIA 验收待完成",
+    "reason": "Historical source-ID checks cannot establish real control patterns, state transitions, failure recovery or task isolation.",
+    "resolution": "Launch the actual package and execute normal, negative, boundary, cancel/recovery, save/reopen and import/export paths through UIA.",
+    "status": "OPEN"
   },
   {
     "id": "BLOCKED-SECURITY-001",
-    "title": "发行包安全与插件隔离尚未验收",
-    "reason": "Trusted-code plugin helpers are not an OS security boundary; dependency scope, license and security release review remain open.",
-    "resolution": "Complete release-specific threat review and dependency triage before production certification.",
-    "status": "OPEN"
+    "title": "发行安全、许可与插件隔离待验收",
+    "reason": "Scoped npm advisory and text secret scans do not cover NuGet/runtime/FFmpeg binaries or prove an OS isolation boundary.",
+    "resolution": "Complete installed-package SBOM, NuGet/binary advisory and license review, provenance, threat assessment and isolation tests.",
+    "status": "OPEN",
+    "historical_record": {
+      "id": "BLOCKED-SECURITY-001",
+      "title": "发行包安全与插件隔离尚未验收",
+      "reason": "Trusted-code plugin helpers are not an OS security boundary; dependency scope, license and security release review remain open.",
+      "resolution": "Complete release-specific threat review and dependency triage before production certification.",
+      "status": "OPEN"
+    }
   }
 ]

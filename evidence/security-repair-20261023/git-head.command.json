@@ -1,0 +1,15 @@
+{
+  "command": [
+    "git",
+    "rev-parse",
+    "HEAD"
+  ],
+  "cwd": "D:\\PresentationOS",
+  "started_at": "2026-10-23T14:22:40.909Z",
+  "finished_at": "2026-10-23T14:22:40.995Z",
+  "exit_code": 0,
+  "signal": null,
+  "error": null,
+  "stdout_file": "git-head.stdout.txt",
+  "stderr_file": "git-head.stderr.txt"
+}

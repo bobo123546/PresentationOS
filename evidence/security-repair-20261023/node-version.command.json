@@ -1,0 +1,14 @@
+{
+  "command": [
+    "C:\\Program Files\\nodejs\\node.exe",
+    "--version"
+  ],
+  "cwd": "D:\\PresentationOS",
+  "started_at": "2026-10-23T14:22:41.078Z",
+  "finished_at": "2026-10-23T14:22:41.144Z",
+  "exit_code": 0,
+  "signal": null,
+  "error": null,
+  "stdout_file": "node-version.stdout.txt",
+  "stderr_file": "node-version.stderr.txt"
+}

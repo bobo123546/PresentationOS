@@ -1,0 +1,115 @@
+{
+  "status": "PASS_SCOPED",
+  "exit_code": 0,
+  "recorded_at": "2026-10-23T14:22:46.113Z",
+  "command": "node tools/packager/generate-sbom.mjs --output-dir <new-directory>",
+  "commit_hash": "916575c44f876350a7ac6957ae67d3d4ddd63947",
+  "working_tree_dirty": true,
+  "lockfile_sha256": "27f50a0368ab74001a316eeef8aa6712585032cee960642aa14664177fb5b229",
+  "generator_sha256": "6c2906adc3fd5b6cff90532a50ba9dfcc497c39e024b3f5bef7ed4320221724d",
+  "scope": "npm advisory queries for lockfile plus installed host-platform production npm graph and current text-file secret patterns",
+  "release_ready": false,
+  "production_audit": {
+    "status": "PASS",
+    "vulnerabilities": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0
+    },
+    "metadata": {
+      "vulnerabilities": {
+        "info": 0,
+        "low": 0,
+        "moderate": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "dependencies": 32,
+      "devDependencies": 0,
+      "optionalDependencies": 14,
+      "totalDependencies": 46
+    },
+    "advisories": []
+  },
+  "all_dependencies_audit": {
+    "status": "PASS",
+    "vulnerabilities": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0
+    },
+    "metadata": {
+      "vulnerabilities": {
+        "info": 0,
+        "low": 0,
+        "moderate": 0,
+        "high": 0,
+        "critical": 0
+      },
+      "dependencies": 32,
+      "devDependencies": 118,
+      "optionalDependencies": 67,
+      "totalDependencies": 164
+    },
+    "advisories": []
+  },
+  "inventory": {
+    "npm_components": 31,
+    "nuget_components": 2,
+    "error": null,
+    "nuget": [
+      {
+        "file": "apps/desktop-host/obj/project.assets.json",
+        "status": "INVENTORIED_NOT_AUDITED",
+        "sha256": "2e90a7d52462fc9985da31f16b6c81e41f5d59ceaa317d191a0d315122db8a97",
+        "targets": [
+          "net8.0-windows7.0",
+          "net8.0-windows7.0/win-x64"
+        ]
+      },
+      {
+        "file": "workers/powerpoint-dotnet/src/PresentationOS.PowerPoint/obj/project.assets.json",
+        "status": "INVENTORIED_NOT_AUDITED",
+        "sha256": "c26fcb41477b475f38c86e2ff2750a2c688be33ff9aa28d1b5be5694f6e76d34",
+        "targets": [
+          "net8.0"
+        ]
+      }
+    ],
+    "not_inventory_scope": [
+      "uninstalled optional packages for other platforms",
+      "development npm dependency graph",
+      "native runtime and final package binary composition"
+    ]
+  },
+  "license_policy": {
+    "scope": "installed production npm components only; conservative permissive SPDX expression policy",
+    "status": "PASS",
+    "findings": []
+  },
+  "secrets": {
+    "status": "PASS",
+    "files_scanned": 968,
+    "binary_files_excluded": 0,
+    "unreadable": [],
+    "findings": [],
+    "scope": "Current tracked and non-ignored untracked text files; not Git history, ignored files, or packaged binary contents"
+  },
+  "unverified_scopes": [
+    "NuGet advisories and license obligations",
+    "self-contained runtime and final installed binary composition",
+    "actual FFmpeg build and distribution obligations",
+    "OS plugin isolation and release threat review",
+    "ignored files, Git history, packaged binary secret contents"
+  ],
+  "artifacts": {
+    "sbom": {
+      "path": "PRODUCT_SBOM.json",
+      "sha256": "4172c8080c3cdd6382384bbf43751dd4d9e75bdb1e1eb725ea39dafef78bf160"
+    }
+  }
+}

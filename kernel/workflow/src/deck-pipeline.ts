@@ -1,5 +1,5 @@
 // PresentationOS Deck Pipeline & QA Inspection Core
-import { resolveLayout, resolveSlideScene, type DeckSpec, type DeckSlide, type LayoutIR } from '@pres/pptx-engine';
+import { resolveLayout, resolveDeckScenes, type DeckSpec, type DeckSlide, type LayoutIR } from '@pres/pptx-engine';
 import { runMechanicalQa } from '@pres/mechanical-qa';
 import { runVisualQa, type QaReport } from '@pres/visual-qa';
 import { loadAllSchemas, validate, SCHEMA_IDS } from '@pres/schema-validator';
@@ -13,11 +13,13 @@ export async function ensureSchemas(): Promise<void> {
 
 export function layoutFor(slide: DeckSlide): LayoutIR {
   const n = Math.max(1, slide.blocks.length);
+  const available = 5.4;
+  const fraction = Math.max(0.05, (available - (n - 1) * 0.3) / n / available);
   const children = slide.blocks.map((_, i) => ({
     id: `block-${i}`,
     kind: 'text' as const,
     width: 1,
-    height: Math.min(0.85, 1 / n),
+    height: fraction,
   }));
   return {
     schema: 'layout-ir',
@@ -157,34 +159,50 @@ export interface DeckInspectionResult {
 
 export function inspectDeck(deck: DeckSpec): DeckInspectionResult {
   const mechanical: any[] = [];
+  const preflight = deck.slides.map(slide => ({ slide: slide.id, ...runMechanicalQa({ pageWidth: 13.33, pageHeight: 7.5, rects: [],
+    blocks: [{ id: 'title', type: 'text', text: slide.title }, ...slide.blocks.map((block, i) => ({ ...block, id: `block-${i}` }))] }) }));
+  if (preflight.some(check => !check.ok)) {
+    const issues = preflight.flatMap((check, i) => check.findings.filter(f => f.severity === 'error').map(f => ({ slide: i + 1, rule: f.check, severity: 'error' as const, message: f.message })));
+    return { passed: false, mechanical: { pass: false, slides: preflight },
+      visual: { overall: 0, slides: [], issues, revision: [] }, native: { status: 'NOT_ATTEMPTED' } };
+  }
+  const scenes = resolveDeckScenes(deck, { resolveRects: (slide) => resolveLayout(slide.layout ?? layoutFor(slide)) });
   const slides = deck.slides.map((slide, index) => {
-    const scene = resolveSlideScene(slide, () => resolveLayout(slide.layout ?? layoutFor(slide)));
-    const rects = [{ id: 'title', ...scene.title.rect }, ...scene.blocks.map(({ id, rect }) => ({ id, ...rect }))];
+    const scene = scenes[index];
+    const content = scene.commands.filter((command) => command.role === 'content');
+    const rects = content.map(({ id, rect }) => ({ id, ...rect }));
     const check = runMechanicalQa({
       pageWidth: 13.33,
       pageHeight: 7.5,
       rects,
-      blocks: [{ id: 'title', type: 'text', text: slide.title }, ...scene.blocks.map(({ id, block }) => ({ id, ...block }))],
+      blocks: [{ id: 'title', type: 'text', text: slide.title }, ...slide.blocks.map((block, blockIndex) => ({ ...block, id: `block-${blockIndex}` }))],
     });
+    // Decorations intentionally surround content, so they are excluded from
+    // overlap scoring. Their real output bounds still must fit the canvas.
+    for (const command of scene.commands.filter((command) => command.role === 'decoration')) {
+      const { x, y, w, h } = command.rect;
+      if (![x, y, w, h].every(Number.isFinite) || x < -0.001 || y < -0.001 || x + w > 13.334 || y + h > 7.501 || w < 0 || h < 0) {
+        check.findings.push({ check: 'render-command-bounds', severity: 'error', itemId: command.id,
+          message: `Rendered decoration ${command.id} has invalid bounds` });
+        check.ok = false;
+      }
+    }
     mechanical.push({ slide: slide.id, ...check });
     return {
       index: index + 1,
-      kind: slide.kind,
+      kind: scene.kind,
       title: slide.title,
-      blocks: [
-        { id: 'title', kind: 'title', text: slide.title, rect: scene.title.rect, style: { fontSize: scene.title.fontSize, color: scene.theme.font, bg: scene.theme.fill } },
-        ...scene.blocks.map(({ id, block, rect, fontSize }: any) => ({
-          id,
-          kind: block.type === 'text' ? 'body' : block.type,
-          text: block.type === 'table' ? [block.headers, ...block.rows].flat().join(' ') : block.text,
-          rect,
+      blocks: content.map((command) => ({
+          id: command.id,
+          kind: command.sourceBlockIndex === undefined ? 'title' : command.type === 'text' ? 'body' : command.type,
+          text: command.type === 'table' ? (command.rows ?? []).flat().map((cell: any) => typeof cell === 'string' ? cell : cell.text ?? '').join(' ') : command.text,
+          rect: command.rect,
           style: {
-            fontSize,
-            color: block.type === 'table' ? '111827' : block.color ?? scene.theme.font,
-            bg: block.type === 'table' ? 'F9FAFB' : scene.theme.fill,
+            fontSize: Number(command.options.fontSize ?? 12),
+            color: typeof command.options.color === 'string' ? command.options.color : scene.theme.font,
+            bg: typeof (command.options.fill as any)?.color === 'string' ? (command.options.fill as any).color : scene.background,
           },
         })),
-      ],
     };
   });
 

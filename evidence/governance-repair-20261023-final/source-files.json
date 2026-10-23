@@ -1,0 +1,50 @@
+[
+  {
+    "path": "tools/docs-auditor/audit-docs.mjs",
+    "sha256": "b5047a326e9487a556a68149357d9fbe9fcbbc8e582e0a6cd204fb21b80250f7"
+  },
+  {
+    "path": "tools/docs-auditor/semantic-rules.mjs",
+    "sha256": "53c06a21b4fb6abe6237e4b1a8eece87f88d4560f7e4bb4a32dd9920dd6293e9"
+  },
+  {
+    "path": "tools/docs-auditor/audit-docs.test.mjs",
+    "sha256": "653d4900dcaa601b94b9d664250881a8a88f280a30b9cde9351c7a639260ef0c"
+  },
+  {
+    "path": "tools/docs-auditor/semantic-rules.test.mjs",
+    "sha256": "c7988d6d6187c202d4188ea3b7ec541dd4cff88e30bccc4d1cae6ba9bc984d76"
+  },
+  {
+    "path": "tools/packager/generate-sbom.mjs",
+    "sha256": "6c2906adc3fd5b6cff90532a50ba9dfcc497c39e024b3f5bef7ed4320221724d"
+  },
+  {
+    "path": "tools/packager/generate-sbom.test.mjs",
+    "sha256": "2bc41887e13529b1a3ca5c44cbdd25d71ce16108aae0d2d8fac9f6a1ccbe8b54"
+  },
+  {
+    "path": "README.md",
+    "sha256": "4728927e2a7eba60222b66a768b415b055f2fd9da71768d5c97005e7da98a763"
+  },
+  {
+    "path": "docs/交接文档.md",
+    "sha256": "41fe7870acab0e590ccad06ee6d0c0e382aeda72cff298e4123767c274e6fe46"
+  },
+  {
+    "path": "docs/源码结构文档.md",
+    "sha256": "83b5eb2d9caa6a8340efeb06494863156804c037d619db2d1aa8a69c38526616"
+  },
+  {
+    "path": "docs/编译部署指南.md",
+    "sha256": "3462a381719d571e385260919bde1a10d75a434cd01d3d97f99b8be7fbdf62ec"
+  },
+  {
+    "path": "docs/协作提示词.md",
+    "sha256": "7ee2291392e4c6c45fb24e39900271e4fa46943faadd09b3e8c8554e8c0971fc"
+  },
+  {
+    "path": "docs/训练数据.md",
+    "sha256": "ab3b89c0411ea5ebdddfd0d8d7d572dd6b3cb7f655f281e2fd8cdaaf090089ac"
+  }
+]

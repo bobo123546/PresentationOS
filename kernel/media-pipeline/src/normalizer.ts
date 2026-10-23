@@ -44,7 +44,7 @@ function numberToChinese(num: number): string {
 
 /** Convert year like 2026年 to 二零二六年 */
 function normalizeYears(text: string): string {
-  return text.replace(/(\d{4})年/g, (_, yearStr) => {
+  return text.replace(/(?<![\d.,])(\d{4})年/g, (_, yearStr) => {
     const chars = yearStr.split('').map((d: string) => DIGIT_MAP[d] ?? d).join('');
     return `${chars}年`;
   });
@@ -52,7 +52,7 @@ function normalizeYears(text: string): string {
 
 /** Convert percentages like 24% to 百分之二十四 */
 function normalizePercentages(text: string): string {
-  return text.replace(/(\d+(?:\.\d+)?)%/g, (_, numStr) => {
+  return text.replace(/(?<![\d.,])(\d+(?:\.\d+)?)%/g, (_, numStr) => {
     const num = parseFloat(numStr);
     if (!isNaN(num) && num < 1000 && !numStr.includes('.')) {
       return `百分之${numberToChinese(num)}`;
@@ -63,7 +63,7 @@ function normalizePercentages(text: string): string {
 
 /** Convert numbers with Chinese units like 50万元 -> 五十万元, 120台 -> 一百二十台 */
 function normalizeQuantities(text: string): string {
-  return text.replace(/(\d+)(万|亿|千|百|个|位|台|份|件|套|项|条|家|点|次)/g, (_, numStr, unit) => {
+  return text.replace(/(?<![\d.,\-−])(\d+)(万|亿|千|百|个|位|台|份|件|套|项|条|家|点|次)/g, (_, numStr, unit) => {
     const num = parseInt(numStr, 10);
     if (!isNaN(num) && num < 10000) {
       return `${numberToChinese(num)}${unit}`;
@@ -88,8 +88,13 @@ export function normalizeNarrationScript(rawNotes: string): {
 
   let script = rawNotes.trim();
 
-  // Strip markdown formatting if present
-  script = script.replace(/[*_#`~]/g, '');
+  // Remove only unambiguous Markdown wrappers, retaining identifiers (a_b), C# and mathematical symbols.
+  script = script.replace(/^\s{0,3}#{1,6}\s+/gm, '').replace(/`([^`\n]+)`/g, '$1').replace(/\*\*([^*\n]+)\*\*/g, '$1');
+
+  // A unary negative sign needs an explicit spoken word. Preserve subtraction/ranges (5-10).
+  script = script.replace(/(^|[^\dA-Za-z_.])[-−](?=\d)/g, '$1负');
+  // Remove grouping commas only from complete, well-formed numeric tokens.
+  script = script.replace(/(?<![\dA-Za-z_.,])\d{1,3}(?:,\d{3})+(?:\.\d+)?(?![\d,])/g, token => token.replace(/,/g, ''));
 
   // Normalize years, percentages, and quantities with Chinese units
   script = normalizeYears(script);

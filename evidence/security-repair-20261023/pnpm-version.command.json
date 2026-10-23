@@ -1,0 +1,14 @@
+{
+  "command": [
+    "pnpm",
+    "--version"
+  ],
+  "cwd": "D:\\PresentationOS",
+  "started_at": "2026-10-23T14:22:41.145Z",
+  "finished_at": "2026-10-23T14:22:41.323Z",
+  "exit_code": 0,
+  "signal": null,
+  "error": null,
+  "stdout_file": "pnpm-version.stdout.txt",
+  "stderr_file": "pnpm-version.stderr.txt"
+}

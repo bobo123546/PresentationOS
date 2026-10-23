@@ -1,4 +1,6 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { apiFetch } from './api.js';
+import { parseMarkdownToSlides, outlineToMarkdown } from './outline.js';
 import { HeaderBar } from './components/HeaderBar.js';
 import { MarkdownEditor } from './components/MarkdownEditor.js';
 import { SlidePreview } from './components/SlidePreview.js';
@@ -10,68 +12,19 @@ const DEFAULT_MARKDOWN = `# PresentationOS 现代演示系统
 
 ## 架构设计
 - 严格类型契约与持久化工作流
-- 质量与事实双引擎实时校验
-- 原生 PowerPoint 对象保真导出
+- 生成后逐项读回文字、表格和图表
+- PowerPoint 原生验收单独记录
 
 ## 核心特性
-- 100% 来源事实与数据完整保留
-- 毫秒级智能重排版与版式适配
-- 跨平台 sidecar 驱动与原生宿主支持`;
-
-function parseMarkdownToSlides(md: string): SlideItem[] {
-  const lines = md.split('\n');
-  const slides: SlideItem[] = [];
-  let currentSlide: SlideItem | null = null;
-
-  for (const line of lines) {
-    const trimmed = line.trim();
-    if (trimmed.startsWith('# ')) {
-      if (!currentSlide) {
-        currentSlide = {
-          id: 'slide-0',
-          title: trimmed.replace(/^#\s+/, ''),
-          bullets: [],
-          layout: 'title',
-        };
-        slides.push(currentSlide);
-      }
-    } else if (trimmed.startsWith('## ') || trimmed.startsWith('---')) {
-      const title = trimmed.startsWith('## ') ? trimmed.replace(/^##\s+/, '') : `幻灯片 ${slides.length + 1}`;
-      currentSlide = {
-        id: `slide-${slides.length}`,
-        title,
-        bullets: [],
-        layout: 'bullet_list',
-      };
-      slides.push(currentSlide);
-    } else if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
-      if (!currentSlide) {
-        currentSlide = {
-          id: 'slide-0',
-          title: '概述',
-          bullets: [],
-          layout: 'bullet_list',
-        };
-        slides.push(currentSlide);
-      }
-      currentSlide.bullets.push(trimmed.replace(/^[-*]\s+/, ''));
-    }
-  }
-
-  if (slides.length === 0) {
-    slides.push({
-      id: 'slide-0',
-      title: '新建演示文稿',
-      bullets: ['要点 1', '要点 2'],
-      layout: 'bullet_list',
-    });
-  }
-  return slides;
-}
-
-const API_BASE = 'http://127.0.0.1:48200';
+- 检出内容缺失时拒绝发布
+- 多种版式与领域配色
+- Windows 桌面宿主与本地服务`;
 
 export const App: React.FC = () => {
+  const [dataRoot, setDataRoot] = useState('');
+  const compilationEpoch = useRef(0);
+  const activeCancellation = useRef<{ epoch: number; runId: string | null; requested: boolean; sending: Promise<void> | null } | null>(null);
+  const [projectIdentity, setProjectIdentity] = useState(() => ({ projectId: 'project-' + Date.now().toString(36), createdAt: new Date().toISOString() }));
   const [title, setTitle] = useState<string>('PresentationOS 演示文稿');
   const [markdown, setMarkdown] = useState<string>(DEFAULT_MARKDOWN);
   const [slides, setSlides] = useState<SlideItem[]>(() => parseMarkdownToSlides(DEFAULT_MARKDOWN));
@@ -97,25 +50,40 @@ export const App: React.FC = () => {
       setToast((prev) => (prev === msg ? null : prev));
     }, 4000);
   }, []);
+  useEffect(() => {
+    let active = true;
+    apiFetch('/api/session').then(async res => {
+      const session = await res.json();
+      if (!res.ok) throw new Error(session.error ?? '请使用桌面应用的会话链接');
+      if (active) setDataRoot(session.dataRoot.replace(/\\/g, '/'));
+    }).catch(err => active && showToast(err.message));
+    return () => { active = false; compilationEpoch.current++; };
+  }, [showToast]);
 
   const handleImportMarkdown = () => {
-    const parsed = parseMarkdownToSlides(markdown);
+    invalidateOutput();
+    const parsed = parseMarkdownToSlides(markdown, slides);
     setSlides(parsed);
     setSelectedIndex(0);
-    showToast(`成功解析 ${parsed.length} 页幻灯片`);
+    showToast(`已解析 ${parsed.length} 个章节；导出时自动分页`);
+  };
+
+  const invalidateOutput = () => {
+    compilationEpoch.current++;
+    setCompilation({ status: 'IDLE', runId: null, progressPercent: 0, message: '内容已变更，请重新生成',
+      pptxPath: null, reportPath: null, qaReport: null, durationMs: null, error: null });
   };
 
   const handleUpdateSlide = (updated: Partial<SlideItem>) => {
-    setSlides((prev) => {
-      const next = [...prev];
-      if (next[selectedIndex]) {
-        next[selectedIndex] = { ...next[selectedIndex], ...updated };
-      }
-      return next;
-    });
+    invalidateOutput();
+    const next = slides.map((slide, index) => index === selectedIndex ? { ...slide, ...updated } : slide);
+    setSlides(next);
+    if (updated.title !== undefined || updated.bullets !== undefined) setMarkdown(outlineToMarkdown(next));
   };
 
   const handleNewProject = () => {
+    compilationEpoch.current++;
+    setProjectIdentity({ projectId: 'project-' + Date.now().toString(36), createdAt: new Date().toISOString() });
     setTitle('新演示文稿');
     setMarkdown('# 新演示文稿\n\n## 页面 1\n- 示例内容');
     const parsed = parseMarkdownToSlides('# 新演示文稿\n\n## 页面 1\n- 示例内容');
@@ -137,11 +105,11 @@ export const App: React.FC = () => {
   };
 
   const handleOpenProject = async () => {
-    const inputPath = window.prompt('请输入项目 pres-project.json 路径:', projectPath ?? 'D:/PresentationOSData/projects/demo/pres-project.json');
+    const inputPath = window.prompt('请输入项目 pres-project.json 路径:', projectPath ?? `${dataRoot}/projects/demo/pres-project.json`);
     if (!inputPath) return;
 
     try {
-      const res = await fetch(`${API_BASE}/api/project/open`, {
+      const res = await apiFetch(`/api/project/open`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ projectJsonPath: inputPath }),
@@ -150,9 +118,12 @@ export const App: React.FC = () => {
       if (!res.ok) throw new Error(data.error || '打开项目失败');
 
       const proj = data.project;
+      invalidateOutput();
+      setProjectIdentity({ projectId: proj.projectId, createdAt: proj.createdAt });
       setTitle(proj.title);
       setMarkdown(proj.sourceDocument?.content || '');
       const parsed = parseMarkdownToSlides(proj.sourceDocument?.content || '');
+      parsed.forEach((section, index) => Object.assign(section, proj.editorState?.sections?.[index] ?? {}));
       setSlides(parsed);
       setSelectedIndex(0);
       setProjectPath(inputPath);
@@ -163,19 +134,20 @@ export const App: React.FC = () => {
   };
 
   const handleSaveProject = async () => {
-    const targetPath = projectPath || `D:/PresentationOSData/projects/${encodeURIComponent(title.trim().replace(/\s+/g, '_'))}/pres-project.json`;
+    const targetPath = projectPath || `${dataRoot}/projects/${encodeURIComponent(title.trim().replace(/\s+/g, '_'))}/pres-project.json`;
     const projData = {
       schema: 'presentationos-project',
       version: '1.0.0',
-      projectId: title.trim().replace(/\s+/g, '_').toLowerCase(),
+      projectId: projectIdentity.projectId,
       title,
-      createdAt: new Date().toISOString(),
+      createdAt: projectIdentity.createdAt,
       updatedAt: new Date().toISOString(),
       sourceDocument: {
         filename: 'content.md',
         format: 'markdown',
         content: markdown,
       },
+      editorState: { sections: slides.map(slide => ({ speakerNotes: slide.speakerNotes ?? '', layout: slide.layout })) },
       artifacts: {
         pptxPath: compilation.pptxPath,
         qaReportPath: compilation.reportPath,
@@ -190,7 +162,7 @@ export const App: React.FC = () => {
     };
 
     try {
-      const res = await fetch(`${API_BASE}/api/project/save`, {
+      const res = await apiFetch(`/api/project/save`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ project: projData, projectJsonPath: targetPath }),
@@ -205,15 +177,39 @@ export const App: React.FC = () => {
     }
   };
 
+  const sendCancellation = async (request: NonNullable<typeof activeCancellation.current>) => {
+    if (!request.runId || request.sending) return request.sending;
+    request.sending = (async () => {
+      try {
+        const response = await apiFetch(`/api/task/cancel`, {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ runId: request.runId }),
+        });
+        if (!response.ok) throw new Error((await response.json()).error ?? '取消失败');
+        if (request.epoch !== compilationEpoch.current) return;
+        setCompilation(prev => ({ ...prev, message: '已发出取消请求' }));
+        showToast('已请求取消任务');
+      } catch (err: any) {
+        request.requested = false;
+        if (request.epoch === compilationEpoch.current) showToast(`取消请求失败: ${err.message}`);
+      }
+    })();
+    await request.sending;
+    request.sending = null;
+  };
+
   const handleCompileDeck = async () => {
-    const outPptx = `D:/PresentationOSData/builds/${Date.now()}/presentation.pptx`;
+    const epoch = ++compilationEpoch.current;
+    const cancellation = { epoch, runId: null as string | null, requested: false, sending: null as Promise<void> | null };
+    activeCancellation.current = cancellation;
+    const outPptx = `${dataRoot}/builds/${Date.now()}/presentation.pptx`;
     const outReport = outPptx.replace(/\.pptx$/i, '.loop.json');
 
     setCompilation({
       status: 'RUNNING',
-      runId: 'starting...',
+      runId: null,
       progressPercent: 20,
-      message: '正在启动编译工作流与双引擎质检...',
+      message: '正在编译并检查实际输出内容...',
       pptxPath: null,
       reportPath: null,
       qaReport: null,
@@ -222,21 +218,35 @@ export const App: React.FC = () => {
     });
 
     try {
-      const res = await fetch(`${API_BASE}/api/project/compile`, {
+      const res = await apiFetch(`/api/project/compile`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          projectId: title.trim().replace(/\s+/g, '_').toLowerCase(),
+          projectId: 'project-' + Date.now().toString(36),
           title,
           markdown,
           outPptxPath: outPptx,
           outReportPath: outReport,
-          async: false,
+          async: true,
         }),
       });
 
-      const data = await res.json();
-      if (!res.ok || data.status === 'FAILED') {
+      let data = await res.json();
+      if (!res.ok) throw new Error(data.error || '无法启动生成任务');
+      if (epoch !== compilationEpoch.current) return;
+      cancellation.runId = data.sidecarRunId;
+      setCompilation(prev => ({ ...prev, runId: data.sidecarRunId, progressPercent: 30 }));
+      if (cancellation.requested && data.status === 'RUNNING') await sendCancellation(cancellation);
+      while (data.status === 'RUNNING') {
+        await new Promise(done => setTimeout(done, 200));
+        if (epoch !== compilationEpoch.current) return;
+        const poll = await apiFetch(`/api/task/status/${encodeURIComponent(data.sidecarRunId)}`);
+        const state = await poll.json();
+        if (!poll.ok || !state.tracked) throw new Error(state.error ?? '任务状态不可用');
+        if (state.tracked.status !== 'RUNNING') data = { ...state.tracked.result, status: state.tracked.status };
+      }
+      if (epoch !== compilationEpoch.current) return;
+      if (data.status === 'FAILED') {
         throw new Error(data.error || '生成失败');
       }
 
@@ -249,15 +259,18 @@ export const App: React.FC = () => {
         showToast('生成任务已取消');
         return;
       }
+      if (data.ok !== true || data.summary?.contentVerification?.ok !== true) throw new Error('缺少实际输出内容检查结果');
 
       const qa: QaReport = {
-        passed: data.summary?.passed ?? true,
-        overallScore: data.overallScore ?? 100,
+        passed: data.summary?.passed === true,
+        overallScore: data.overallScore ?? 0,
         slidesCount: data.slidesCount ?? slides.length,
         issuesCount: data.issuesCount ?? 0,
-        sourceContentPreserved: data.sourceContentPreserved ?? true,
-        mechanicalPassed: true,
-        visualPassed: true,
+        sourceContentPreserved: data.sourceContentPreserved === true && data.summary?.contentVerification?.ok === true,
+        mechanicalPassed: data.summary?.mechanical?.pass === true,
+        visualPassed: data.summary?.passed === true,
+        nativeStatus: data.summary?.native?.status ?? 'NOT_ATTEMPTED',
+        issues: (data.summary?.visual?.issues ?? []).map((issue: any) => ({ slideIndex: issue.slide - 1, message: issue.message, ruleId: issue.rule, severity: issue.severity })),
       };
 
       setCompilation({
@@ -272,8 +285,9 @@ export const App: React.FC = () => {
         error: null,
       });
 
-      showToast('PPTX 生成成功并通过 100% 来源事实与质量校验！');
+      showToast('PPTX 已生成并通过内容回读；原生验证状态请查看报告。');
     } catch (err: any) {
+      if (epoch !== compilationEpoch.current) return;
       setCompilation((prev) => ({
         ...prev,
         status: 'FAILED',
@@ -281,26 +295,21 @@ export const App: React.FC = () => {
         error: err.message,
       }));
       showToast(`生成出错: ${err.message}`);
+    } finally {
+      if (activeCancellation.current === cancellation) activeCancellation.current = null;
     }
   };
 
   const handleCancelTask = async () => {
-    if (!compilation.runId) return;
-    try {
-      await fetch(`${API_BASE}/api/task/cancel`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ runId: compilation.runId }),
-      });
-      setCompilation((prev) => ({
-        ...prev,
-        status: 'CANCELLED',
-        message: '已发出取消请求',
-      }));
-      showToast('已请求取消任务');
-    } catch (err: any) {
-      showToast(`取消请求失败: ${err.message}`);
+    const request = activeCancellation.current;
+    if (!request || request.epoch !== compilationEpoch.current || request.requested) return;
+    request.requested = true;
+    if (!request.runId) {
+      setCompilation(prev => ({ ...prev, message: '已记录取消请求，等待任务启动响应...' }));
+      showToast('任务启动后将立即请求取消');
+      return;
     }
+    await sendCancellation(request);
   };
 
   const handleExportPptx = async () => {
@@ -309,12 +318,12 @@ export const App: React.FC = () => {
       return;
     }
 
-    const defaultExportPath = `D:/PresentationOSData/exports/${title.trim().replace(/\s+/g, '_')}.pptx`;
+    const defaultExportPath = `${dataRoot}/exports/${title.trim().replace(/\s+/g, '_')}.pptx`;
     const targetPath = window.prompt('请输入导出目标路径:', defaultExportPath);
     if (!targetPath) return;
 
     try {
-      const res = await fetch(`${API_BASE}/api/project/export`, {
+      const res = await apiFetch(`/api/project/export`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -333,46 +342,20 @@ export const App: React.FC = () => {
 
   const handleReconstruct = async () => {
     try {
-      showToast('正在从参考场景分析重建原生可编辑幻灯片...');
-      const sampleScene = {
-        version: '1.0.0',
-        sourceType: 'screenshot',
-        dimensions: { width: 1920, height: 1080 },
-        elements: [
-          {
-            id: 'h1',
-            type: 'heading',
-            bounds: { x: 0.1, y: 0.1, w: 0.8, h: 0.15 },
-            text: `${title} - 重建版`,
-            confidence: 0.98,
-            isEditable: true,
-          },
-          {
-            id: 'p1',
-            type: 'paragraph',
-            bounds: { x: 0.1, y: 0.3, w: 0.8, h: 0.25 },
-            text: '已自动识别布局结构：分层原生对象、颜色与字体对齐，可编辑覆盖率 100%。',
-            confidence: 0.95,
-            isEditable: true,
-          },
-        ],
-        metrics: {
-          totalElements: 2,
-          editableCount: 2,
-          editableCoverageRatio: 1.0,
-          averageConfidence: 0.965,
-          uncertainCount: 0,
-        },
-      };
+      showToast('正在转换输入的场景对象...');
+      const rawScene = window.prompt('粘贴已解析的 SceneIR JSON。此入口只转换已有场景，不会执行截图识别。');
+      if (!rawScene) return;
+      const sampleScene = JSON.parse(rawScene);
+      if (!Array.isArray(sampleScene.elements) || !sampleScene.elements.length) throw new Error('场景必须包含真实元素');
 
-      const res = await fetch(`${API_BASE}/api/reconstruct`, {
+      const res = await apiFetch(`/api/reconstruct`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ sceneIr: sampleScene }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || '重建失败');
-      showToast(`重建成功！可编辑覆盖率: ${(data.result.editableCoverageRatio * 100).toFixed(0)}%`);
+      showToast(`场景转换完成，输入对象可编辑比例: ${(data.result.editableCoverageRatio * 100).toFixed(0)}%`);
     } catch (err: any) {
       showToast(`重建失败: ${err.message}`);
     }
@@ -380,21 +363,30 @@ export const App: React.FC = () => {
 
   const handleMediaExport = async () => {
     try {
+      if (!compilation.pptxPath || compilation.status !== 'COMPLETED') throw new Error('请先生成当前文稿，再导出视频');
+      if (compilation.qaReport?.slidesCount !== slides.length) {
+        throw new Error(`文稿自动分页为 ${compilation.qaReport?.slidesCount ?? '未知'} 页，当前有 ${slides.length} 个章节。请按最终页面拆分章节并重新生成，确保图片和配音逐页对应。`);
+      }
       showToast('正在合成多语种语音、逐页时间轴与字幕视频...');
-      const targetMp4 = projectPath ? projectPath.replace(/pres-project\.json$/, 'presentation.mp4') : 'D:/PresentationOSData/presentation.mp4';
+      const targetMp4 = projectPath ? projectPath.replace(/pres-project\.json$/, 'presentation.mp4') : `${dataRoot}/media/${Date.now()}/presentation.mp4`;
+      const paths = window.prompt(`按页面顺序填写 ${slides.length} 个真实 PNG 路径（每行一个，须在数据目录内）：`);
+      if (!paths) return;
+      const imagePaths = paths.split(/\r?\n/).map(s => s.trim()).filter(Boolean);
+      if (imagePaths.length !== slides.length) throw new Error('图片数量与页数不一致');
       const slidePayload = slides.map((s, idx) => ({
         id: s.id,
         index: idx,
-        notes: s.notes || s.bullets.join('；'),
+        imagePath: imagePaths[idx],
+        notes: s.speakerNotes || s.bullets.join('；'),
       }));
 
-      const res = await fetch(`${API_BASE}/api/media/generate`, {
+      const res = await apiFetch(`/api/media/generate`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ slides: slidePayload, outMp4Path: targetMp4 }),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || '合成音视频失败');
+      if (!res.ok || data.result?.ok !== true) throw new Error(data.error || data.result?.qa?.errors?.join('; ') || '合成音视频未通过检查');
       showToast(`音视频与字幕导出成功！总时长: ${data.result.totalDurationSec}s`);
     } catch (err: any) {
       showToast(`音视频导出失败: ${err.message}`);
@@ -405,7 +397,8 @@ export const App: React.FC = () => {
     <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
       <HeaderBar
         title={title}
-        onTitleChange={setTitle}
+        onTitleChange={value => { invalidateOutput(); setTitle(value); }}
+        ready={Boolean(dataRoot)}
         status={compilation.status}
         hasPptx={Boolean(compilation.pptxPath)}
         onNew={handleNewProject}
@@ -421,7 +414,7 @@ export const App: React.FC = () => {
       <main className="studio-container">
         <MarkdownEditor
           markdown={markdown}
-          onMarkdownChange={setMarkdown}
+          onMarkdownChange={value => { invalidateOutput(); setMarkdown(value); setSlides(parseMarkdownToSlides(value, slides)); setSelectedIndex(0); }}
           onImport={handleImportMarkdown}
           slides={slides}
           selectedIndex={selectedIndex}

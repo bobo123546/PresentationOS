@@ -17,6 +17,7 @@ export interface PresentationProject {
   createdAt: string;
   updatedAt: string;
   sourceDocument: SourceDocument;
+  editorState?: { sections: Array<{ speakerNotes?: string; layout?: 'title' | 'bullet_list' | 'two_column' | 'big_stat' | 'quote' }> };
   template?: {
     id: string;
     name: string;

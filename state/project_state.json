@@ -1,17 +1,21 @@
 {
   "project_version": "0.1.2-alpha",
-  "current_phase": "PHASE_21_COMPLETED",
-  "active_task": "TASK-0022",
-  "last_completed_task": "TASK-0022 Security / SBOM / License: CycloneDX SBOM、100% 许可合规、0 泄漏凭据、0 生产 CVE 验证通过",
-  "last_successful_build": "2026-10-23T09:00:00.000Z",
-  "last_successful_test": "2026-10-23T09:10:00.000Z",
+  "current_phase": "PHASE_9_IN_PROGRESS",
+  "active_task": "TASK-0010",
+  "last_completed_task": null,
+  "last_successful_build": null,
+  "last_successful_test": null,
   "release_status": "NOT_READY",
   "known_blockers": [
-    "BLOCKED-MODEL-001: 真实云端模型推理未执行（等待用户提供 API Key 或本地模型权重）"
+    "BLOCKED-MODEL-001: 真实模型推理尚未验收",
+    "BLOCKED-RELEASE-001: 桌面安装与干净机闭环尚未验收",
+    "BLOCKED-GATE-001: 当前产物完整 Native QA 尚未闭环",
+    "BLOCKED-UIA-001: 最终打包 EXE 的真实 UIA 验收待完成",
+    "BLOCKED-SECURITY-001: 发行安全、许可与插件隔离待验收"
   ],
-  "updated_at": "2026-10-23T09:12:00.000Z",
-  "active_task_title": "PHASE 21: Security / SBOM / License（Syft + Grype 全量 + Critical/High 处理）",
-  "active_task_status": "COMPLETED",
+  "updated_at": "2026-10-23T14:08:42.701Z",
+  "active_task_title": "PHASE 9: QA 系统（Mechanical QA + Visual QA 调度 + Revision Loop）",
+  "active_task_status": "IN_PROGRESS",
   "prototypes": {
     "098": {
       "status": "EXPERIMENTAL",
@@ -33,5 +37,13 @@
     "PHASE_19": "Unified Logging (telemetry) 5/5"
   },
   "completed_phases": {},
-  "validation_note": "See docs/验证记录.md for actual commands, scope, failures and current checks. Full platform remains NOT_READY."
+  "validation_note": "Current source is undergoing regression repairs. Historical claims are retained but do not certify full task or release acceptance. See per-run commands, exit codes and hashed artifacts under D:/099/presentationos-repair-20261023; no v1.0 release claim.",
+  "historical_state_claims": {
+    "current_phase": "PHASE_21_COMPLETED",
+    "active_task": "TASK-0022",
+    "last_completed_task": "TASK-0022 Security / SBOM / License: CycloneDX SBOM、100% 许可合规、0 泄漏凭据、0 生产 CVE 验证通过",
+    "last_successful_build": "2026-10-23T09:00:00.000Z",
+    "last_successful_test": "2026-10-23T09:10:00.000Z",
+    "updated_at": "2026-10-23T09:12:00.000Z"
+  }
 }

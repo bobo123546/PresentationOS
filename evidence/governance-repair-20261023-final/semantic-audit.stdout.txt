@@ -1,0 +1,611 @@
+{
+  "repo": "D:\\PresentationOS",
+  "passAll": true,
+  "checks": [
+    {
+      "name": "product version agrees with state",
+      "pass": true,
+      "detail": "0.1.2-alpha / 0.1.2-alpha"
+    },
+    {
+      "name": "CLI version agrees with product",
+      "pass": true,
+      "detail": "0.1.2-alpha / 0.1.2-alpha"
+    },
+    {
+      "name": "25 unique well-formed task IDs",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "task states and dependencies are valid",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "active task ID, title and status agree",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "completed tasks have evidence references",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "blocker IDs are unique and statuses valid",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "release state is recognized",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "ready release has no open blockers",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "not-ready release records its blockers",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "ready release has explicit validation evidence",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "交接文档.md current status agrees",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "交接文档.md historical content is delimited",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "源码结构文档.md current status agrees",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "源码结构文档.md historical content is delimited",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "编译部署指南.md current status agrees",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "编译部署指南.md historical content is delimited",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "协作提示词.md current status agrees",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "协作提示词.md historical content is delimited",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "训练数据.md current status agrees",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "训练数据.md historical content is delimited",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "098 has explicit experimental ownership and verification limits",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "phase remains in progress while QA task is incomplete",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "task acceptance criteria are present",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "task dependency graph has no cycle",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "completed tasks have no outstanding blocked reason",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "completed tasks cover every declared acceptance criterion",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "TASK-0001 current evidence paths are portable",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "TASK-0001 current evidence references are valid",
+      "pass": true,
+      "detail": "0 current references; empty does not certify acceptance. "
+    },
+    {
+      "name": "TASK-0002 current evidence paths are portable",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "TASK-0002 current evidence references are valid",
+      "pass": true,
+      "detail": "0 current references; empty does not certify acceptance. "
+    },
+    {
+      "name": "TASK-0003 current evidence paths are portable",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "TASK-0003 current evidence references are valid",
+      "pass": true,
+      "detail": "0 current references; empty does not certify acceptance. "
+    },
+    {
+      "name": "TASK-0004 current evidence paths are portable",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "TASK-0004 current evidence references are valid",
+      "pass": true,
+      "detail": "0 current references; empty does not certify acceptance. "
+    },
+    {
+      "name": "TASK-0005 current evidence paths are portable",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "TASK-0005 current evidence references are valid",
+      "pass": true,
+      "detail": "0 current references; empty does not certify acceptance. "
+    },
+    {
+      "name": "TASK-0006 current evidence paths are portable",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "TASK-0006 current evidence references are valid",
+      "pass": true,
+      "detail": "0 current references; empty does not certify acceptance. "
+    },
+    {
+      "name": "TASK-0007 current evidence paths are portable",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "TASK-0007 current evidence references are valid",
+      "pass": true,
+      "detail": "0 current references; empty does not certify acceptance. "
+    },
+    {
+      "name": "TASK-0008 current evidence paths are portable",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "TASK-0008 current evidence references are valid",
+      "pass": true,
+      "detail": "0 current references; empty does not certify acceptance. "
+    },
+    {
+      "name": "TASK-0009 current evidence paths are portable",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "TASK-0009 current evidence references are valid",
+      "pass": true,
+      "detail": "0 current references; empty does not certify acceptance. "
+    },
+    {
+      "name": "TASK-0010 current evidence paths are portable",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "TASK-0010 current evidence references are valid",
+      "pass": true,
+      "detail": "0 current references; empty does not certify acceptance. "
+    },
+    {
+      "name": "TASK-0011 current evidence paths are portable",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "TASK-0011 current evidence references are valid",
+      "pass": true,
+      "detail": "0 current references; empty does not certify acceptance. "
+    },
+    {
+      "name": "TASK-0012 current evidence paths are portable",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "TASK-0012 current evidence references are valid",
+      "pass": true,
+      "detail": "0 current references; empty does not certify acceptance. "
+    },
+    {
+      "name": "TASK-0013 current evidence paths are portable",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "TASK-0013 current evidence references are valid",
+      "pass": true,
+      "detail": "0 current references; empty does not certify acceptance. "
+    },
+    {
+      "name": "TASK-0014 current evidence paths are portable",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "TASK-0014 current evidence references are valid",
+      "pass": true,
+      "detail": "0 current references; empty does not certify acceptance. "
+    },
+    {
+      "name": "TASK-0015 current evidence paths are portable",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "TASK-0015 current evidence references are valid",
+      "pass": true,
+      "detail": "0 current references; empty does not certify acceptance. "
+    },
+    {
+      "name": "TASK-0016 current evidence paths are portable",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "TASK-0016 current evidence references are valid",
+      "pass": true,
+      "detail": "0 current references; empty does not certify acceptance. "
+    },
+    {
+      "name": "TASK-0017 current evidence paths are portable",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "TASK-0017 current evidence references are valid",
+      "pass": true,
+      "detail": "0 current references; empty does not certify acceptance. "
+    },
+    {
+      "name": "TASK-0018 current evidence paths are portable",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "TASK-0018 current evidence references are valid",
+      "pass": true,
+      "detail": "0 current references; empty does not certify acceptance. "
+    },
+    {
+      "name": "TASK-0019 current evidence paths are portable",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "TASK-0019 current evidence references are valid",
+      "pass": true,
+      "detail": "0 current references; empty does not certify acceptance. "
+    },
+    {
+      "name": "TASK-0020 current evidence paths are portable",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "TASK-0020 current evidence references are valid",
+      "pass": true,
+      "detail": "0 current references; empty does not certify acceptance. "
+    },
+    {
+      "name": "TASK-0021 current evidence paths are portable",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "TASK-0021 current evidence references are valid",
+      "pass": true,
+      "detail": "0 current references; empty does not certify acceptance. "
+    },
+    {
+      "name": "TASK-0022 current evidence paths are portable",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "TASK-0022 current evidence references are valid",
+      "pass": true,
+      "detail": "1 current references; empty does not certify acceptance. "
+    },
+    {
+      "name": "TASK-0023 current evidence paths are portable",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "TASK-0023 current evidence references are valid",
+      "pass": true,
+      "detail": "0 current references; empty does not certify acceptance. "
+    },
+    {
+      "name": "TASK-0024 current evidence paths are portable",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "TASK-0024 current evidence references are valid",
+      "pass": true,
+      "detail": "1 current references; empty does not certify acceptance. "
+    },
+    {
+      "name": "TASK-0025 current evidence paths are portable",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "TASK-0025 current evidence references are valid",
+      "pass": true,
+      "detail": "0 current references; empty does not certify acceptance. "
+    },
+    {
+      "name": "known blockers match all open blocker IDs",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "resolved blockers have executed resolution evidence",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "release-ready is not an alpha or prerelease version",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "ready release has hashed executed Native/UIA/installer/clean-machine/security evidence",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "release evidence gates use distinct reports and an explicit source commit",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "phase does not claim complete while acceptance is outstanding",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "README.md current metadata agrees",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "README.md visible status agrees",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "README.md current phase references do not conflict",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "README.md current task references do not conflict",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "README.md avoids unsupported unconditional product claims",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "README describes the implemented WinForms/WebView2 host",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "README does not promise release acceptance while not-ready",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "docs/交接文档.md current metadata agrees",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "docs/交接文档.md visible status agrees",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "docs/交接文档.md current phase references do not conflict",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "docs/交接文档.md current task references do not conflict",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "docs/交接文档.md avoids unsupported unconditional product claims",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "docs/交接文档.md historical content is delimited exactly once",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "docs/源码结构文档.md current metadata agrees",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "docs/源码结构文档.md visible status agrees",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "docs/源码结构文档.md current phase references do not conflict",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "docs/源码结构文档.md current task references do not conflict",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "docs/源码结构文档.md avoids unsupported unconditional product claims",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "docs/源码结构文档.md historical content is delimited exactly once",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "docs/编译部署指南.md current metadata agrees",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "docs/编译部署指南.md visible status agrees",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "docs/编译部署指南.md current phase references do not conflict",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "docs/编译部署指南.md current task references do not conflict",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "docs/编译部署指南.md avoids unsupported unconditional product claims",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "docs/编译部署指南.md historical content is delimited exactly once",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "docs/协作提示词.md current metadata agrees",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "docs/协作提示词.md visible status agrees",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "docs/协作提示词.md current phase references do not conflict",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "docs/协作提示词.md current task references do not conflict",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "docs/协作提示词.md avoids unsupported unconditional product claims",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "docs/协作提示词.md historical content is delimited exactly once",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "docs/训练数据.md current metadata agrees",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "docs/训练数据.md visible status agrees",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "docs/训练数据.md current phase references do not conflict",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "docs/训练数据.md current task references do not conflict",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "docs/训练数据.md avoids unsupported unconditional product claims",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "docs/训练数据.md historical content is delimited exactly once",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "098 schema contract exists",
+      "pass": true,
+      "detail": ""
+    }
+  ]
+}

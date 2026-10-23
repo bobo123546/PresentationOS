@@ -3,6 +3,9 @@ using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 using System.Text;
 using System.Text.Json;
+using System.IO.Compression;
+using System.Xml.Linq;
+using Microsoft.Win32;
 
 namespace PresentationOS.PowerPoint;
 
@@ -123,7 +126,13 @@ public static class NativeProbe
             result["readback_shapes"] = final.Shapes;
             result["semantic_scope"] = "Slide count and ordered text-shape indices/text; only CRLF/CR newlines normalized";
             result["font_names"] = final.Fonts;
-            result["font_scope"] = "Names read from all text shapes; substitution remains unverified";
+            var requestedFonts = RequestedFonts(source).Concat(final.Fonts).Distinct(StringComparer.OrdinalIgnoreCase).ToArray();
+            var installed = InstalledFonts();
+            var missingFonts = requestedFonts.Where(font => !installed.Any(name => name.Equals(font, StringComparison.OrdinalIgnoreCase) || name.StartsWith(font + " ", StringComparison.OrdinalIgnoreCase))).ToArray();
+            result["requested_fonts"] = requestedFonts;
+            result["missing_fonts"] = missingFonts;
+            result["fonts"] = requestedFonts.Length > 0 && missingFonts.Length == 0;
+            result["font_scope"] = "Requested OOXML and COM text fonts checked against installed Windows font registry; glyph rendering fidelity needs visual review";
             Stage("export_pdf");
             var pdf = Path.Combine(directory, "native.pdf"); presentation.SaveAs(pdf, 32);
             result["pdf"] = File.Exists(pdf) && new FileInfo(pdf).Length > 1000;
@@ -140,7 +149,7 @@ public static class NativeProbe
             Stage("close"); presentation.Close(); Release(presentation); presentation = null;
             Release(presentations); presentations = null;
             Stage("quit"); app.Quit(); Release(app); app = null;
-            result["operation_success"] = new[] {"open","save_reopen","pdf","semantic","editability"}.All(key => (bool)result[key]!) && dialogs.Count == 0;
+            result["operation_success"] = new[] {"open","save_reopen","pdf","semantic","editability","fonts"}.All(key => (bool)result[key]!) && dialogs.Count == 0;
         }
         catch (Exception error) { result["error"] = error.ToString(); result["operation_success"] = false; }
         finally
@@ -152,10 +161,42 @@ public static class NativeProbe
                 Release(app);
             }
             GC.Collect(); GC.WaitForPendingFinalizers();
+            if (ownedPid.HasValue) {
+                try {
+                    using var owned = Process.GetProcessById(ownedPid.Value);
+                    result["process_clean"] = owned.WaitForExit(5000);
+                } catch (ArgumentException) { result["process_clean"] = true; }
+            } else result["process_clean"] = false;
+            result["operation_success"] = (bool)result["operation_success"]! && (bool)result["process_clean"]!;
             Stage("finished");
             File.WriteAllText(Path.Combine(directory, "probe-result.json"), JsonSerializer.Serialize(result, new JsonSerializerOptions { WriteIndented = true }));
         }
         return (bool)result["operation_success"]! ? 0 : 1;
+    }
+
+    private static IEnumerable<string> RequestedFonts(string path)
+    {
+        using var zip = ZipFile.OpenRead(path);
+        var fonts = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        foreach (var entry in zip.Entries.Where(e => e.FullName.StartsWith("ppt/slides/") && e.FullName.EndsWith(".xml"))) {
+            using var stream = entry.Open();
+            foreach (var attr in XDocument.Load(stream).Descendants().Attributes("typeface")) {
+                if (!string.IsNullOrWhiteSpace(attr.Value) && !attr.Value.StartsWith('+')) fonts.Add(attr.Value);
+            }
+        }
+        return fonts;
+    }
+
+    private static string[] InstalledFonts()
+    {
+        var names = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        foreach (var hive in new[] { Registry.LocalMachine, Registry.CurrentUser }) {
+            using var key = hive.OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts");
+            foreach (var entry in key?.GetValueNames() ?? Array.Empty<string>()) {
+                foreach (var name in entry.Split('&')) names.Add(name.Trim().Replace(" (TrueType)", "").Replace(" (OpenType)", ""));
+            }
+        }
+        return names.ToArray();
     }
 
     private static NativeTextSnapshot ReadText(dynamic presentation)
@@ -167,11 +208,27 @@ public static class NativeProbe
             dynamic slide = slides.Item(i); dynamic shapes = slide.Shapes;
             try { for (int j = 1; j <= shapes.Count; j++) {
                 dynamic shape = shapes.Item(j);
-                try { if (shape.HasTextFrame != 0) {
+                try {
+                  if (shape.HasTable != 0) {
+                    dynamic table = shape.Table;
+                    dynamic rows = table.Rows, columns = table.Columns;
+                    int rowCount = rows.Count, columnCount = columns.Count;
+                    Release(rows); Release(columns);
+                    try { for (int r = 1; r <= rowCount; r++) for (int c = 1; c <= columnCount; c++) {
+                        dynamic cell = table.Cell(r, c); dynamic cellShape = cell.Shape;
+                        dynamic cellFrame = cellShape.TextFrame; dynamic cellRange = cellFrame.TextRange;
+                        dynamic cellFont = cellRange.Font;
+                        try { text.Add(new NativeTextShape(i, j, (string)cellRange.Text));
+                            string name = Convert.ToString(cellFont.Name) ?? ""; if (!string.IsNullOrWhiteSpace(name)) fonts.Add(name); }
+                        finally { Release(cellFont); Release(cellRange); Release(cellFrame); Release(cellShape); Release(cell); }
+                    } } finally { Release(table); }
+                  }
+                  if (shape.HasTextFrame != 0) {
                     dynamic frame = shape.TextFrame;
                     try { if (frame.HasText != 0) {
                         dynamic? range = null, font = null;
-                        try { range = frame.TextRange; font = range.Font; text.Add(new NativeTextShape(i, j, (string)range.Text)); fonts.Add((string)font.Name); }
+                        try { range = frame.TextRange; font = range.Font; text.Add(new NativeTextShape(i, j, (string)range.Text));
+                            string name = Convert.ToString(font.Name) ?? ""; if (!string.IsNullOrWhiteSpace(name)) fonts.Add(name); }
                         finally { Release(font); Release(range); }
                     } }
                     finally { Release(frame); }

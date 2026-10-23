@@ -15,7 +15,10 @@ export interface AudioSegment {
   audioPath: string;
   durationSec: number;
   cached: boolean;
+  narrationCues?: NarrationCue[];
 }
+
+export interface NarrationCue { startSec: number; endSec: number; text: string; }
 
 export interface TimelineEntry {
   slideId: string;
@@ -25,6 +28,7 @@ export interface TimelineEntry {
   audioDurationSec: number;
   transitionDurationSec: number;
   totalDurationSec: number;
+  narrationCues?: NarrationCue[];
 }
 
 export interface SubtitleEntry {
@@ -46,6 +50,11 @@ export interface MediaQaReport {
   fps: number;
   bitrate: number;
   errors: string[];
+  syncMetric?: 'stream-start-and-duration';
+  syncToleranceSec?: number;
+  startDeltaSec?: number;
+  expectedDurationSec?: number;
+  semanticAlignmentVerified?: boolean;
 }
 
 export interface MediaPipelineOptions {
@@ -68,4 +77,6 @@ export interface MediaPipelineResult {
   totalDurationSec: number;
   qa: MediaQaReport;
   error?: string;
+  subtitleAlignment?: 'sentence-audio-boundary';
+  audioSegments?: AudioSegment[];
 }

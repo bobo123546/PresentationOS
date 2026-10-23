@@ -16,7 +16,7 @@ export const SlidePreview: React.FC<SlidePreviewProps> = ({
     return (
       <div className="panel panel-center">
         <div style={{ marginTop: '40px', color: '#64748b', fontSize: '13px' }}>
-          暂无选中的幻灯片，请导入或选择大纲中的幻灯片。
+          暂无选中的章节，请导入或选择大纲中的章节。
         </div>
       </div>
     );
@@ -26,7 +26,7 @@ export const SlidePreview: React.FC<SlidePreviewProps> = ({
 
   return (
     <div className="panel panel-center">
-      {/* Visual Canvas Representation */}
+      <div style={{ color: '#94a3b8', fontSize: '12px', marginBottom: '10px' }}>章节内容预览 · 最终分页与版式请查看导出的文稿</div>
       <div
         id="ActiveSlideView"
         data-testid="ActiveSlideView"
@@ -36,8 +36,8 @@ export const SlidePreview: React.FC<SlidePreviewProps> = ({
       >
         <div className="canvas-title">{slide.title || '（请输入标题）'}</div>
         <ul className="canvas-bullet-list">
-          {slide.bullets.length > 0 ? (
-            slide.bullets.map((b, i) => (
+          {slide.bullets.some(b => b.trim()) ? (
+            slide.bullets.filter(b => b.trim()).map((b, i) => (
               <li key={i} className="canvas-bullet-item">{b}</li>
             ))
           ) : (
@@ -65,7 +65,7 @@ export const SlidePreview: React.FC<SlidePreviewProps> = ({
         </div>
 
         <div className="form-group">
-          <label className="form-label" htmlFor="SlideLayoutSelect">排版布局</label>
+          <label className="form-label" htmlFor="SlideLayoutSelect">大纲预览布局（导出由排版引擎决定）</label>
           <select
             id="SlideLayoutSelect"
             data-testid="SlideLayoutSelect"
@@ -85,7 +85,7 @@ export const SlidePreview: React.FC<SlidePreviewProps> = ({
         </div>
 
         <div className="form-group">
-          <label className="form-label" htmlFor="SlideBodyInput">正文要点（每行一条）</label>
+          <label className="form-label" htmlFor="SlideBodyInput">页面 Markdown 源文</label>
           <textarea
             id="SlideBodyInput"
             data-testid="SlideBodyInput"
@@ -95,13 +95,13 @@ export const SlidePreview: React.FC<SlidePreviewProps> = ({
             rows={4}
             value={bulletsText}
             disabled={disabled}
-            onChange={(e) => onUpdateSlide({ bullets: e.target.value.split('\n').filter((l) => l.trim() !== '') })}
+            onChange={(e) => onUpdateSlide({ bullets: e.target.value.split('\n') })}
             placeholder="- 第一点\n- 第二点\n- 第三点"
           />
         </div>
 
         <div className="form-group">
-          <label className="form-label" htmlFor="SlideNotesInput">演讲者备注 (Speaker Notes)</label>
+          <label className="form-label" htmlFor="SlideNotesInput">配音备注（随项目保存）</label>
           <input
             id="SlideNotesInput"
             data-testid="SlideNotesInput"

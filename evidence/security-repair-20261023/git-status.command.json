@@ -1,0 +1,15 @@
+{
+  "command": [
+    "git",
+    "status",
+    "--porcelain=v1"
+  ],
+  "cwd": "D:\\PresentationOS",
+  "started_at": "2026-10-23T14:22:40.996Z",
+  "finished_at": "2026-10-23T14:22:41.077Z",
+  "exit_code": 0,
+  "signal": null,
+  "error": null,
+  "stdout_file": "git-status.stdout.txt",
+  "stderr_file": "git-status.stderr.txt"
+}

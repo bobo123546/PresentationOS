@@ -1,0 +1,19 @@
+{
+  "command": [
+    "pnpm",
+    "-r",
+    "list",
+    "--prod",
+    "--depth",
+    "Infinity",
+    "--json"
+  ],
+  "cwd": "D:\\PresentationOS",
+  "started_at": "2026-10-23T14:22:41.324Z",
+  "finished_at": "2026-10-23T14:22:41.538Z",
+  "exit_code": 0,
+  "signal": null,
+  "error": null,
+  "stdout_file": "npm-production-tree.stdout.txt",
+  "stderr_file": "npm-production-tree.stderr.txt"
+}

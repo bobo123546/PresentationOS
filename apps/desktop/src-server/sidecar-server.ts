@@ -1,8 +1,11 @@
 // PresentationOS Desktop Sidecar Server (P04)
-// Provides HTTP API to Tauri WebView and External Automated Drivers (UIA)
+// Same-origin authenticated HTTP API for the Windows WebView host.
 import http, { IncomingMessage, ServerResponse } from 'node:http';
-import { copyFileSync, existsSync, mkdirSync } from 'node:fs';
-import { dirname, resolve } from 'node:path';
+import { copyFileSync, existsSync, mkdirSync, constants, statSync, realpathSync } from 'node:fs';
+import { dirname, resolve, relative, isAbsolute, join, sep } from 'node:path';
+import { homedir } from 'node:os';
+import { randomBytes, timingSafeEqual } from 'node:crypto';
+import { DataPaths } from './local-paths.js';
 import { fileURLToPath } from 'node:url';
 import {
   createTaskService,
@@ -17,6 +20,8 @@ export interface ServerOptions {
   port?: number;
   dbPath?: string;
   host?: string;
+  dataRoot?: string;
+  sessionToken?: string;
 }
 
 export class DesktopSidecarServer {
@@ -24,17 +29,25 @@ export class DesktopSidecarServer {
   private readonly taskService: TaskService;
   private readonly port: number;
   private readonly host: string;
+  private boundPort = 0;
+  private readonly sessionToken: string;
+  private readonly paths: DataPaths;
   private readonly activeRuns: Map<string, {
     progress: CompileProgressEvent[];
     result?: any;
     status: 'RUNNING' | 'COMPLETED' | 'CANCELLED' | 'FAILED';
     startedAt: number;
+    workflowRunId?: string;
   }> = new Map();
 
   constructor(opts: ServerOptions = {}) {
     this.port = opts.port ?? Number(process.env.PRES_PORT ?? 48200);
     this.host = opts.host ?? '127.0.0.1';
-    this.taskService = createTaskService({ dbPath: opts.dbPath });
+    if (this.host !== '127.0.0.1') throw new Error('Desktop API may only bind to 127.0.0.1');
+    this.sessionToken = opts.sessionToken ?? process.env.PRES_SESSION_TOKEN ?? randomBytes(32).toString('hex');
+    if (this.sessionToken.length < 32) throw new Error('Session token is too short');
+    this.paths = new DataPaths(opts.dataRoot ?? process.env.PRES_DATA_DIR ?? (opts.dbPath ? dirname(opts.dbPath) : join(process.env.LOCALAPPDATA ?? homedir(), 'PresentationOS', 'data')));
+    this.taskService = createTaskService({ dbPath: opts.dbPath ?? join(this.paths.root, 'workflows.db') });
   }
 
   getTaskService(): TaskService {
@@ -45,7 +58,7 @@ export class DesktopSidecarServer {
     return new Promise((resolvePromise, reject) => {
       this.server = http.createServer((req, res) => {
         this.handleRequest(req, res).catch((err) => {
-          this.sendJson(res, 500, { error: err.message ?? String(err) });
+          this.sendJson(res, err.message?.startsWith('Invalid JSON:') ? 400 : err.message === 'Payload too large' ? 413 : 500, { error: err.message ?? String(err) });
         });
       });
 
@@ -53,6 +66,7 @@ export class DesktopSidecarServer {
       this.server.listen(this.port, this.host, () => {
         const addr = this.server?.address();
         const actualPort = typeof addr === 'object' && addr ? addr.port : this.port;
+        this.boundPort = actualPort;
         // eslint-disable-next-line no-console
         console.log(`[PresentationOS Desktop Sidecar] Listening on http://${this.host}:${actualPort}`);
         resolvePromise(actualPort);
@@ -72,9 +86,9 @@ export class DesktopSidecarServer {
   }
 
   private setCorsHeaders(res: ServerResponse): void {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    res.setHeader('Referrer-Policy', 'no-referrer');
+    res.setHeader('Cache-Control', 'no-store');
   }
 
   private sendJson(res: ServerResponse, status: number, data: any): void {
@@ -84,21 +98,35 @@ export class DesktopSidecarServer {
   }
 
   private async parseJsonBody(req: IncomingMessage): Promise<any> {
+    req.setEncoding('utf8');
     return new Promise((resolvePromise, reject) => {
       let body = '';
+      let rejected = false;
       req.on('data', (chunk) => {
+        if (rejected) return;
         body += chunk;
-        if (body.length > 25 * 1024 * 1024) {
+        if (Buffer.byteLength(body) > 25 * 1024 * 1024) {
+          rejected = true;
+          body = '';
           reject(new Error('Payload too large'));
         }
       });
       req.on('end', () => {
+        if (rejected) return;
         if (!body) {
           resolvePromise({});
           return;
         }
         try {
-          resolvePromise(JSON.parse(body));
+          const parsed = JSON.parse(body);
+          if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) throw new Error('JSON object required');
+          for (const key of ['projectDir','projectJsonPath','outPptxPath','outReportPath','outMp4Path','sourcePptxPath','targetPptxPath']) {
+            if (parsed[key] !== undefined) parsed[key] = this.paths.file(parsed[key]);
+          }
+          if (Array.isArray(parsed.slides)) {
+            for (const slide of parsed.slides) if (slide?.imagePath) slide.imagePath = this.paths.file(slide.imagePath);
+          }
+          resolvePromise(parsed);
         } catch (err: any) {
           reject(new Error(`Invalid JSON: ${err.message}`));
         }
@@ -109,6 +137,11 @@ export class DesktopSidecarServer {
 
   private async handleRequest(req: IncomingMessage, res: ServerResponse): Promise<void> {
     this.setCorsHeaders(res);
+    const authority = `127.0.0.1:${this.boundPort}`;
+    const origin = `http://${authority}`;
+    if (req.headers.host !== authority || (req.headers.origin && req.headers.origin !== origin)) {
+      this.sendJson(res, 403, { error: 'Request host or origin is not permitted' }); return;
+    }
     if (req.method === 'OPTIONS') {
       res.writeHead(204);
       res.end();
@@ -117,6 +150,19 @@ export class DesktopSidecarServer {
 
     const url = new URL(req.url ?? '/', `http://${req.headers.host ?? 'localhost'}`);
     const path = url.pathname;
+    if (path.startsWith('/api/') && path !== '/api/health') {
+      const supplied = Buffer.from(/^Bearer (.+)$/.exec(req.headers.authorization ?? '')?.[1] ?? '');
+      const expected = Buffer.from(this.sessionToken);
+      if (supplied.length !== expected.length || !timingSafeEqual(supplied, expected)) {
+        this.sendJson(res, 401, { error: 'Start the desktop app or use its private session link' }); return;
+      }
+    }
+    if (req.method === 'POST' && !req.headers['content-type']?.startsWith('application/json')) {
+      this.sendJson(res, 415, { error: 'Content-Type application/json is required' }); return;
+    }
+    if (req.method === 'GET' && path === '/api/session') {
+      this.sendJson(res, 200, { dataRoot: this.paths.root }); return;
+    }
 
     // Health check
     if (req.method === 'GET' && path === '/api/health') {
@@ -255,6 +301,7 @@ export class DesktopSidecarServer {
         result?: any;
         status: 'RUNNING' | 'COMPLETED' | 'CANCELLED' | 'FAILED';
         startedAt: number;
+        workflowRunId?: string;
       } = {
         progress: [] as CompileProgressEvent[],
         result: undefined as any,
@@ -263,7 +310,7 @@ export class DesktopSidecarServer {
       };
       this.activeRuns.set(runTrackingId, runEntry);
 
-      const compilePromise = this.taskService.compileMarkdown(
+      const compilePromise = new Promise<void>((done) => setImmediate(done)).then(() => this.taskService.compileMarkdown(
         {
           projectId: projectId ?? 'default',
           title: title ?? projectId ?? 'Presentation',
@@ -272,16 +319,18 @@ export class DesktopSidecarServer {
           outReportPath,
         },
         (progress) => {
+          runEntry.workflowRunId = progress.runId;
           runEntry.progress.push(progress);
+          if (runEntry.status === 'CANCELLED') this.taskService.cancel(progress.runId);
         }
-      ).then((result) => {
+      )).then((result) => {
         runEntry.result = result;
         runEntry.status = result.status as any;
         return result;
       }).catch((err) => {
         runEntry.status = 'FAILED';
         runEntry.result = { ok: false, error: err.message, status: 'FAILED' };
-        throw err;
+        return runEntry.result;
       });
 
       if (isAsync) {
@@ -307,8 +356,16 @@ export class DesktopSidecarServer {
         this.sendJson(res, 400, { error: 'Missing runId' });
         return;
       }
-      this.taskService.cancel(runId);
       const tracked = this.activeRuns.get(runId);
+      const actualRun = tracked?.workflowRunId ?? runId;
+      const actualState = this.taskService.getRun(actualRun);
+      if (!tracked && !actualState) {
+        this.sendJson(res, 404, { error: 'Task not found' }); return;
+      }
+      if (['COMPLETED', 'FAILED'].includes(tracked?.status ?? '') || ['COMPLETED', 'FAILED'].includes(actualState?.status ?? '')) {
+        this.sendJson(res, 409, { error: 'Task is already terminal' }); return;
+      }
+      this.taskService.cancel(actualRun);
       if (tracked) {
         tracked.status = 'CANCELLED';
       }
@@ -320,7 +377,7 @@ export class DesktopSidecarServer {
     if (req.method === 'GET' && path.startsWith('/api/task/status/')) {
       const runId = path.replace('/api/task/status/', '');
       const tracked = this.activeRuns.get(runId);
-      const dbRun = this.taskService.getRun(runId);
+      const dbRun = this.taskService.getRun(tracked?.workflowRunId ?? runId);
 
       this.sendJson(res, 200, {
         runId,
@@ -344,7 +401,7 @@ export class DesktopSidecarServer {
       }
       try {
         mkdirSync(dirname(targetPptxPath), { recursive: true });
-        copyFileSync(sourcePptxPath, targetPptxPath);
+        copyFileSync(sourcePptxPath, targetPptxPath, constants.COPYFILE_EXCL);
         this.sendJson(res, 200, { success: true, targetPptxPath });
       } catch (err: any) {
         this.sendJson(res, 500, { error: `Failed to export PPTX: ${err.message}` });
@@ -356,10 +413,12 @@ export class DesktopSidecarServer {
     if (req.method === 'GET') {
       const staticDistDir = resolve(dirname(fileURLToPath(import.meta.url)), '..', 'dist');
       let filePath = resolve(staticDistDir, path === '/' ? 'index.html' : `.${path}`);
+      const local = relative(staticDistDir, filePath);
+      if (isAbsolute(local) || local.startsWith('..')) { this.sendJson(res, 403, { error: 'Invalid asset path' }); return; }
       if (!existsSync(filePath)) {
         filePath = resolve(staticDistDir, 'index.html');
       }
-      if (existsSync(filePath)) {
+      if (existsSync(filePath) && statSync(filePath).isFile() && !relative(realpathSync(staticDistDir), realpathSync(filePath)).startsWith('..')) {
         const { readFileSync } = await import('node:fs');
         const content = readFileSync(filePath);
         let contentType = 'text/plain';

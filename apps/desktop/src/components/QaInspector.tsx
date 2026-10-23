@@ -14,7 +14,7 @@ export const QaInspector: React.FC<QaInspectorProps> = ({ report }) => {
         </div>
         <div className="panel-content">
           <div style={{ color: '#64748b', fontSize: '12px', textAlign: 'center', marginTop: '30px' }}>
-            尚未执行生成。点击“生成 PPTX”即可触发双引擎质量与事实核验。
+            尚未执行生成。生成后检查最终 PPTX 内容；原生验证单独记录。
           </div>
         </div>
       </div>
@@ -47,10 +47,10 @@ export const QaInspector: React.FC<QaInspectorProps> = ({ report }) => {
           id="FactValidationBadge"
           data-testid="FactValidationBadge"
           data-automation-id="FactValidationBadge"
-          aria-label="Fact Validation Guarantee"
+          aria-label="Output Content Readback"
           className={`fact-badge ${factPreserved ? '' : 'violated'}`}
         >
-          <span>{factPreserved ? '🛡️ 100% 来源事实一致 (PASS)' : '⚠️ 来源事实存在漂移 (FAIL)'}</span>
+          <span>{factPreserved ? '输出内容回读通过' : '输出内容回读未通过'}</span>
         </div>
 
         {/* Mechanical QA Breakdown */}
@@ -64,16 +64,16 @@ export const QaInspector: React.FC<QaInspectorProps> = ({ report }) => {
             className="qa-list"
           >
             <div className="qa-list-item">
-              <span>Schema 结构合规</span>
-              <span style={{ color: '#10b981' }}>PASS</span>
+              <span>结构与对象边界</span>
+              <span>{report.mechanicalPassed ? 'PASS' : '未通过'}</span>
             </div>
             <div className="qa-list-item">
-              <span>对象边界与溢出检测</span>
-              <span style={{ color: '#10b981' }}>PASS</span>
+              <span>PowerPoint 原生验证</span>
+              <span>{report.nativeStatus ?? 'NOT_ATTEMPTED'}</span>
             </div>
             <div className="qa-list-item">
-              <span>字体与颜色可继承性</span>
-              <span style={{ color: '#10b981' }}>PASS</span>
+              <span>字体替换与视觉保真</span>
+              <span>尚需原生验收</span>
             </div>
           </div>
         </div>
@@ -89,12 +89,12 @@ export const QaInspector: React.FC<QaInspectorProps> = ({ report }) => {
             className="qa-list"
           >
             <div className="qa-list-item">
-              <span>排版对比度 (Contrast)</span>
-              <span style={{ color: '#10b981' }}>100%</span>
+              <span>确定性排版规则</span>
+              <span>{report.visualPassed ? 'PASS' : '未通过'}</span>
             </div>
             <div className="qa-list-item">
-              <span>留白与层级 (Hierarchy)</span>
-              <span style={{ color: '#10b981' }}>100%</span>
+              <span>评分范围</span>
+              <span>规则检查，非审美认证</span>
             </div>
             <div className="qa-list-item">
               <span>幻灯片总数</span>
@@ -121,7 +121,7 @@ export const QaInspector: React.FC<QaInspectorProps> = ({ report }) => {
               ))
             ) : (
               <div style={{ color: '#10b981', fontSize: '11px' }}>
-                未发现任何布局遮挡或文字截断问题。
+                本轮规则未返回问题；实际渲染与文字截断仍需原生验收。
               </div>
             )}
           </div>

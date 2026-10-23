@@ -1,0 +1,15 @@
+{
+  "command": [
+    "C:\\Program Files\\nodejs\\node.exe",
+    "--test",
+    "tools/docs-auditor/audit-docs.test.mjs",
+    "tools/docs-auditor/semantic-rules.test.mjs",
+    "tools/packager/generate-sbom.test.mjs"
+  ],
+  "cwd": "D:/PresentationOS",
+  "started_at": "2026-10-23T14:23:20.050Z",
+  "finished_at": "2026-10-23T14:23:22.095Z",
+  "exit_code": 0,
+  "signal": null,
+  "error": null
+}

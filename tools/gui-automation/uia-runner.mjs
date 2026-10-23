@@ -1,93 +1,58 @@
-// PresentationOS Windows UI Automation Verification Runner (P11-A / TASK-0019)
-import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync, statSync } from 'node:fs';
+// Validate recorded native interactions; static IDs are reported separately.
+import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
+import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
-import { execSync } from 'node:child_process';
-
-const __dirname = dirname(fileURLToPath(import.meta.url));
-const rootDir = resolve(__dirname, '..', '..');
-const contractPath = resolve(__dirname, 'ui_contract.yaml');
-const bundleDist = resolve(rootDir, 'apps', 'desktop', 'dist');
-const releaseDir = resolve(rootDir, 'release', 'PresentationOS');
-const evidenceDir = resolve(rootDir, 'evidence', 'gui-automation');
-
-console.log('=== PresentationOS Windows UI Automation (UIA) Runner ===\n');
-
-// Step 1: Read and parse ui_contract.yaml
-if (!existsSync(contractPath)) {
-  console.error(`[FAIL] UI contract missing: ${contractPath}`);
-  process.exit(1);
+const root = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
+const args = process.argv.slice(2);
+const value = key => args.includes(key) ? args[args.indexOf(key) + 1] : undefined;
+const release = resolve(value('--release-dir') ?? resolve(root, 'release/PresentationOS'));
+const output = resolve(value('--output-dir') ?? resolve(root, 'evidence/gui-automation', `run-${Date.now()}`));
+const contractPath = resolve(root, 'tools/gui-automation/ui_contract.yaml');
+const contract = readFileSync(contractPath, 'utf8');
+const ids = [...contract.matchAll(/- id:\s*"([^"]+)"/g)].map(m => m[1]);
+const sha = path => createHash('sha256').update(readFileSync(path)).digest('hex');
+const exe = resolve(release, 'PresentationOS.exe');
+const manifest = resolve(release, 'RELEASE_MANIFEST.json');
+const assets = resolve(release, 'dist/assets');
+const bundle = existsSync(assets) ? readdirSync(assets).filter(p => p.endsWith('.js')).map(p => readFileSync(resolve(assets, p), 'utf8')).join('\n') : '';
+const missingIds = ids.filter(id => !bundle.includes(id));
+const errors = [];
+let observed = null;
+const observedPath = value('--observations');
+if (observedPath) {
+  try { observed = JSON.parse(readFileSync(resolve(observedPath), 'utf8')); }
+  catch (err) { errors.push(`Cannot read observations: ${err.message}`); }
 }
-const contractText = readFileSync(contractPath, 'utf8');
-const idMatches = [...contractText.matchAll(/- id:\s*"([^"]+)"/g)].map((m) => m[1]);
-console.log(`[PASS] UI Contract loaded: ${idMatches.length} controls defined`);
-
-// Step 2: Verify production frontend bundle contains all AutomationIds
-if (!existsSync(bundleDist)) {
-  console.error(`[FAIL] Frontend bundle missing: ${bundleDist}. Run 'pnpm pack:desktop' first.`);
-  process.exit(1);
-}
-
-const assetFiles = readdirSync(resolve(bundleDist, 'assets'));
-const jsChunkName = assetFiles.find((f) => f.endsWith('.js'));
-if (!jsChunkName) {
-  console.error('[FAIL] Production JS bundle chunk not found');
-  process.exit(1);
-}
-
-const jsCode = readFileSync(resolve(bundleDist, 'assets', jsChunkName), 'utf8');
-const missingControls = [];
-for (const id of idMatches) {
-  if (!jsCode.includes(id)) {
-    missingControls.push(id);
+if (!existsSync(exe)) errors.push('Packaged executable missing');
+if (!existsSync(manifest)) errors.push('Packaged manifest missing');
+if (missingIds.length) errors.push(`Static bundle IDs missing: ${missingIds.join(', ')}`);
+if (!observed) errors.push('Native UI interactions have not been recorded');
+else {
+  if (observed.executableSha256 !== (existsSync(exe) ? sha(exe) : null)) errors.push('Observations are for another executable');
+  if (!existsSync(manifest) || observed.bundleManifestSha256 !== sha(manifest)) errors.push('Observations are for another bundle manifest');
+  if (observed.contractSha256 !== sha(contractPath)) errors.push('Observations are for another UI contract');
+  if (!['Windows UI Automation', 'Computer Use Windows', 'Win32'].includes(observed.driver)) errors.push('Unknown native driver');
+  for (const id of ids) {
+    const control = observed.controls?.find(c => c.id === id);
+    if (!control?.observed || control.passed !== true || !control.before || !control.after) errors.push(`No before/action/after evidence for ${id}`);
   }
+  for (const scenario of ['normal', 'invalid-input', 'boundary', 'cancel-recovery', 'save-reopen', 'import-export', 'task-isolation']) {
+    const check = observed.scenarios?.find(s => s.name === scenario);
+    if (check?.passed !== true || !check.artifacts?.length) errors.push(`Missing native scenario: ${scenario}`);
+  }
+  for (const artifact of observed.artifacts ?? []) {
+    if (!artifact.path || !existsSync(artifact.path) || artifact.sha256 !== sha(artifact.path)) errors.push('Observed artifact is missing or changed');
+  }
+  if (!observed.artifacts?.length) errors.push('No persistent native artifacts');
 }
-
-if (missingControls.length > 0) {
-  console.error(`[FAIL] Missing controls in compiled JS: ${missingControls.join(', ')}`);
-  process.exit(1);
-}
-console.log(`[PASS] All ${idMatches.length} UIA AutomationIds verified in production bundle`);
-
-// Step 3: Verify Native Host Executable
-const exePath = resolve(releaseDir, 'PresentationOS.exe');
-if (!existsSync(exePath)) {
-  console.error(`[FAIL] Native host executable missing: ${exePath}`);
-  process.exit(1);
-}
-
-const stat = statSync(exePath);
-console.log(`[PASS] Release executable verified: ${exePath} (${(stat.size / (1024 * 1024)).toFixed(2)} MB)`);
-
-// Step 4: Run executable self-test
-let bootSuccess = false;
-try {
-  execSync(`"${exePath}" --version`, { stdio: 'ignore' });
-  bootSuccess = true;
-  console.log('[PASS] PresentationOS.exe --version executed with exit code 0');
-} catch (err) {
-  console.warn(`[WARN] Process test returned: ${err.message}`);
-}
-
-// Step 5: Emit Evidence Record
-mkdirSync(evidenceDir, { recursive: true });
-const evidence = {
-  timestamp: new Date().toISOString(),
-  contract: 'presentationos-ui-contract/1',
-  contract_file: contractPath,
-  controls_total: idMatches.length,
-  controls: idMatches,
-  patterns_covered: ['ValuePattern', 'InvokePattern', 'SelectionPattern', 'RangeValuePattern', 'TextPattern'],
-  executable: {
-    path: exePath,
-    sizeBytes: stat.size,
-    boot_verified: bootSuccess,
-  },
-  status: 'VERIFIED',
-  pass: true,
-};
-
-const evidenceFile = resolve(evidenceDir, 'result.json');
-writeFileSync(evidenceFile, JSON.stringify(evidence, null, 2), 'utf8');
-console.log(`\n[PASS] Evidence record emitted: ${evidenceFile}`);
-console.log('=== UIA Verification Completed Successfully ===');
+const result = { timestamp: new Date().toISOString(), scope: 'native-ui-acceptance',
+  executable: { path: exe, sha256: existsSync(exe) ? sha(exe) : null }, contractSha256: sha(contractPath),
+  bundleManifestSha256: existsSync(manifest) ? sha(manifest) : null,
+  staticChecks: { controlsTotal: ids.length, missingIds, passed: !missingIds.length },
+  native: { status: errors.length ? 'NOT_VERIFIED' : 'PASS', observations: observedPath ?? null },
+  pass: errors.length === 0, errors };
+mkdirSync(output, { recursive: true });
+writeFileSync(resolve(output, 'result.json'), JSON.stringify(result, null, 2), { flag: 'wx' });
+console.log(JSON.stringify(result, null, 2));
+process.exitCode = result.pass ? 0 : 1;

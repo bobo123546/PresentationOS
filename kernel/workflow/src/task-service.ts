@@ -1,11 +1,12 @@
 // PresentationOS Core Application Task Service (P03-A / P05)
-import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
-import { dirname, resolve } from 'node:path';
+import { readFileSync, writeFileSync, mkdirSync, existsSync, mkdtempSync, copyFileSync, constants, unlinkSync, statSync } from 'node:fs';
+import { dirname, resolve, join } from 'node:path';
+import { createHash } from 'node:crypto';
 import { WorkflowStore, WorkflowExecutor, type WorkflowRun, type StepContext } from '@pres/durable-workflow';
 import { applyRevisions } from '@pres/revision-engine';
-import { resolveLayout, renderDeck, type DeckSpec } from '@pres/pptx-engine';
+import { resolveLayout, renderDeck, verifyRenderedDeck, type DeckSpec } from '@pres/pptx-engine';
 import { validate, SCHEMA_IDS } from '@pres/schema-validator';
-import { parseDocument, extractFacts, verifyFactsPreserved, type ParsedDocument } from '@pres/document-parser';
+import { parseDocument, type ParsedDocument } from '@pres/document-parser';
 import {
   type PresentationProject,
   type CompileJobOptions,
@@ -73,7 +74,7 @@ export class TaskService {
               for (const slide of deck.slides) slide.layout = layoutFor(slide);
 
               if (contentSnapshot(deck) !== original) {
-                throw new Error('Revision changed source content; violating 100% fact preservation guarantee');
+                throw new Error('Revision changed source blocks; refusing to publish altered content');
               }
               await validateDeck(deck);
               qa = inspectDeck(deck);
@@ -90,39 +91,81 @@ export class TaskService {
           ) => {
             if (ctx.isCancelled?.()) throw new Error('Task was cancelled');
             const { deck, qa, history, outPptxPath, outReportPath } = input;
-            const reportPath = outReportPath ?? outPptxPath.replace(/\.pptx$/i, '.loop.json');
-
-            const summary = {
-              passed: qa.passed,
+            const outputPath = resolve(outPptxPath);
+            const reportPath = resolve(outReportPath ?? outPptxPath.replace(/\.pptx$/i, '.loop.json'));
+            if (!/\.pptx$/i.test(outputPath) || outputPath.toLowerCase() === reportPath.toLowerCase()) {
+              throw new Error('Use a .pptx output and a distinct report path');
+            }
+            if (existsSync(outputPath) || existsSync(reportPath)) {
+              throw new Error('Output or report already exists; choose new paths to preserve existing files');
+            }
+            mkdirSync(dirname(outputPath), { recursive: true });
+            mkdirSync(dirname(reportPath), { recursive: true });
+            const stagingDir = mkdtempSync(join(dirname(outputPath), '.pres-compile-'));
+            const candidate = join(stagingDir, 'candidate.pptx');
+            const stagedReport = join(stagingDir, 'report.json');
+            const summary: Record<string, any> = {
+              runId: ctx.runId,
+              passed: false,
               rounds: history,
               final: { overall: qa.visual.overall, slides: deck.slides.length, issues: qa.visual.issues.length },
               mechanical: qa.mechanical,
               native: qa.native,
-              sourceContentPreserved: true,
-              pptx: outPptxPath,
+              visual: qa.visual,
+              sourceContentPreserved: false,
+              verificationScope: 'Source block content and OOXML readback; no claim of semantic truth or Native/UI acceptance',
+              visualScope: 'Deterministic rules on the actual resolved render commands',
+              pptx: outputPath,
+              stagingDirectory: stagingDir,
             };
-
-            mkdirSync(dirname(outPptxPath), { recursive: true });
-            mkdirSync(dirname(reportPath), { recursive: true });
-
             if (!qa.passed) {
-              writeFileSync(reportPath, JSON.stringify(summary, null, 2), 'utf8');
-              throw new Error(`QA failed (score=${qa.visual.overall}); presentation was not published`);
+              writeFileSync(stagedReport, JSON.stringify(summary, null, 2), { encoding: 'utf8', flag: 'wx' });
+              copyFileSync(stagedReport, reportPath, constants.COPYFILE_EXCL);
+              throw new Error(`QA failed (score=${qa.visual.overall}); not published. Evidence: ${stagedReport}`);
             }
-
-            // 渲染 PPTX
             await renderDeck(deck, {
-              outPath: outPptxPath,
+              outPath: candidate,
               resolveRects: (slide) => resolveLayout(slide.layout ?? layoutFor(slide)),
+              signal: ctx.signal,
             });
-
-            // 写入质检报告
-            writeFileSync(reportPath, JSON.stringify(summary, null, 2), 'utf8');
-
+            const contentVerification = await verifyRenderedDeck(candidate, deck);
+            summary.contentVerification = contentVerification;
+            summary.sourceContentPreserved = contentVerification.ok;
+            summary.passed = qa.passed && contentVerification.ok;
+            summary.sha256 = createHash('sha256').update(readFileSync(candidate)).digest('hex');
+            if (ctx.isCancelled?.()) {
+              summary.passed = false;
+              summary.status = 'CANCELLED';
+              writeFileSync(stagedReport, JSON.stringify(summary, null, 2), { encoding: 'utf8', flag: 'wx' });
+              throw new Error(`Task was cancelled; candidate retained at ${stagingDir}`);
+            }
+            writeFileSync(stagedReport, JSON.stringify(summary, null, 2), { encoding: 'utf8', flag: 'wx' });
+            if (!contentVerification.ok) {
+              copyFileSync(stagedReport, reportPath, constants.COPYFILE_EXCL);
+              throw new Error(`PPTX content readback failed; not published. Evidence: ${stagedReport}`);
+            }
+            // Never overwrite an existing destination, including a file created
+            // while rendering. Publish the independently checked candidate only.
+            let publishedIdentity: { ino: number; dev: number } | undefined;
+            try {
+              copyFileSync(candidate, outputPath, constants.COPYFILE_EXCL);
+              publishedIdentity = statSync(outputPath);
+              copyFileSync(stagedReport, reportPath, constants.COPYFILE_EXCL);
+            } catch (error) {
+              // Remove only this task's unchanged copy on partial publication;
+              // a destination another task or the user replaced is preserved.
+              if (publishedIdentity && existsSync(outputPath)) {
+                const current = statSync(outputPath);
+                if (current.ino === publishedIdentity.ino && current.dev === publishedIdentity.dev &&
+                    createHash('sha256').update(readFileSync(outputPath)).digest('hex') === summary.sha256) unlinkSync(outputPath);
+              }
+              throw error;
+            }
             return {
-              outPptxPath,
+              outPptxPath: outputPath,
               reportPath,
               summary,
+              sourceContentPreserved: contentVerification.ok,
               slidesCount: deck.slides.length,
               overallScore: qa.visual.overall,
               issuesCount: qa.visual.issues.length,
@@ -242,13 +285,16 @@ export class TaskService {
         slidesCount: 0,
         overallScore: 0,
         issuesCount: 0,
-        sourceContentPreserved: true,
+        sourceContentPreserved: false,
         durationMs,
         error: 'Compilation was cancelled by user',
       };
     }
 
     if (execResult.status === 'FAILED') {
+      const candidateReport = resolve(opts.outReportPath ?? opts.outPptxPath.replace(/\.pptx$/i, '.loop.json'));
+      let ownReport: string | undefined;
+      try { if (JSON.parse(readFileSync(candidateReport, 'utf8')).runId === runId) ownReport = candidateReport; } catch { /* No report for this run. */ }
       return {
         ok: false,
         status: 'FAILED',
@@ -259,6 +305,7 @@ export class TaskService {
         sourceContentPreserved: false,
         durationMs,
         error: execResult.error ?? `Step ${execResult.failedStep} failed`,
+        reportPath: ownReport,
       };
     }
 
@@ -266,6 +313,10 @@ export class TaskService {
     const lastStep = steps.find((s) => s.stepName === 'render_and_export');
     const outData = lastStep?.outputJson ? JSON.parse(lastStep.outputJson) : {};
 
+    if (!outData.summary?.passed || outData.sourceContentPreserved !== true || !outData.summary?.contentVerification?.ok) {
+      return { ok: false, status: 'FAILED', runId, slidesCount: 0, overallScore: 0, issuesCount: 0,
+        sourceContentPreserved: false, durationMs, error: 'Completed workflow is missing successful final PPTX readback evidence' };
+    }
     return {
       ok: true,
       status: 'COMPLETED',
@@ -273,15 +324,17 @@ export class TaskService {
       pptxPath: outData.outPptxPath ?? opts.outPptxPath,
       reportPath: outData.reportPath,
       slidesCount: outData.slidesCount ?? 0,
-      overallScore: outData.overallScore ?? 100,
+      overallScore: outData.overallScore ?? 0,
       issuesCount: outData.issuesCount ?? 0,
-      sourceContentPreserved: true,
+      sourceContentPreserved: outData.sourceContentPreserved === true,
       durationMs,
       summary: outData.summary,
     };
   }
 
   cancel(runId: string): void {
+    const run = this.store.getRun(runId);
+    if (!run || ['COMPLETED', 'FAILED', 'CANCELLED'].includes(run.status)) return;
     this.executor.cancel(runId);
   }
 
