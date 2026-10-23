@@ -367,7 +367,15 @@ function renderCoverSlide(
   });
 }
 
-function classifySlideArchetype(slide: DeckSlide): 'table' | 'chart' | 'timeline' | 'comparison' | 'process' | 'quadrant' | 'funnel' | 'team' | 'quote' | 'cardGrid' | 'flow' {
+function classifySlideArchetype(slide: DeckSlide): 'table' | 'chart' | 'timeline' | 'comparison' | 'process' | 'quadrant' | 'funnel' | 'team' | 'quote' | 'cardGrid' | 'architecture' | 'pyramid' | 'flow' {
+  if ((slide as any).archetype) {
+    const valid = ['table', 'chart', 'timeline', 'comparison', 'process', 'quadrant', 'funnel', 'team', 'quote', 'cardGrid', 'architecture', 'pyramid', 'flow'];
+    if (valid.includes((slide as any).archetype)) return (slide as any).archetype;
+  }
+  if (slide.kind && ['timeline', 'comparison', 'process', 'quadrant', 'funnel', 'team', 'quote', 'cardGrid', 'architecture', 'pyramid'].includes(slide.kind)) {
+    return slide.kind as any;
+  }
+
   const hasTable = slide.blocks.some((b) => b.type === 'table');
   const hasChart = slide.blocks.some((b) => b.type === 'chart');
   const hasOther = slide.blocks.some((b) => b.type !== 'text' && b.type !== 'table' && b.type !== 'chart');
@@ -385,7 +393,25 @@ function classifySlideArchetype(slide: DeckSlide): 'table' | 'chart' | 'timeline
     return 'quote';
   }
 
-  // 2. Comparison archetype: 2 text blocks with contrasting words
+  // 2. Architecture / Tech Stack archetype: 3-4 blocks with architecture keywords
+  if (textBlocks.length >= 3 && textBlocks.length <= 4) {
+    const isArchTitle = /架构|分层|技术栈|体系|组件设计|系统蓝图|architecture|tech\s*stack|layered|layer/i.test(title);
+    const hasArchKeywords = textBlocks.some(b => /层|终端|接入|网关|内核|基础|底座|tier|layer|gateway|kernel|storage|infra/i.test(b.text ?? ''));
+    if (isArchTitle || hasArchKeywords) {
+      return 'architecture';
+    }
+  }
+
+  // 3. Pyramid / Strategic Hierarchy archetype: 3-4 blocks with pyramid keywords
+  if (textBlocks.length >= 3 && textBlocks.length <= 4) {
+    const isPyramidTitle = /金字塔|层级|顶层设计|战略定位|愿景支柱|pyramid|hierarchy|strategic\s*pillars/i.test(title);
+    const hasPyramidKeywords = textBlocks.some(b => /顶层|使命|支柱|基石|底座|apex|pillar|foundation/i.test(b.text ?? ''));
+    if (isPyramidTitle || hasPyramidKeywords) {
+      return 'pyramid';
+    }
+  }
+
+  // 4. Comparison archetype: 2 text blocks with contrasting words
   if (textBlocks.length === 2) {
     const isCompareTitle = /对比|差异|vs|优劣|传统.*(创新|新一代|现代化)|现状.*目标|before.*after/i.test(title);
     const hasContrastWords = textBlocks.some(b => /传统|现状|痛点|缺点|方案一|旧架构|原有|人工/i.test(b.text ?? '')) &&
@@ -395,7 +421,7 @@ function classifySlideArchetype(slide: DeckSlide): 'table' | 'chart' | 'timeline
     }
   }
 
-  // 3. 2x2 Matrix archetype: 4 blocks with quadrant / matrix / BCG / priority keywords
+  // 5. 2x2 Matrix archetype: 4 blocks with quadrant / matrix / BCG / priority keywords
   if (textBlocks.length === 4) {
     const isMatrixTitle = /象限|矩阵|优先级|波士顿|matrix|quadrant|bcg|四维/i.test(title);
     const hasMatrixKeywords = textBlocks.some(b => /重要|紧急|高价值|低难度|快速见效|核心要务|战略重点|q[1-4]|第一象限/i.test(b.text ?? ''));
@@ -404,7 +430,7 @@ function classifySlideArchetype(slide: DeckSlide): 'table' | 'chart' | 'timeline
     }
   }
 
-  // 4. Funnel archetype: 3-5 blocks with funnel / conversion keywords
+  // 6. Funnel archetype: 3-5 blocks with funnel / conversion keywords
   const isFunnelTitle = /漏斗|转化|客户旅程|链路|funnel|pipeline|sales\s*funnel/i.test(title);
   const funnelPattern = /(曝光|浏览|展现|点击|激活|留存|付费|加购|线索|签约|复购|转化率)/i;
   const funnelMatches = textBlocks.filter(b => funnelPattern.test(b.text ?? '')).length;
@@ -412,7 +438,7 @@ function classifySlideArchetype(slide: DeckSlide): 'table' | 'chart' | 'timeline
     return 'funnel';
   }
 
-  // 5. Team / Profile archetype: 3-4 blocks with roles or titles
+  // 7. Team / Profile archetype: 3-4 blocks with roles or titles
   const isTeamTitle = /团队|人员|领袖|专家|顾问|架构师|team|founders|leadership/i.test(title);
   const rolePattern = /(ceo|cto|coo|cfo|创始人|合伙人|专家|教授|总监|负责人|科学家|架构师)/i;
   const roleMatches = textBlocks.filter(b => rolePattern.test(b.text ?? '')).length;
@@ -420,7 +446,7 @@ function classifySlideArchetype(slide: DeckSlide): 'table' | 'chart' | 'timeline
     return 'team';
   }
 
-  // 6. Timeline archetype: dates / years / quarters / roadmap
+  // 8. Timeline archetype: dates / years / quarters / roadmap
   const isTimelineTitle = /时间|路线|规划|发展历程|里程碑|roadmap|timeline|阶段/i.test(title);
   const datePattern = /(20\d\d年?|q[1-4]|第[一二三四1-4]阶段|phase\s*\d|stage\s*\d|年度)/i;
   const dateMatches = textBlocks.filter(b => datePattern.test(b.text ?? '')).length;
@@ -428,7 +454,7 @@ function classifySlideArchetype(slide: DeckSlide): 'table' | 'chart' | 'timeline
     return 'timeline';
   }
 
-  // 7. Process Flow archetype: steps / workflow
+  // 9. Process Flow archetype: steps / workflow
   const isProcessTitle = /流程|步骤|实施路径|闭环|架构推进|process|workflow|steps/i.test(title);
   const stepPattern = /^(第[一二三四1-4]步|步骤[一二三四1-4]|step\s*\d|[0-9][\.\、\s])/i;
   const stepMatches = textBlocks.filter(b => stepPattern.test(b.text?.trim() ?? '')).length;
@@ -436,7 +462,7 @@ function classifySlideArchetype(slide: DeckSlide): 'table' | 'chart' | 'timeline
     return 'process';
   }
 
-  // 8. Card Grid: 2 to 4 text blocks
+  // 10. Card Grid: 2 to 4 text blocks
   if (textBlocks.length >= 2 && textBlocks.length <= 4) {
     return 'cardGrid';
   }
@@ -446,6 +472,8 @@ function classifySlideArchetype(slide: DeckSlide): 'table' | 'chart' | 'timeline
 
 function archetypeBadgeText(archetype: string): string {
   switch (archetype) {
+    case 'architecture': return '[ 技术架构 · 分层体系 ]';
+    case 'pyramid': return '[ 顶层设计 · 战略金字塔 ]';
     case 'timeline': return '[ 发展历程 · 路线规划 ]';
     case 'comparison': return '[ 方案对比 · 价值分析 ]';
     case 'process': return '[ 实施路径 · 闭环流程 ]';
@@ -589,10 +617,204 @@ async function renderContentSlide(
       renderCardGrid(s, textBlocks, theme);
       return;
     }
+    case 'architecture': {
+      renderArchitectureStack(s, textBlocks, theme);
+      return;
+    }
+    case 'pyramid': {
+      renderPyramid(s, textBlocks, theme);
+      return;
+    }
     default: {
       await renderFlowCards(s, scene.blocks, theme);
       return;
     }
+  }
+}
+
+function renderArchitectureStack(
+  s: SlideLike,
+  blocks: SlideBlock[],
+  theme: { accent: string; font: string; fontFamily: string }
+) {
+  const count = Math.min(blocks.length, 4);
+  const startY = 1.85;
+  const totalH = 4.75;
+  const gap = 0.14;
+  const layerH = Math.round(((totalH - (count - 1) * gap) / count) * 100) / 100;
+  const layerW = 11.73;
+  const startX = 0.8;
+  const tabW = 2.4;
+
+  const layerThemes = [
+    { bg: '1E3A8A', border: '3B82F6', label: 'L1 · 终端交互与接入层' },
+    { bg: '0F172A', border: '64748B', label: 'L2 · 服务网关与编排层' },
+    { bg: '2563EB', border: '60A5FA', label: 'L3 · 业务计算与内核层' },
+    { bg: '0F766E', border: '14B8A6', label: 'L4 · 数据底座与基础设施' },
+  ];
+
+  for (let i = 0; i < count; i++) {
+    const block = blocks[i];
+    const y = startY + i * (layerH + gap);
+    const lt = layerThemes[i % layerThemes.length];
+
+    // 1. Layer Background Card
+    s.addShape('roundRect', {
+      x: startX,
+      y,
+      w: layerW,
+      h: layerH,
+      fill: { color: 'FFFFFF' },
+      line: { color: 'CBD5E1', width: 1.2 },
+      rectRadius: 0.08,
+    });
+
+    // 2. Left Indicator Tab
+    s.addShape('roundRect', {
+      x: startX,
+      y,
+      w: tabW,
+      h: layerH,
+      fill: { color: lt.bg },
+      line: { color: lt.border, width: 1 },
+      rectRadius: 0.08,
+    });
+
+    // Parse block content: split title and items
+    const rawText = block.text?.trim() ?? '';
+    const colonIdx = rawText.search(/[:：]/);
+    const layerTitle = colonIdx > 0 ? rawText.slice(0, colonIdx).trim() : (count === 4 ? lt.label : `层级 0${i + 1}`);
+    const details = colonIdx > 0 ? rawText.slice(colonIdx + 1).trim() : rawText;
+
+    s.addText(layerTitle, {
+      x: startX + 0.1,
+      y: y + layerH / 2 - 0.28,
+      w: tabW - 0.2,
+      h: 0.56,
+      fontSize: 12,
+      bold: true,
+      color: 'FFFFFF',
+      fontFace: theme.fontFamily,
+      align: 'center',
+      valign: 'middle',
+      wrap: true,
+    });
+
+    // 3. Right Component Chips Area
+    const rightX = startX + tabW + 0.18;
+    const rightW = layerW - tabW - 0.36;
+
+    // Check if details contains bullet points or separators like '、', ',', ';', '|'
+    const items = details.split(/[、,;|；]/).map(t => t.trim()).filter(Boolean);
+    if (items.length >= 2 && items.length <= 4) {
+      const chipGap = 0.15;
+      const chipW = Math.round(((rightW - (items.length - 1) * chipGap) / items.length) * 100) / 100;
+      const chipH = layerH - 0.2;
+      const chipY = y + 0.1;
+
+      for (let j = 0; j < items.length; j++) {
+        s.addShape('roundRect', {
+          x: rightX + j * (chipW + chipGap),
+          y: chipY,
+          w: chipW,
+          h: chipH,
+          fill: { color: 'F8FAFC' },
+          line: { color: 'E2E8F0', width: 1 },
+          rectRadius: 0.06,
+        });
+        s.addText(items[j], {
+          x: rightX + j * (chipW + chipGap) + 0.08,
+          y: chipY + 0.05,
+          w: chipW - 0.16,
+          h: chipH - 0.1,
+          fontSize: 11,
+          color: '1E293B',
+          fontFace: theme.fontFamily,
+          align: 'center',
+          valign: 'middle',
+          wrap: true,
+        });
+      }
+    } else {
+      s.addText(details, {
+        x: rightX,
+        y: y + 0.1,
+        w: rightW,
+        h: layerH - 0.2,
+        fontSize: 12,
+        color: '334155',
+        fontFace: theme.fontFamily,
+        valign: 'middle',
+        wrap: true,
+      });
+    }
+  }
+}
+
+function renderPyramid(
+  s: SlideLike,
+  blocks: SlideBlock[],
+  theme: { accent: string; font: string; fontFamily: string }
+) {
+  const count = Math.min(blocks.length, 4);
+  const startY = 1.9;
+  const totalH = 4.65;
+  const gap = 0.18;
+  const tierH = Math.round(((totalH - (count - 1) * gap) / count) * 100) / 100;
+
+  const tierWidths = count === 3 ? [6.2, 9.0, 11.73] : [5.2, 7.4, 9.6, 11.73];
+  const tierBadges = count === 3
+    ? ['[ APEX · 顶层愿景与战略使命 ]', '[ PILLARS · 核心支柱与差异化壁垒 ]', '[ FOUNDATION · 基石底座与工程赋能 ]']
+    : ['[ APEX · 愿景使命 ]', '[ STRATEGY · 战略支柱 ]', '[ PLATFORM · 平台中枢 ]', '[ FOUNDATION · 底座基础设施 ]'];
+
+  for (let i = 0; i < count; i++) {
+    const block = blocks[i];
+    const w = tierWidths[i];
+    const x = 0.8 + (11.73 - w) / 2;
+    const y = startY + i * (tierH + gap);
+
+    const isApex = i === 0;
+    const isBase = i === count - 1;
+
+    // 1. Tier Card
+    s.addShape('roundRect', {
+      x,
+      y,
+      w,
+      h: tierH,
+      fill: { color: isApex ? '0B132B' : (isBase ? 'F8FAFC' : 'FFFFFF') },
+      line: { color: isApex ? '38BDF8' : (isBase ? 'CBD5E1' : theme.accent || '2563EB'), width: 1.5 },
+      rectRadius: 0.1,
+    });
+
+    // 2. Tier Badge
+    s.addText(tierBadges[i], {
+      x: x + 0.2,
+      y: y + 0.1,
+      w: w - 0.4,
+      h: 0.28,
+      fontSize: 10,
+      bold: true,
+      color: isApex ? '38BDF8' : (isBase ? '64748B' : '2563EB'),
+      fontFace: theme.fontFamily,
+      align: 'center',
+      valign: 'middle',
+    });
+
+    // 3. Content
+    s.addText(block.text ?? '', {
+      x: x + 0.3,
+      y: y + 0.4,
+      w: w - 0.6,
+      h: tierH - 0.5,
+      fontSize: isApex ? 13 : 12,
+      bold: isApex,
+      color: isApex ? 'F8FAFC' : '334155',
+      fontFace: theme.fontFamily,
+      align: 'center',
+      valign: 'middle',
+      wrap: true,
+    });
   }
 }
 

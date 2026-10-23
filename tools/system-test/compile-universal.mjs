@@ -1,4 +1,4 @@
-// PresentationOS Universal Presentation Compiler (10 Universal Archetypes)
+// PresentationOS Universal Master Presentation Compiler (12 Universal Archetypes)
 import { createTaskService } from '../../kernel/workflow/dist/index.js';
 import { unlinkSync, existsSync, statSync } from 'node:fs';
 
@@ -6,9 +6,20 @@ const markdown = `# PresentationOS 全场景演示系统
 
 面向全行业商业场景的端到端自动化高质量演示系统
 
+## 顶层设计与战略金字塔
+- APEX 愿景使命：构建全球首个端到端 100% 事实保真且免排版的商业演示全自动化生成操作系统。
+- PILLARS 核心支柱：多格式深度解析管道、12套通用设计原型库、原生矢量双引擎校验与智能语义路由。
+- FOUNDATION 基石底座：Durable 异步工作流、跨平台桌面工作台、SAPI 语音合成与高精音视频交付。
+
+## 现代企业级技术分层架构
+- 终端展现层：跨平台桌面工作台、Web 实时编辑器、企业内网部署套件、移动端交互伴侣。
+- 调度网关层：Durable 工作流引擎、任务调度中心、Schema 统一契约校验、多租户鉴权服务。
+- 业务计算内核：OpenXML 逆向生成引擎、多格式文档保真解析器、原生场景图排版管线、双引擎视觉质检。
+- 数据与基础设施：SQLite 事务存储、SAPI 本地语音合成、FFmpeg 硬件加速渲染管线、SBOM 供应链安全合规。
+
 ## 传统演示 vs PresentationOS
 - 传统模式痛点：排版耗时长达数小时、视觉风格依靠人工调试、内容缺乏层次结构、事实数据易发生笔误或遗漏。
-- PresentationOS 核心突破：100% 事实保真提取、全套 10 大场景自适应版式图库、纯原生矢量对象与双引擎自动化质检。
+- PresentationOS 核心突破：100% 事实保真提取、全套 12 大场景自适应版式图库、纯原生矢量对象与双引擎自动化质检。
 
 ## 战略优先级四象限矩阵
 - Q2 快速见效：优先落地多格式导入与模板复用能力，降低用户上手门槛。
@@ -54,7 +65,7 @@ const markdown = `# PresentationOS 全场景演示系统
 > 让每一位专业人士都能在数秒内交付高水准、可编辑、100% 事实保真的商业级演示文稿。
 `;
 
-const outPptx = 'D:\\PresentationOSData\\presentationos_universal_all_scenarios.pptx';
+const outPptx = 'D:\\PresentationOSData\\presentationos_master_universal_deck.pptx';
 if (existsSync(outPptx)) {
   try {
     unlinkSync(outPptx);
@@ -64,7 +75,7 @@ if (existsSync(outPptx)) {
 }
 
 const taskService = createTaskService();
-console.log('Compiling 10-slide Universal Presentation...');
+console.log('Compiling 12-slide Universal Master Presentation...');
 const res = await taskService.compileMarkdown({
   projectId: 'universal-all-scenarios',
   title: 'PresentationOS 全场景演示系统',
