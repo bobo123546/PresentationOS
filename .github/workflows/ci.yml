@@ -19,6 +19,14 @@ jobs:
           version: 12.5.1
       - run: pnpm install --frozen-lockfile
       - run: pnpm audit --audit-level=low
+      - name: Install FFmpeg for media pipeline tests
+        shell: pwsh
+        run: |
+          if (-not (Get-Command ffmpeg -ErrorAction SilentlyContinue)) {
+            choco install ffmpeg --no-progress --yes
+          }
+          ffmpeg -version
+          ffprobe -version
       - run: pnpm --workspace-concurrency=1 -r --if-present build
       - run: pnpm test:node
       - run: pnpm --workspace-concurrency=1 -r --if-present test
