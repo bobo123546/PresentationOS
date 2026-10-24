@@ -13,7 +13,7 @@ function deferred<T>() {
 }
 const response = (data: unknown, ok = true) => ({ ok, json: async () => data });
 export function appHarness({ holdPolling = false, compileResult = undefined as any,
-  onRequest = undefined as undefined | ((route: string, body: any) => any), promptResults = [] as Array<string | null> } = {}) {
+  onRequest = undefined as undefined | ((route: string, body: any) => any), promptResults = [] as Array<string | null>, dataRoot = 'D:/isolated-data' } = {}) {
   const states: any[] = [], refs: any[] = [], requests: Array<{ route: string; body: any }> = [];
   const starts: Array<ReturnType<typeof deferred<any>>> = [];
   const polls: Array<ReturnType<typeof deferred<any>>> = [];
@@ -24,7 +24,7 @@ export function appHarness({ holdPolling = false, compileResult = undefined as a
     default: { createElement: (type: any, props: any, ...children: any[]) => ({ type, props: { ...props, children } }) },
     useState: (initial: any) => {
       const index = stateIndex++;
-      if (!(index in states)) states[index] = index === 0 ? 'D:/isolated-data' : typeof initial === 'function' ? initial() : initial;
+      if (!(index in states)) states[index] = index === 0 ? dataRoot : typeof initial === 'function' ? initial() : initial;
       return [states[index], (value: any) => { states[index] = typeof value === 'function' ? value(states[index]) : value; }];
     },
     useRef: (initial: any) => { const index = refIndex++; refs[index] ??= { current: initial }; return refs[index]; },
@@ -34,7 +34,7 @@ export function appHarness({ holdPolling = false, compileResult = undefined as a
   const apiFetch = async (route: string, init: any = {}) => {
     const body = init.body ? JSON.parse(init.body) : null;
     requests.push({ route, body });
-    if (route === '/api/session') return response({ dataRoot: 'D:/isolated-data' });
+    if (route === '/api/session') return response({ dataRoot });
     if (onRequest) { const handled = onRequest(route, body); if (handled !== undefined) return await handled; }
     if (route.endsWith('/compile')) {
       if (compileResult) return response(compileResult);

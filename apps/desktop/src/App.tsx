@@ -206,7 +206,7 @@ export const App: React.FC = () => {
     if (operationLock.current || !dataRoot) return;
     operationLock.current = 'save'; setBusyOperation('save');
     const epoch = compilationEpoch.current;
-    const targetPath = projectPath || `${dataRoot}/projects/${encodeURIComponent(title.trim().replace(/\s+/g, '_'))}_${projectIdentity.projectId}/pres-project.json`;
+    const targetPath = projectPath || `${dataRoot}/projects/${projectIdentity.projectId}/pres-project.json`;
     const projData = {
       schema: 'presentationos-project',
       version: '1.1.0',
