@@ -23,13 +23,19 @@ const ffmpeg = option('--ffmpeg') ?? executable('ffmpeg.exe'), ffprobe = option(
 if (!args.includes('--skip-build')) execSync('pnpm -r --if-present build', { cwd: root, stdio: 'inherit' });
 mkdirSync(out, { recursive: true });
 execFileSync(dotnet, ['publish', join(root, 'apps/desktop-host/PresentationOS.DesktopHost.csproj'), '-c', 'Release', '-r', 'win-x64', '--self-contained', 'true', '-p:PublishSingleFile=true', `-p:InformationalVersion=${metadata.version}`, `-p:Version=${metadata.version.replace(/-.*/, '')}`, '-o', out], { cwd: root, stdio: 'inherit' });
+const workerProject = join(root, 'workers/powerpoint-dotnet/src/PresentationOS.PowerPoint/PresentationOS.PowerPoint.csproj');
+if (existsSync(workerProject)) {
+  const workerOut = join(out, 'runtime', 'worker');
+  mkdirSync(workerOut, { recursive: true });
+  execFileSync(dotnet, ['publish', workerProject, '-c', 'Release', '-r', 'win-x64', '--self-contained', 'true', '-p:PublishSingleFile=true', '-o', workerOut], { cwd: root, stdio: 'inherit' });
+}
 cpSync(join(root, 'apps/desktop/dist'), join(out, 'dist'), { recursive: true });
 cpSync(join(root, 'apps/desktop/dist-server'), join(out, 'dist-server'), { recursive: true });
 cpSync(join(root, 'schemas'), join(out, 'schemas'), { recursive: true });
 cpSync(join(root, 'LICENSE'), join(out, 'LICENSE'));
 writeFileSync(join(out, 'package.json'), JSON.stringify({ name: 'presentationos', version: metadata.version, private: true, type: 'module' }, null, 2));
 const dependencies = bundleDependencies(join(root, 'apps/desktop'), out);
-mkdirSync(join(out, 'runtime')); mkdirSync(join(out, 'third-party-notices'));
+mkdirSync(join(out, 'runtime'), { recursive: true }); mkdirSync(join(out, 'third-party-notices'), { recursive: true });
 for (const [file, name] of [[node, 'node.exe'], [ffmpeg, 'ffmpeg.exe'], [ffprobe, 'ffprobe.exe']]) cpSync(file, join(out, 'runtime', name));
 const nodeVersion = execFileSync(node, ['--version'], { encoding: 'utf8' }).trim();
 const ffmpegVersion = execFileSync(ffmpeg, ['-version'], { encoding: 'utf8' }).split('\n')[0];

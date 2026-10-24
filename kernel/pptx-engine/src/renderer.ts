@@ -304,28 +304,40 @@ export const DOMAIN_METAS: Record<DomainCategory, DomainMeta> = {
 };
 
 export function detectDomain(deck: DeckSpec): DomainCategory {
-  if (deck.domain && DOMAIN_METAS[deck.domain]) {
+  if (deck.domain && Object.hasOwn(DOMAIN_METAS, deck.domain)) {
     return deck.domain;
   }
-  const explicit = (deck.designTokens?.domain as DomainCategory);
-  if (explicit && DOMAIN_METAS[explicit]) {
-    return explicit;
+  const explicit = deck.designTokens?.domain;
+  if (typeof explicit === 'string' && Object.hasOwn(DOMAIN_METAS, explicit)) {
+    return explicit as DomainCategory;
   }
 
   const fullText = [
     deck.title,
     deck.subtitle ?? '',
-    ...deck.slides.flatMap(s => [s.title, ...s.blocks.map(b => b.text ?? '')])
+    ...deck.slides.flatMap(s => [s.title, ...s.blocks.flatMap(b => [
+      b.text ?? '',
+      ...(b.type === 'table' ? [...(b.headers ?? []), ...(b.rows ?? []).flat()] : []),
+      ...(b.type === 'chart' ? [...(b.data?.labels ?? []), ...(b.data?.series.map(series => series.name) ?? [])] : []),
+      b.type === 'shape' ? b.label ?? '' : '',
+      b.type === 'image' ? b.alt ?? '' : '',
+    ])])
   ].join(' ');
 
-  const academicScore = (fullText.match(/论文|答辩|实验|数据集|baseline|sota|消融|文献|审稿|arxiv|doi|引用|高校|实验室|导师|硕士|博士|本科|定理|证明/gi) || []).length;
-  const medicalScore = (fullText.match(/临床|患者|试验|药物|靶点|双盲|对照组|不良反应|fda|nmpa|医院|医疗|病理|疗效|受试者|医学|细胞|生物|生命|处方/gi) || []).length;
-  const techScore = (fullText.match(/微服务|内核|高可用|中间件|分布式|开源|代码|github|qps|吞吐|延迟|api|网关|docker|k8s|数据库|并发|后端|协议/gi) || []).length;
+  // ASCII terms are identifiers, never substrings: "Capital" is not "API".
+  // Explicit ASCII boundaries still allow Chinese adjacency such as "API接口".
+  const score = (chinese: RegExp, asciiTerms?: string): number =>
+    (fullText.match(chinese) ?? []).length + (asciiTerms
+      ? (fullText.match(new RegExp(`(?<![A-Za-z0-9_])(?:${asciiTerms})(?![A-Za-z0-9_])`, 'gi')) ?? []).length
+      : 0);
+  const academicScore = score(/论文|答辩|实验|数据集|消融|文献|审稿|引用|高校|实验室|导师|硕士|博士|本科|定理|证明/g, 'baseline|sota|arxiv|doi');
+  const medicalScore = score(/临床|患者|试验|药物|靶点|双盲|对照组|不良反应|医院|医疗|病理|疗效|受试者|医学|细胞|生物|生命|处方/g, 'fda|nmpa');
+  const techScore = score(/微服务|内核|高可用|中间件|分布式|开源|代码|吞吐|延迟|网关|数据库|并发|后端|协议/g, 'github|qps|api|docker|k8s');
   const eduScore = (fullText.match(/课程|培训|学员|讲义|作业|知识点|复盘|考试|教学|教材|大纲|教师|班级/gi) || []).length;
   const govScore = (fullText.match(/政策|智库|政务|治理|公文|民生|规章|党政|宏观|省委|市委|纪要/gi) || []).length;
-  const financeScore = (fullText.match(/投行|证券|估值|股权|债券|融资|财报|净利润|ebitda|ipo|承销|量化|投资组合|收益率|资本市场|基金|纳斯达克|上市|尽调|现金流|资产负债/gi) || []).length;
-  const consultingScore = (fullText.match(/咨询|麦肯锡|数字化转型|mece|组织变革|议题树|商业模式|战略规划|标杆对标|顶层设计|降本增效|痛点诊断|战略解码|变革管理/gi) || []).length;
-  const legalScore = (fullText.match(/法律|诉讼|仲裁|证据|法院|侵权|知识产权|专利|合规|gdpr|pipl|律师|案情|判决|法规|条例|违约|赔偿/gi) || []).length;
+  const financeScore = score(/投行|证券|估值|股权|债券|融资|财报|净利润|承销|量化|投资组合|收益率|资本市场|基金|纳斯达克|上市|尽调|现金流|资产负债/g, 'ebitda|ipo');
+  const consultingScore = score(/咨询|麦肯锡|数字化转型|组织变革|议题树|商业模式|战略规划|标杆对标|顶层设计|降本增效|痛点诊断|战略解码|变革管理/g, 'mece');
+  const legalScore = score(/法律|诉讼|仲裁|证据|法院|侵权|知识产权|专利|合规|律师|案情|判决|法规|条例|违约|赔偿/g, 'gdpr|pipl');
   const creativeScore = (fullText.match(/创意|品牌|视觉|策展|艺术|传媒|影视|宣发|潮玩|营销|设计|美学|故事板|概念|时尚|先锋/gi) || []).length;
 
   const max = Math.max(academicScore, medicalScore, techScore, eduScore, govScore, financeScore, consultingScore, legalScore, creativeScore);

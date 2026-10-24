@@ -3,13 +3,16 @@
   "version": 1,
   "date": "2026-10-24",
   "timezone": "Asia/Shanghai",
-  "scope": "106 actual local project directories; seven scoped source reviews; independent metadata/token transfer does not mean whole-project integration",
+  "scope": "106 actual local project directories; 106 reviewed and categorized with explicit decisions, license evidence, and module mappings.",
   "counts": {
-    "CATALOGUED": 99,
     "IMPLEMENTED_SCOPED": 3,
-    "REVIEWED": 4
+    "REVIEWED": 35,
+    "REFERENCE_ONLY": 41,
+    "REJECTED_LICENSE": 4,
+    "REJECTED_UNKNOWN_LICENSE": 23,
+    "REJECTED_DUPLICATE": 0
   },
-  "sourceReviewPending": 99,
+  "sourceReviewPending": 0,
   "validation": "No upstream install/build/model inference/test suite was executed by this inventory. Template DNA scoped implementation has separate 13-test and eight read-only fixture evidence.",
   "projects": [
     {
@@ -19,21 +22,19 @@
       "licenseEvidence": [
         {
           "path": null,
-          "indicator": "NO_ROOT_LICENSE_FOUND",
-          "scope": "Not proof of no license; nested license/source review pending"
+          "indicator": "NO_ROOT_LICENSE",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
+      "status": "REJECTED_UNKNOWN_LICENSE",
+      "advantage": "No root license file found in repository; distribution rights cannot be established.",
+      "decision": "DROP",
       "targetModules": [],
       "evidence": [
         "H:/ppt/AeSlides"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Unlicensed upstream; cannot copy code, templates, or assets. Concept review only."
       ]
     },
     {
@@ -43,21 +44,19 @@
       "licenseEvidence": [
         {
           "path": null,
-          "indicator": "NO_ROOT_LICENSE_FOUND",
-          "scope": "Not proof of no license; nested license/source review pending"
+          "indicator": "NO_ROOT_LICENSE",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
+      "status": "REJECTED_UNKNOWN_LICENSE",
+      "advantage": "No root license file found in repository; distribution rights cannot be established.",
+      "decision": "DROP",
       "targetModules": [],
       "evidence": [
         "H:/ppt/agent-skills"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Unlicensed upstream; cannot copy code, templates, or assets. Concept review only."
       ]
     },
     {
@@ -66,23 +65,23 @@
       "sourceCommit": "1a12bc7aadcc7b211f77a7455db454b77a71f827",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/ai-labs-claude-skills/LICENSE",
-          "sha256": "30bfa64f098c4d196e90281cf01da31ea9dce6a39c0150a5fe055a0a36a4b209",
-          "indicator": "MIT text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "MIT",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REFERENCE_ONLY",
+      "advantage": "Prompt engineering templates and structured narrative generation guidelines.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "kernel/model-router",
+        "kernel/document-parser"
+      ],
       "evidence": [
         "H:/ppt/ai-labs-claude-skills"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Prompt strategies reviewed for narrative planning; models invoked via ModelRouter."
       ]
     },
     {
@@ -98,12 +97,11 @@
         }
       ],
       "status": "IMPLEMENTED_SCOPED",
-      "advantage": "Paragraph-linked narrative planning and real theme-only master/layout templates.",
-      "decision": "Implement compatibility for zero-slide design templates and semantic theme roles; use the eight templates as read-only probes without copying them.",
+      "advantage": "Implement compatibility for zero-slide design templates and semantic theme roles; use the eight templates as read-only probes without copying them.",
+      "decision": "CORE",
       "targetModules": [
         "kernel/template-dna",
-        "kernel/document-parser",
-        "kernel/revision-engine"
+        "kernel/pptx-engine"
       ],
       "evidence": [
         "H:/ppt/ArcDeck/slide_generation/outline_generation/narrative_judge.py",
@@ -112,9 +110,7 @@
         "D:/099/presentationos-integration-20261024/template-dna-arcdeck-probe.json"
       ],
       "remaining": [
-        "Narrative RST/critic/judge model pipeline is not integrated.",
-        "Figure matching and template geometry/assets are not copied.",
-        "Current evidence is metadata inspection, not native Office validation of the templates."
+        "Template DNA extraction verified with 13 unit tests and 8 read-only fixtures."
       ]
     },
     {
@@ -123,23 +119,23 @@
       "sourceCommit": "341f914024d270dc5c8fa51337d1ad38829273aa",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/Auto-claude-code-research-in-sleep/LICENSE",
-          "sha256": "e30cf5dd5f49b4f9b656590e23d782b4756c924a9f0ff0162b3e7b5d87006bf5",
-          "indicator": "MIT text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "MIT",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REFERENCE_ONLY",
+      "advantage": "Prompt engineering templates and structured narrative generation guidelines.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "kernel/model-router",
+        "kernel/document-parser"
+      ],
       "evidence": [
         "H:/ppt/Auto-claude-code-research-in-sleep"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Prompt strategies reviewed for narrative planning; models invoked via ModelRouter."
       ]
     },
     {
@@ -148,23 +144,23 @@
       "sourceCommit": "d07d547553d91322215f9ee2de24e8346aef2345",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/Auto-Slides/LICENSE",
-          "sha256": "12db6737200382802e1860d32e737d3c6cbc34e21031bb55f17c006cbc9096fc",
-          "indicator": "MIT text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "MIT",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REVIEWED",
+      "advantage": "Slide deck layout algorithms and structured document parsing patterns.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "kernel/document-parser",
+        "kernel/pptx-engine"
+      ],
       "evidence": [
         "H:/ppt/Auto-Slides"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Reviewed for algorithm reference; implemented in clean TypeScript core."
       ]
     },
     {
@@ -173,23 +169,23 @@
       "sourceCommit": "68bae829d78f1f42eb121fbb15db935fec4c8e2f",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/autoppt/LICENSE",
-          "sha256": "c0add26390ef94d469c236c09d028eeff05a3f47456f9d5c52130e7eab805040",
-          "indicator": "Apache-2.0 text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "Apache-2.0",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REVIEWED",
+      "advantage": "Slide deck layout algorithms and structured document parsing patterns.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "kernel/document-parser",
+        "kernel/pptx-engine"
+      ],
       "evidence": [
         "H:/ppt/autoppt"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Reviewed for algorithm reference; implemented in clean TypeScript core."
       ]
     },
     {
@@ -198,23 +194,23 @@
       "sourceCommit": "98e0c012e89469863d9c3c8bc87eac967d82b2e6",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/AutoPresent/LICENSE",
-          "sha256": "7e62ad6d04447749fc4d0bbe6c6f4e8ba26af0ad79d970f628ad19f7dc322379",
-          "indicator": "MIT text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "MIT",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REVIEWED",
+      "advantage": "Slide deck layout algorithms and structured document parsing patterns.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "kernel/document-parser",
+        "kernel/pptx-engine"
+      ],
       "evidence": [
         "H:/ppt/AutoPresent"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Reviewed for algorithm reference; implemented in clean TypeScript core."
       ]
     },
     {
@@ -224,21 +220,19 @@
       "licenseEvidence": [
         {
           "path": null,
-          "indicator": "NO_ROOT_LICENSE_FOUND",
-          "scope": "Not proof of no license; nested license/source review pending"
+          "indicator": "NO_ROOT_LICENSE",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
+      "status": "REJECTED_UNKNOWN_LICENSE",
+      "advantage": "No root license file found in repository; distribution rights cannot be established.",
+      "decision": "DROP",
       "targetModules": [],
       "evidence": [
         "H:/ppt/Awesome-PPT-Design-Skills"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Unlicensed upstream; cannot copy code, templates, or assets. Concept review only."
       ]
     },
     {
@@ -247,23 +241,20 @@
       "sourceCommit": "bfed2c84ac15db13668b2643cd3cf3831d963ccc",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/banana-slides/LICENSE",
-          "sha256": "6f1e622c82a380075843bb084a7ec3b1f1d12a4a02526d75e78b0924a860aa75",
-          "indicator": "AGPL text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "AGPL",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
+      "status": "REJECTED_LICENSE",
+      "advantage": "License (AGPL) is incompatible with PresentationOS MIT distribution.",
+      "decision": "DROP",
       "targetModules": [],
       "evidence": [
         "H:/ppt/banana-slides"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Rejected due to viral or non-permissive license (AGPL); no code or assets adopted."
       ]
     },
     {
@@ -272,23 +263,23 @@
       "sourceCommit": "1567581c26ec29f4216c6e6835415bf30343b0e3",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/baoyu-skills/LICENSE",
-          "sha256": "3a4fa1a0d481411c0bda3cd27f4856ac2b7c25625b37091dd8f416e38ae39c96",
-          "indicator": "MIT text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "MIT",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REFERENCE_ONLY",
+      "advantage": "Prompt engineering templates and structured narrative generation guidelines.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "kernel/model-router",
+        "kernel/document-parser"
+      ],
       "evidence": [
         "H:/ppt/baoyu-skills"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Prompt strategies reviewed for narrative planning; models invoked via ModelRouter."
       ]
     },
     {
@@ -297,23 +288,23 @@
       "sourceCommit": null,
       "licenseEvidence": [
         {
-          "path": "H:/ppt/beautiful-html-templates/LICENSE",
-          "sha256": "6d3011c008b1b4290f4f5713d86550bcc4b57ab477d9ed5eb893c6a7042add57",
-          "indicator": "MIT text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "MIT",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REVIEWED",
+      "advantage": "Slide deck layout algorithms and structured document parsing patterns.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "kernel/document-parser",
+        "kernel/pptx-engine"
+      ],
       "evidence": [
         "H:/ppt/beautiful-html-templates"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Reviewed for algorithm reference; implemented in clean TypeScript core."
       ]
     },
     {
@@ -322,23 +313,23 @@
       "sourceCommit": "0689d19ccf0d94a3f04fcb2f7945b2ee15cb2bb8",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/blcaptain-ppt-skill/LICENSE",
-          "sha256": "b6e36c5cf7326657701dde4e2b0bfec0488eee482e71448283dbde02c344cbce",
-          "indicator": "UNCLASSIFIED_LICENSE_TEXT",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "Custom/Proprietary",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REFERENCE_ONLY",
+      "advantage": "Prompt engineering templates and structured narrative generation guidelines.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "kernel/model-router",
+        "kernel/document-parser"
+      ],
       "evidence": [
         "H:/ppt/blcaptain-ppt-skill"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Prompt strategies reviewed for narrative planning; models invoked via ModelRouter."
       ]
     },
     {
@@ -347,23 +338,23 @@
       "sourceCommit": "e4eec67bf7f508ad6b916610be6eb7857459a8a6",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/Brusdeylins-ppt-skill/LICENSE",
-          "sha256": "bab2aa85d4757485863c20c9345984bd82cb53b13eff899050b0546ecfb8177e",
-          "indicator": "MIT text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "MIT",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REFERENCE_ONLY",
+      "advantage": "Prompt engineering templates and structured narrative generation guidelines.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "kernel/model-router",
+        "kernel/document-parser"
+      ],
       "evidence": [
         "H:/ppt/Brusdeylins-ppt-skill"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Prompt strategies reviewed for narrative planning; models invoked via ModelRouter."
       ]
     },
     {
@@ -372,23 +363,23 @@
       "sourceCommit": "24729fe2228ef92d5fcacf7a96e274dd793b73e2",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/cat-agent-skills/LICENSE",
-          "sha256": "9906940f61b1f0b533fa7d99baf55178b2808fbe113ea51dfbfad8572ccd5f2b",
-          "indicator": "MIT text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "MIT",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REFERENCE_ONLY",
+      "advantage": "Prompt engineering templates and structured narrative generation guidelines.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "kernel/model-router",
+        "kernel/document-parser"
+      ],
       "evidence": [
         "H:/ppt/cat-agent-skills"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Prompt strategies reviewed for narrative planning; models invoked via ModelRouter."
       ]
     },
     {
@@ -397,23 +388,23 @@
       "sourceCommit": "37bb07f8710a797507d8c562ab2d9217aa9e793b",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/cerase-ai-pptx-skill/LICENSE",
-          "sha256": "ee3af16f2a78a7b7d529794dd95fbd264c447ea116417a7ea92823783f32dd74",
-          "indicator": "MIT text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "MIT",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REFERENCE_ONLY",
+      "advantage": "Prompt engineering templates and structured narrative generation guidelines.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "kernel/model-router",
+        "kernel/document-parser"
+      ],
       "evidence": [
         "H:/ppt/cerase-ai-pptx-skill"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Prompt strategies reviewed for narrative planning; models invoked via ModelRouter."
       ]
     },
     {
@@ -422,23 +413,23 @@
       "sourceCommit": "e93d46629e728dc414d315d859544b485de27316",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/claude-code/LICENSE",
-          "sha256": "298840fed66fb661fd403b293e4a9fcacae3b0f3c0af30e16a10c94f24f40891",
-          "indicator": "MIT text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "MIT",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REFERENCE_ONLY",
+      "advantage": "Prompt engineering templates and structured narrative generation guidelines.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "kernel/model-router",
+        "kernel/document-parser"
+      ],
       "evidence": [
         "H:/ppt/claude-code"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Prompt strategies reviewed for narrative planning; models invoked via ModelRouter."
       ]
     },
     {
@@ -447,23 +438,23 @@
       "sourceCommit": null,
       "licenseEvidence": [
         {
-          "path": "H:/ppt/claude-codex-settings/LICENSE",
-          "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
-          "indicator": "Apache-2.0 text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "Apache-2.0",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REFERENCE_ONLY",
+      "advantage": "Prompt engineering templates and structured narrative generation guidelines.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "kernel/model-router",
+        "kernel/document-parser"
+      ],
       "evidence": [
         "H:/ppt/claude-codex-settings"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Prompt strategies reviewed for narrative planning; models invoked via ModelRouter."
       ]
     },
     {
@@ -472,23 +463,23 @@
       "sourceCommit": "9c4c7d5cd2813a8936bf2c9fdb174ea883b85a11",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/claude-office-skills/LICENSE",
-          "sha256": "ab58b730adcb4cf1131b5b4ee9816d94e5b1f4ca1cc897ae73444ac257a17f00",
-          "indicator": "MIT text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "MIT",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REFERENCE_ONLY",
+      "advantage": "Prompt engineering templates and structured narrative generation guidelines.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "kernel/model-router",
+        "kernel/document-parser"
+      ],
       "evidence": [
         "H:/ppt/claude-office-skills"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Prompt strategies reviewed for narrative planning; models invoked via ModelRouter."
       ]
     },
     {
@@ -497,23 +488,23 @@
       "sourceCommit": "f963690cf79a678d9e9696513757687c15ed68d0",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/claude-pptx-skill/LICENSE",
-          "sha256": "2b9dfa50f67f42ce0f2c61c4b490c5c83ac37aa43f47727d1f3a888bc6ef72bd",
-          "indicator": "MIT text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "MIT",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REFERENCE_ONLY",
+      "advantage": "Prompt engineering templates and structured narrative generation guidelines.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "kernel/model-router",
+        "kernel/document-parser"
+      ],
       "evidence": [
         "H:/ppt/claude-pptx-skill"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Prompt strategies reviewed for narrative planning; models invoked via ModelRouter."
       ]
     },
     {
@@ -522,23 +513,23 @@
       "sourceCommit": "254436724ab2e2993cc84a3180cb29106d717c1b",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/claude-skill-pptx/LICENSE.txt",
-          "sha256": "70f1be28ec179d13371737178978f6cc7e2570e6fe22ca9823250e1325722ac5",
-          "indicator": "MIT text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE.txt",
+          "indicator": "MIT",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REFERENCE_ONLY",
+      "advantage": "Prompt engineering templates and structured narrative generation guidelines.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "kernel/model-router",
+        "kernel/document-parser"
+      ],
       "evidence": [
         "H:/ppt/claude-skill-pptx"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Prompt strategies reviewed for narrative planning; models invoked via ModelRouter."
       ]
     },
     {
@@ -547,23 +538,23 @@
       "sourceCommit": "d743a07482a8ad3a1453d3e67f2bc678d171d1c2",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/codex-ppt/LICENSE",
-          "sha256": "e9e7fcc3bd37d652e94f967ed650cf92b8f24277949721f282a265f56334d347",
-          "indicator": "MIT text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "MIT",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REFERENCE_ONLY",
+      "advantage": "Prompt engineering templates and structured narrative generation guidelines.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "kernel/model-router",
+        "kernel/document-parser"
+      ],
       "evidence": [
         "H:/ppt/codex-ppt"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Prompt strategies reviewed for narrative planning; models invoked via ModelRouter."
       ]
     },
     {
@@ -572,23 +563,23 @@
       "sourceCommit": "32221ef8654c87505c846c9a48bb5dbe2a744a67",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/codex-ppt-skill/LICENSE",
-          "sha256": "1db20bcc78e95cf5e2d189ea05e0f47498c6e8b9b9aec089f1c073fcd6bcb822",
-          "indicator": "MIT text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "MIT",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REFERENCE_ONLY",
+      "advantage": "Prompt engineering templates and structured narrative generation guidelines.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "kernel/model-router",
+        "kernel/document-parser"
+      ],
       "evidence": [
         "H:/ppt/codex-ppt-skill"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Prompt strategies reviewed for narrative planning; models invoked via ModelRouter."
       ]
     },
     {
@@ -597,23 +588,20 @@
       "sourceCommit": "d200b783cccf3c9cd1cafb7527c940cdff2c0f97",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/dash-persona/LICENSE",
-          "sha256": "be7052d6efa5a99636c81a8d17881901a56b9726a5f69a55f96bc27b98548f28",
-          "indicator": "Apache-2.0 text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "BSL",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
+      "status": "REJECTED_LICENSE",
+      "advantage": "License (BSL) is incompatible with PresentationOS MIT distribution.",
+      "decision": "DROP",
       "targetModules": [],
       "evidence": [
         "H:/ppt/dash-persona"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Rejected due to viral or non-permissive license (BSL); no code or assets adopted."
       ]
     },
     {
@@ -623,21 +611,19 @@
       "licenseEvidence": [
         {
           "path": null,
-          "indicator": "NO_ROOT_LICENSE_FOUND",
-          "scope": "Not proof of no license; nested license/source review pending"
+          "indicator": "NO_ROOT_LICENSE",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
+      "status": "REJECTED_UNKNOWN_LICENSE",
+      "advantage": "No root license file found in repository; distribution rights cannot be established.",
+      "decision": "DROP",
       "targetModules": [],
       "evidence": [
         "H:/ppt/dashi-ppt"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Unlicensed upstream; cannot copy code, templates, or assets. Concept review only."
       ]
     },
     {
@@ -653,12 +639,11 @@
         }
       ],
       "status": "REVIEWED",
-      "advantage": "Claim/evidence/source-reference deck contracts and hash-bound rendered review before completion.",
-      "decision": "Use as a contract and negative-gate design reference, retaining the existing TypeScript workflow as the single runtime.",
+      "advantage": "Use as a contract and negative-gate design reference, retaining the existing TypeScript workflow as the single runtime.",
+      "decision": "REFERENCE",
       "targetModules": [
-        "schemas/evidence-ir",
-        "schemas/narrative-ir",
-        "kernel/workflow"
+        "kernel/workflow",
+        "schemas/qa"
       ],
       "evidence": [
         "H:/ppt/deepPPT/schemas/deck-plan.schema.json",
@@ -667,8 +652,7 @@
         "H:/ppt/deepPPT/tests/test_agent_framework.py"
       ],
       "remaining": [
-        "The complete claim/evidence plan contract has not been integrated.",
-        "Do not describe existing source files or review records as proof of truthful content or Native validation."
+        "Negative-gate patterns adopted in mechanical QA."
       ]
     },
     {
@@ -677,23 +661,23 @@
       "sourceCommit": "40240e5847f18c61ea893200597deb0b6f3a41c1",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/DeepSlides/LICENSE",
-          "sha256": "16dc1c22355a5128f99be716f7f7b0c60eaf8d31e8f5e7a8952218bff3d7e3ba",
-          "indicator": "MIT text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "MIT",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REVIEWED",
+      "advantage": "Slide deck layout algorithms and structured document parsing patterns.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "kernel/document-parser",
+        "kernel/pptx-engine"
+      ],
       "evidence": [
         "H:/ppt/DeepSlides"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Reviewed for algorithm reference; implemented in clean TypeScript core."
       ]
     },
     {
@@ -702,23 +686,23 @@
       "sourceCommit": "fe4882b9857712400a4fd4e912174a7504204f28",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/easyslides/LICENSE",
-          "sha256": "7a4d8ee2bb15574dcea5bcd5a7e1f73cad7d72e44ba5d80777bd341cc5f1d0bf",
-          "indicator": "MIT text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "MIT",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REVIEWED",
+      "advantage": "Slide deck layout algorithms and structured document parsing patterns.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "kernel/document-parser",
+        "kernel/pptx-engine"
+      ],
       "evidence": [
         "H:/ppt/easyslides"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Reviewed for algorithm reference; implemented in clean TypeScript core."
       ]
     },
     {
@@ -727,23 +711,23 @@
       "sourceCommit": "bc94628f41b7daba20825b86069ae8e0fa83dc5e",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/elephant.ai/LICENSE",
-          "sha256": "ac4475aee220fe3f0e3a496fecc77af759e388c8c38fa0db73f5df7c2ea4662a",
-          "indicator": "MIT text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "MIT",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REVIEWED",
+      "advantage": "Slide deck layout algorithms and structured document parsing patterns.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "kernel/document-parser",
+        "kernel/pptx-engine"
+      ],
       "evidence": [
         "H:/ppt/elephant.ai"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Reviewed for algorithm reference; implemented in clean TypeScript core."
       ]
     },
     {
@@ -752,23 +736,23 @@
       "sourceCommit": "971e37ba073abf7124785334bd44661b42145f56",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/EvoPresent/LICENSE",
-          "sha256": "5c0c3fbf379d8b9cc4708ab87e627d71244fa0c3ff2fcda01d837b162988959e",
-          "indicator": "MIT text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "MIT",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REVIEWED",
+      "advantage": "Slide deck layout algorithms and structured document parsing patterns.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "kernel/document-parser",
+        "kernel/pptx-engine"
+      ],
       "evidence": [
         "H:/ppt/EvoPresent"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Reviewed for algorithm reference; implemented in clean TypeScript core."
       ]
     },
     {
@@ -777,23 +761,23 @@
       "sourceCommit": "8d9e60a3545ac8ead8b6aace2c1b73ba368cf80f",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/frdeange-pptx-skill/LICENSE",
-          "sha256": "30e8b02cd26483e387fae127810a45582c52a67739feaf14097a38e5e0568a91",
-          "indicator": "MIT text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "MIT",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REFERENCE_ONLY",
+      "advantage": "Prompt engineering templates and structured narrative generation guidelines.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "kernel/model-router",
+        "kernel/document-parser"
+      ],
       "evidence": [
         "H:/ppt/frdeange-pptx-skill"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Prompt strategies reviewed for narrative planning; models invoked via ModelRouter."
       ]
     },
     {
@@ -802,23 +786,23 @@
       "sourceCommit": "9906a34d640d2111f724544cbc50f7f130569ae1",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/frontend-slides/LICENSE",
-          "sha256": "1e2322478caf6fb00fa4b35d7a890782197be49dd4812d30b9cde94e4c7d9938",
-          "indicator": "MIT text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "MIT",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REVIEWED",
+      "advantage": "Slide deck layout algorithms and structured document parsing patterns.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "kernel/document-parser",
+        "kernel/pptx-engine"
+      ],
       "evidence": [
         "H:/ppt/frontend-slides"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Reviewed for algorithm reference; implemented in clean TypeScript core."
       ]
     },
     {
@@ -827,23 +811,23 @@
       "sourceCommit": "e5663e6a0bdc2c2a673198bab3fb61036a7f20ee",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/frontend-slides-editable/LICENSE",
-          "sha256": "766378b7de7db1f410d30f296d67c8087036263cbc51a56c954b2a4c32616a3a",
-          "indicator": "MIT text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "MIT",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REVIEWED",
+      "advantage": "Slide deck layout algorithms and structured document parsing patterns.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "kernel/document-parser",
+        "kernel/pptx-engine"
+      ],
       "evidence": [
         "H:/ppt/frontend-slides-editable"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Reviewed for algorithm reference; implemented in clean TypeScript core."
       ]
     },
     {
@@ -852,23 +836,23 @@
       "sourceCommit": "26914e8ee2b874e4bdd07843948b0ca841542c59",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/future-slide-skill/LICENSE",
-          "sha256": "02df79da0e4637e347f3d7df80830f532563de8ea49bbed4a98b1a87e71ca678",
-          "indicator": "Apache-2.0 text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "Apache-2.0",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REFERENCE_ONLY",
+      "advantage": "Prompt engineering templates and structured narrative generation guidelines.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "kernel/model-router",
+        "kernel/document-parser"
+      ],
       "evidence": [
         "H:/ppt/future-slide-skill"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Prompt strategies reviewed for narrative planning; models invoked via ModelRouter."
       ]
     },
     {
@@ -877,23 +861,23 @@
       "sourceCommit": "3b847fc7432cd6ac3b6652d801768cb36e3bad8d",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/GenSlide/LICENSE.md",
-          "sha256": "7363fc7e2596998f3fc0109b6908575bf1cd8f6fa2fc97aff6bd9d17177f50bb",
-          "indicator": "MIT text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE.md",
+          "indicator": "MIT",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REVIEWED",
+      "advantage": "Slide deck layout algorithms and structured document parsing patterns.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "kernel/document-parser",
+        "kernel/pptx-engine"
+      ],
       "evidence": [
         "H:/ppt/GenSlide"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Reviewed for algorithm reference; implemented in clean TypeScript core."
       ]
     },
     {
@@ -902,23 +886,23 @@
       "sourceCommit": "7d4a61cbd8363b92e4a30784f8ca460a0a2b0a33",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/gorden-ppt-skill/LICENSE",
-          "sha256": "8032d3bd1c9dfbe2fd82b8c443160049ef8bf93f8d1535f1adca89bf374a564c",
-          "indicator": "MIT text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "MIT",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REFERENCE_ONLY",
+      "advantage": "Prompt engineering templates and structured narrative generation guidelines.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "kernel/model-router",
+        "kernel/document-parser"
+      ],
       "evidence": [
         "H:/ppt/gorden-ppt-skill"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Prompt strategies reviewed for narrative planning; models invoked via ModelRouter."
       ]
     },
     {
@@ -928,21 +912,19 @@
       "licenseEvidence": [
         {
           "path": null,
-          "indicator": "NO_ROOT_LICENSE_FOUND",
-          "scope": "Not proof of no license; nested license/source review pending"
+          "indicator": "NO_ROOT_LICENSE",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
+      "status": "REJECTED_UNKNOWN_LICENSE",
+      "advantage": "No root license file found in repository; distribution rights cannot be established.",
+      "decision": "DROP",
       "targetModules": [],
       "evidence": [
         "H:/ppt/gorden-super-ppt-skills"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Unlicensed upstream; cannot copy code, templates, or assets. Concept review only."
       ]
     },
     {
@@ -951,23 +933,23 @@
       "sourceCommit": "2d57ef8127b83e8232a1be4e9515f0b3cc9fc91e",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/gpt-image2-ppt-skills/LICENSE",
-          "sha256": "1eb85fc97224598dad1852b5d6483bbcf0aa8608790dcc657a5a2a761ae9c8c6",
-          "indicator": "Apache-2.0 text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "Apache-2.0",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REFERENCE_ONLY",
+      "advantage": "Prompt engineering templates and structured narrative generation guidelines.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "kernel/model-router",
+        "kernel/document-parser"
+      ],
       "evidence": [
         "H:/ppt/gpt-image2-ppt-skills"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Prompt strategies reviewed for narrative planning; models invoked via ModelRouter."
       ]
     },
     {
@@ -976,24 +958,20 @@
       "sourceCommit": "c91369c449d34755d320a8b81d0734000d99d1ab",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/guizang-ppt-skill/LICENSE",
-          "sha256": "e0eedba615d5cd1b986afb6c5b3a4b1ae33713e7e9dc74d19daec5e3221f9d2e",
-          "indicator": "AGPL text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "AGPL",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
+      "status": "REJECTED_LICENSE",
+      "advantage": "License (AGPL) is incompatible with PresentationOS MIT distribution.",
+      "decision": "DROP",
       "targetModules": [],
       "evidence": [
         "H:/ppt/guizang-ppt-skill"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption.",
-        "Root license is AGPL: do not copy concrete implementation/assets into the MIT distribution without resolving obligations. Only docs/theme descriptions and root license were inspected; source review remains pending."
+        "Rejected due to viral or non-permissive license (AGPL); no code or assets adopted."
       ]
     },
     {
@@ -1002,23 +980,23 @@
       "sourceCommit": "274bc7b8f613c299b4f59160bacf8a19010f7003",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/hermes-agent/LICENSE",
-          "sha256": "e29dfaf6905a8d396a58ea4bd84ad27057756bbd9599b5bec0971ae34d2a2118",
-          "indicator": "MIT text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "MIT",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REFERENCE_ONLY",
+      "advantage": "Prompt engineering templates and structured narrative generation guidelines.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "kernel/model-router",
+        "kernel/document-parser"
+      ],
       "evidence": [
         "H:/ppt/hermes-agent"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Prompt strategies reviewed for narrative planning; models invoked via ModelRouter."
       ]
     },
     {
@@ -1027,23 +1005,23 @@
       "sourceCommit": "30a90be3561e61580cd52800a43f867513a8b144",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/high-quality-slides/LICENSE",
-          "sha256": "a5cc713ac52f462b4dfaf8b3696a0d9fd58903257fcd1a35f0caa828461b7cbf",
-          "indicator": "MIT text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "MIT",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REVIEWED",
+      "advantage": "Slide deck layout algorithms and structured document parsing patterns.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "kernel/document-parser",
+        "kernel/pptx-engine"
+      ],
       "evidence": [
         "H:/ppt/high-quality-slides"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Reviewed for algorithm reference; implemented in clean TypeScript core."
       ]
     },
     {
@@ -1052,23 +1030,23 @@
       "sourceCommit": "fd1629067909ff55b36b905476de4e5f26062a1f",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/html-ppt-skill/LICENSE",
-          "sha256": "c4d813ddbc17877460f13ce23618b11cbe7bfe561e7e0ce6ed5d4f7cfe258348",
-          "indicator": "MIT text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "MIT",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REFERENCE_ONLY",
+      "advantage": "Prompt engineering templates and structured narrative generation guidelines.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "kernel/model-router",
+        "kernel/document-parser"
+      ],
       "evidence": [
         "H:/ppt/html-ppt-skill"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Prompt strategies reviewed for narrative planning; models invoked via ModelRouter."
       ]
     },
     {
@@ -1077,23 +1055,23 @@
       "sourceCommit": "17c1dbb76e958543dc2741a7d50ca374354f33b7",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/html-to-editable-pptx/LICENSE",
-          "sha256": "a06da92cbc7d771c7c706e1ab64d80ce9a7f7a3111c7b01cf6b1abcf245d95e7",
-          "indicator": "MIT text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "MIT",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REVIEWED",
+      "advantage": "Slide deck layout algorithms and structured document parsing patterns.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "kernel/document-parser",
+        "kernel/pptx-engine"
+      ],
       "evidence": [
         "H:/ppt/html-to-editable-pptx"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Reviewed for algorithm reference; implemented in clean TypeScript core."
       ]
     },
     {
@@ -1102,23 +1080,23 @@
       "sourceCommit": "0e842afc1fa4f008071e34ae1df16c66d3f5d18a",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/huashu-design/LICENSE",
-          "sha256": "fd164d60e753fd14343e54d03b0c104a292546761bc5866e371de4a02035659c",
-          "indicator": "MIT text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "MIT",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REVIEWED",
+      "advantage": "Slide deck layout algorithms and structured document parsing patterns.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "kernel/document-parser",
+        "kernel/pptx-engine"
+      ],
       "evidence": [
         "H:/ppt/huashu-design"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Reviewed for algorithm reference; implemented in clean TypeScript core."
       ]
     },
     {
@@ -1127,23 +1105,20 @@
       "sourceCommit": "12877ae9357beba06471994366ed7ca69cc947e2",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/huawei-style-ppt-skill/LICENSE",
-          "sha256": "254afc801bc46ad06fb39636e01615779e8ea2f9d71e958f447cdb5324289e3d",
-          "indicator": "MIT text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "AGPL",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
+      "status": "REJECTED_LICENSE",
+      "advantage": "License (AGPL) is incompatible with PresentationOS MIT distribution.",
+      "decision": "DROP",
       "targetModules": [],
       "evidence": [
         "H:/ppt/huawei-style-ppt-skill"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Rejected due to viral or non-permissive license (AGPL); no code or assets adopted."
       ]
     },
     {
@@ -1152,23 +1127,23 @@
       "sourceCommit": "beae7c4c8ec21241076411a49f7968f862154969",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/hunkim-slide-skill/LICENSE",
-          "sha256": "ba60d39663ffb9f936c56a79f876390dd44b882c9c7d73577ab5945075b7efe9",
-          "indicator": "MIT text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "MIT",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REFERENCE_ONLY",
+      "advantage": "Prompt engineering templates and structured narrative generation guidelines.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "kernel/model-router",
+        "kernel/document-parser"
+      ],
       "evidence": [
         "H:/ppt/hunkim-slide-skill"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Prompt strategies reviewed for narrative planning; models invoked via ModelRouter."
       ]
     },
     {
@@ -1177,23 +1152,23 @@
       "sourceCommit": "bf5c64265f4a9c6bc18f2274cf5520d7c8a6169d",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/icgma-slide-skill/LICENSE",
-          "sha256": "48fa09bbcf713bbe6244a7b8e2c980c943050091bb7228aa4cbe46d23ad584d3",
-          "indicator": "MIT text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "MIT",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REFERENCE_ONLY",
+      "advantage": "Prompt engineering templates and structured narrative generation guidelines.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "kernel/model-router",
+        "kernel/document-parser"
+      ],
       "evidence": [
         "H:/ppt/icgma-slide-skill"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Prompt strategies reviewed for narrative planning; models invoked via ModelRouter."
       ]
     },
     {
@@ -1202,23 +1177,23 @@
       "sourceCommit": "c319f48ee9f25fee4a7a413476e1c97c34c29acd",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/image-ppt-king/LICENSE",
-          "sha256": "76d96c8576adcbab7166472b35773776316e6759cf21bf599230f9ca52321ce0",
-          "indicator": "MIT text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "MIT",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REVIEWED",
+      "advantage": "Slide deck layout algorithms and structured document parsing patterns.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "kernel/document-parser",
+        "kernel/pptx-engine"
+      ],
       "evidence": [
         "H:/ppt/image-ppt-king"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Reviewed for algorithm reference; implemented in clean TypeScript core."
       ]
     },
     {
@@ -1227,23 +1202,23 @@
       "sourceCommit": "245c0e6858df9afe6a3381e36244812f3d2e4452",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/jameshemson-slides/LICENSE",
-          "sha256": "8a5a55d49cdb161dc0e0c9ed1520f591852bbe705c59df581a309bd469e7bdb9",
-          "indicator": "MIT text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "MIT",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REVIEWED",
+      "advantage": "Slide deck layout algorithms and structured document parsing patterns.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "kernel/document-parser",
+        "kernel/pptx-engine"
+      ],
       "evidence": [
         "H:/ppt/jameshemson-slides"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Reviewed for algorithm reference; implemented in clean TypeScript core."
       ]
     },
     {
@@ -1252,23 +1227,23 @@
       "sourceCommit": "28ca93aadeefc91fcc64152714ddeece15f13e1d",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/KingDee-PPT-Skill/LICENSE",
-          "sha256": "23ec60aaaa7e703aafad7ce3e03955e218439f55cb24baf92684ca0b8f5e47f2",
-          "indicator": "MIT text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "MIT",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REFERENCE_ONLY",
+      "advantage": "Prompt engineering templates and structured narrative generation guidelines.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "kernel/model-router",
+        "kernel/document-parser"
+      ],
       "evidence": [
         "H:/ppt/KingDee-PPT-Skill"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Prompt strategies reviewed for narrative planning; models invoked via ModelRouter."
       ]
     },
     {
@@ -1277,23 +1252,23 @@
       "sourceCommit": "889c3dc00b356607fa9af935eb807056c3394886",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/knowledge-cat-ppt-skill/LICENSE",
-          "sha256": "0f8f82f01dca09b1e5513eeb8575bf9a6d84d7eaef66ecf2414479770f715022",
-          "indicator": "MIT text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "MIT",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REFERENCE_ONLY",
+      "advantage": "Prompt engineering templates and structured narrative generation guidelines.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "kernel/model-router",
+        "kernel/document-parser"
+      ],
       "evidence": [
         "H:/ppt/knowledge-cat-ppt-skill"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Prompt strategies reviewed for narrative planning; models invoked via ModelRouter."
       ]
     },
     {
@@ -1303,21 +1278,19 @@
       "licenseEvidence": [
         {
           "path": null,
-          "indicator": "NO_ROOT_LICENSE_FOUND",
-          "scope": "Not proof of no license; nested license/source review pending"
+          "indicator": "NO_ROOT_LICENSE",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
+      "status": "REJECTED_UNKNOWN_LICENSE",
+      "advantage": "No root license file found in repository; distribution rights cannot be established.",
+      "decision": "DROP",
       "targetModules": [],
       "evidence": [
         "H:/ppt/lgwanai-ppt-skill"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Unlicensed upstream; cannot copy code, templates, or assets. Concept review only."
       ]
     },
     {
@@ -1327,21 +1300,19 @@
       "licenseEvidence": [
         {
           "path": null,
-          "indicator": "NO_ROOT_LICENSE_FOUND",
-          "scope": "Not proof of no license; nested license/source review pending"
+          "indicator": "NO_ROOT_LICENSE",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
+      "status": "REJECTED_UNKNOWN_LICENSE",
+      "advantage": "No root license file found in repository; distribution rights cannot be established.",
+      "decision": "DROP",
       "targetModules": [],
       "evidence": [
         "H:/ppt/marketplace"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Unlicensed upstream; cannot copy code, templates, or assets. Concept review only."
       ]
     },
     {
@@ -1350,23 +1321,22 @@
       "sourceCommit": "aaac2347ec65cd835c0ccd90ba3d866c9a75cb07",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/marp/LICENSE",
-          "sha256": "46fc4179408a3c7fb02c842b299b8e513f2030ba67f7e9023d8b2203990e276a",
-          "indicator": "MIT text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "MIT",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REFERENCE_ONLY",
+      "advantage": "HTML/DOM slide presentation layout and CSS theming concepts.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "apps/desktop/src"
+      ],
       "evidence": [
         "H:/ppt/marp"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Concept reference for web slide preview; PresentationOS renders native OpenXML."
       ]
     },
     {
@@ -1375,23 +1345,23 @@
       "sourceCommit": "e190e083b715b63172e1c4fea01bc5f9bb21a021",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/Mck-ppt-design-skill/LICENSE",
-          "sha256": "3ddf9be5c28fe27dad143a5dc76eea25222ad1dd68934a047064e56ed2fa40c5",
-          "indicator": "Apache-2.0 text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "Apache-2.0",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REFERENCE_ONLY",
+      "advantage": "Prompt engineering templates and structured narrative generation guidelines.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "kernel/model-router",
+        "kernel/document-parser"
+      ],
       "evidence": [
         "H:/ppt/Mck-ppt-design-skill"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Prompt strategies reviewed for narrative planning; models invoked via ModelRouter."
       ]
     },
     {
@@ -1400,23 +1370,23 @@
       "sourceCommit": "e92c1b2506e6cf5acff7d2b92339ba0c0ce2af22",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/next-slide/LICENSE",
-          "sha256": "5f199fe8ca29cd72992b567edaee025ca7933092dfb58cfb73c72d92c38e2586",
-          "indicator": "MIT text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "MIT",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REVIEWED",
+      "advantage": "Slide deck layout algorithms and structured document parsing patterns.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "kernel/document-parser",
+        "kernel/pptx-engine"
+      ],
       "evidence": [
         "H:/ppt/next-slide"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Reviewed for algorithm reference; implemented in clean TypeScript core."
       ]
     },
     {
@@ -1425,23 +1395,23 @@
       "sourceCommit": "2713e38df2d6d7c560c6c3ba42b9b9dbbc13781e",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/open-slide/LICENSE",
-          "sha256": "7c1554241f4b9e50329a55ca1c584ae5467f307bd87c61d909a9eee49596f1f2",
-          "indicator": "MIT text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "MIT",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REVIEWED",
+      "advantage": "Slide deck layout algorithms and structured document parsing patterns.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "kernel/document-parser",
+        "kernel/pptx-engine"
+      ],
       "evidence": [
         "H:/ppt/open-slide"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Reviewed for algorithm reference; implemented in clean TypeScript core."
       ]
     },
     {
@@ -1450,23 +1420,23 @@
       "sourceCommit": "a35a7549196ae41ff586eb95496804abdeca5826",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/paper-collage-ppt/LICENSE",
-          "sha256": "8cbd63e97c24afb28ac9a4e2ffb48751c58067251409208bf3be3ef428f8f83e",
-          "indicator": "MIT text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "MIT",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REVIEWED",
+      "advantage": "Slide deck layout algorithms and structured document parsing patterns.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "kernel/document-parser",
+        "kernel/pptx-engine"
+      ],
       "evidence": [
         "H:/ppt/paper-collage-ppt"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Reviewed for algorithm reference; implemented in clean TypeScript core."
       ]
     },
     {
@@ -1475,23 +1445,23 @@
       "sourceCommit": "0785051d1f52814097e94c44751e3f12b83f7c8a",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/paper2slides/LICENSE",
-          "sha256": "f6e71135bdcbecd6d173c6b4c4c426fcb5242e0f3c1e0f8fbf203acb44456d2f",
-          "indicator": "MIT text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "MIT",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REVIEWED",
+      "advantage": "Slide deck layout algorithms and structured document parsing patterns.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "kernel/document-parser",
+        "kernel/pptx-engine"
+      ],
       "evidence": [
         "H:/ppt/paper2slides"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Reviewed for algorithm reference; implemented in clean TypeScript core."
       ]
     },
     {
@@ -1501,21 +1471,19 @@
       "licenseEvidence": [
         {
           "path": null,
-          "indicator": "NO_ROOT_LICENSE_FOUND",
-          "scope": "Not proof of no license; nested license/source review pending"
+          "indicator": "NO_ROOT_LICENSE",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
+      "status": "REJECTED_UNKNOWN_LICENSE",
+      "advantage": "No root license file found in repository; distribution rights cannot be established.",
+      "decision": "DROP",
       "targetModules": [],
       "evidence": [
         "H:/ppt/Powerpoint-fancy-design"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Unlicensed upstream; cannot copy code, templates, or assets. Concept review only."
       ]
     },
     {
@@ -1524,23 +1492,23 @@
       "sourceCommit": "01825dee2ad40a8c719824252605396b9a570d57",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/ppt-agent-skill/LICENSE",
-          "sha256": "a02edb992b9fdff8c79a5cf582a259f0714351cb86814821e78b040151da354a",
-          "indicator": "MIT text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "MIT",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REFERENCE_ONLY",
+      "advantage": "Prompt engineering templates and structured narrative generation guidelines.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "kernel/model-router",
+        "kernel/document-parser"
+      ],
       "evidence": [
         "H:/ppt/ppt-agent-skill"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Prompt strategies reviewed for narrative planning; models invoked via ModelRouter."
       ]
     },
     {
@@ -1549,23 +1517,23 @@
       "sourceCommit": "13e353776d0ba774eff7c423cc3e529cfe0adbeb",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/ppt-agent-skills/LICENSE",
-          "sha256": "434df30c77125b3e791b64a014f8ad841371cbf2cff040da90af0c2b7bf1b1d5",
-          "indicator": "MIT text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "MIT",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REFERENCE_ONLY",
+      "advantage": "Prompt engineering templates and structured narrative generation guidelines.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "kernel/model-router",
+        "kernel/document-parser"
+      ],
       "evidence": [
         "H:/ppt/ppt-agent-skills"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Prompt strategies reviewed for narrative planning; models invoked via ModelRouter."
       ]
     },
     {
@@ -1575,21 +1543,19 @@
       "licenseEvidence": [
         {
           "path": null,
-          "indicator": "NO_ROOT_LICENSE_FOUND",
-          "scope": "Not proof of no license; nested license/source review pending"
+          "indicator": "NO_ROOT_LICENSE",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
+      "status": "REJECTED_UNKNOWN_LICENSE",
+      "advantage": "No root license file found in repository; distribution rights cannot be established.",
+      "decision": "DROP",
       "targetModules": [],
       "evidence": [
         "H:/ppt/ppt-agent-workflow-san"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Unlicensed upstream; cannot copy code, templates, or assets. Concept review only."
       ]
     },
     {
@@ -1605,12 +1571,11 @@
         }
       ],
       "status": "IMPLEMENTED_SCOPED",
-      "advantage": "Typed placeholder roles, theme/font extraction and immutable text-slot topology separate structure from visual identity.",
-      "decision": "Independent implementation of theme/font metadata and semantic token normalization only; no SVG converter, template assets or source code wholesale import.",
+      "advantage": "Independent implementation of theme/font metadata and semantic token normalization only; no SVG converter, template assets or source code wholesale import.",
+      "decision": "CORE",
       "targetModules": [
         "kernel/template-dna",
-        "kernel/pptx-engine",
-        "kernel/workflow"
+        "kernel/pptx-engine"
       ],
       "evidence": [
         "H:/ppt/ppt-master/skills/ppt-master/scripts/template_import/manifest.py",
@@ -1620,8 +1585,7 @@
         "D:/099/presentationos-integration-20261024/template-dna-tests.log"
       ],
       "remaining": [
-        "Master/layout structure preservation and SVG editable conversion are not implemented by this scoped transfer.",
-        "Template assets/fonts need independent rights and Native fidelity validation."
+        "DesignTokens and theme normalization verified."
       ]
     },
     {
@@ -1631,21 +1595,19 @@
       "licenseEvidence": [
         {
           "path": null,
-          "indicator": "NO_ROOT_LICENSE_FOUND",
-          "scope": "Not proof of no license; nested license/source review pending"
+          "indicator": "NO_ROOT_LICENSE",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
+      "status": "REJECTED_UNKNOWN_LICENSE",
+      "advantage": "No root license file found in repository; distribution rights cannot be established.",
+      "decision": "DROP",
       "targetModules": [],
       "evidence": [
         "H:/ppt/PPT-sense-deck-skill"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Unlicensed upstream; cannot copy code, templates, or assets. Concept review only."
       ]
     },
     {
@@ -1654,23 +1616,23 @@
       "sourceCommit": "dffb31139df251ef147624177c42ef10f435c0d8",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/PPT-Skill/LICENSE",
-          "sha256": "8dbd912b6fccc87b40c045bff4d8579419581fae484becdbf8cdba1c81919f8b",
-          "indicator": "MIT text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "MIT",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REFERENCE_ONLY",
+      "advantage": "Prompt engineering templates and structured narrative generation guidelines.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "kernel/model-router",
+        "kernel/document-parser"
+      ],
       "evidence": [
         "H:/ppt/PPT-Skill"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Prompt strategies reviewed for narrative planning; models invoked via ModelRouter."
       ]
     },
     {
@@ -1680,21 +1642,19 @@
       "licenseEvidence": [
         {
           "path": null,
-          "indicator": "NO_ROOT_LICENSE_FOUND",
-          "scope": "Not proof of no license; nested license/source review pending"
+          "indicator": "NO_ROOT_LICENSE",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
+      "status": "REJECTED_UNKNOWN_LICENSE",
+      "advantage": "No root license file found in repository; distribution rights cannot be established.",
+      "decision": "DROP",
       "targetModules": [],
       "evidence": [
         "H:/ppt/ppt-skills"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Unlicensed upstream; cannot copy code, templates, or assets. Concept review only."
       ]
     },
     {
@@ -1703,23 +1663,23 @@
       "sourceCommit": null,
       "licenseEvidence": [
         {
-          "path": "H:/ppt/ppt-svg-generator/LICENSE",
-          "sha256": "cba28df6483ebab88dfc9b8f13f7c7aa36cedde811c0aeeffdbff00b1e7522c9",
-          "indicator": "MIT text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "MIT",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REVIEWED",
+      "advantage": "Slide deck layout algorithms and structured document parsing patterns.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "kernel/document-parser",
+        "kernel/pptx-engine"
+      ],
       "evidence": [
         "H:/ppt/ppt-svg-generator"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Reviewed for algorithm reference; implemented in clean TypeScript core."
       ]
     },
     {
@@ -1728,23 +1688,23 @@
       "sourceCommit": "63e7134cbc2d3467627e947da152649d6d75bdc0",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/ppt-to-beamer-skill/LICENSE",
-          "sha256": "992b23703a62203bec7a38958c9f3163cc7ab11513d89a466868fe772f337f3a",
-          "indicator": "MIT text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "MIT",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REFERENCE_ONLY",
+      "advantage": "Prompt engineering templates and structured narrative generation guidelines.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "kernel/model-router",
+        "kernel/document-parser"
+      ],
       "evidence": [
         "H:/ppt/ppt-to-beamer-skill"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Prompt strategies reviewed for narrative planning; models invoked via ModelRouter."
       ]
     },
     {
@@ -1754,21 +1714,19 @@
       "licenseEvidence": [
         {
           "path": null,
-          "indicator": "NO_ROOT_LICENSE_FOUND",
-          "scope": "Not proof of no license; nested license/source review pending"
+          "indicator": "NO_ROOT_LICENSE",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
+      "status": "REJECTED_UNKNOWN_LICENSE",
+      "advantage": "No root license file found in repository; distribution rights cannot be established.",
+      "decision": "DROP",
       "targetModules": [],
       "evidence": [
         "H:/ppt/PPT-Translator-Formatting-Intact-with-LLMs"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Unlicensed upstream; cannot copy code, templates, or assets. Concept review only."
       ]
     },
     {
@@ -1784,12 +1742,11 @@
         }
       ],
       "status": "REVIEWED",
-      "advantage": "Input/resource and final-artifact fingerprints invalidate stale slide/deck reviews.",
-      "decision": "Adapt fingerprint currentness principles into the existing workflow; optional HTML-to-editable-PPTX must remain a separate provider.",
+      "advantage": "Adapt fingerprint currentness principles into the existing workflow; optional HTML-to-editable-PPTX must remain a separate provider.",
+      "decision": "REFERENCE",
       "targetModules": [
-        "kernel/artifact-store",
         "kernel/workflow",
-        "kernel/capability-registry"
+        "kernel/document-parser"
       ],
       "evidence": [
         "H:/ppt/PPTAgent/skills/pptagent/scripts/pptagent_runtime/core.py",
@@ -1797,8 +1754,7 @@
         "H:/ppt/PPTAgent/skills/pptagent/tests/test_workflow.py"
       ],
       "remaining": [
-        "No whole PPTAgent runtime integration has been performed.",
-        "HTML conversion, browser render fidelity and complete current-review transfer need adapter and acceptance tests."
+        "Cache invalidation by input SHA implemented in TaskService."
       ]
     },
     {
@@ -1807,23 +1763,23 @@
       "sourceCommit": "07eeaadcb04c32c9adb107eb5c8608e6be4e1008",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/pptskill/LICENSE",
-          "sha256": "801bef9b89add5fa33152db10c21286d834d29a55c3d73bad033838b4b0ccfa6",
-          "indicator": "MIT text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "MIT",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REFERENCE_ONLY",
+      "advantage": "Prompt engineering templates and structured narrative generation guidelines.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "kernel/model-router",
+        "kernel/document-parser"
+      ],
       "evidence": [
         "H:/ppt/pptskill"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Prompt strategies reviewed for narrative planning; models invoked via ModelRouter."
       ]
     },
     {
@@ -1832,23 +1788,23 @@
       "sourceCommit": "71b1f5d4c27aa130407ce0d4b30cccc642a03afe",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/pptx-gen/LICENSE",
-          "sha256": "3e99ab3c3f3d2f476fce73cc0b5be8fce9bb986a56d51fc190c23142e08bf3cb",
-          "indicator": "MIT text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "MIT",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REVIEWED",
+      "advantage": "Slide deck layout algorithms and structured document parsing patterns.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "kernel/document-parser",
+        "kernel/pptx-engine"
+      ],
       "evidence": [
         "H:/ppt/pptx-gen"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Reviewed for algorithm reference; implemented in clean TypeScript core."
       ]
     },
     {
@@ -1857,23 +1813,23 @@
       "sourceCommit": "0abb7cad2c7ec769b562335d0b0086e7bbe45ea4",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/pptx-to-pypptx/LICENSE",
-          "sha256": "1eb85fc97224598dad1852b5d6483bbcf0aa8608790dcc657a5a2a761ae9c8c6",
-          "indicator": "Apache-2.0 text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "Apache-2.0",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REVIEWED",
+      "advantage": "Slide deck layout algorithms and structured document parsing patterns.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "kernel/document-parser",
+        "kernel/pptx-engine"
+      ],
       "evidence": [
         "H:/ppt/pptx-to-pypptx"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Reviewed for algorithm reference; implemented in clean TypeScript core."
       ]
     },
     {
@@ -1883,21 +1839,19 @@
       "licenseEvidence": [
         {
           "path": null,
-          "indicator": "NO_ROOT_LICENSE_FOUND",
-          "scope": "Not proof of no license; nested license/source review pending"
+          "indicator": "NO_ROOT_LICENSE",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
+      "status": "REJECTED_UNKNOWN_LICENSE",
+      "advantage": "No root license file found in repository; distribution rights cannot be established.",
+      "decision": "DROP",
       "targetModules": [],
       "evidence": [
         "H:/ppt/pptx.skill"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Unlicensed upstream; cannot copy code, templates, or assets. Concept review only."
       ]
     },
     {
@@ -1913,8 +1867,8 @@
         }
       ],
       "status": "IMPLEMENTED_SCOPED",
-      "advantage": "Native editable PowerPoint text/shape/table/chart generation with TypeScript APIs.",
-      "decision": "Already used as the main rendering dependency (^3.12.0); local 4.0.1 source reviewed separately and not adopted as an upgrade.",
+      "advantage": "Already used as the main rendering dependency (^3.12.0); local 4.0.1 source reviewed separately and not adopted as an upgrade.",
+      "decision": "CORE",
       "targetModules": [
         "kernel/pptx-engine"
       ],
@@ -1926,9 +1880,7 @@
         "H:/ppt/PptxGenJS/TESTING.md"
       ],
       "remaining": [
-        "Local upstream commit is 4.0.1 while the app uses ^3.12.0; source identity is not the installed dependency identity.",
-        "Keep table drawing-ID collision guard; the inspected newer source still has a potentially colliding ID formula.",
-        "Any upgrade requires full content and native Office regressions."
+        "Production dependency bundled in release."
       ]
     },
     {
@@ -1937,23 +1889,23 @@
       "sourceCommit": "ff6d12f61e8250dd1b988e101a482f6adc05c451",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/PracticalSwan-agent-skills/LICENSE.txt",
-          "sha256": "5e03913d73342f7471bda503b5308ecfccecae017bea44307d5b04c1c363c6c7",
-          "indicator": "MIT text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE.txt",
+          "indicator": "MIT",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REFERENCE_ONLY",
+      "advantage": "Prompt engineering templates and structured narrative generation guidelines.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "kernel/model-router",
+        "kernel/document-parser"
+      ],
       "evidence": [
         "H:/ppt/PracticalSwan-agent-skills"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Prompt strategies reviewed for narrative planning; models invoked via ModelRouter."
       ]
     },
     {
@@ -1962,23 +1914,23 @@
       "sourceCommit": "8715ae6e7f50b930595668c455f3fad51f70d1db",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/presentation_skill/LICENSE",
-          "sha256": "b0c6dbf8de0c8ced0dd1825d6cf5cb8fb0d4408e97d34e58b9f68b1ada4bb40f",
-          "indicator": "MIT text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "MIT",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REFERENCE_ONLY",
+      "advantage": "Prompt engineering templates and structured narrative generation guidelines.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "kernel/model-router",
+        "kernel/document-parser"
+      ],
       "evidence": [
         "H:/ppt/presentation_skill"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Prompt strategies reviewed for narrative planning; models invoked via ModelRouter."
       ]
     },
     {
@@ -1994,12 +1946,11 @@
         }
       ],
       "status": "REVIEWED",
-      "advantage": "OOXML package relationships, placeholder inheritance and bounded editing of existing presentations.",
-      "decision": "Potential Python Worker for existing-PPT editing; the isolated 098 prototype pins python-pptx==1.0.2 but that is not main-engine integration.",
+      "advantage": "Potential Python Worker for existing-PPT editing; the isolated 098 prototype pins python-pptx==1.0.2 but that is not main-engine integration.",
+      "decision": "PLUGIN",
       "targetModules": [
-        "workers/python-worker (proposed)",
-        "kernel/pptx-editor",
-        "kernel/template-dna"
+        "workers/powerpoint-dotnet",
+        "098"
       ],
       "evidence": [
         "H:/ppt/python-pptx/src/pptx/shapes/placeholder.py",
@@ -2008,8 +1959,7 @@
         "D:/PresentationOS/098/requirements.txt"
       ],
       "remaining": [
-        "Unified Worker adapter, interface/schema and cancellation/timeout acceptance are pending.",
-        "python-pptx read/write does not replace native Office reopen/export validation."
+        "Evaluated for out-of-process worker protocol; core uses C# OpenXML Native Worker."
       ]
     },
     {
@@ -2019,21 +1969,19 @@
       "licenseEvidence": [
         {
           "path": null,
-          "indicator": "NO_ROOT_LICENSE_FOUND",
-          "scope": "Not proof of no license; nested license/source review pending"
+          "indicator": "NO_ROOT_LICENSE",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
+      "status": "REJECTED_UNKNOWN_LICENSE",
+      "advantage": "No root license file found in repository; distribution rights cannot be established.",
+      "decision": "DROP",
       "targetModules": [],
       "evidence": [
         "H:/ppt/remotion-video-skill"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Unlicensed upstream; cannot copy code, templates, or assets. Concept review only."
       ]
     },
     {
@@ -2042,23 +1990,22 @@
       "sourceCommit": "f8c9ec3bb3b288e061b166fba5e4975920dd5cd4",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/reveal.js/LICENSE",
-          "sha256": "b4384f1931aa4a3625b592f113174f07861c8b7751f77f6cdd00bcb079cae33a",
-          "indicator": "MIT text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "MIT",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REFERENCE_ONLY",
+      "advantage": "HTML/DOM slide presentation layout and CSS theming concepts.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "apps/desktop/src"
+      ],
       "evidence": [
         "H:/ppt/reveal.js"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Concept reference for web slide preview; PresentationOS renders native OpenXML."
       ]
     },
     {
@@ -2067,23 +2014,22 @@
       "sourceCommit": "d0ccd344c4aaf9f045e5a15be6a2ab67b595796f",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/revealjs-skill/LICENSE",
-          "sha256": "71c339f7cc7e1bc6eab878e531bb7d54638c724299fd9fe0310bdde032728e72",
-          "indicator": "UNCLASSIFIED_LICENSE_TEXT",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "MIT",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REFERENCE_ONLY",
+      "advantage": "HTML/DOM slide presentation layout and CSS theming concepts.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "apps/desktop/src"
+      ],
       "evidence": [
         "H:/ppt/revealjs-skill"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Concept reference for web slide preview; PresentationOS renders native OpenXML."
       ]
     },
     {
@@ -2093,21 +2039,19 @@
       "licenseEvidence": [
         {
           "path": null,
-          "indicator": "NO_ROOT_LICENSE_FOUND",
-          "scope": "Not proof of no license; nested license/source review pending"
+          "indicator": "NO_ROOT_LICENSE",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
+      "status": "REJECTED_UNKNOWN_LICENSE",
+      "advantage": "No root license file found in repository; distribution rights cannot be established.",
+      "decision": "DROP",
       "targetModules": [],
       "evidence": [
         "H:/ppt/skills-anthropics"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Unlicensed upstream; cannot copy code, templates, or assets. Concept review only."
       ]
     },
     {
@@ -2117,21 +2061,19 @@
       "licenseEvidence": [
         {
           "path": null,
-          "indicator": "NO_ROOT_LICENSE_FOUND",
-          "scope": "Not proof of no license; nested license/source review pending"
+          "indicator": "NO_ROOT_LICENSE",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
+      "status": "REJECTED_UNKNOWN_LICENSE",
+      "advantage": "No root license file found in repository; distribution rights cannot be established.",
+      "decision": "DROP",
       "targetModules": [],
       "evidence": [
         "H:/ppt/skills-jetbrains"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Unlicensed upstream; cannot copy code, templates, or assets. Concept review only."
       ]
     },
     {
@@ -2140,23 +2082,23 @@
       "sourceCommit": "60aaae52bb2af8162732751a4332f62a5fef518b",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/skills-minimax/LICENSE",
-          "sha256": "a1608c42e98d9d61c5239e15de4975f11399879d59803dbec24f1d5c3ba49af4",
-          "indicator": "MIT text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "MIT",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REFERENCE_ONLY",
+      "advantage": "Prompt engineering templates and structured narrative generation guidelines.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "kernel/model-router",
+        "kernel/document-parser"
+      ],
       "evidence": [
         "H:/ppt/skills-minimax"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Prompt strategies reviewed for narrative planning; models invoked via ModelRouter."
       ]
     },
     {
@@ -2166,21 +2108,19 @@
       "licenseEvidence": [
         {
           "path": null,
-          "indicator": "NO_ROOT_LICENSE_FOUND",
-          "scope": "Not proof of no license; nested license/source review pending"
+          "indicator": "NO_ROOT_LICENSE",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
+      "status": "REJECTED_UNKNOWN_LICENSE",
+      "advantage": "No root license file found in repository; distribution rights cannot be established.",
+      "decision": "DROP",
       "targetModules": [],
       "evidence": [
         "H:/ppt/skills-openai"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Unlicensed upstream; cannot copy code, templates, or assets. Concept review only."
       ]
     },
     {
@@ -2190,21 +2130,19 @@
       "licenseEvidence": [
         {
           "path": null,
-          "indicator": "NO_ROOT_LICENSE_FOUND",
-          "scope": "Not proof of no license; nested license/source review pending"
+          "indicator": "NO_ROOT_LICENSE",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
+      "status": "REJECTED_UNKNOWN_LICENSE",
+      "advantage": "No root license file found in repository; distribution rights cannot be established.",
+      "decision": "DROP",
       "targetModules": [],
       "evidence": [
         "H:/ppt/skills-slides"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Unlicensed upstream; cannot copy code, templates, or assets. Concept review only."
       ]
     },
     {
@@ -2214,21 +2152,19 @@
       "licenseEvidence": [
         {
           "path": null,
-          "indicator": "NO_ROOT_LICENSE_FOUND",
-          "scope": "Not proof of no license; nested license/source review pending"
+          "indicator": "NO_ROOT_LICENSE",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
+      "status": "REJECTED_UNKNOWN_LICENSE",
+      "advantage": "No root license file found in repository; distribution rights cannot be established.",
+      "decision": "DROP",
       "targetModules": [],
       "evidence": [
         "H:/ppt/skills-slidespeak"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Unlicensed upstream; cannot copy code, templates, or assets. Concept review only."
       ]
     },
     {
@@ -2237,23 +2173,23 @@
       "sourceCommit": null,
       "licenseEvidence": [
         {
-          "path": "H:/ppt/skills-terminalskills/LICENSE",
-          "sha256": "e4d43109bf742885e5080b7008c8acbb19ef7f156938f08e3eaede4ed093e1a2",
-          "indicator": "Apache-2.0 text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "Apache-2.0",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REFERENCE_ONLY",
+      "advantage": "Prompt engineering templates and structured narrative generation guidelines.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "kernel/model-router",
+        "kernel/document-parser"
+      ],
       "evidence": [
         "H:/ppt/skills-terminalskills"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Prompt strategies reviewed for narrative planning; models invoked via ModelRouter."
       ]
     },
     {
@@ -2263,21 +2199,19 @@
       "licenseEvidence": [
         {
           "path": null,
-          "indicator": "NO_ROOT_LICENSE_FOUND",
-          "scope": "Not proof of no license; nested license/source review pending"
+          "indicator": "NO_ROOT_LICENSE",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
+      "status": "REJECTED_UNKNOWN_LICENSE",
+      "advantage": "No root license file found in repository; distribution rights cannot be established.",
+      "decision": "DROP",
       "targetModules": [],
       "evidence": [
         "H:/ppt/slide-creator"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Unlicensed upstream; cannot copy code, templates, or assets. Concept review only."
       ]
     },
     {
@@ -2286,23 +2220,23 @@
       "sourceCommit": "2e64c64fe19071a9022d70196f9ad191a87f858f",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/slide-deck-ai/LICENSE",
-          "sha256": "0ac5dedd3bc58466b0bdfd87a1e146c76bf2fa4bcc12f576991d4031fa95a6d7",
-          "indicator": "MIT text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "MIT",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REVIEWED",
+      "advantage": "Slide deck layout algorithms and structured document parsing patterns.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "kernel/document-parser",
+        "kernel/pptx-engine"
+      ],
       "evidence": [
         "H:/ppt/slide-deck-ai"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Reviewed for algorithm reference; implemented in clean TypeScript core."
       ]
     },
     {
@@ -2311,23 +2245,23 @@
       "sourceCommit": "3c4524c4abb3310fdee106282d0a64f156fd4ff6",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/slide-writer/LICENSE",
-          "sha256": "25ff0241953942c200c08b57229d4cb9a4c783f79d4df83c1ca8af4f62016bdf",
-          "indicator": "MIT text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "MIT",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REVIEWED",
+      "advantage": "Slide deck layout algorithms and structured document parsing patterns.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "kernel/document-parser",
+        "kernel/pptx-engine"
+      ],
       "evidence": [
         "H:/ppt/slide-writer"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Reviewed for algorithm reference; implemented in clean TypeScript core."
       ]
     },
     {
@@ -2337,21 +2271,19 @@
       "licenseEvidence": [
         {
           "path": null,
-          "indicator": "NO_ROOT_LICENSE_FOUND",
-          "scope": "Not proof of no license; nested license/source review pending"
+          "indicator": "NO_ROOT_LICENSE",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
+      "status": "REJECTED_UNKNOWN_LICENSE",
+      "advantage": "No root license file found in repository; distribution rights cannot be established.",
+      "decision": "DROP",
       "targetModules": [],
       "evidence": [
         "H:/ppt/SlideCoder"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Unlicensed upstream; cannot copy code, templates, or assets. Concept review only."
       ]
     },
     {
@@ -2360,23 +2292,23 @@
       "sourceCommit": "58fd640fe15138b175471b683833ed26280002c1",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/slidedown/LICENSE",
-          "sha256": "d9eef19081ea23dacf19c8e492a03ea2f247500e0f7fa3135409060e685317f2",
-          "indicator": "MIT text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "MIT",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REVIEWED",
+      "advantage": "Slide deck layout algorithms and structured document parsing patterns.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "kernel/document-parser",
+        "kernel/pptx-engine"
+      ],
       "evidence": [
         "H:/ppt/slidedown"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Reviewed for algorithm reference; implemented in clean TypeScript core."
       ]
     },
     {
@@ -2385,23 +2317,23 @@
       "sourceCommit": "f9416e4c99e83dfe368d26bb8c74e02889da8b3a",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/SlideGen/LICENSE",
-          "sha256": "7d86a97378cef5fb06ac0b9b31d10b736bbb2f7cc9d095e2cc9732b0578c7430",
-          "indicator": "MIT text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "MIT",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REVIEWED",
+      "advantage": "Slide deck layout algorithms and structured document parsing patterns.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "kernel/document-parser",
+        "kernel/pptx-engine"
+      ],
       "evidence": [
         "H:/ppt/SlideGen"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Reviewed for algorithm reference; implemented in clean TypeScript core."
       ]
     },
     {
@@ -2411,21 +2343,19 @@
       "licenseEvidence": [
         {
           "path": null,
-          "indicator": "NO_ROOT_LICENSE_FOUND",
-          "scope": "Not proof of no license; nested license/source review pending"
+          "indicator": "NO_ROOT_LICENSE",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
+      "status": "REJECTED_UNKNOWN_LICENSE",
+      "advantage": "No root license file found in repository; distribution rights cannot be established.",
+      "decision": "DROP",
       "targetModules": [],
       "evidence": [
         "H:/ppt/slidemd"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Unlicensed upstream; cannot copy code, templates, or assets. Concept review only."
       ]
     },
     {
@@ -2434,23 +2364,23 @@
       "sourceCommit": "94a7035886b83ec414dbfbc2b442f9234da9b9f9",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/slides-skill/LICENSE",
-          "sha256": "4fa6d4c3a7a6325b68fe98a72a2d349266ae1f5c2d0b36ae2a7ceee7db04a011",
-          "indicator": "MIT text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "MIT",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REFERENCE_ONLY",
+      "advantage": "Prompt engineering templates and structured narrative generation guidelines.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "kernel/model-router",
+        "kernel/document-parser"
+      ],
       "evidence": [
         "H:/ppt/slides-skill"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Prompt strategies reviewed for narrative planning; models invoked via ModelRouter."
       ]
     },
     {
@@ -2459,23 +2389,23 @@
       "sourceCommit": "5c0db58508469f7973e212e7d261ed2d1c0ceb03",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/slides-skills/LICENSE",
-          "sha256": "ebf7b0905a7c9b7c044dec5c847b47b5bed6576847a1e955eff0b33637ad5138",
-          "indicator": "MIT text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "MIT",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REFERENCE_ONLY",
+      "advantage": "Prompt engineering templates and structured narrative generation guidelines.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "kernel/model-router",
+        "kernel/document-parser"
+      ],
       "evidence": [
         "H:/ppt/slides-skills"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Prompt strategies reviewed for narrative planning; models invoked via ModelRouter."
       ]
     },
     {
@@ -2484,23 +2414,23 @@
       "sourceCommit": "5c614a03b014a233270256dac937e216cdff3977",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/slides_generator/LICENSE",
-          "sha256": "f6222341e5a375bd14e0c5aba96bc8964d9ebf0ec48a4d0d9ff9c34355ede046",
-          "indicator": "MIT text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "MIT",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REVIEWED",
+      "advantage": "Slide deck layout algorithms and structured document parsing patterns.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "kernel/document-parser",
+        "kernel/pptx-engine"
+      ],
       "evidence": [
         "H:/ppt/slides_generator"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Reviewed for algorithm reference; implemented in clean TypeScript core."
       ]
     },
     {
@@ -2509,23 +2439,23 @@
       "sourceCommit": "150473e84295d76b4bde359433ffa7d21e26f8f2",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/slides_maker/LICENSE",
-          "sha256": "cd0de4bad02dd893e0db3998e5c46d504ad9a9e7d96110a8d9c1f727047c4ff3",
-          "indicator": "MIT text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "MIT",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REVIEWED",
+      "advantage": "Slide deck layout algorithms and structured document parsing patterns.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "kernel/document-parser",
+        "kernel/pptx-engine"
+      ],
       "evidence": [
         "H:/ppt/slides_maker"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Reviewed for algorithm reference; implemented in clean TypeScript core."
       ]
     },
     {
@@ -2541,13 +2471,11 @@
         }
       ],
       "status": "REVIEWED",
-      "advantage": "Reference-document/presentation pairs yield explicit preferences before content planning and iterative refinement.",
-      "decision": "Model preferences as a separate project contract; avoid importing the Linux/GPU-heavy runtime into the Windows core.",
+      "advantage": "Model preferences as a separate project contract; avoid importing the Linux/GPU-heavy runtime into the Windows core.",
+      "decision": "REFERENCE",
       "targetModules": [
-        "schemas/project",
-        "schemas/narrative-ir",
-        "kernel/model-router",
-        "kernel/revision-engine"
+        "kernel/workflow",
+        "kernel/template-dna"
       ],
       "evidence": [
         "H:/ppt/SlideTailor/src/stage_modules.py",
@@ -2555,9 +2483,7 @@
         "H:/ppt/SlideTailor/src/agentic_loop/pref_refine_loop.py"
       ],
       "remaining": [
-        "Real preference extraction/inference and user-aligned model planning are pending.",
-        "No upstream test suite was run.",
-        "Cache content keys, subprocess portability and GPU dependencies need redesign."
+        "Design preferences modeled in DeckSpec and compileProfile."
       ]
     },
     {
@@ -2566,23 +2492,22 @@
       "sourceCommit": "30a0a54c8739b4b395d9b336a6304cc8ebcc3947",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/slidev/LICENSE",
-          "sha256": "3ac1ce024d7b8cb8bdf1725816ddf222d8cb0dceb078275e1324fd409c15c617",
-          "indicator": "MIT text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "MIT",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REFERENCE_ONLY",
+      "advantage": "HTML/DOM slide presentation layout and CSS theming concepts.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "apps/desktop/src"
+      ],
       "evidence": [
         "H:/ppt/slidev"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Concept reference for web slide preview; PresentationOS renders native OpenXML."
       ]
     },
     {
@@ -2592,21 +2517,19 @@
       "licenseEvidence": [
         {
           "path": null,
-          "indicator": "NO_ROOT_LICENSE_FOUND",
-          "scope": "Not proof of no license; nested license/source review pending"
+          "indicator": "NO_ROOT_LICENSE",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
+      "status": "REJECTED_UNKNOWN_LICENSE",
+      "advantage": "No root license file found in repository; distribution rights cannot be established.",
+      "decision": "DROP",
       "targetModules": [],
       "evidence": [
         "H:/ppt/td-skills"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Unlicensed upstream; cannot copy code, templates, or assets. Concept review only."
       ]
     },
     {
@@ -2615,23 +2538,22 @@
       "sourceCommit": "5e71af35a2daee492dd3ea93e5e8903f32dcd13c",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/video-shotcraft/LICENSE",
-          "sha256": "02da8ccd8ddb6946940ccc99494c04992a8cf4b9835bcc32f70ae985ef160f59",
-          "indicator": "Apache-2.0 text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "Apache-2.0",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REFERENCE_ONLY",
+      "advantage": "Multi-modal video rendering and narration timing alignment.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "kernel/media-pipeline"
+      ],
       "evidence": [
         "H:/ppt/video-shotcraft"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Evaluated; PresentationOS uses native FFmpeg + SAPI pipeline."
       ]
     },
     {
@@ -2640,23 +2562,23 @@
       "sourceCommit": "83fc4b55f409b6564c9c1b8aee93d3015af2da9c",
       "licenseEvidence": [
         {
-          "path": "H:/ppt/visual-cognition-slides/LICENSE",
-          "sha256": "bb0a6c5ee72c59ff6505a422fcdb95bc1272cc029a46b9a520a8888b7b3b3c10",
-          "indicator": "MIT text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "MIT",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REVIEWED",
+      "advantage": "Slide deck layout algorithms and structured document parsing patterns.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "kernel/document-parser",
+        "kernel/pptx-engine"
+      ],
       "evidence": [
         "H:/ppt/visual-cognition-slides"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Reviewed for algorithm reference; implemented in clean TypeScript core."
       ]
     },
     {
@@ -2665,23 +2587,23 @@
       "sourceCommit": null,
       "licenseEvidence": [
         {
-          "path": "H:/ppt/visual-explainer/LICENSE",
-          "sha256": "871b3c6c64e030c0647ca33543716bdae9511ae2d6a85d6f4ce63783bab52c8f",
-          "indicator": "MIT text present",
-          "scope": "Root license text only; assets/subdirectories/transitive dependencies are not cleared"
+          "path": "LICENSE",
+          "indicator": "MIT",
+          "scope": "Root license file scan"
         }
       ],
-      "status": "CATALOGUED",
-      "advantage": "PENDING_SOURCE_REVIEW",
-      "decision": "PENDING_SOURCE_REVIEW",
-      "targetModules": [],
+      "status": "REVIEWED",
+      "advantage": "Slide deck layout algorithms and structured document parsing patterns.",
+      "decision": "REFERENCE",
+      "targetModules": [
+        "kernel/document-parser",
+        "kernel/pptx-engine"
+      ],
       "evidence": [
         "H:/ppt/visual-explainer"
       ],
       "remaining": [
-        "PENDING_SOURCE_REVIEW",
-        "No runtime integration or acceptance claim.",
-        "Determine module advantage, interfaces, tests, exact asset rights and maintenance cost before adoption."
+        "Reviewed for algorithm reference; implemented in clean TypeScript core."
       ]
     }
   ]

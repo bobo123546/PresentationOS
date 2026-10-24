@@ -102,6 +102,13 @@ test('project-spec valid case passes and invalid rejected', () => {
   const r1 = validate(SCHEMA_IDS.project, validProject);
   assert.ok(r1.valid, JSON.stringify(r1.errors));
 
+  // Test that PAUSED and CANCELLING statuses roundtrip cleanly under project schema
+  for (const status of ['PAUSED', 'CANCELLING', 'QUEUED', 'RUNNING', 'COMPLETED', 'FAILED', 'CANCELLED'] as const) {
+    const statusProject = { ...validProject, lastCompileState: { status } };
+    const rStatus = validate(SCHEMA_IDS.project, statusProject);
+    assert.ok(rStatus.valid, `Expected status ${status} to be valid under project schema, got: ${JSON.stringify(rStatus.errors)}`);
+  }
+
   const invalidProject = {
     schema: 'presentationos-project',
     version: '1.0.0',

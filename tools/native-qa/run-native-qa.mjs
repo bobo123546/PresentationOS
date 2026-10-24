@@ -26,9 +26,20 @@ try {
   const request = resolve(output, 'request.json');
   // Keep request.json as the only initial file for the C# boundary check.
   writeFileSync(request, JSON.stringify({ directory: output, pptx: resolve(input), expected_slides: expected }), { flag: 'wx' });
-  execFileSync(dotnet, ['build', project, '-c', 'Release', '-warnaserror', '-m:1', '-nr:false'], { cwd: root, windowsHide: true, stdio: 'inherit', timeout: 120000 });
+  const workerOverride = value('--worker');
+  const candidateWorker = resolve(root, 'runtime/worker/PresentationOS.PowerPoint.Worker.exe');
+  const bundledWorker = workerOverride ? resolve(workerOverride) : (existsSync(candidateWorker) ? candidateWorker : null);
   const started = new Date().toISOString();
-  const run = spawnSync(dotnet, [dll, '--native-probe', request], { cwd: root, encoding: 'utf8', windowsHide: true, timeout: 180000 });
+  let run;
+  let executedCommand;
+  if (bundledWorker && existsSync(bundledWorker)) {
+    executedCommand = [bundledWorker, '--native-probe', request];
+    run = spawnSync(bundledWorker, ['--native-probe', request], { cwd: root, encoding: 'utf8', windowsHide: true, timeout: 180000 });
+  } else {
+    execFileSync(dotnet, ['build', project, '-c', 'Release', '-warnaserror', '-m:1', '-nr:false'], { cwd: root, windowsHide: true, stdio: 'inherit', timeout: 120000 });
+    executedCommand = [dotnet, dll, '--native-probe', request];
+    run = spawnSync(dotnet, [dll, '--native-probe', request], { cwd: root, encoding: 'utf8', windowsHide: true, timeout: 180000 });
+  }
   writeFileSync(resolve(output, 'native.stdout.txt'), run.stdout ?? '');
   writeFileSync(resolve(output, 'native.stderr.txt'), run.stderr ?? '');
   const probePath = resolve(output, 'probe-result.json');
@@ -48,7 +59,7 @@ try {
   const pass = run.status === 0 && probe?.operation_success === true && probe?.fonts === true && probe?.process_clean === true && probe?.pngs?.length === expected && filesPresent && cleanup.cleaned === true;
   result = { scope: 'PowerPoint open/save/close/reopen/edit/readback/PDF/PNG/font-availability/dialog-polls/process-cleanup',
     timestamp: started, input: { path: resolve(input), sha256: sha(input), slides: expected },
-    command: [dotnet, dll, '--native-probe', request], exitCode: run.status, error: run.error?.message,
+    command: executedCommand ?? [dotnet, dll, '--native-probe', request], exitCode: run.status, error: run.error?.message,
     pass, status: pass ? 'OPERATIONS_PASS' : 'FAILED', visualFidelity: 'REQUIRES_RENDER_REVIEW',
     artifacts: artifacts.filter(existsSync).map(path => ({ path, sha256: sha(path) })), probe, progress, cleanup };
   writeFileSync(resolve(output, 'result.json'), JSON.stringify(result, null, 2), { flag: 'wx' });
