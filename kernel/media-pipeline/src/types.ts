@@ -1,5 +1,8 @@
 // Media Pipeline Types & Interfaces (P14 / TASK-0021)
 
+export type NarrationLanguage = 'zh-CN' | 'en-US';
+export type NarrationNormalizationLanguage = NarrationLanguage | 'verbatim';
+
 export interface SlideNarration {
   slideId: string;
   slideIndex: number;
@@ -61,6 +64,8 @@ export interface MediaPipelineOptions {
   fps?: number;
   resolution?: { width: number; height: number };
   voice?: string;
+  /** Explicit normalization language; this does not select or install a voice. */
+  narrationLanguage?: NarrationLanguage;
   speed?: number;
   transitionSec?: number;
   silentSlideDurationSec?: number;
@@ -79,4 +84,10 @@ export interface MediaPipelineResult {
   error?: string;
   subtitleAlignment?: 'sentence-audio-boundary';
   audioSegments?: AudioSegment[];
+  narrationProfile?: {
+    requestedLanguage?: NarrationLanguage;
+    requestedVoice?: string;
+    automaticVoiceSelection: false;
+    slides: Array<{ slideId: string; language: NarrationNormalizationLanguage; selection: 'explicit' | 'han-detection' | 'verbatim-fallback' }>;
+  };
 }

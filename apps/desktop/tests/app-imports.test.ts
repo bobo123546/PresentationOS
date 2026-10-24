@@ -44,6 +44,19 @@ test('source trace UI requires every reference gate and readback instead of trea
   }
 });
 
+test('same-named new projects choose separate save locations instead of replacing the previous project', async () => {
+  const app = appHarness({ onRequest: route => route === '/api/project/save' ? response({ success: true }) : undefined });
+  app.props('HeaderBar').onNew();
+  await app.props('HeaderBar').onSave();
+  const first = app.requests.filter(request => request.route.endsWith('/save')).at(-1)!.body;
+  app.props('HeaderBar').onNew();
+  await app.props('HeaderBar').onSave();
+  const second = app.requests.filter(request => request.route.endsWith('/save')).at(-1)!.body;
+  assert.equal(first.project.title, second.project.title);
+  assert.notEqual(first.project.projectId, second.project.projectId);
+  assert.notEqual(first.projectJsonPath, second.projectJsonPath);
+});
+
 test('document and theme import feed original assets to compile, round-trip save, and detach source after editing', async () => {
   const app = appHarness({ compileResult, onRequest: (route, body) => {
     if (route === '/api/assets/import') return response(body.kind === 'document'

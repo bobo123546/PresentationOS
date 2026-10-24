@@ -26,7 +26,7 @@ export const App: React.FC = () => {
   const [dataRoot, setDataRoot] = useState('');
   const compilationEpoch = useRef(0);
   const activeCancellation = useRef<{ epoch: number; runId: string | null; requested: boolean; sending: Promise<void> | null } | null>(null);
-  const [projectIdentity, setProjectIdentity] = useState(() => ({ projectId: 'project-' + Date.now().toString(36), createdAt: new Date().toISOString() }));
+  const [projectIdentity, setProjectIdentity] = useState(() => ({ projectId: 'project-' + globalThis.crypto.randomUUID(), createdAt: new Date().toISOString() }));
   const [title, setTitle] = useState<string>('PresentationOS 演示文稿');
   const [markdown, setMarkdown] = useState<string>(DEFAULT_MARKDOWN);
   const [slides, setSlides] = useState<SlideItem[]>(() => parseMarkdownToSlides(DEFAULT_MARKDOWN));
@@ -144,7 +144,7 @@ export const App: React.FC = () => {
   const handleNewProject = () => {
     if (operationLock.current) return;
     compilationEpoch.current++;
-    setProjectIdentity({ projectId: 'project-' + Date.now().toString(36), createdAt: new Date().toISOString() });
+    setProjectIdentity({ projectId: 'project-' + globalThis.crypto.randomUUID(), createdAt: new Date().toISOString() });
     setTitle('新演示文稿');
     setMarkdown('# 新演示文稿\n\n## 页面 1\n- 示例内容');
     const parsed = parseMarkdownToSlides('# 新演示文稿\n\n## 页面 1\n- 示例内容');
@@ -206,7 +206,7 @@ export const App: React.FC = () => {
     if (operationLock.current || !dataRoot) return;
     operationLock.current = 'save'; setBusyOperation('save');
     const epoch = compilationEpoch.current;
-    const targetPath = projectPath || `${dataRoot}/projects/${encodeURIComponent(title.trim().replace(/\s+/g, '_'))}/pres-project.json`;
+    const targetPath = projectPath || `${dataRoot}/projects/${encodeURIComponent(title.trim().replace(/\s+/g, '_'))}_${projectIdentity.projectId}/pres-project.json`;
     const projData = {
       schema: 'presentationos-project',
       version: '1.1.0',
@@ -462,7 +462,7 @@ export const App: React.FC = () => {
       if (compilation.qaReport?.slidesCount !== slides.length) {
         throw new Error(`文稿自动分页为 ${compilation.qaReport?.slidesCount ?? '未知'} 页，当前有 ${slides.length} 个章节。请按最终页面拆分章节并重新生成，确保图片和配音逐页对应。`);
       }
-      showToast('正在合成多语种语音、逐页时间轴与字幕视频...');
+      showToast('正在合成旁白、逐页时间轴与字幕视频...');
       const targetMp4 = projectPath ? projectPath.replace(/pres-project\.json$/, 'presentation.mp4') : `${dataRoot}/media/${Date.now()}/presentation.mp4`;
       const paths = window.prompt(`按页面顺序填写 ${slides.length} 个真实 PNG 路径（每行一个，须在数据目录内）：`);
       if (!paths) return;

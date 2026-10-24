@@ -80,6 +80,8 @@ node tools/packager/generate-sbom.mjs --output-dir ./evidence/security-new-run
 
 进入正式发布前，还需要源码与二进制绑定的原生打开/保存/关闭/重开/PDF与PNG导出、字体/修复对话框/进程残留检查、最终 EXE 的真实 UIA、安装升级卸载与干净机、安全许可处置。当前不作正式发布认证。
 
+旁白可显式指定中文或英文的数量读法；默认只对含汉字的备注使用中文规则，其它备注保留原语言数值，不自动选择或安装语音。实际语音依赖已安装的 Windows voice，技术同步通过不代表听感和语义审核通过，见 [媒体接口与边界](kernel/media-pipeline/README.md)。
+
 ## License
 
 项目代码采用 [MIT License](LICENSE)。第三方运行时、字体、素材及分发二进制适用各自许可，需在具体发行范围内核查。

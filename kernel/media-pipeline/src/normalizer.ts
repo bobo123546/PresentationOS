@@ -1,4 +1,5 @@
 // Script normalizer: converts raw slide notes into pronunciation-optimized narration scripts.
+import type { NarrationNormalizationLanguage } from './types.js';
 
 const DIGIT_MAP: Record<string, string> = {
   '0': '零',
@@ -75,10 +76,11 @@ function normalizeQuantities(text: string): string {
 /**
  * Normalizes raw speaker notes into a speech-ready narration script.
  */
-export function normalizeNarrationScript(rawNotes: string): {
+export function normalizeNarrationScript(rawNotes: string, language: NarrationNormalizationLanguage = 'zh-CN'): {
   narrationScript: string;
   isSilent: boolean;
 } {
+  if (!['zh-CN', 'en-US', 'verbatim'].includes(language)) throw new Error('Unsupported narration normalization language');
   if (!rawNotes || !rawNotes.trim()) {
     return {
       narrationScript: '',
@@ -90,6 +92,16 @@ export function normalizeNarrationScript(rawNotes: string): {
 
   // Remove only unambiguous Markdown wrappers, retaining identifiers (a_b), C# and mathematical symbols.
   script = script.replace(/^\s{0,3}#{1,6}\s+/gm, '').replace(/`([^`\n]+)`/g, '$1').replace(/\*\*([^*\n]+)\*\*/g, '$1');
+
+  // Unknown/non-Chinese notes stay in their own language. This is a text
+  // preservation fallback, not a promise that an installed voice supports them.
+  if (language === 'verbatim') return { narrationScript: script, isSilent: false };
+
+  if (language === 'en-US') {
+    script = script.replace(/(^|[^\dA-Za-z_.])[-−](?=\d)/g, '$1minus ');
+    script = script.replace(/(?<![\dA-Za-z_.,\-−])(\d+(?:,\d{3})*(?:\.\d+)?)%/g, '$1 percent');
+    return { narrationScript: script, isSilent: false };
+  }
 
   // A unary negative sign needs an explicit spoken word. Preserve subtraction/ranges (5-10).
   script = script.replace(/(^|[^\dA-Za-z_.])[-−](?=\d)/g, '$1负');

@@ -1,7 +1,7 @@
 // PresentationOS Core Application Task Service (P03-A / P05)
-import { readFileSync, writeFileSync, mkdirSync, existsSync, mkdtempSync, copyFileSync, constants, unlinkSync, statSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, existsSync, mkdtempSync, copyFileSync, constants, unlinkSync, statSync, lstatSync, openSync, closeSync, fsyncSync, renameSync, linkSync, type Stats } from 'node:fs';
 import { dirname, resolve, join, basename } from 'node:path';
-import { createHash } from 'node:crypto';
+import { createHash, randomUUID } from 'node:crypto';
 import { WorkflowStore, WorkflowExecutor, type WorkflowRun, type StepContext } from '@pres/durable-workflow';
 import { applyRevisions } from '@pres/revision-engine';
 import { resolveLayout, renderDeck, verifyRenderedDeck, type DeckSpec } from '@pres/pptx-engine';
@@ -28,6 +28,53 @@ import {
 
 export interface TaskServiceOptions {
   dbPath?: string;
+}
+
+/** Stage complete bytes before publication; never overwrite another project or an invalid file. */
+function persistProject(project: PresentationProject, destination: string, createOnly: boolean): void {
+  const path = resolve(destination), bytes = Buffer.from(JSON.stringify(project, null, 2), 'utf8');
+  const hash = (value: Buffer) => createHash('sha256').update(value).digest('hex');
+  let original: { stat: Stats; sha256: string } | undefined;
+  let entry: Stats | undefined;
+  try { entry = lstatSync(path); }
+  catch (error) { if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error; }
+  if (entry) {
+    if (createOnly) throw new Error(`Project file already exists; choose a new project directory: ${path}`);
+    if (!entry.isFile() || entry.isSymbolicLink()) throw new Error(`Cannot replace a non-regular project file or symbolic link: ${path}`);
+    const previousBytes = readFileSync(path);
+    let previous: PresentationProject;
+    try { previous = JSON.parse(previousBytes.toString('utf8')) as PresentationProject; }
+    catch { throw new Error(`Cannot overwrite an existing file that is not valid project JSON: ${path}`); }
+    const checked = validate(SCHEMA_IDS.project, previous);
+    if (!checked.valid) throw new Error(`Cannot overwrite an existing file with an invalid project schema: ${path}`);
+    if (previous.projectId !== project.projectId) throw new Error(`Project identity mismatch; refusing to replace ${previous.projectId} with ${project.projectId}: ${path}`);
+    original = { stat: entry, sha256: hash(previousBytes) };
+  }
+  mkdirSync(dirname(path), { recursive: true });
+  const staged = join(dirname(path), `.pres-project-save-${randomUUID()}.json.tmp`);
+  try {
+    const fd = openSync(staged, 'wx', 0o600);
+    try { writeFileSync(fd, bytes); fsyncSync(fd); }
+    finally { closeSync(fd); }
+    const stagedBytes = readFileSync(staged);
+    if (hash(stagedBytes) !== hash(bytes) || !validate(SCHEMA_IDS.project, JSON.parse(stagedBytes.toString('utf8'))).valid) throw new Error('Staged project did not pass readback verification');
+    if (original) {
+      const current = lstatSync(path);
+      if (!current.isFile() || current.isSymbolicLink() || current.dev !== original.stat.dev || current.ino !== original.stat.ino || hash(readFileSync(path)) !== original.sha256) {
+        throw new Error('Existing project changed during save; reopen it before saving again');
+      }
+      // Atomic replacement of an existing, rechecked same-ID project. This is
+      // not a complete compare-and-swap protocol for concurrent same-ID editors.
+      renameSync(staged, path);
+    } else {
+      // Same-directory hard-link publication is atomic and refuses a destination
+      // created after our initial check. Do not fall back to an overwriting rename.
+      linkSync(staged, path);
+      unlinkSync(staged);
+    }
+  } catch (error) {
+    throw new Error(`Project save failed; existing destination was not removed. Staged recovery file: ${staged}. ${error instanceof Error ? error.message : String(error)}`);
+  }
 }
 
 export class TaskService {
@@ -291,9 +338,8 @@ export class TaskService {
     }
 
     if (options.projectDir) {
-      mkdirSync(options.projectDir, { recursive: true });
       const pPath = resolve(options.projectDir, 'pres-project.json');
-      writeFileSync(pPath, JSON.stringify(project, null, 2), 'utf8');
+      persistProject(project, pPath, true);
     }
 
     return project;
@@ -315,14 +361,14 @@ export class TaskService {
 
   async saveProject(project: PresentationProject, projectJsonPath: string): Promise<void> {
     await ensureSchemas();
-    project.version = '1.1.0';
-    project.updatedAt = new Date().toISOString();
-    const val = validate(SCHEMA_IDS.project, project);
+    const saved: PresentationProject = { ...project, version: '1.1.0', updatedAt: new Date().toISOString() };
+    const val = validate(SCHEMA_IDS.project, saved);
     if (!val.valid) {
       throw new Error(`Cannot save invalid project: ${val.errors.join('; ')}`);
     }
-    mkdirSync(dirname(projectJsonPath), { recursive: true });
-    writeFileSync(projectJsonPath, JSON.stringify(project, null, 2), 'utf8');
+    persistProject(saved, projectJsonPath, false);
+    project.version = saved.version;
+    project.updatedAt = saved.updatedAt;
   }
 
   // ---- 多源文档解析与事实提取（P05） ----

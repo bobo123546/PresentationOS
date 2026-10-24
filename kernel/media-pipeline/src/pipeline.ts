@@ -2,7 +2,7 @@ import { createHash } from 'node:crypto';
 import { execFileSync } from 'node:child_process';
 import { existsSync, mkdirSync, mkdtempSync, statSync, writeFileSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
-import type { AudioSegment, MediaPipelineOptions, MediaPipelineResult, NarrationCue, SlideNarration } from './types.js';
+import type { AudioSegment, MediaPipelineOptions, MediaPipelineResult, NarrationCue, SlideNarration, NarrationNormalizationLanguage } from './types.js';
 import { normalizeNarrationScript } from './normalizer.js';
 import { WindowsSapiTtsProvider, type ITtsProvider, readWavInfo, readWavDuration, writeSilenceWav } from './tts-provider.js';
 import { buildDeckTimeline } from './timeline.js';
@@ -19,6 +19,7 @@ export class MediaPipeline {
     if (!Array.isArray(slides) || !slides.length || slides.some(s => !s.id || !Number.isInteger(s.index) || s.index < 0) || new Set(slides.map(s => s.id)).size !== slides.length || new Set(slides.map(s => s.index)).size !== slides.length) throw new Error('A nonempty deck with unique slide identifiers/indices is required');
     if (!/\.mp4$/i.test(outMp4Path)) throw new Error('Output path must end with .mp4');
     const fps = options.fps ?? 25;
+    if (options.narrationLanguage !== undefined && !['zh-CN', 'en-US'].includes(options.narrationLanguage)) throw new Error('narrationLanguage must be zh-CN or en-US');
     if (!Number.isFinite(fps) || fps < 1 || fps > 120) throw new Error('Video FPS must be between 1 and 120');
     const silenceDuration = options.silentSlideDurationSec ?? 3;
     if (!Number.isFinite(silenceDuration) || silenceDuration <= 0 || silenceDuration > 3600 || !Number.isFinite(options.transitionSec ?? 0.5) || (options.transitionSec ?? 0.5) < 0) throw new Error('Invalid slide/transition duration');
@@ -31,7 +32,14 @@ export class MediaPipeline {
     const jobDir = mkdtempSync(resolve(workDir, '.speech-job-'));
     const cacheDir = resolve(options.cacheDir ?? resolve(workDir, '.media-cache-v2'));
     mkdirSync(cacheDir, { recursive: true });
-    const narrations: SlideNarration[] = slides.map(s => ({ slideId: s.id, slideIndex: s.index, notesRaw: s.notes ?? '', ...normalizeNarrationScript(s.notes ?? ''), voice: options.voice, speed: options.speed }));
+    const narrationProfile: NonNullable<MediaPipelineResult['narrationProfile']> = {
+      requestedLanguage: options.narrationLanguage, requestedVoice: options.voice, automaticVoiceSelection: false,
+      slides: slides.map(s => {
+        const language: NarrationNormalizationLanguage = options.narrationLanguage ?? (/\p{Script=Han}/u.test(s.notes ?? '') ? 'zh-CN' : 'verbatim');
+        return { slideId: s.id, language, selection: options.narrationLanguage ? 'explicit' : language === 'zh-CN' ? 'han-detection' : 'verbatim-fallback' };
+      }),
+    };
+    const narrations: SlideNarration[] = slides.map((s, index) => ({ slideId: s.id, slideIndex: s.index, notesRaw: s.notes ?? '', ...normalizeNarrationScript(s.notes ?? '', narrationProfile.slides[index].language), voice: options.voice, speed: options.speed }));
     const audioSegments: AudioSegment[] = [];
     for (const n of narrations) {
       if (n.isSilent) {
@@ -72,6 +80,6 @@ export class MediaPipeline {
     const { timeline, totalDurationSec } = buildDeckTimeline(narrations, audioSegments, { transitionSec: options.transitionSec, silentSlideDurationSec: silenceDuration, fps });
     const qa = await renderDeckVideo({ slideImages: slides.map(s => s.imagePath!), audioSegments, timeline, outMp4Path, workDir: jobDir, fps, resolution: options.resolution });
     const { srtPath, vttPath } = writeSubtitleFiles(narrations, timeline, outMp4Path);
-    return { ok: qa.syncPassed && !qa.errors.length, mp4Path: outMp4Path, srtPath, vttPath, timeline, totalDurationSec, qa, subtitleAlignment: 'sentence-audio-boundary', audioSegments };
+    return { ok: qa.syncPassed && !qa.errors.length, mp4Path: outMp4Path, srtPath, vttPath, timeline, totalDurationSec, qa, subtitleAlignment: 'sentence-audio-boundary', audioSegments, narrationProfile };
   }
 }

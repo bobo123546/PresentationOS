@@ -1,5 +1,6 @@
 import { execFileSync } from 'node:child_process';
 import { existsSync, writeFileSync, openSync, readSync, closeSync, fstatSync, rmSync } from 'node:fs';
+import { win32 } from 'node:path';
 
 export interface TtsOptions { voice?: string; speed?: number; }
 export interface ITtsProvider {
@@ -9,6 +10,12 @@ export interface ITtsProvider {
 export interface WavInfo {
   audioFormat: number; channels: number; sampleRate: number; byteRate: number;
   blockAlign: number; bitsPerSample: number; dataOffset: number; dataSize: number; durationSec: number;
+}
+
+/** Windows PowerShell 5.1 supplies System.Speech; never resolve a PATH helper. */
+export function windowsPowerShellPath(systemRoot = process.env.SystemRoot): string {
+  if (!systemRoot || !win32.isAbsolute(systemRoot)) throw new Error('Windows SystemRoot must be an absolute path for SAPI synthesis');
+  return win32.join(systemRoot, 'System32', 'WindowsPowerShell', 'v1.0', 'powershell.exe');
 }
 
 /** Walk RIFF chunks, including WAVEFORMATEX (SAPI), metadata and odd-byte padding. */
@@ -82,7 +89,7 @@ try {
 } finally { $synth.Dispose() }
 `;
     try {
-      execFileSync('powershell', ['-NoProfile', '-NonInteractive', '-EncodedCommand', Buffer.from(script, 'utf16le').toString('base64')], {
+      execFileSync(windowsPowerShellPath(), ['-NoProfile', '-NonInteractive', '-EncodedCommand', Buffer.from(script, 'utf16le').toString('base64')], {
         encoding: 'utf8', timeout: 120000, windowsHide: true,
         env: { ...process.env, PRES_TTS_TEXT: text, PRES_TTS_OUTPUT: outWavPath, PRES_TTS_VOICE: options.voice ?? '', PRES_TTS_RATE: String(rate) },
         stdio: ['ignore', 'pipe', 'pipe'],

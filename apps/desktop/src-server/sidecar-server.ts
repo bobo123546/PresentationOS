@@ -283,14 +283,18 @@ export class DesktopSidecarServer {
     // Generate speech, subtitles and MP4 video (P14)
     if (req.method === 'POST' && path === '/api/media/generate') {
       const body = await this.parseJsonBody(req);
-      const { slides, outMp4Path, voice, speed } = body;
+      const { slides, outMp4Path, voice, speed, narrationLanguage } = body;
       if (!Array.isArray(slides) || !outMp4Path) {
         this.sendJson(res, 400, { error: 'Missing required slides array or outMp4Path' });
         return;
       }
+      if (narrationLanguage !== undefined && !['zh-CN', 'en-US'].includes(narrationLanguage)) {
+        this.sendJson(res, 400, { error: 'narrationLanguage must be zh-CN or en-US when specified' });
+        return;
+      }
       try {
         const pipeline = new MediaPipeline();
-        const result = await pipeline.processDeck(slides, outMp4Path, { voice, speed });
+        const result = await pipeline.processDeck(slides, outMp4Path, { voice, speed, narrationLanguage });
         this.sendJson(res, 200, { result });
       } catch (err: any) {
         this.sendJson(res, 500, { error: err.message });
