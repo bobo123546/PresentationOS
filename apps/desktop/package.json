@@ -6,8 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build:server": "tsc -p tsconfig.server.json",
-    "build:ui": "vite build",
-    "build": "tsc -p tsconfig.server.json && vite build",
+    "build:ui": "tsc --noEmit -p tsconfig.json && vite build",
+    "build": "tsc -p tsconfig.server.json && tsc --noEmit -p tsconfig.json && vite build",
     "start:server": "node dist-server/sidecar-server.js",
     "test": "tsc -p tsconfig.test.json && node --test \"dist-test/tests/**/*.test.js\"",
     "preview": "vite preview"
@@ -15,6 +15,7 @@
   "dependencies": {
     "@pres/workflow": "workspace:*",
     "@pres/document-parser": "workspace:*",
+    "@pres/template-dna": "workspace:*",
     "@pres/schema-validator": "workspace:*",
     "@pres/scene-reconstruction": "workspace:*",
     "@pres/media-pipeline": "workspace:*",

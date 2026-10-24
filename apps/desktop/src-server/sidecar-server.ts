@@ -15,6 +15,7 @@ import {
 } from '@pres/workflow';
 import { reconstructDeckFromScene, type SceneIR } from '@pres/scene-reconstruction';
 import { MediaPipeline } from '@pres/media-pipeline';
+import { importAsset, validateCompileAsset, validateProjectAssets, decodeImportBase64, MAX_IMPORT_BYTES } from './asset-import.js';
 
 export interface ServerOptions {
   port?: number;
@@ -120,7 +121,7 @@ export class DesktopSidecarServer {
         try {
           const parsed = JSON.parse(body);
           if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) throw new Error('JSON object required');
-          for (const key of ['projectDir','projectJsonPath','outPptxPath','outReportPath','outMp4Path','sourcePptxPath','targetPptxPath']) {
+          for (const key of ['projectDir','projectJsonPath','outPptxPath','outReportPath','outMp4Path','sourcePptxPath','targetPptxPath','sourceDocumentPath','referencePptxPath']) {
             if (parsed[key] !== undefined) parsed[key] = this.paths.file(parsed[key]);
           }
           if (Array.isArray(parsed.slides)) {
@@ -209,6 +210,7 @@ export class DesktopSidecarServer {
       }
       try {
         const project = await this.taskService.openProject(body.projectJsonPath);
+        await validateProjectAssets(this.paths, project);
         this.sendJson(res, 200, { project });
       } catch (err: any) {
         this.sendJson(res, 404, { error: err.message });
@@ -224,11 +226,20 @@ export class DesktopSidecarServer {
         return;
       }
       try {
+        await validateProjectAssets(this.paths, body.project as PresentationProject);
         await this.taskService.saveProject(body.project as PresentationProject, body.projectJsonPath);
         this.sendJson(res, 200, { success: true, savedAt: new Date().toISOString() });
       } catch (err: any) {
         this.sendJson(res, 400, { error: err.message });
       }
+      return;
+    }
+
+    // Import validated bytes into a content-addressed, data-root-confined store.
+    if (req.method === 'POST' && path === '/api/assets/import') {
+      const body = await this.parseJsonBody(req);
+      try { this.sendJson(res, 201, await importAsset(this.paths, body)); }
+      catch (err: any) { this.sendJson(res, 400, { error: err.message }); }
       return;
     }
 
@@ -241,7 +252,9 @@ export class DesktopSidecarServer {
         return;
       }
       try {
-        const inputBuffer = base64 ? Buffer.from(base64, 'base64') : content;
+        const inputBuffer = base64 ? decodeImportBase64(base64) : content;
+        if (typeof inputBuffer !== 'string' && !Buffer.isBuffer(inputBuffer)) throw new Error('Document content must be text or canonical base64');
+        if (Buffer.byteLength(inputBuffer) > MAX_IMPORT_BYTES) throw new Error('Document exceeds the 16 MiB ingestion limit');
         const parsed = await this.taskService.parseDocument(inputBuffer, filename ?? 'document.md');
         this.sendJson(res, 200, { parsed });
       } catch (err: any) {
@@ -288,12 +301,19 @@ export class DesktopSidecarServer {
     // Compile markdown / project
     if (req.method === 'POST' && path === '/api/project/compile') {
       const body = await this.parseJsonBody(req);
-      const { projectId, title, markdown, outPptxPath, outReportPath, async: isAsync } = body;
+      const { projectId, title, markdown, outPptxPath, outReportPath, sourceDocumentPath, referencePptxPath, async: isAsync } = body;
 
-      if (!markdown || !outPptxPath) {
-        this.sendJson(res, 400, { error: 'Missing required parameters: markdown, outPptxPath' });
+      if ((!sourceDocumentPath && (typeof markdown !== 'string' || !markdown.trim())) ||
+          (sourceDocumentPath && markdown !== '') || !outPptxPath) {
+        this.sendJson(res, 400, { error: 'Choose nonempty Markdown or a sourceDocumentPath with empty Markdown, and an outPptxPath' });
         return;
       }
+      try {
+        if (sourceDocumentPath) validateCompileAsset(this.paths, sourceDocumentPath, body.sourceAssetSha256, 'document');
+        else if (body.sourceAssetSha256 !== undefined) throw new Error('sourceAssetSha256 requires sourceDocumentPath');
+        if (referencePptxPath) validateCompileAsset(this.paths, referencePptxPath, body.referenceAssetSha256, 'reference-template');
+        else if (body.referenceAssetSha256 !== undefined) throw new Error('referenceAssetSha256 requires referencePptxPath');
+      } catch (err: any) { this.sendJson(res, 400, { error: err.message }); return; }
 
       const runTrackingId = `run-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
       const runEntry: {
@@ -317,6 +337,10 @@ export class DesktopSidecarServer {
           markdown,
           outPptxPath,
           outReportPath,
+          sourceDocumentPath,
+          referencePptxPath,
+          sourceAssetSha256: body.sourceAssetSha256,
+          referenceAssetSha256: body.referenceAssetSha256,
         },
         (progress) => {
           runEntry.workflowRunId = progress.runId;

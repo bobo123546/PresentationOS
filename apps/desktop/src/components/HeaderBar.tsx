@@ -7,6 +7,7 @@ interface HeaderBarProps {
   status: TaskEngineStatus;
   hasPptx: boolean;
   ready?: boolean;
+  busy?: boolean;
   onNew: () => void;
   onOpen: () => void;
   onSave: () => void;
@@ -23,6 +24,7 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({
   status,
   hasPptx,
   ready = true,
+  busy = false,
   onNew,
   onOpen,
   onSave,
@@ -33,7 +35,7 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({
   onMediaExport,
 }) => {
   const isRunning = status === 'RUNNING';
-  const unavailable = isRunning || !ready;
+  const unavailable = isRunning || busy || !ready;
 
   return (
     <header className="header-bar">
@@ -120,7 +122,7 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({
           data-automation-id="ExportPptxBtn"
           aria-label="Export PPTX"
           className="btn"
-          disabled={isRunning || !hasPptx}
+          disabled={unavailable || !hasPptx}
           onClick={onExport}
         >
           导出文稿

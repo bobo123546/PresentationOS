@@ -8,6 +8,17 @@ export interface SlideItem {
   headingLevel?: 1 | 2;
 }
 
+export interface ImportedAsset {
+  path: string;
+  sha256: string;
+  filename: string;
+}
+
+export interface CompileProfile {
+  sourceAsset?: ImportedAsset & { markdownSha256: string };
+  referenceAsset?: ImportedAsset;
+}
+
 export interface QaReport {
   passed: boolean;
   overallScore: number;
@@ -17,6 +28,12 @@ export interface QaReport {
   mechanicalPassed?: boolean;
   visualPassed?: boolean;
   nativeStatus?: string;
+  sourceTrace?: {
+    passed: boolean;
+    chunks: number;
+    occurrences: number;
+    pages: number;
+  };
   issues?: Array<{
     slideIndex: number;
     ruleId: string;

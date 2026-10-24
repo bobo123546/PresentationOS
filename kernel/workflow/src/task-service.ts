@@ -8,7 +8,8 @@ import { resolveLayout, renderDeck, verifyRenderedDeck, type DeckSpec } from '@p
 import { validate, SCHEMA_IDS } from '@pres/schema-validator';
 import { parseDocument, type ParsedDocument } from '@pres/document-parser';
 import { extractTemplateDna, designTokensFromDna } from '@pres/template-dna';
-import { documentToDeck } from './document-pipeline.js';
+import { documentSections } from './document-pipeline.js';
+import { compileSourceSections, buildCompiledPageMap, verifySourceTraceReadback, type SourceTraceDraft } from './source-trace.js';
 import {
   type PresentationProject,
   type CompileJobOptions,
@@ -17,7 +18,7 @@ import {
 } from './types.js';
 import {
   ensureSchemas,
-  mdToDeck,
+  markdownSections,
   layoutFor,
   validateDeck,
   inspectDeck,
@@ -47,26 +48,51 @@ export class TaskService {
       steps: [
         {
           name: 'parse_and_validate',
-          handler: async (input: { markdown: string; title?: string; outPptxPath: string; outReportPath?: string; referencePptxPath?: string; designTokens?: Record<string, unknown>; maxRevisionRounds?: number; sourceDocumentPath?: string }, ctx: StepContext) => {
+          handler: async (input: { markdown: string; title?: string; outPptxPath: string; outReportPath?: string; referencePptxPath?: string; designTokens?: Record<string, unknown>; maxRevisionRounds?: number; sourceDocumentPath?: string; sourceAssetSha256?: string; referenceAssetSha256?: string }, ctx: StepContext) => {
             if (ctx.isCancelled?.()) throw new Error('Task was cancelled');
             await ensureSchemas();
             const maxRevisionRounds = input.maxRevisionRounds === undefined ? 3 : input.maxRevisionRounds;
             if (!Number.isSafeInteger(maxRevisionRounds) || maxRevisionRounds < 0 || maxRevisionRounds > 10) throw new Error('maxRevisionRounds must be an integer between 0 and 10');
             let deck: DeckSpec;
+            let sourceTrace: SourceTraceDraft;
             let sourceProfile: Record<string, unknown> | undefined;
             if (input.sourceDocumentPath) {
               if (input.markdown) throw new Error('Choose Markdown content or a document source path, not both');
               if (statSync(input.sourceDocumentPath).size > 16 * 1024 * 1024) throw new Error('Document source exceeds the 16 MiB ingestion limit');
-              const source = await parseDocument(readFileSync(input.sourceDocumentPath), basename(input.sourceDocumentPath));
-              deck = documentToDeck(source.doc, input.title ?? basename(input.sourceDocumentPath));
-              sourceProfile = { path: resolve(input.sourceDocumentPath), sha256: source.sha256, format: source.doc.sourceType, summary: source.summary,
-                scope: 'Parsed body text, lists, code and cached table values; embedded assets, document styling and formula evaluation are not reproduced' };
-            } else deck = mdToDeck(input.markdown, input.title ?? 'deck');
+              const bytes = readFileSync(input.sourceDocumentPath);
+              if (bytes.length > 16 * 1024 * 1024) throw new Error('Document source exceeds the 16 MiB ingestion limit');
+              if (input.sourceAssetSha256 && createHash('sha256').update(bytes).digest('hex') !== input.sourceAssetSha256) throw new Error('SOURCE_HASH_CHANGED: document asset changed before ingestion');
+              if (/\.(?:md|markdown)$/i.test(input.sourceDocumentPath)) {
+                let text: string;
+                try { text = new TextDecoder('utf-8', { fatal: true }).decode(bytes); }
+                catch { throw new Error('Document text must be valid UTF-8'); }
+                if (text.includes('\u0000') || text.startsWith('%PDF-') || bytes.subarray(0, 4).equals(Buffer.from([0x50, 0x4b, 0x03, 0x04]))) throw new Error('Binary document cannot be parsed as Markdown');
+                const parsed = markdownSections(text, input.title ?? basename(input.sourceDocumentPath));
+                const compiled = compileSourceSections(parsed.title, parsed.sections, { bytes, extractedText: text, format: 'markdown' });
+                deck = compiled.deck; sourceTrace = compiled.trace;
+                sourceProfile = { path: resolve(input.sourceDocumentPath), sha256: sourceTrace.ledger.sourceBytesSha256, format: 'markdown',
+                  scope: 'The same source-order Markdown parser as direct Markdown compilation; syntax is normalized, all presentation text and table cells are source-bound' };
+              } else {
+                const source = await parseDocument(bytes, basename(input.sourceDocumentPath));
+                const parsed = documentSections(source.doc, input.title ?? basename(input.sourceDocumentPath));
+                const compiled = compileSourceSections(parsed.title, parsed.sections, { bytes, extractedText: source.rawText, format: source.doc.sourceType });
+                deck = compiled.deck; sourceTrace = compiled.trace;
+                sourceProfile = { path: resolve(input.sourceDocumentPath), sha256: source.sha256, format: source.doc.sourceType, summary: source.summary,
+                  scope: 'Parsed body text, lists, code and cached table values; embedded assets, document styling and formula evaluation are not reproduced' };
+              }
+            } else {
+              const parsed = markdownSections(input.markdown, input.title ?? 'deck');
+              const compiled = compileSourceSections(parsed.title, parsed.sections, { bytes: Buffer.from(input.markdown, 'utf8'), extractedText: input.markdown, format: 'markdown' });
+              deck = compiled.deck; sourceTrace = compiled.trace;
+            }
+            await new Promise<void>(done => setImmediate(done));
+            if (ctx.isCancelled?.()) throw new Error('Task was cancelled');
             if (input.referencePptxPath && input.designTokens) throw new Error('Choose a reference template or explicit design tokens, not both');
             let designProfile: Record<string, unknown> | undefined;
             if (input.referencePptxPath) {
               if (!/\.pptx$/i.test(input.referencePptxPath)) throw new Error('Reference template must be a .pptx file');
               const bytes = readFileSync(input.referencePptxPath);
+              if (input.referenceAssetSha256 && createHash('sha256').update(bytes).digest('hex') !== input.referenceAssetSha256) throw new Error('SOURCE_HASH_CHANGED: reference asset changed before ingestion');
               const dna = await extractTemplateDna(bytes, resolve(input.referencePptxPath));
               deck.designTokens = { ...designTokensFromDna(dna) };
               designProfile = { source: resolve(input.referencePptxPath), sha256: createHash('sha256').update(bytes).digest('hex'),
@@ -77,12 +103,12 @@ export class TaskService {
             }
             deck = await validateDeck(deck);
             const originalContent = contentSnapshot(deck);
-            return { deck, originalContent, designProfile, sourceProfile, maxRevisionRounds, title: input.title, outPptxPath: input.outPptxPath, outReportPath: input.outReportPath };
+            return { deck, originalContent, sourceTrace, designProfile, sourceProfile, maxRevisionRounds, title: input.title, outPptxPath: input.outPptxPath, outReportPath: input.outReportPath };
           },
         },
         {
           name: 'revision_loop',
-          handler: async (input: { deck: DeckSpec; originalContent: string; designProfile?: Record<string, unknown>; sourceProfile?: Record<string, unknown>; maxRevisionRounds: number; title?: string; outPptxPath: string; outReportPath?: string }, ctx: StepContext) => {
+          handler: async (input: { deck: DeckSpec; originalContent: string; sourceTrace: SourceTraceDraft; designProfile?: Record<string, unknown>; sourceProfile?: Record<string, unknown>; maxRevisionRounds: number; title?: string; outPptxPath: string; outReportPath?: string }, ctx: StepContext) => {
             if (ctx.isCancelled?.()) throw new Error('Task was cancelled');
             let deck = input.deck;
             const original = input.originalContent;
@@ -106,13 +132,13 @@ export class TaskService {
               qa = inspectDeck(deck);
             }
 
-            return { deck, qa, history, designProfile: input.designProfile, sourceProfile: input.sourceProfile, originalContent: original, outPptxPath: input.outPptxPath, outReportPath: input.outReportPath };
+            return { deck, qa, history, sourceTrace: input.sourceTrace, designProfile: input.designProfile, sourceProfile: input.sourceProfile, originalContent: original, outPptxPath: input.outPptxPath, outReportPath: input.outReportPath };
           },
         },
         {
           name: 'render_and_export',
           handler: async (
-            input: { deck: DeckSpec; qa: DeckInspectionResult; history: any[]; designProfile?: Record<string, unknown>; sourceProfile?: Record<string, unknown>; outPptxPath: string; outReportPath?: string },
+            input: { deck: DeckSpec; qa: DeckInspectionResult; history: any[]; sourceTrace: SourceTraceDraft; designProfile?: Record<string, unknown>; sourceProfile?: Record<string, unknown>; outPptxPath: string; outReportPath?: string },
             ctx: StepContext
           ) => {
             if (ctx.isCancelled?.()) throw new Error('Task was cancelled');
@@ -145,12 +171,27 @@ export class TaskService {
               stagingDirectory: stagingDir,
               designProfile: input.designProfile,
               sourceProfile: input.sourceProfile,
+              sourceLedger: input.sourceTrace.ledger,
+              sourceTraceStatus: 'NOT_ATTEMPTED_QA_FAILED',
             };
             if (!qa.passed) {
               writeFileSync(stagedReport, JSON.stringify(summary, null, 2), { encoding: 'utf8', flag: 'wx' });
               copyFileSync(stagedReport, reportPath, constants.COPYFILE_EXCL);
               throw new Error(`QA failed (score=${qa.visual.overall}); not published. Evidence: ${stagedReport}`);
             }
+            let compiledPageMap;
+            try { compiledPageMap = buildCompiledPageMap(deck, input.sourceTrace); }
+            catch (error) {
+              summary.sourceTraceStatus = 'FAILED';
+              summary.sourceTraceError = error instanceof Error ? error.message : String(error);
+              writeFileSync(stagedReport, JSON.stringify(summary, null, 2), { encoding: 'utf8', flag: 'wx' });
+              copyFileSync(stagedReport, reportPath, constants.COPYFILE_EXCL);
+              throw error;
+            }
+            summary.compiledPageMap = compiledPageMap;
+            summary.sourceTraceStatus = 'QUOTATIONS_BOUND_READBACK_PENDING';
+            await new Promise<void>(done => setImmediate(done));
+            if (ctx.isCancelled?.()) throw new Error('Task was cancelled');
             await renderDeck(deck, {
               outPath: candidate,
               resolveRects: (slide) => resolveLayout(slide.layout ?? layoutFor(slide)),
@@ -158,6 +199,15 @@ export class TaskService {
             });
             const contentVerification = await verifyRenderedDeck(candidate, deck);
             summary.contentVerification = contentVerification;
+            try {
+              verifySourceTraceReadback(input.sourceTrace.ledger, compiledPageMap, contentVerification);
+              summary.sourceTraceStatus = 'EXACT_QUOTATION_READBACK_PASS';
+            } catch (error) {
+              summary.sourceTraceStatus = 'FAILED';
+              summary.sourceTraceError = error instanceof Error ? error.message : String(error);
+              contentVerification.ok = false;
+              contentVerification.missing.push(summary.sourceTraceError);
+            }
             summary.sourceContentPreserved = contentVerification.ok;
             summary.passed = qa.passed && contentVerification.ok;
             summary.sha256 = createHash('sha256').update(readFileSync(candidate)).digest('hex');
@@ -216,7 +266,7 @@ export class TaskService {
     const now = new Date().toISOString();
     const project: PresentationProject = {
       schema: 'presentationos-project',
-      version: '1.0.0',
+      version: '1.1.0',
       projectId: options.projectId,
       title: options.title,
       createdAt: now,
@@ -265,6 +315,7 @@ export class TaskService {
 
   async saveProject(project: PresentationProject, projectJsonPath: string): Promise<void> {
     await ensureSchemas();
+    project.version = '1.1.0';
     project.updatedAt = new Date().toISOString();
     const val = validate(SCHEMA_IDS.project, project);
     if (!val.valid) {
@@ -296,6 +347,8 @@ export class TaskService {
       designTokens: opts.designTokens,
       maxRevisionRounds: opts.maxRevisionRounds,
       sourceDocumentPath: opts.sourceDocumentPath,
+      sourceAssetSha256: opts.sourceAssetSha256,
+      referenceAssetSha256: opts.referenceAssetSha256,
     });
 
     onProgress?.({
@@ -345,7 +398,7 @@ export class TaskService {
     const lastStep = steps.find((s) => s.stepName === 'render_and_export');
     const outData = lastStep?.outputJson ? JSON.parse(lastStep.outputJson) : {};
 
-    if (!outData.summary?.passed || outData.sourceContentPreserved !== true || !outData.summary?.contentVerification?.ok) {
+    if (!outData.summary?.passed || outData.sourceContentPreserved !== true || !outData.summary?.contentVerification?.ok || outData.summary?.compiledPageMap?.readback?.status !== 'PASS') {
       return { ok: false, status: 'FAILED', runId, slidesCount: 0, overallScore: 0, issuesCount: 0,
         sourceContentPreserved: false, durationMs, error: 'Completed workflow is missing successful final PPTX readback evidence' };
     }

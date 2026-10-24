@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://presentationos.local/schemas/source-ledger/1",
+  "title": "Source-order quotation ledger",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "version", "sourceId", "sourceBytesSha256", "extractedTextSha256", "format", "extractor", "coordinateSystem", "contentMode", "scope", "chunks", "facts"],
+  "properties": {
+    "schema": { "const": "source-ledger" },
+    "version": { "const": "1" },
+    "sourceId": { "type": "string", "pattern": "^source-[a-f0-9]{64}$" },
+    "sourceBytesSha256": { "$ref": "#/$defs/sha" },
+    "extractedTextSha256": { "$ref": "#/$defs/sha" },
+    "format": { "enum": ["markdown", "plaintext", "csv", "tsv", "docx", "xlsx"] },
+    "extractor": { "type": "object", "additionalProperties": false, "required": ["id", "version"], "properties": { "id": { "const": "presentationos-source-order-adapter" }, "version": { "const": "1" } } },
+    "coordinateSystem": { "const": "zero-based-selector-and-utf16-code-unit-range" },
+    "contentMode": { "const": "preserve-all-source-order-quotation" },
+    "scope": { "type": "string", "minLength": 1 },
+    "chunks": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/chunk" } },
+    "facts": { "type": "array", "items": { "$ref": "#/$defs/fact" } }
+  },
+  "$defs": {
+    "sha": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "selector": { "type": "object", "additionalProperties": false, "required": ["part", "block"], "properties": {
+      "part": { "enum": ["markdown-lines", "document-ir.blocks"] }, "block": { "type": "integer", "minimum": 0 },
+      "line": { "type": "integer", "minimum": 0 }, "item": { "type": "integer", "minimum": 0 },
+      "row": { "type": "integer", "minimum": 0 }, "column": { "type": "integer", "minimum": 0 }
+    } },
+    "sourceRef": { "type": "object", "additionalProperties": false, "required": ["sourceId", "chunkId", "textSha256", "range", "selector"], "properties": {
+      "sourceId": { "type": "string", "pattern": "^source-[a-f0-9]{64}$" }, "chunkId": { "type": "string", "pattern": "^chunk-[a-f0-9]{32}$" },
+      "textSha256": { "$ref": "#/$defs/sha" }, "selector": { "$ref": "#/$defs/selector" },
+      "range": { "type": "object", "additionalProperties": false, "required": ["unit", "start", "end"], "properties": {
+        "unit": { "const": "utf16-code-unit" }, "start": { "type": "integer", "minimum": 0 }, "end": { "type": "integer", "minimum": 0 }
+      } }
+    } },
+    "chunk": { "type": "object", "additionalProperties": false, "required": ["chunkId", "role", "text", "textSha256", "selector"], "properties": {
+      "role": { "enum": ["title", "text", "table-cell"] },
+      "chunkId": { "type": "string", "pattern": "^chunk-[a-f0-9]{32}$" }, "text": { "type": "string" }, "textSha256": { "$ref": "#/$defs/sha" },
+      "selector": { "$ref": "#/$defs/selector" }, "context": { "type": "object", "additionalProperties": false, "required": ["tableId", "row", "column", "rowHeader", "columnHeader"], "properties": {
+        "tableId": { "type": "string", "pattern": "^table-[a-f0-9]{16}$" }, "row": { "type": "integer", "minimum": 0 }, "column": { "type": "integer", "minimum": 0 }, "rowHeader": { "type": "string" }, "columnHeader": { "type": "string" }
+      } }
+    } },
+    "fact": { "type": "object", "additionalProperties": false, "required": ["factId", "ref", "literalValue", "kind", "sourceQuote", "evidenceStatus"], "properties": {
+      "factId": { "type": "string", "pattern": "^fact-[a-f0-9]{32}$" }, "ref": { "$ref": "#/$defs/sourceRef" }, "literalValue": { "type": "string", "minLength": 1 },
+      "kind": { "enum": ["numeric", "currency", "percentage", "date", "unit"] }, "sourceQuote": { "type": "string", "minLength": 1 }, "evidenceStatus": { "const": "EXTRACTED" }
+    } }
+  }
+}

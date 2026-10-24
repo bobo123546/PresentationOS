@@ -11,7 +11,7 @@
     },
     "version": {
       "type": "string",
-      "enum": ["1.0.0"]
+      "enum": ["1.0.0", "1.1.0"]
     },
     "projectId": {
       "type": "string",
@@ -60,6 +60,33 @@
       },
       "additionalProperties": false
     },
+    "compileProfile": {
+      "type": "object",
+      "properties": {
+        "sourceAsset": {
+          "type": "object",
+          "required": ["path", "sha256", "filename", "markdownSha256"],
+          "properties": {
+            "path": { "type": "string", "minLength": 1 },
+            "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+            "filename": { "type": "string", "minLength": 1, "maxLength": 240 },
+            "markdownSha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+          },
+          "additionalProperties": false
+        },
+        "referenceAsset": {
+          "type": "object",
+          "required": ["path", "sha256", "filename"],
+          "properties": {
+            "path": { "type": "string", "minLength": 1 },
+            "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+            "filename": { "type": "string", "minLength": 1, "maxLength": 240 }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
     "template": {
       "type": "object",
       "properties": {
@@ -90,5 +117,6 @@
       "additionalProperties": false
     }
   },
+  "allOf": [{ "if": { "properties": { "version": { "const": "1.0.0" } } }, "then": { "not": { "required": ["compileProfile"] } } }],
   "additionalProperties": false
 }

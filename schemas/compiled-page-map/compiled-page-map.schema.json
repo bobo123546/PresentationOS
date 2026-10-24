@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://presentationos.local/schemas/compiled-page-map/1",
+  "title": "Final rendered source quotation map",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema", "version", "sourceLedgerSha256", "deckContentSha256", "bindingScope", "semanticTruth", "pages", "integrity", "readback"],
+  "properties": {
+    "schema": { "const": "compiled-page-map" }, "version": { "const": "1" },
+    "sourceLedgerSha256": { "$ref": "https://presentationos.local/schemas/source-ledger/1#/$defs/sha" },
+    "deckContentSha256": { "$ref": "https://presentationos.local/schemas/source-ledger/1#/$defs/sha" },
+    "bindingScope": { "const": "exact-source-quotations-and-table-cell-context" }, "semanticTruth": { "const": "NOT_VERIFIED" },
+    "pages": { "type": "array", "minItems": 1, "items": { "type": "object", "additionalProperties": false, "required": ["page", "slideId", "planSlideId", "fragmentIndex", "objects"], "properties": {
+      "page": { "type": "integer", "minimum": 1 }, "slideId": { "type": "string", "minLength": 1 }, "planSlideId": { "type": "string", "pattern": "^source-section-[1-9][0-9]*$" }, "fragmentIndex": { "type": "integer", "minimum": 0 },
+      "objects": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/object" } }
+    } } },
+    "integrity": { "type": "object", "additionalProperties": false, "required": ["sourceReferences", "protectedOccurrences", "quotationCoverage", "tableContext", "paraphrase"], "properties": {
+      "sourceReferences": { "const": "PASS" }, "protectedOccurrences": { "const": "PASS" }, "quotationCoverage": { "const": "PASS" }, "tableContext": { "const": "PASS" }, "paraphrase": { "const": "NOT_ALLOWED" }
+    } },
+    "readback": { "type": "object", "additionalProperties": false, "required": ["status", "scope", "textNormalization"], "properties": {
+      "textNormalization": { "const": "crlf-and-cr-to-lf-only" },
+      "status": { "enum": ["NOT_ATTEMPTED", "PASS"] }, "scope": { "const": "exact-text-and-cell-object-binding" }, "artifactSha256": { "$ref": "https://presentationos.local/schemas/source-ledger/1#/$defs/sha" }
+    }, "if": { "properties": { "status": { "const": "PASS" } } }, "then": { "required": ["artifactSha256"] } }
+  },
+  "$defs": {
+    "sourceRef": { "$ref": "https://presentationos.local/schemas/source-ledger/1#/$defs/sourceRef" },
+    "quotation": { "type": "object", "additionalProperties": false, "required": ["ref", "text"], "properties": {
+      "ref": { "$ref": "#/$defs/sourceRef" }, "text": { "type": "string" },
+      "cell": { "type": "object", "additionalProperties": false, "required": ["row", "column"], "properties": { "row": { "type": "integer", "minimum": 0 }, "column": { "type": "integer", "minimum": 0 } } }
+    } },
+    "object": { "type": "object", "additionalProperties": false, "required": ["objectName", "commandIds", "derivedObjectNames", "sourceRefs", "factIds", "quotations", "generated", "visibleContentSha256"], "properties": {
+      "visibleContentSha256": { "$ref": "https://presentationos.local/schemas/source-ledger/1#/$defs/sha" },
+      "generatedText": { "type": "string" }, "titleSuffix": { "type": "string" },
+      "objectName": { "type": "string", "minLength": 1 }, "commandIds": { "type": "array", "uniqueItems": true, "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+      "derivedObjectNames": { "type": "array", "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
+      "sourceRefs": { "type": "array", "items": { "$ref": "#/$defs/sourceRef" } }, "factIds": { "type": "array", "uniqueItems": true, "items": { "type": "string", "pattern": "^fact-[a-f0-9]{32}$" } },
+      "quotations": { "type": "array", "items": { "$ref": "#/$defs/quotation" } }, "generated": { "type": "boolean" }
+    } }
+  }
+}

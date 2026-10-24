@@ -11,12 +11,17 @@ export interface SourceDocument {
 
 export interface PresentationProject {
   schema: 'presentationos-project';
-  version: '1.0.0';
+  /** 1.0.0 remains readable; newly written projects use 1.1.0. */
+  version: '1.0.0' | '1.1.0';
   projectId: string;
   title: string;
   createdAt: string;
   updatedAt: string;
   sourceDocument: SourceDocument;
+  compileProfile?: {
+    sourceAsset?: { path: string; sha256: string; filename: string; markdownSha256: string };
+    referenceAsset?: { path: string; sha256: string; filename: string };
+  };
   editorState?: { sections: Array<{ speakerNotes?: string; layout?: 'title' | 'bullet_list' | 'two_column' | 'big_stat' | 'quote' }> };
   template?: {
     id: string;
@@ -45,9 +50,12 @@ export interface CompileJobOptions {
   maxRevisionRounds?: number;
   /** Reference theme only: does not copy template slide layouts or embedded assets. */
   referencePptxPath?: string;
+  /** Optional desktop binding; compared with the exact bytes consumed by compilation. */
+  referenceAssetSha256?: string;
   designTokens?: Record<string, unknown>;
   /** Used by compileDocumentFile; source bytes are read by the recorded parse step. */
   sourceDocumentPath?: string;
+  sourceAssetSha256?: string;
 }
 
 export interface CompileJobResult {

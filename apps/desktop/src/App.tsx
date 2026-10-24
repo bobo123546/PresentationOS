@@ -6,7 +6,9 @@ import { MarkdownEditor } from './components/MarkdownEditor.js';
 import { SlidePreview } from './components/SlidePreview.js';
 import { QaInspector } from './components/QaInspector.js';
 import { StatusBar } from './components/StatusBar.js';
-import { SlideItem, CompilationState, QaReport } from './types.js';
+import { SlideItem, CompilationState, QaReport, CompileProfile } from './types.js';
+import { encodeImportFile, importedAsset, restoreCompileProfile, sha256Text } from './import-assets.js';
+import type { AssetKind, LocalImportFile } from './import-assets.js';
 
 const DEFAULT_MARKDOWN = `# PresentationOS 现代演示系统
 
@@ -31,6 +33,10 @@ export const App: React.FC = () => {
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
   const [projectPath, setProjectPath] = useState<string | null>(null);
   const [toast, setToast] = useState<string | null>(null);
+  const [compileProfile, setCompileProfile] = useState<CompileProfile>({});
+  const [busyOperation, setBusyOperation] = useState<string | null>(null);
+  // A ref closes the gap before React commits the disabled controls.
+  const operationLock = useRef<string | null>(null);
 
   const [compilation, setCompilation] = useState<CompilationState>({
     status: 'IDLE',
@@ -61,11 +67,64 @@ export const App: React.FC = () => {
   }, [showToast]);
 
   const handleImportMarkdown = () => {
+    if (operationLock.current) return;
     invalidateOutput();
     const parsed = parseMarkdownToSlides(markdown, slides);
     setSlides(parsed);
     setSelectedIndex(0);
     showToast(`已解析 ${parsed.length} 个章节；导出时自动分页`);
+  };
+
+  const clearSourceBinding = () => {
+    if (compileProfile.sourceAsset) {
+      setCompileProfile(previous => ({ referenceAsset: previous.referenceAsset }));
+      showToast('源文已编辑；后续将按当前 Markdown 生成，不再使用原始导入文件。');
+    }
+  };
+
+  const handleImportAsset = async (file: LocalImportFile, kind: AssetKind) => {
+    if (operationLock.current || !dataRoot) return;
+    const operation = `import-${kind}`;
+    operationLock.current = operation;
+    setBusyOperation(operation);
+    const epoch = compilationEpoch.current;
+    try {
+      const base64 = await encodeImportFile(file, kind);
+      const response = await apiFetch('/api/assets/import', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ filename: file.name, base64, kind }),
+      });
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.error ?? '文件导入失败');
+      const asset = importedAsset(result.asset);
+      if (kind === 'document') {
+        if (typeof result.markdown !== 'string') throw new Error('导入结果缺少可编辑源文');
+        const markdownSha256 = await sha256Text(result.markdown);
+        if (epoch !== compilationEpoch.current) return;
+        invalidateOutput();
+        setMarkdown(result.markdown);
+        setSlides(parseMarkdownToSlides(result.markdown));
+        setSelectedIndex(0);
+        setCompileProfile(previous => ({ ...previous, sourceAsset: { ...asset, markdownSha256 } }));
+        showToast(`已导入 ${asset.filename}；按原始文件的正文与表格生成，编辑正文后切换为 Markdown。`);
+      } else {
+        if (result.scope !== 'theme-colors-and-fonts') throw new Error('参考文稿返回了不支持的应用范围');
+        if (epoch !== compilationEpoch.current) return;
+        invalidateOutput();
+        setCompileProfile(previous => ({ ...previous, referenceAsset: asset }));
+        showToast(`已选用 ${asset.filename} 的主题配色与字体，下次生成生效。`);
+      }
+    } catch (err: any) {
+      if (epoch === compilationEpoch.current) showToast(`导入失败: ${err.message}`);
+    } finally {
+      if (operationLock.current === operation) { operationLock.current = null; setBusyOperation(null); }
+    }
+  };
+
+  const handleClearReference = () => {
+    if (operationLock.current) return;
+    invalidateOutput();
+    setCompileProfile(previous => ({ sourceAsset: previous.sourceAsset }));
   };
 
   const invalidateOutput = () => {
@@ -75,13 +134,15 @@ export const App: React.FC = () => {
   };
 
   const handleUpdateSlide = (updated: Partial<SlideItem>) => {
+    if (operationLock.current) return;
     invalidateOutput();
     const next = slides.map((slide, index) => index === selectedIndex ? { ...slide, ...updated } : slide);
     setSlides(next);
-    if (updated.title !== undefined || updated.bullets !== undefined) setMarkdown(outlineToMarkdown(next));
+    if (updated.title !== undefined || updated.bullets !== undefined) { clearSourceBinding(); setMarkdown(outlineToMarkdown(next)); }
   };
 
   const handleNewProject = () => {
+    if (operationLock.current) return;
     compilationEpoch.current++;
     setProjectIdentity({ projectId: 'project-' + Date.now().toString(36), createdAt: new Date().toISOString() });
     setTitle('新演示文稿');
@@ -90,6 +151,7 @@ export const App: React.FC = () => {
     setSlides(parsed);
     setSelectedIndex(0);
     setProjectPath(null);
+    setCompileProfile({});
     setCompilation({
       status: 'IDLE',
       runId: null,
@@ -105,9 +167,11 @@ export const App: React.FC = () => {
   };
 
   const handleOpenProject = async () => {
+    if (operationLock.current || !dataRoot) return;
     const inputPath = window.prompt('请输入项目 pres-project.json 路径:', projectPath ?? `${dataRoot}/projects/demo/pres-project.json`);
     if (!inputPath) return;
-
+    operationLock.current = 'open'; setBusyOperation('open');
+    const epoch = compilationEpoch.current;
     try {
       const res = await apiFetch(`/api/project/open`, {
         method: 'POST',
@@ -118,6 +182,8 @@ export const App: React.FC = () => {
       if (!res.ok) throw new Error(data.error || '打开项目失败');
 
       const proj = data.project;
+      const restoredProfile = await restoreCompileProfile(proj.compileProfile, proj.sourceDocument?.content ?? '');
+      if (epoch !== compilationEpoch.current) return;
       invalidateOutput();
       setProjectIdentity({ projectId: proj.projectId, createdAt: proj.createdAt });
       setTitle(proj.title);
@@ -127,17 +193,23 @@ export const App: React.FC = () => {
       setSlides(parsed);
       setSelectedIndex(0);
       setProjectPath(inputPath);
+      setCompileProfile(restoredProfile);
       showToast(`成功打开项目: ${proj.title}`);
     } catch (err: any) {
-      showToast(`打开失败: ${err.message}`);
+      if (epoch === compilationEpoch.current) showToast(`打开失败: ${err.message}`);
+    } finally {
+      if (operationLock.current === 'open') { operationLock.current = null; setBusyOperation(null); }
     }
   };
 
   const handleSaveProject = async () => {
+    if (operationLock.current || !dataRoot) return;
+    operationLock.current = 'save'; setBusyOperation('save');
+    const epoch = compilationEpoch.current;
     const targetPath = projectPath || `${dataRoot}/projects/${encodeURIComponent(title.trim().replace(/\s+/g, '_'))}/pres-project.json`;
     const projData = {
       schema: 'presentationos-project',
-      version: '1.0.0',
+      version: '1.1.0',
       projectId: projectIdentity.projectId,
       title,
       createdAt: projectIdentity.createdAt,
@@ -147,6 +219,7 @@ export const App: React.FC = () => {
         format: 'markdown',
         content: markdown,
       },
+      compileProfile,
       editorState: { sections: slides.map(slide => ({ speakerNotes: slide.speakerNotes ?? '', layout: slide.layout })) },
       artifacts: {
         pptxPath: compilation.pptxPath,
@@ -169,11 +242,13 @@ export const App: React.FC = () => {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || '保存项目失败');
-
+      if (epoch !== compilationEpoch.current) return;
       setProjectPath(targetPath);
       showToast('项目已成功保存');
     } catch (err: any) {
-      showToast(`保存失败: ${err.message}`);
+      if (epoch === compilationEpoch.current) showToast(`保存失败: ${err.message}`);
+    } finally {
+      if (operationLock.current === 'save') { operationLock.current = null; setBusyOperation(null); }
     }
   };
 
@@ -199,6 +274,8 @@ export const App: React.FC = () => {
   };
 
   const handleCompileDeck = async () => {
+    if (operationLock.current || !dataRoot) return;
+    operationLock.current = 'compile';
     const epoch = ++compilationEpoch.current;
     const cancellation = { epoch, runId: null as string | null, requested: false, sending: null as Promise<void> | null };
     activeCancellation.current = cancellation;
@@ -222,9 +299,13 @@ export const App: React.FC = () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          projectId: 'project-' + Date.now().toString(36),
+          projectId: projectIdentity.projectId,
           title,
-          markdown,
+          markdown: compileProfile.sourceAsset ? '' : markdown,
+          sourceDocumentPath: compileProfile.sourceAsset?.path,
+          sourceAssetSha256: compileProfile.sourceAsset?.sha256,
+          referencePptxPath: compileProfile.referenceAsset?.path,
+          referenceAssetSha256: compileProfile.referenceAsset?.sha256,
           outPptxPath: outPptx,
           outReportPath: outReport,
           async: true,
@@ -270,6 +351,16 @@ export const App: React.FC = () => {
         mechanicalPassed: data.summary?.mechanical?.pass === true,
         visualPassed: data.summary?.passed === true,
         nativeStatus: data.summary?.native?.status ?? 'NOT_ATTEMPTED',
+        sourceTrace: data.summary?.sourceLedger && data.summary?.compiledPageMap ? {
+          passed: data.summary.compiledPageMap.readback?.status === 'PASS'
+            && data.summary.compiledPageMap.integrity?.sourceReferences === 'PASS'
+            && data.summary.compiledPageMap.integrity?.protectedOccurrences === 'PASS'
+            && data.summary.compiledPageMap.integrity?.quotationCoverage === 'PASS'
+            && data.summary.compiledPageMap.integrity?.tableContext === 'PASS',
+          chunks: data.summary.sourceLedger.chunks.length,
+          occurrences: data.summary.sourceLedger.facts.length,
+          pages: data.summary.compiledPageMap.pages.length,
+        } : undefined,
         issues: (data.summary?.visual?.issues ?? []).map((issue: any) => ({ slideIndex: issue.slide - 1, message: issue.message, ruleId: issue.rule, severity: issue.severity })),
       };
 
@@ -297,6 +388,7 @@ export const App: React.FC = () => {
       showToast(`生成出错: ${err.message}`);
     } finally {
       if (activeCancellation.current === cancellation) activeCancellation.current = null;
+      if (operationLock.current === 'compile') operationLock.current = null;
     }
   };
 
@@ -313,6 +405,7 @@ export const App: React.FC = () => {
   };
 
   const handleExportPptx = async () => {
+    if (operationLock.current) return;
     if (!compilation.pptxPath) {
       showToast('尚未生成 PPTX 文件，无法导出');
       return;
@@ -341,6 +434,7 @@ export const App: React.FC = () => {
   };
 
   const handleReconstruct = async () => {
+    if (operationLock.current) return;
     try {
       showToast('正在转换输入的场景对象...');
       const rawScene = window.prompt('粘贴已解析的 SceneIR JSON。此入口只转换已有场景，不会执行截图识别。');
@@ -362,6 +456,7 @@ export const App: React.FC = () => {
   };
 
   const handleMediaExport = async () => {
+    if (operationLock.current) return;
     try {
       if (!compilation.pptxPath || compilation.status !== 'COMPLETED') throw new Error('请先生成当前文稿，再导出视频');
       if (compilation.qaReport?.slidesCount !== slides.length) {
@@ -397,10 +492,11 @@ export const App: React.FC = () => {
     <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
       <HeaderBar
         title={title}
-        onTitleChange={value => { invalidateOutput(); setTitle(value); }}
+        onTitleChange={value => { if (operationLock.current) return; invalidateOutput(); setTitle(value); }}
         ready={Boolean(dataRoot)}
         status={compilation.status}
         hasPptx={Boolean(compilation.pptxPath)}
+        busy={Boolean(busyOperation)}
         onNew={handleNewProject}
         onOpen={handleOpenProject}
         onSave={handleSaveProject}
@@ -414,18 +510,24 @@ export const App: React.FC = () => {
       <main className="studio-container">
         <MarkdownEditor
           markdown={markdown}
-          onMarkdownChange={value => { invalidateOutput(); setMarkdown(value); setSlides(parseMarkdownToSlides(value, slides)); setSelectedIndex(0); }}
+          onMarkdownChange={value => { if (operationLock.current) return; invalidateOutput(); clearSourceBinding(); setMarkdown(value); setSlides(parseMarkdownToSlides(value, slides)); setSelectedIndex(0); }}
           onImport={handleImportMarkdown}
+          onImportDocument={file => handleImportAsset(file, 'document')}
+          onImportReference={file => handleImportAsset(file, 'reference-template')}
+          onClearReference={handleClearReference}
+          sourceFilename={compileProfile.sourceAsset?.filename}
+          referenceFilename={compileProfile.referenceAsset?.filename}
+          busyOperation={busyOperation}
           slides={slides}
           selectedIndex={selectedIndex}
           onSelectSlide={setSelectedIndex}
-          disabled={compilation.status === 'RUNNING'}
+          disabled={compilation.status === 'RUNNING' || Boolean(busyOperation) || !dataRoot}
         />
 
         <SlidePreview
           slide={slides[selectedIndex] || null}
           onUpdateSlide={handleUpdateSlide}
-          disabled={compilation.status === 'RUNNING'}
+          disabled={compilation.status === 'RUNNING' || Boolean(busyOperation) || !dataRoot}
         />
 
         <QaInspector report={compilation.qaReport} />

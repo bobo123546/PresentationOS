@@ -36,17 +36,39 @@ export function layoutFor(slide: DeckSlide): LayoutIR {
 }
 
 export function mdToDeck(md: string, name = 'deck'): DeckSpec {
+  const parsed = markdownSections(md, name);
+  return sectionsToDeck(parsed.title, parsed.sections);
+}
+
+export interface SourceSelector {
+  part: string;
+  block: number;
+  line?: number;
+  item?: number;
+  row?: number;
+  column?: number;
+}
+export interface SourceSection {
+  title: string;
+  blocks: any[];
+  titleSelector?: SourceSelector;
+  blockSelectors?: SourceSelector[];
+}
+
+/** The compiler's actual Markdown parser, with parallel locations outside DeckSpec. */
+export function markdownSections(md: string, name = 'deck'): { title: string; sections: SourceSection[] } {
   let title = name.replace(/\.md$/i, '');
-  const sections: Array<{ title: string; blocks: any[] }> = [];
-  let current: { title: string; blocks: any[] } | undefined;
+  const sections: SourceSection[] = [];
+  let current: SourceSection | undefined;
   let table: { type: 'table'; headers: string[]; rows: string[][] } | undefined;
   let awaitingTableSeparator = false;
   let hasDocumentTitle = false;
 
-  const ensure = () => current ??= { title, blocks: [] };
+  const ensure = () => current ??= { title, blocks: [], blockSelectors: [] };
   const flush = () => { if (current) sections.push(current); current = undefined; table = undefined; };
 
-  for (const raw of md.split(/\r?\n/)) {
+  for (const [lineIndex, raw] of md.split(/\r?\n/).entries()) {
+    const selector = { part: 'markdown-lines', block: lineIndex, line: lineIndex };
     const line = raw.trimEnd();
     const heading = /^(#{1,3})\s+(.*)$/.exec(line);
     if (heading) {
@@ -54,14 +76,15 @@ export function mdToDeck(md: string, name = 'deck'): DeckSpec {
       if (heading[1].length === 1) {
         if (!hasDocumentTitle) { title = heading[2].trim(); hasDocumentTitle = true; }
         flush();
-        current = { title: heading[2].trim(), blocks: [] };
+        current = { title: heading[2].trim(), blocks: [], blockSelectors: [], titleSelector: selector };
         continue;
       }
       if (heading[1].length === 2) {
         flush();
-        current = { title: heading[2].trim(), blocks: [] };
+        current = { title: heading[2].trim(), blocks: [], blockSelectors: [], titleSelector: selector };
       } else {
         ensure().blocks.push({ type: 'text', text: heading[2].trim(), style: 'h3' });
+        ensure().blockSelectors!.push(selector);
       }
       continue;
     }
@@ -78,6 +101,7 @@ export function mdToDeck(md: string, name = 'deck'): DeckSpec {
         table = { type: 'table', headers: cells, rows: [] };
         awaitingTableSeparator = true;
         ensure().blocks.push(table);
+        ensure().blockSelectors!.push(selector);
       }
       continue;
     }
@@ -88,38 +112,55 @@ export function mdToDeck(md: string, name = 'deck'): DeckSpec {
       text: special ? special[2] : line.trim(),
       style: special ? (special[1] === '>' ? 'quote' : 'bullet') : 'body',
     });
+    ensure().blockSelectors!.push(selector);
   }
   flush();
 
   if (!sections.length) throw new Error('Markdown contains no presentation content');
 
-  return sectionsToDeck(title, sections);
+  return { title, sections };
+}
+
+export interface PageOrigin {
+  sectionIndex: number;
+  fragmentIndex: number;
+  blocks: Array<{ blockIndex: number; textRange?: [number, number]; rowRange?: [number, number] }>;
 }
 
 /** Shared lossless pagination for Markdown and parsed document blocks. */
 export function sectionsToDeck(title: string, sections: Array<{ title: string; blocks: any[] }>): DeckSpec {
+  return paginateSections(title, sections).deck;
+}
+
+export function paginateSections(title: string, sections: SourceSection[]): { deck: DeckSpec; origins: PageOrigin[] } {
   if (!sections.length) throw new Error('Document contains no presentation content');
 
   const slides: DeckSlide[] = [];
-  for (const section of sections) {
-    const blocks = section.blocks.flatMap((block) => {
+  const origins: PageOrigin[] = [];
+  for (const [sectionIndex, section] of sections.entries()) {
+    const blocks = section.blocks.flatMap((block, blockIndex) => {
       if (block.type === 'text') {
-        return splitTextForSlides(block.text).map(text => ({ ...block, text }));
+        let offset = 0;
+        return splitTextForSlides(block.text).map(text => {
+          const textRange: [number, number] = [offset, offset + text.length]; offset += text.length;
+          return { block: { ...block, text }, origin: { blockIndex, textRange } };
+        });
       }
-      if (!block.rows.length) return [block];
+      if (!block.rows.length) return [{ block, origin: { blockIndex, rowRange: [0, 0] as [number, number] } }];
       const parts: any[] = [];
       for (let i = 0; i < block.rows.length; i += 8) {
-        parts.push({ ...block, rows: block.rows.slice(i, i + 8) });
+        parts.push({ block: { ...block, rows: block.rows.slice(i, i + 8) }, origin: { blockIndex, rowRange: [i, Math.min(i + 8, block.rows.length)] } });
       }
       return parts;
     });
 
     const pages: any[][] = [];
     let page: any[] = [], cost = 0;
-    for (const block of blocks) {
+    for (const item of blocks) {
+      const block = item.block;
       const next = block.type === 'table' ? 4 : Math.max(1, Math.ceil(block.text.length / 220));
       if (page.length && cost + next > 4) { pages.push(page); page = []; cost = 0; }
-      page.push(block); cost += next;
+      page.push(item); cost += next;
     }
     if (page.length || !pages.length) pages.push(page);
 
@@ -128,14 +169,15 @@ export function sectionsToDeck(title: string, sections: Array<{ title: string; b
         id: `slide-${slides.length + 1}`,
         kind: slides.length === 0 ? 'cover' : 'content',
         title: section.title + (index ? ' (continued)' : ''),
-        blocks: p,
+        blocks: p.map(item => item.block),
       };
       slide.layout = layoutFor(slide);
       slides.push(slide);
+      origins.push({ sectionIndex, fragmentIndex: index, blocks: p.map(item => item.origin) });
     });
   }
 
-  return { schema: 'deck-spec', version: '1', title, author: 'PresentationOS', slides };
+  return { deck: { schema: 'deck-spec', version: '1', title, author: 'PresentationOS', slides }, origins };
 }
 
 /** Split without cutting graphemes, literal quantities, words or URLs in half. */

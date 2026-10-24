@@ -10,7 +10,7 @@ export const QaInspector: React.FC<QaInspectorProps> = ({ report }) => {
     return (
       <div className="panel panel-right">
         <div className="panel-header">
-          <span className="panel-title">质量与事实核验 (QA)</span>
+          <span className="panel-title">输出质量与来源核对 (QA)</span>
         </div>
         <div className="panel-content">
           <div style={{ color: '#64748b', fontSize: '12px', textAlign: 'center', marginTop: '30px' }}>
@@ -27,7 +27,7 @@ export const QaInspector: React.FC<QaInspectorProps> = ({ report }) => {
   return (
     <div className="panel panel-right">
       <div className="panel-header">
-        <span className="panel-title">质量与事实核验 (QA)</span>
+          <span className="panel-title">输出质量与来源核对 (QA)</span>
       </div>
 
       <div className="panel-content">
@@ -51,6 +51,13 @@ export const QaInspector: React.FC<QaInspectorProps> = ({ report }) => {
           className={`fact-badge ${factPreserved ? '' : 'violated'}`}
         >
           <span>{factPreserved ? '输出内容回读通过' : '输出内容回读未通过'}</span>
+        </div>
+
+        <div className="qa-card">
+          <div className="form-label">来源对象追踪</div>
+          <div className="qa-list-item"><span>来源引用与逐对象回读</span><span>{report.sourceTrace?.passed ? 'PASS' : 'NOT_VERIFIED'}</span></div>
+          {report.sourceTrace && <p className="asset-help">{report.sourceTrace.chunks} 个来源块或单元格，{report.sourceTrace.occurrences} 次数量出现，映射到 {report.sourceTrace.pages} 个最终页面。</p>}
+          <p className="asset-help">保留原文和表格归属；不代表原始陈述真实。详细位置及摘要见生成报告。</p>
         </div>
 
         {/* Mechanical QA Breakdown */}

@@ -1,4 +1,4 @@
-import JSZip from 'jszip';
+import { extractZipEntries } from '@pres/document-parser';
 import { posix } from 'node:path';
 import { createHash } from 'node:crypto';
 import { parseXml, child, children, descendants, type XmlElement } from './xml.js';
@@ -44,8 +44,11 @@ interface Relationship { type: string; target: string }
 
 /** Inspect metadata; this does not reproduce masters or certify visual fidelity. */
 export async function extractTemplateDna(pptxBuffer: Buffer, source = 'unknown.pptx'): Promise<TemplateDna> {
-  const zip = await JSZip.loadAsync(pptxBuffer);
-  const names = Object.keys(zip.files);
+  // The reader bounds allocation/inflation and verifies central/local headers,
+  // sizes and CRC before any XML decoding. JSZip.async('string') would allocate
+  // the full output before a post-decompression inspection limit could run.
+  const zip = extractZipEntries(pptxBuffer, { maxEntryBytes: 8 * 1024 * 1024, maxTotalBytes: 64 * 1024 * 1024 });
+  const names = [...zip.keys()];
   const slides = names.filter(n => /^ppt\/slides\/slide\d+\.xml$/.test(n)).sort(partOrder);
   const layouts = names.filter(n => /^ppt\/slideLayouts\/slideLayout\d+\.xml$/.test(n)).sort(partOrder);
   const masters = names.filter(n => /^ppt\/slideMasters\/slideMaster\d+\.xml$/.test(n)).sort(partOrder);
@@ -55,23 +58,26 @@ export async function extractTemplateDna(pptxBuffer: Buffer, source = 'unknown.p
   let xmlBytes = 0;
   const read = async (part: string): Promise<XmlElement> => {
     const cached = documents.get(part); if (cached) return cached;
-    const entry = zip.file(part); if (!entry) throw new Error(`Missing template part: ${part}`);
-    const xml = await entry.async('string'); xmlBytes += Buffer.byteLength(xml);
-    if (Buffer.byteLength(xml) > 8 * 1024 * 1024 || xmlBytes > 64 * 1024 * 1024) throw new Error('Template XML exceeds inspection limit');
+    const entry = zip.get(part); if (!entry) throw new Error(`Missing template part: ${part}`);
+    xmlBytes += entry.length;
+    if (entry.length > 8 * 1024 * 1024 || xmlBytes > 64 * 1024 * 1024) throw new Error('Template XML exceeds inspection limit');
+    let xml: string;
+    try { xml = new TextDecoder('utf-8', { fatal: true }).decode(entry); }
+    catch { throw new Error(`Template XML must be valid UTF-8: ${part}`); }
     const root = parseXml(xml, part); documents.set(part, root); return root;
   };
   for (const part of [...slides, ...layouts, ...masters]) {
     await read(part);
     const relPart = posix.join(posix.dirname(part), '_rels', `${posix.basename(part)}.rels`);
     const entries: Relationship[] = [];
-    if (zip.file(relPart)) for (const rel of children(await read(relPart), 'Relationship')) {
+    if (zip.has(relPart)) for (const rel of children(await read(relPart), 'Relationship')) {
       const type = rel.attrs.Type?.split('/').at(-1) ?? '';
       if (!['slideLayout', 'slideMaster', 'theme'].includes(type)) continue;
       if (rel.attrs.TargetMode === 'External') throw new Error(`External template design relationship rejected: ${part}`);
       const raw = rel.attrs.Target;
       if (!raw || raw.includes('\\') || raw.includes('%') || /[?#\x00-\x1f]/.test(raw)) throw new Error(`Invalid template relationship: ${part}`);
       const target = raw.startsWith('/') ? raw.slice(1) : posix.normalize(posix.join(posix.dirname(part), raw));
-      if (!target.startsWith('ppt/') || !zip.file(target)) throw new Error(`Missing or unsafe template relationship: ${part} -> ${target}`);
+      if (!target.startsWith('ppt/') || !zip.has(target)) throw new Error(`Missing or unsafe template relationship: ${part} -> ${target}`);
       entries.push({ type, target });
     }
     rels.set(part, entries);

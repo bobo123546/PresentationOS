@@ -48,6 +48,7 @@ body {
   background: var(--bg-secondary);
   border-bottom: 1px solid var(--border-color);
   gap: 12px;
+  flex-wrap: wrap;
 }
 
 .brand-section {
@@ -76,7 +77,6 @@ body {
 }
 
 .project-title-input:focus {
-  outline: none;
   border-color: var(--border-focus);
 }
 
@@ -84,6 +84,7 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
+  flex-wrap: wrap;
 }
 
 .btn {
@@ -194,12 +195,26 @@ body {
   font-family: Consolas, monospace;
   font-size: 12px;
   padding: 10px;
-  resize: none;
+  resize: vertical;
   min-height: 180px;
 }
 
+.asset-imports { border: 1px solid var(--border-color); border-radius: 4px; padding: 10px; display: flex; flex-direction: column; gap: 7px; min-width: 0; }
+.asset-imports legend, .asset-imports label { font-size: 12px; font-weight: 600; }
+.asset-imports input[type="file"] { max-width: 100%; min-height: 26px; font-size: 11px; color: var(--text-main); }
+.asset-imports input::file-selector-button { color: var(--text-main); background: var(--bg-panel); border: 1px solid var(--border-color); border-radius: 3px; padding: 5px; margin-right: 6px; cursor: pointer; }
+.asset-help { font-size: 11px; color: var(--text-muted); line-height: 1.5; }
+.asset-status { font-size: 11px; overflow-wrap: anywhere; color: #bfdbfe; line-height: 1.5; }
+.asset-reference, .outline-page-buttons, .outline-jump { display: flex; align-items: center; gap: 6px; justify-content: space-between; }
+.asset-reference .asset-status { min-width: 0; }
+.asset-reference .btn { flex-shrink: 0; padding: 4px 7px; }
+.outline-pagination { display: flex; flex-direction: column; gap: 8px; font-size: 11px; }
+.outline-page-buttons .btn { padding: 5px 8px; }
+.outline-jump input { min-width: 0; width: 80px; padding: 5px; background: var(--bg-input); color: var(--text-main); border: 1px solid var(--border-color); }
+:where(button, input, textarea, select):focus-visible { outline: 2px solid #93c5fd; outline-offset: 2px; }
+@media (pointer: coarse) { .btn, .asset-imports input, .outline-jump input { min-height: 44px; } }
+
 .markdown-textarea:focus {
-  outline: none;
   border-color: var(--border-focus);
 }
 
@@ -318,7 +333,6 @@ body {
 }
 
 .form-input:focus, .form-select:focus, .form-textarea:focus {
-  outline: none;
   border-color: var(--border-focus);
 }
 
